@@ -5,7 +5,7 @@ from datetime import date, timedelta
 import pandas as pd
 from sqlalchemy import select
 
-from analise import backtest, previsoes
+from analise import backtest, pagina, previsoes
 from analise.db import get_engine, matches
 from analise.ingest import football_data_uk
 from analise.leagues import LEAGUES
@@ -31,6 +31,9 @@ def main(argv=None):
     prev.add_argument("--jogo", nargs=2, metavar=("CASA", "FORA"),
                       help="prevê um jogo à escolha em vez do calendário (precisa de 1 liga)")
     prev.add_argument("--saida", default="data/previsoes.csv")
+    pag = sub.add_parser("pagina", help="Gera a página web com as previsões")
+    pag.add_argument("--dias", type=int, default=10, help="só jogos nos próximos N dias")
+    pag.add_argument("--saida", default="site", help="pasta da página")
     args = parser.parse_args(argv)
 
     engine = get_engine()
@@ -42,6 +45,8 @@ def main(argv=None):
         run_backtest(engine, args)
     elif args.cmd == "previsoes":
         run_previsoes(engine, args)
+    elif args.cmd == "pagina":
+        run_pagina(engine, args)
 
 
 def run_backtest(engine, args):
@@ -85,24 +90,10 @@ def run_previsoes(engine, args):
         fixtures = football_data_uk.fetch_fixtures([LEAGUES[k] for k in args.ligas])
         fixtures = fixtures[(fixtures["date"] >= today)
                             & (fixtures["date"] <= today + timedelta(days=args.dias))]
-    if fixtures.empty:
+    res = predict_fixtures(engine, fixtures, args.meia_vida, args.janela, today)
+    if res.empty:
         print("Sem jogos marcados no football-data.co.uk para estas ligas e datas.")
         return
-    out = []
-    for key, games in fixtures.groupby("league"):
-        with engine.connect() as conn:
-            hist = pd.read_sql(select(matches).where(matches.c.league == key), conn)
-        if hist.empty:
-            print(f"{key}: sem histórico (corre primeiro 'historico')")
-            continue
-        out.append(previsoes.predict(
-            hist, games, as_of=today, half_life_days=args.meia_vida, window_days=args.janela))
-    if not out:
-        return
-    res = pd.concat(out).sort_values(["date", "time", "league"])
-    for col in ["casa", "empate", "fora", "mais_2_5", "ambas_marcam", "resultados"]:
-        if col not in res:
-            res[col] = None
     os.makedirs(os.path.dirname(args.saida) or ".", exist_ok=True)
     res.to_csv(args.saida, index=False)
     pct = ["casa", "empate", "fora", "mais_2_5", "ambas_marcam"]
@@ -115,6 +106,40 @@ def run_previsoes(engine, args):
         print("\nSem previsão (equipa com menos de 5 jogos no treino ou nome diferente do histórico):")
         print(", ".join(f"{g.home} - {g.away}" for g in missing.itertuples()))
     print(f"\nGuardado em {args.saida} (inclui golos esperados e probabilidades do mercado)")
+
+
+
+def predict_fixtures(engine, fixtures, half_life_days, window_days, today):
+    out = []
+    for key, games in fixtures.groupby("league"):
+        with engine.connect() as conn:
+            hist = pd.read_sql(select(matches).where(matches.c.league == key), conn)
+        if hist.empty:
+            print(f"{key}: sem histórico (corre primeiro 'historico')")
+            continue
+        out.append(previsoes.predict(
+            hist, games, as_of=today, half_life_days=half_life_days, window_days=window_days))
+    if not out:
+        return pd.DataFrame()
+    res = pd.concat(out).sort_values(["date", "time", "league"], na_position="first")
+    for col in ["casa", "empate", "fora", "mais_2_5", "ambas_marcam", "resultados"]:
+        if col not in res:
+            res[col] = None
+    return res
+
+
+def run_pagina(engine, args):
+    today = date.today()
+    fixtures = football_data_uk.fetch_fixtures(list(LEAGUES.values()))
+    fixtures = fixtures[(fixtures["date"] >= today)
+                        & (fixtures["date"] <= today + timedelta(days=args.dias))]
+    res = predict_fixtures(engine, fixtures, 180.0, 730, today)
+    os.makedirs(args.saida, exist_ok=True)
+    with open(os.path.join(args.saida, "index.html"), "w", encoding="utf-8") as f:
+        f.write(pagina.render(res))
+    with open(os.path.join(args.saida, "previsoes.json"), "w", encoding="utf-8") as f:
+        f.write(pagina.to_json(res))
+    print(f"{len(res)} jogos em {args.saida}/index.html")
 
 
 if __name__ == "__main__":

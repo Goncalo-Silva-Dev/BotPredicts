@@ -41,3 +41,18 @@ def test_fetch_fixtures_keeps_only_our_leagues(monkeypatch):
     assert res[["league", "home", "away"]].values.tolist() == [
         ["POR", "Benfica", "Porto"], ["BRA", "Flamengo", "Palmeiras"]]
     assert res["odds_home"].tolist() == [2.4, 2.1]
+
+
+def test_render_page(league):
+    from analise import pagina
+    fixtures = pd.DataFrame([
+        {"league": "POR", "date": date(2026, 1, 1), "time": "20:00", "home": "T0", "away": "T1",
+         "odds_home": 2.0, "odds_draw": 3.5, "odds_away": 4.0},
+        {"league": "POR", "date": date(2026, 1, 1), "time": None, "home": "T2", "away": "Nova",
+         "odds_home": None, "odds_draw": None, "odds_away": None},
+    ])
+    res = previsoes.predict(league, fixtures, as_of=date(2025, 1, 1))
+    out = pagina.render(res)
+    assert "T0 – T1" in out and "Liga Portugal" in out and "Sem previsão" in out
+    assert "Ainda não há jogos" in pagina.render(pd.DataFrame())
+    assert '"home": "T0"' in pagina.to_json(res)
