@@ -52,9 +52,13 @@ def test_render_page(league):
          "odds_home": None, "odds_draw": None, "odds_away": None},
     ])
     res = previsoes.predict(league, fixtures, as_of=date(2025, 1, 1))
-    out = pagina.render(res)
+    site = pagina.render_site(res)
+    out = site["futebol/por.html"]
     assert "T0 – T1" in out and "Liga Portugal" in out and "Sem previsão" in out
-    assert "Não foi possível obter o calendário" in pagina.render(pd.DataFrame())
+    assert "Antes de usares estas previsões" in site["index.html"]
+    assert 'href="futebol/por.html"' in site["index.html"]
+    assert 'href="../basquetebol/nba.html"' in out
+    assert "Sem jogos marcados" in pagina.render_site(pd.DataFrame())["futebol/eng.html"]
     assert '"home": "T0"' in pagina.to_json(res)
 
 
