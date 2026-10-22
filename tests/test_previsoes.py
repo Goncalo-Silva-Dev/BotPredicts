@@ -54,5 +54,52 @@ def test_render_page(league):
     res = previsoes.predict(league, fixtures, as_of=date(2025, 1, 1))
     out = pagina.render(res)
     assert "T0 – T1" in out and "Liga Portugal" in out and "Sem previsão" in out
-    assert "Ainda não há jogos" in pagina.render(pd.DataFrame())
+    assert "Não foi possível obter o calendário" in pagina.render(pd.DataFrame())
     assert '"home": "T0"' in pagina.to_json(res)
+
+
+def test_match_teams_links_official_names():
+    from analise.ingest.openfootball import match_teams
+    of = ["Sport Lisboa e Benfica", "Sporting Clube de Portugal", "Sporting Clube de Braga",
+          "FC Porto", "Vitória Guimarães", "CF Estrela da Amadora", "Equipa Nova FC"]
+    fd = ["Benfica", "Sp Lisbon", "Sp Braga", "Porto", "Guimaraes", "Estrela"]
+    assert match_teams(of, fd) == {
+        "Sport Lisboa e Benfica": "Benfica", "Sporting Clube de Portugal": "Sp Lisbon",
+        "Sporting Clube de Braga": "Sp Braga", "FC Porto": "Porto",
+        "Vitória Guimarães": "Guimaraes", "CF Estrela da Amadora": "Estrela"}
+
+
+def test_upcoming_joins_calendar_and_odds(monkeypatch):
+    from analise import calendario
+    from analise.db import get_engine, metadata
+    from analise.ingest import openfootball
+
+    engine = get_engine("sqlite://")
+    metadata.create_all(engine)
+    with engine.begin() as conn:
+        conn.execute(calendario.matches.insert(), [
+            {"league": "POR", "season": "2026-27", "date": date(2026, 9, 1), "home": h, "away": a,
+             "source": "t"} for h, a in [("Benfica", "Porto"), ("Sp Lisbon", "Benfica")]])
+    season = pd.DataFrame([
+        {"league": "POR", "round": "Matchday 9", "date": date(2026, 10, 25), "time": None,
+         "home": "Sport Lisboa e Benfica", "away": "FC Porto", "played": False},
+        {"league": "POR", "round": "Matchday 10", "date": date(2026, 11, 1), "time": None,
+         "home": "Sporting Clube de Portugal", "away": "Sport Lisboa e Benfica", "played": False},
+        {"league": "POR", "round": "Matchday 1", "date": date(2026, 8, 8), "time": None,
+         "home": "FC Porto", "away": "Sport Lisboa e Benfica", "played": True},
+    ])
+    fd = pd.DataFrame([
+        {"league": "POR", "date": date(2026, 10, 25), "time": "20:30", "home": "Benfica",
+         "away": "Porto", "odds_home": 2.2, "odds_draw": 3.3, "odds_away": 3.4},
+        {"league": "USA", "date": date(2026, 10, 24), "time": "23:00", "home": "A", "away": "B",
+         "odds_home": 2.0, "odds_draw": 3.5, "odds_away": 3.5},
+    ])
+    monkeypatch.setattr(openfootball, "fetch_season", lambda league, today: season)
+    monkeypatch.setattr(calendario.football_data_uk, "fetch_fixtures", lambda leagues: fd)
+    res = calendario.upcoming(engine, [LEAGUES["POR"], LEAGUES["USA"]], today=date(2026, 10, 22))
+    assert res[["league", "home", "away"]].values.tolist() == [
+        ["USA", "A", "B"], ["POR", "Benfica", "Porto"], ["POR", "Sp Lisbon", "Benfica"]]
+    benfica = res.iloc[1]
+    assert benfica["time"] == "20:30" and benfica["odds_home"] == 2.2
+    assert benfica["round"] == "Matchday 9"
+    assert pd.isna(res.iloc[2]["odds_home"])

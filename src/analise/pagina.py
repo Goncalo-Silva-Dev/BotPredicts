@@ -1,5 +1,6 @@
 """Página estática com as previsões dos próximos jogos (para o GitHub Pages)."""
 import html
+import re
 import json
 import math
 from datetime import datetime, timezone
@@ -35,6 +36,9 @@ h2 { font-size:17px; margin:28px 0 10px; }
 .h { background:var(--home); } .d { background:var(--draw); } .a { background:var(--away); }
 .facts { display:flex; flex-wrap:wrap; gap:4px 16px; font-size:13px; color:var(--muted); }
 .facts b { color:var(--text); font-weight:600; }
+details { margin-bottom:8px; }
+summary { cursor:pointer; padding:8px 2px; font-weight:600; }
+summary span { color:var(--muted); font-weight:400; font-size:13px; margin-left:6px; }
 .empty { background:var(--card); border:1px dashed var(--line); border-radius:10px; padding:16px; }
 """
 
@@ -73,18 +77,46 @@ def _game(g) -> str:
     return f'<div class="game">{head}<div class="bar">{bar}</div><div class="facts">{spans}</div></div>'
 
 
+def _round_label(r, dates: pd.Series) -> str:
+    if isinstance(r, str) and r:
+        label = re.sub(r"^Matchday\s*", "Jornada ", r)
+    else:
+        monday = pd.Timestamp(dates.min()) - pd.Timedelta(days=pd.Timestamp(dates.min()).weekday())
+        label = f"Semana de {monday:%d/%m}"
+    first, last = pd.Timestamp(dates.min()), pd.Timestamp(dates.max())
+    span = f"{first:%d/%m}" if first == last else f"{first:%d/%m} a {last:%d/%m}"
+    return f"{html.escape(label)}<span>{span} · {len(dates)} jogos</span>"
+
+
+def _league_rounds(games: pd.DataFrame) -> str:
+    """Um bloco que abre e fecha por jornada; a primeira vem aberta."""
+    games = games.copy()
+    games["_round"] = games["round"] if "round" in games else None
+    week = pd.to_datetime(games["date"]).dt.to_period("W-SUN").astype(str)
+    games["_group"] = games["_round"].fillna("semana " + week)
+    order = games.groupby("_group", sort=False)["date"].min().sort_values().index
+    blocks = []
+    for i, key in enumerate(order):
+        g = games[games["_group"] == key]
+        cards = "".join(_game(x) for x in g.to_dict("records"))
+        is_open = " open" if i == 0 else ""
+        blocks.append(f"<details{is_open}><summary>{_round_label(g['_round'].iloc[0], g['date'])}"
+                      f"</summary>{cards}</details>")
+    return "".join(blocks)
+
+
 def render(preds: pd.DataFrame, updated: datetime | None = None) -> str:
     updated = updated or datetime.now(timezone.utc)
     sections = []
     if preds.empty:
-        sections.append('<div class="empty">Ainda não há jogos marcados para os próximos dias. '
-                        'O calendário do fim de semana costuma chegar à quinta ou sexta.</div>')
+        sections.append('<div class="empty">Não foi possível obter o calendário dos próximos '
+                        'jogos. A página volta a tentar na próxima atualização.</div>')
     for key, league in LEAGUES.items():
         games = preds[preds["league"] == key] if not preds.empty else preds
         if games.empty:
             continue
-        cards = "".join(_game(g) for g in games.to_dict("records"))
-        sections.append(f"<h2>{FLAGS.get(key, '')} {html.escape(league.name)}</h2>{cards}")
+        sections.append(f"<h2>{FLAGS.get(key, '')} {html.escape(league.name)}</h2>"
+                        f"{_league_rounds(games)}")
 
     return f"""<!doctype html>
 <html lang="pt-PT">
@@ -95,11 +127,12 @@ def render(preds: pd.DataFrame, updated: datetime | None = None) -> str:
 <style>{CSS}</style>
 </head>
 <body><main>
-<h1>Previsões dos próximos jogos</h1>
+<h1>Previsões de todos os jogos que faltam</h1>
 <p class="sub">Atualizado {updated:%d/%m/%Y %H:%M} UTC · modelo Dixon-Coles treinado com os
 últimos 2 anos de resultados</p>
 <p class="note">Barras: vitória da casa · empate · vitória de fora. São probabilidades, não
-certezas. No teste com 11 984 jogos passados o modelo acertou bem nas percentagens mas ficou um
+certezas, e usam a forma atual das equipas: os jogos mais distantes vão mudar à medida que a
+época avança. As odds das casas de apostas aparecem quando já existem (perto do jogo). No teste com 11 984 jogos passados o modelo acertou bem nas percentagens mas ficou um
 pouco atrás das odds de fecho das casas de apostas, por isso ainda não serve para apostar.</p>
 {''.join(sections)}
 <p class="note">Dados: football-data.co.uk.</p>

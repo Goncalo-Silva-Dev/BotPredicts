@@ -28,7 +28,8 @@ def predict(
 
     rows = []
     for g in fixtures.itertuples(index=False):
-        row = {"league": g.league, "date": g.date, "time": g.time, "home": g.home, "away": g.away}
+        row = {"league": g.league, "round": getattr(g, "round", None), "date": g.date,
+               "time": g.time, "home": g.home, "away": g.away}
         if min(counts.get(g.home, 0), counts.get(g.away, 0)) >= min_team_matches:
             p = model.predict(g.home, g.away)
             row.update({
