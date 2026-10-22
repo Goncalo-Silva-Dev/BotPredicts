@@ -45,6 +45,14 @@ h2 { font-size:17px; margin:28px 0 10px; }
 details { margin-bottom:8px; }
 summary { cursor:pointer; padding:8px 2px; font-weight:600; }
 summary span { color:var(--muted); font-weight:400; font-size:13px; margin-left:6px; }
+details.per { margin:8px 0 0; }
+details.per summary { padding:2px 0; font-size:13px; color:var(--home); }
+.per .wrap { overflow-x:auto; }
+.per table { border-collapse:collapse; font-size:13px; width:100%; margin-top:4px; }
+.per th, .per td { padding:4px 8px; text-align:right; border-bottom:1px solid var(--line);
+  white-space:nowrap; }
+.per th { color:var(--muted); font-weight:500; }
+.per th:first-child, .per td:first-child { text-align:left; }
 header { background:var(--card); border-bottom:1px solid var(--line); position:sticky; top:0;
   z-index:5; }
 header nav { max-width:860px; margin:0 auto; padding:0 16px; display:flex; gap:4px;
@@ -103,7 +111,34 @@ def _game(g) -> str:
         facts.append("Casas de apostas <b>" + " / ".join(
             _pct(g[k]) for k in ("mercado_casa", "mercado_empate", "mercado_fora")) + "</b>")
     spans = "".join(f"<span>{f}</span>" for f in facts)
-    return f'<div class="game">{head}<div class="bar">{bar}</div><div class="facts">{spans}</div></div>'
+    return f'<div class="game">{head}<div class="bar">{bar}</div><div class="facts">{spans}</div>' \
+           f'{_halves_table(g)}</div>'
+
+
+def _per_table(head: list[str], rows: list[list[str]]) -> str:
+    th = "".join(f"<th>{h}</th>" for h in head)
+    body = "".join("<tr>" + "".join(f"<td>{c}</td>" for c in r) + "</tr>" for r in rows)
+    return f'<details class="per"><summary>Por período</summary><div class="wrap"><table>' \
+           f'<tr>{th}</tr>{body}</table></div></details>'
+
+
+def _halves_table(g) -> str:
+    if pd.isna(g.get("p1_casa")):
+        return ""
+    rows = [[name, _pct(g[f"{k}_casa"]), _pct(g[f"{k}_empate"]), _pct(g[f"{k}_fora"]),
+             f"{g[f'{k}_golos']:.1f}", _pct(g[f"{k}_mais_0_5"]), _pct(g[f"{k}_mais_1_5"])]
+            for name, k in (("1.ª parte", "p1"), ("2.ª parte", "p2"))]
+    return _per_table(["", "Casa", "Empate", "Fora", "Golos esperados", "Mais de 0.5", "Mais de 1.5"], rows)
+
+
+def _periods_table(g) -> str:
+    periods = g.get("periodos")
+    if not isinstance(periods, list):
+        return ""
+    rows = [[p["periodo"], _pct(p["casa"]), _pct(p["empate"]), _pct(p["fora"]),
+             f"{p['pontos_casa']:.0f} – {p['pontos_fora']:.0f}",
+             f"{p['total']:.0f} ({p['total_min']:.0f} a {p['total_max']:.0f})"] for p in periods]
+    return _per_table(["", "Casa", "Empate", "Fora", "Pontos", "Total (80%)"], rows)
 
 
 def _basket_game(g) -> str:
@@ -123,7 +158,8 @@ def _basket_game(g) -> str:
         f"Total <b>{g['total']:.0f}</b> (80%: {g['total_min']:.0f} a {g['total_max']:.0f})",
     ]
     spans = "".join(f"<span>{f}</span>" for f in facts)
-    return f'<div class="game">{head}<div class="bar">{bar}</div><div class="facts">{spans}</div></div>'
+    return f'<div class="game">{head}<div class="bar">{bar}</div><div class="facts">{spans}</div>' \
+           f'{_periods_table(g)}</div>'
 
 
 def _round_label(r, dates: pd.Series) -> str:
@@ -157,10 +193,15 @@ def _league_rounds(games: pd.DataFrame, card=_game) -> str:
 FOOTBALL_NOTE = """Barras: vitória da casa · empate · vitória de fora. Modelo Dixon-Coles com os
 últimos 2 anos de resultados. As odds das casas de apostas aparecem quando já existem (perto do
 jogo). No teste com 11 984 jogos passados o modelo acertou bem nas percentagens, mas ficou um
-pouco atrás das odds de fecho das casas de apostas."""
+pouco atrás das odds de fecho das casas de apostas. Em "Por período": resultado ao intervalo e
+golos em cada parte, com a parte dos golos que cada liga costuma marcar na 1.ª parte; ao
+intervalo o favorito acerta em cerca de 45% dos jogos, porque o empate é muito comum."""
 
 BASKET_NOTE = """Barras: vitória da casa · vitória de fora. Ratings de ataque e defesa de cada
-equipa com os resultados das últimas épocas (os jogos recentes pesam mais)."""
+equipa com os resultados das últimas épocas (os jogos recentes pesam mais). Em "Por período":
+quartos e partes, calibrados com 3500 jogos com pontos por quarto. Um período é muito mais
+incerto que o jogo: no teste o favorito ganhou o quarto em 52% a 55% das vezes e a parte em
+56% a 57%."""
 
 # Percentagem de vencedores certos no teste com jogos passados (basquete-backtest)
 BASKET_ACCURACY = {"NBA": 66, "EUR": 64, "EUC": 65, "ACB": 69, "LBA": 71, "LPB": 75, "NBB": 73, "LNB": 71}

@@ -1,7 +1,8 @@
 import os
 
 from sqlalchemy import (
-    Column, Date, Float, Integer, MetaData, String, Table, UniqueConstraint, create_engine,
+    Column, Date, Float, Integer, MetaData, String, Table, UniqueConstraint, create_engine, inspect,
+    text,
 )
 
 metadata = MetaData()
@@ -17,6 +18,8 @@ matches = Table(
     Column("away", String, nullable=False),
     Column("home_goals", Integer),
     Column("away_goals", Integer),
+    Column("home_goals_ht", Integer),  # golos ao intervalo
+    Column("away_goals_ht", Integer),
     Column("home_shots", Integer),
     Column("away_shots", Integer),
     Column("home_shots_target", Integer),
@@ -39,4 +42,15 @@ def get_engine(url: str | None = None):
         os.makedirs(os.path.dirname(url.removeprefix("sqlite:///")) or ".", exist_ok=True)
     engine = create_engine(url)
     metadata.create_all(engine)
+    _add_missing_columns(engine)
     return engine
+
+
+def _add_missing_columns(engine) -> None:
+    """Bases criadas antes de haver colunas novas: acrescenta-as (ficam vazias até ao
+    próximo 'historico')."""
+    existing = {c["name"] for c in inspect(engine).get_columns("matches")}
+    with engine.begin() as conn:
+        for col in matches.columns:
+            if col.name not in existing:
+                conn.execute(text(f"ALTER TABLE matches ADD COLUMN {col.name} {col.type.compile(engine.dialect)}"))

@@ -90,3 +90,17 @@ def test_parse_lnb_home_team_first_and_unify():
     assert df[["home", "away"]].values.tolist() == [["Dijon", "Le Mans"], ["Le Mans", "Dijon"]]
     assert df["home_points"].iloc[0] == 89 and pd.isna(df["home_points"].iloc[1])
     assert df["time"].iloc[0] == "19:30" and df["round"].iloc[1] == "Round 5"
+
+
+def test_periods_are_consistent_with_the_game():
+    df, att, dfc = _season()
+    m = BasketRatings().fit(df)
+    strong, weak = f"B{int(np.argmax(att - dfc))}", f"B{int(np.argmin(att - dfc))}"
+    periods = {p["periodo"]: p for p in m.predict_periods(strong, weak)}
+    assert len(periods) == 6
+    for p in periods.values():
+        assert abs(p["casa"] + p["empate"] + p["fora"] - 1) < 1e-12 and 0 < p["empate"] < 0.15
+        assert p["casa"] > p["fora"] and p["total_min"] < p["total"] < p["total_max"]
+    game = m.predict(strong, weak)
+    assert periods["1.º quarto"]["casa"] < periods["1.ª parte"]["casa"] < game["home"]
+    assert abs(periods["1.ª parte"]["total"] + periods["2.ª parte"]["total"] - game["total"]) < 0.01 * game["total"]

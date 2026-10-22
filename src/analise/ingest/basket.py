@@ -22,6 +22,8 @@ EUROLEAGUE_URL = "https://api-live.euroleague.net/v2/competitions/{comp}/seasons
 # Identificação honesta do projeto (alguns sites recusam o agente por omissão do requests)
 HEADERS = {"User-Agent": "BotPredicts/0.1 (+https://github.com/Goncalo-Silva-Dev/BotPredicts)"}
 COLUMNS = ["league", "date", "time", "round", "home", "away", "home_points", "away_points"]
+# Pontos por quarto, só nas fontes que os dão (ESPN e Euroleague); servem para calibrar os períodos
+QUARTERS = [f"{side}_q{q}" for q in range(1, 5) for side in ("home", "away")]
 
 
 @dataclass(frozen=True)
@@ -71,6 +73,11 @@ def _espn_day(league: BasketLeague, day: date) -> list[dict]:
             "home_points": float(teams["home"]["score"]) if done else None,
             "away_points": float(teams["away"]["score"]) if done else None,
         })
+        if done:
+            for side in ("home", "away"):
+                for ls in teams[side].get("linescores") or []:
+                    if 1 <= ls.get("period", 0) <= 4:
+                        rows[-1][f"{side}_q{ls['period']}"] = float(ls["value"])
     return rows
 
 
@@ -79,7 +86,7 @@ def fetch_espn(league: BasketLeague, start: date, end: date) -> pd.DataFrame:
     days = [d for d in days if d.month not in league.off_months]
     with ThreadPoolExecutor(max_workers=8) as pool:
         rows = [r for day_rows in pool.map(lambda d: _espn_day(league, d), days) for r in day_rows]
-    return pd.DataFrame(rows, columns=COLUMNS)
+    return pd.DataFrame(rows, columns=COLUMNS + QUARTERS)
 
 
 def fetch_euroleague(league: BasketLeague, year: int) -> pd.DataFrame:
@@ -97,7 +104,13 @@ def fetch_euroleague(league: BasketLeague, year: int) -> pd.DataFrame:
             "home_points": float(g["local"]["score"]) if played else None,
             "away_points": float(g["road"]["score"]) if played else None,
         })
-    return pd.DataFrame(rows, columns=COLUMNS)
+        if played:
+            for side, team in (("home", g["local"]), ("away", g["road"])):
+                partials = team.get("partials") or {}
+                for q in range(1, 5):
+                    if partials.get(f"partials{q}") is not None:
+                        rows[-1][f"{side}_q{q}"] = float(partials[f"partials{q}"])
+    return pd.DataFrame(rows, columns=COLUMNS + QUARTERS)
 
 
 def fetch_games(league: BasketLeague, today: date | None = None, seasons: int = 3) -> pd.DataFrame:

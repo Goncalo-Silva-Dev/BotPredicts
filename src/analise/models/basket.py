@@ -15,6 +15,20 @@ import numpy as np
 import pandas as pd
 from scipy.stats import norm
 
+# Cada período em função do jogo inteiro, estimado com ~3500 jogos da NBA, EuroLeague e
+# EuroCup com pontos por quarto (os valores quase não mudam de liga para liga):
+# (fração da diferença esperada, fração do total, desvio da diferença e do total em
+# proporção aos do jogo inteiro; o do total alargado 10% para o intervalo de 80% acertar
+# em 80% dos jogos de teste). O 4.º quarto tem menos diferença: quem ganha abranda.
+PERIODS = {
+    "1.º quarto": (0.275, 0.251, 0.565, 0.462),
+    "2.º quarto": (0.258, 0.251, 0.574, 0.476),
+    "3.º quarto": (0.195, 0.245, 0.588, 0.458),
+    "4.º quarto": (0.222, 0.247, 0.570, 0.509),
+    "1.ª parte": (0.533, 0.502, 0.765, 0.691),
+    "2.ª parte": (0.417, 0.492, 0.775, 0.707),
+}
+
 
 @dataclass
 class BasketRatings:
@@ -85,3 +99,21 @@ class BasketRatings:
             "total_low": ph + pa - 1.2816 * self.sd_total_,  # intervalo de 80%
             "total_high": ph + pa + 1.2816 * self.sd_total_,
         }
+
+    def predict_periods(self, home: str, away: str) -> list[dict]:
+        """Vencedor (com empate, que num período acontece) e pontos de cada quarto e parte."""
+        ph, pa = self.expected_points(home, away)
+        out = []
+        for name, (f_margin, f_total, r_margin, r_total) in PERIODS.items():
+            margin, total = f_margin * (ph - pa), f_total * (ph + pa)
+            sd = r_margin * self.sd_margin_
+            # a diferença é um número inteiro: empate = diferença entre -0.5 e 0.5
+            p_home = float(1 - norm.cdf((0.5 - margin) / sd))
+            p_away = float(norm.cdf((-0.5 - margin) / sd))
+            half = 1.2816 * r_total * self.sd_total_
+            out.append({
+                "periodo": name, "casa": p_home, "empate": 1 - p_home - p_away, "fora": p_away,
+                "pontos_casa": (total + margin) / 2, "pontos_fora": (total - margin) / 2,
+                "total": total, "total_min": total - half, "total_max": total + half,
+            })
+        return out
