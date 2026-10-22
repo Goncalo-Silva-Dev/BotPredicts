@@ -9,7 +9,7 @@ from sqlalchemy import delete
 from analise.db import matches
 from analise.leagues import League
 
-BASE_URL = "https://www.football-data.co.uk"
+BASE_URL = "https://football-data.co.uk"
 
 # Colunas de odds por ordem de preferência: fecho primeiro, depois abertura
 # (as épocas antigas não têm odds de fecho da média do mercado).
