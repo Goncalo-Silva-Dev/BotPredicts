@@ -5,6 +5,7 @@
 - NBB (Brasil): tabela de jogos do site da LNB, uma página por época.
 - ACB (Espanha): calendário do site oficial, uma página por época.
 - Lega Basket Serie A (Itália): API do site oficial, um pedido por jornada.
+- Liga Betclic Masculina (Portugal): resultados e calendário do site da FPB.
 """
 import html as html_lib
 import re
@@ -26,7 +27,7 @@ COLUMNS = ["league", "date", "time", "round", "home", "away", "home_points", "aw
 class BasketLeague:
     key: str
     name: str
-    source: str  # "espn", "euroleague", "nbb", "acb" ou "lba"
+    source: str  # "espn", "euroleague", "nbb", "acb", "lba" ou "fpb"
     code: str  # slug da ESPN ou código da competição na Euroleague
     # Meses sem jogos (a ESPN pede um pedido por dia, por isso saltamos o defeso)
     off_months: tuple = ()
@@ -40,6 +41,7 @@ BASKET_LEAGUES = {
         BasketLeague("EUC", "EuroCup", "euroleague", "U"),
         BasketLeague("ACB", "Liga Endesa (Espanha)", "acb", ""),
         BasketLeague("LBA", "Lega Basket Serie A (Itália)", "lba", ""),
+        BasketLeague("LPB", "Liga Betclic (Portugal)", "fpb", ""),
         BasketLeague("NBB", "NBB (Brasil)", "nbb", ""),
     ]
 }
@@ -106,6 +108,8 @@ def fetch_games(league: BasketLeague, today: date | None = None, seasons: int = 
         df = fetch_acb(league, range(first, season_start(today) + 1))
     elif league.source == "lba":
         df = fetch_lba(league, range(first, season_start(today) + 1))
+    elif league.source == "fpb":
+        df = fetch_fpb(league, range(first, season_start(today) + 1))
     elif league.source == "nbb":
         df = fetch_nbb(league, range(first, season_start(today) + 1))
     else:
@@ -279,3 +283,80 @@ def fetch_lba(league: BasketLeague, years: range) -> pd.DataFrame:
     if not matches:
         return pd.DataFrame(columns=COLUMNS)
     return _unify_names(parse_lba(matches, league.key))
+
+
+FPB_AJAX = "https://www.fpb.pt/wp-admin/admin-ajax.php"
+# Liga Betclic Masculina por época; a pesquisa do site não devolve todas, por isso as
+# conhecidas ficam aqui e as novas são procuradas pelo nome
+FPB_LPB_IDS = {2024: "10390", 2025: "10902", 2026: "11440"}
+# O site da FPB usa o nome completo nalgumas épocas e o curto noutras
+FPB_ALIASES = {
+    "Futebol Clube do Porto": "FC Porto", "Sporting Clube Portugal": "Sporting CP",
+    "Sporting Clube de Braga": "SC Braga", "Vitória Sport Clube": "Vitória SC",
+    "Galitos BARREIRO ACEDE": "Galitos BARREIRO", "Queluz O NOSSO PREGO": "Queluz | O Nosso Prego",
+    "CD Póvoa ESC ONLINE": "CD Póvoa / Esc Online",
+}
+PT_MONTHS = {"JAN": 1, "FEV": 2, "MAR": 3, "ABR": 4, "MAI": 5, "JUN": 6, "JUL": 7, "AGO": 8,
+             "SET": 9, "OUT": 10, "NOV": 11, "DEZ": 12}
+
+
+def _fpb_lpb_id(year: int) -> str | None:
+    if year in FPB_LPB_IDS:
+        return FPB_LPB_IDS[year]
+    resp = requests.post(FPB_AJAX, headers=HEADERS, timeout=60, data={
+        "action": "get_competicoes", "epoca": f"{year}/{year + 1}", "escalao": "Sénior",
+        "genero": "masculino", "radio": "true", "associacao": "50"})
+    resp.raise_for_status()
+    found = re.findall(r'data-id="(\d+)" name="comp-option" value="Liga Betclic Masculina"',
+                       resp.text)
+    return found[0] if found else None
+
+
+def parse_fpb(html: str, league_key: str = "LPB") -> pd.DataFrame:
+    rows = []
+    for day in html.split('class="day-wrapper')[1:]:
+        d = re.search(r'class="date">\s*(\d{1,2}) ([A-Z]{3}) (\d{4})', day)
+        if not d:
+            continue
+        when = date(int(d.group(3)), PT_MONTHS[d.group(2)], int(d.group(1)))
+        for game in day.split('class="game-wrapper ')[1:]:
+            names = [n.strip() for n in re.findall(r'class="fullName">([^<]+)<', game)]
+            pts = [p.strip() for p in re.findall(r'class="results_text[^"]*">([^<]*)<', game)]
+            hour = re.search(r"<h3>\s*(\d{1,2})H(\d{2})", game)
+            if len(names) < 2:
+                continue
+            played = len(pts) == 2 and all(p.isdigit() for p in pts)
+            rows.append({
+                "league": league_key, "date": when,
+                "time": f"{int(hour.group(1)):02d}:{hour.group(2)}" if hour else None,
+                "round": None,
+                "home": FPB_ALIASES.get(html_lib.unescape(names[0]), html_lib.unescape(names[0])),
+                "away": FPB_ALIASES.get(html_lib.unescape(names[1]), html_lib.unescape(names[1])),
+                "home_points": float(pts[0]) if played else None,
+                "away_points": float(pts[1]) if played else None,
+            })
+    return pd.DataFrame(rows, columns=COLUMNS)
+
+
+def fetch_fpb(league: BasketLeague, years: range) -> pd.DataFrame:
+    """Liga Betclic Masculina (LPB): resultados e calendário do site da FPB."""
+    frames = []
+    for year in years:
+        cid = _fpb_lpb_id(year)
+        if not cid:
+            continue
+        period = {"period[time_option]": "fromInit", "period[from_date]": f"01-08-{year}",
+                  "period[to_date]": f"31-07-{year + 1}"}
+        for action in ("get_results", "get_more_days"):
+            resp = requests.get(FPB_AJAX, headers=HEADERS, timeout=60,
+                                params={"action": action, "competicao": cid, **period})
+            resp.raise_for_status()
+            result = resp.json()["result"]
+            frames.append(parse_fpb("".join(result) if isinstance(result, list) else result,
+                                    league.key))
+    if not frames:
+        return pd.DataFrame(columns=COLUMNS)
+    df = pd.concat(frames, ignore_index=True)
+    # O mesmo jogo pode vir nas duas listas; fica a versão com resultado
+    df = df.sort_values("home_points", na_position="last")
+    return df.drop_duplicates(subset=["date", "home", "away"]).reset_index(drop=True)
