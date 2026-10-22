@@ -11,7 +11,7 @@ from analise.ingest.basket import BASKET_LEAGUES
 from analise.leagues import LEAGUES
 
 FLAGS = {"POR": "🇵🇹", "ESP": "🇪🇸", "ENG": "🏴", "FRA": "🇫🇷", "ITA": "🇮🇹", "USA": "🇺🇸", "BRA": "🇧🇷",
-         "NBA": "🇺🇸", "EUR": "🇪🇺", "EUC": "🇪🇺"}
+         "NBA": "🇺🇸", "EUR": "🇪🇺", "EUC": "🇪🇺", "NBB": "🇧🇷"}
 WEEKDAYS = ["seg", "ter", "qua", "qui", "sex", "sáb", "dom"]
 
 CSS = """

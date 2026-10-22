@@ -42,3 +42,31 @@ def test_predict_is_consistent():
     assert p["home"] > 0.75 and abs(p["home"] + p["away"] - 1) < 1e-12
     assert p["margin"] > 0 and p["total_low"] < p["total"] < p["total_high"]
     assert m.predict(weak, strong)["home"] < p["home"]
+
+
+NBB_ROW = """<tr class="with-hotel">
+<td class="position_value show-for-medium" data-real-id="{id}">1</td>
+<td class="date_value show-for-medium"><span class="">{d}</span>
+<span class="">16:00</span></td>
+<td class="home_team_value"><span class="team-shortname">{home}</span></td>
+<td class="score_value show-for-medium">{score}</td>
+<td class="visitor_team_value"><span class="team-shortname">{away}</span></td>
+<td class="hide-for-medium matche_for_small"><strong class="x"> {hc} <img alt=""></strong>
+<a>x</a><strong class="x"><img alt=""> {ac} </strong></td>
+<td class="game_value"><span class="number">3ª</span> RODADA</td>
+</tr>"""
+
+
+def test_parse_nbb_and_unify_sponsor_names():
+    from analise.ingest.basket import _unify_names, parse_nbb
+    played = '<a><span class="home">84</span> X <span class="away">73</span></a>'
+    html = "".join([
+        NBB_ROW.format(id=1, d="17/10/2025", home="Mogi", away="Corinthians", score=played,
+                       hc="MOG", ac="COR"),
+        NBB_ROW.format(id=2, d="20/10/2026", home="Desk Manager Mogi Basquete",
+                       away="Corinthians", score="", hc="MOG", ac="COR"),
+    ])
+    df = _unify_names(parse_nbb(html))
+    assert df["home"].tolist() == ["Desk Manager Mogi Basquete"] * 2
+    assert df["home_points"].iloc[0] == 84 and pd.isna(df["home_points"].iloc[1])
+    assert df["round"].iloc[0] == "Round 3" and df["time"].iloc[0] == "16:00"
