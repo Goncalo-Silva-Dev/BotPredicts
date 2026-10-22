@@ -3,6 +3,7 @@
 - NBA: API pública da ESPN, um pedido por dia de calendário.
 - EuroLeague e EuroCup: API oficial da Euroleague Basketball, um pedido por época.
 - NBB (Brasil): tabela de jogos do site da LNB, uma página por época.
+- ACB (Espanha): calendário do site oficial, uma página por época.
 """
 import html as html_lib
 import re
@@ -24,7 +25,7 @@ COLUMNS = ["league", "date", "time", "round", "home", "away", "home_points", "aw
 class BasketLeague:
     key: str
     name: str
-    source: str  # "espn", "euroleague" ou "nbb"
+    source: str  # "espn", "euroleague", "nbb" ou "acb"
     code: str  # slug da ESPN ou código da competição na Euroleague
     # Meses sem jogos (a ESPN pede um pedido por dia, por isso saltamos o defeso)
     off_months: tuple = ()
@@ -36,6 +37,7 @@ BASKET_LEAGUES = {
         BasketLeague("NBA", "NBA", "espn", "nba", off_months=(7, 8, 9)),
         BasketLeague("EUR", "EuroLeague", "euroleague", "E"),
         BasketLeague("EUC", "EuroCup", "euroleague", "U"),
+        BasketLeague("ACB", "Liga Endesa (Espanha)", "acb", ""),
         BasketLeague("NBB", "NBB (Brasil)", "nbb", ""),
     ]
 }
@@ -98,6 +100,8 @@ def fetch_games(league: BasketLeague, today: date | None = None, seasons: int = 
     first = season_start(today) - seasons + 1
     if league.source == "espn":
         df = fetch_espn(league, date(first, 7, 1), date(season_start(today) + 1, 6, 30))
+    elif league.source == "acb":
+        df = fetch_acb(league, range(first, season_start(today) + 1))
     elif league.source == "nbb":
         df = fetch_nbb(league, range(first, season_start(today) + 1))
     else:
@@ -168,6 +172,63 @@ def fetch_nbb(league: BasketLeague, years: range) -> pd.DataFrame:
                             timeout=60)
         resp.raise_for_status()
         frames.append(parse_nbb(resp.text, league.key))
+    if not frames:
+        return pd.DataFrame(columns=COLUMNS)
+    return _unify_names(pd.concat(frames, ignore_index=True))
+
+
+ACB_URL = "https://acb.com/es/liga/calendario"
+_ACB_MATCH = re.compile(
+    r'\{\\"id\\":(\d+),\\"homeTeam\\":[^{}]*?\\"homeTeamScore\\":(null|\d+),'
+    r'\\"awayTeamScore\\":(null|\d+),\\"startDateTime\\":\\"([^\\]+)\\",\\"matchStatus\\":\\"(\w+)')
+
+
+def _acb_seasons(html: str) -> dict[int, str]:
+    found = re.findall(r'\\"id\\":(\d+),\\"startYear\\":(\d{4}),\\"endYear\\"', html)
+    return {int(year): sid for sid, year in found}
+
+
+def parse_acb(html: str, league_key: str = "ACB") -> pd.DataFrame:
+    """O calendário da ACB vem numa página Next.js: as equipas e a jornada estão no HTML e a
+    data e o resultado nos dados embutidos; juntamos os dois pelo id do jogo."""
+    data = {int(m[0]): m[1:] for m in _ACB_MATCH.findall(html)}
+    rows = []
+    for section in html.split('id="calendar-round-')[1:]:
+        rnd = re.search(r'roundTitle">([^<]+)<', section)
+        for block in section.split("__roundMatch__teams")[1:]:
+            names = re.findall(r'teamName--fullName">([^<]+)<', block)
+            # O id do clube no link da equipa não muda com os patrocínios
+            codes = list(dict.fromkeys(re.findall(r"/equipos/[a-z0-9-]+-(\d+)\?", block)))
+            mid = re.search(r"partidos/[a-z0-9-]+-(\d+)/", block)
+            if len(names) < 2 or not mid or int(mid.group(1)) not in data:
+                continue
+            hs, as_, start, status = data[int(mid.group(1))]
+            when = pd.Timestamp(start).tz_convert("Europe/Lisbon")
+            done = status == "FINALIZED" and hs != "null"
+            rows.append({
+                "league": league_key, "date": when.date(),
+                "time": when.strftime("%H:%M") if status != "UNSCHEDULED" else None,
+                "round": re.sub(r"^Jornada\s*", "Round ", rnd.group(1).strip()) if rnd else None,
+                "home": html_lib.unescape(names[0]), "away": html_lib.unescape(names[1]),
+                "home_points": float(hs) if done else None,
+                "away_points": float(as_) if done else None,
+                "home_code": codes[0] if len(codes) > 1 else None,
+                "away_code": codes[1] if len(codes) > 1 else None,
+            })
+    return pd.DataFrame(rows, columns=COLUMNS + ["home_code", "away_code"])
+
+
+def fetch_acb(league: BasketLeague, years: range) -> pd.DataFrame:
+    first = requests.get(ACB_URL, headers=HEADERS, timeout=60)
+    first.raise_for_status()
+    ids = _acb_seasons(first.text)
+    frames = []
+    for year in years:
+        if year not in ids:
+            continue
+        resp = requests.get(ACB_URL, params={"temporada": ids[year]}, headers=HEADERS, timeout=60)
+        resp.raise_for_status()
+        frames.append(parse_acb(resp.text, league.key))
     if not frames:
         return pd.DataFrame(columns=COLUMNS)
     return _unify_names(pd.concat(frames, ignore_index=True))
