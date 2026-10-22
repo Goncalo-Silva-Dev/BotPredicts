@@ -5,7 +5,8 @@ from datetime import date, timedelta
 import pandas as pd
 from sqlalchemy import select
 
-from analise import backtest, calendario, pagina, previsoes
+from analise import backtest, basquete, calendario, pagina, previsoes
+from analise.ingest import basket
 from analise.db import get_engine, matches
 from analise.ingest import football_data_uk
 from analise.leagues import LEAGUES
@@ -31,6 +32,10 @@ def main(argv=None):
     prev.add_argument("--jogo", nargs=2, metavar=("CASA", "FORA"),
                       help="prevê um jogo à escolha em vez do calendário (precisa de 1 liga)")
     prev.add_argument("--saida", default="data/previsoes.csv")
+    bb = sub.add_parser("basquete-backtest", help="Testa o modelo de basquetebol em jogos passados")
+    bb.add_argument("--ligas", nargs="*", default=list(basket.BASKET_LEAGUES),
+                    choices=list(basket.BASKET_LEAGUES))
+    bb.add_argument("--epocas", type=int, default=3)
     pag = sub.add_parser("pagina", help="Gera a página web com as previsões")
     pag.add_argument("--dias", type=int, help="só jogos nos próximos N dias (por omissão, todos)")
     pag.add_argument("--saida", default="site", help="pasta da página")
@@ -45,6 +50,8 @@ def main(argv=None):
         run_backtest(engine, args)
     elif args.cmd == "previsoes":
         run_previsoes(engine, args)
+    elif args.cmd == "basquete-backtest":
+        run_basquete_backtest(args)
     elif args.cmd == "pagina":
         run_pagina(engine, args)
 
@@ -134,12 +141,42 @@ def run_pagina(engine, args):
     if args.dias:
         fixtures = fixtures[fixtures["date"] <= today + timedelta(days=args.dias)]
     res = predict_fixtures(engine, fixtures, 180.0, 730, today)
+    hoops = basket_predictions(today)
+    if args.dias and not hoops.empty:
+        hoops = hoops[hoops["date"] <= today + timedelta(days=args.dias)]
     os.makedirs(args.saida, exist_ok=True)
     with open(os.path.join(args.saida, "index.html"), "w", encoding="utf-8") as f:
-        f.write(pagina.render(res))
+        f.write(pagina.render(res, hoops))
     with open(os.path.join(args.saida, "previsoes.json"), "w", encoding="utf-8") as f:
         f.write(pagina.to_json(res))
-    print(f"{len(res)} jogos em {args.saida}/index.html")
+    with open(os.path.join(args.saida, "basquetebol.json"), "w", encoding="utf-8") as f:
+        f.write(pagina.to_json(hoops))
+    print(f"{len(res)} jogos de futebol e {len(hoops)} de basquetebol em {args.saida}/index.html")
+
+
+def basket_predictions(today):
+    out = []
+    for league in basket.BASKET_LEAGUES.values():
+        try:  # uma liga que falhe não estraga a página
+            games = basket.fetch_games(league, today)
+        except Exception as e:
+            print(f"{league.key}: falhou a recolha ({e})")
+            continue
+        out.append(basquete.predict_upcoming(games, today))
+    out = [o for o in out if not o.empty]
+    if not out:
+        return pd.DataFrame()
+    return pd.concat(out).sort_values(["date", "time"], na_position="last")
+
+
+def run_basquete_backtest(args):
+    rows = []
+    for key in args.ligas:
+        games = basket.fetch_games(basket.BASKET_LEAGUES[key], seasons=args.epocas)
+        res = basquete.walk_forward(games)
+        rows.append({"liga": key, **basquete.summary(res)})
+    pd.set_option("display.width", 160)
+    print(pd.DataFrame(rows).set_index("liga").round(3).to_string())
 
 
 if __name__ == "__main__":

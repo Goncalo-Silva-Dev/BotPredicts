@@ -7,9 +7,11 @@ from datetime import datetime, timezone
 
 import pandas as pd
 
+from analise.ingest.basket import BASKET_LEAGUES
 from analise.leagues import LEAGUES
 
-FLAGS = {"POR": "🇵🇹", "ESP": "🇪🇸", "ENG": "🏴", "FRA": "🇫🇷", "ITA": "🇮🇹", "USA": "🇺🇸", "BRA": "🇧🇷"}
+FLAGS = {"POR": "🇵🇹", "ESP": "🇪🇸", "ENG": "🏴", "FRA": "🇫🇷", "ITA": "🇮🇹", "USA": "🇺🇸", "BRA": "🇧🇷",
+         "NBA": "🇺🇸", "EUR": "🇪🇺", "EUC": "🇪🇺"}
 WEEKDAYS = ["seg", "ter", "qua", "qui", "sex", "sáb", "dom"]
 
 CSS = """
@@ -39,6 +41,9 @@ h2 { font-size:17px; margin:28px 0 10px; }
 details { margin-bottom:8px; }
 summary { cursor:pointer; padding:8px 2px; font-weight:600; }
 summary span { color:var(--muted); font-weight:400; font-size:13px; margin-left:6px; }
+nav { display:flex; gap:16px; margin:16px 0 0; font-weight:600; }
+nav a { color:var(--home); text-decoration:none; }
+h1.sport { font-size:21px; margin:36px 0 0; padding-top:12px; border-top:1px solid var(--line); }
 .empty { background:var(--card); border:1px dashed var(--line); border-radius:10px; padding:16px; }
 """
 
@@ -77,9 +82,29 @@ def _game(g) -> str:
     return f'<div class="game">{head}<div class="bar">{bar}</div><div class="facts">{spans}</div></div>'
 
 
+def _basket_game(g) -> str:
+    teams = f"{html.escape(g['home'])} – {html.escape(g['away'])}"
+    head = f'<div class="top"><span class="teams">{teams}</span>' \
+           f'<span class="when">{_when(g["date"], g.get("time"))}</span></div>'
+    if pd.isna(g.get("casa")):
+        return f'<div class="game">{head}<p class="note">Sem previsão: uma das equipas ' \
+               f'tem poucos jogos no histórico.</p></div>'
+    bar = "".join(
+        f'<span class="{c}" style="flex:{g[k]:.4f}" title="{label}">{_pct(g[k])}</span>'
+        for c, k, label in [("h", "casa", "Vitória da casa"), ("a", "fora", "Vitória de fora")])
+    fav = g["home"] if g["diferenca"] >= 0 else g["away"]
+    facts = [
+        f"Pontos esperados <b>{g['pontos_casa']:.0f} – {g['pontos_fora']:.0f}</b>",
+        f"Diferença <b>{html.escape(fav)} por {abs(g['diferenca']):.1f}</b>",
+        f"Total <b>{g['total']:.0f}</b> (80%: {g['total_min']:.0f} a {g['total_max']:.0f})",
+    ]
+    spans = "".join(f"<span>{f}</span>" for f in facts)
+    return f'<div class="game">{head}<div class="bar">{bar}</div><div class="facts">{spans}</div></div>'
+
+
 def _round_label(r, dates: pd.Series) -> str:
     if isinstance(r, str) and r:
-        label = re.sub(r"^Matchday\s*", "Jornada ", r)
+        label = re.sub(r"^(Matchday|Round)\s*", "Jornada ", r)
     else:
         monday = pd.Timestamp(dates.min()) - pd.Timedelta(days=pd.Timestamp(dates.min()).weekday())
         label = f"Semana de {monday:%d/%m}"
@@ -88,7 +113,7 @@ def _round_label(r, dates: pd.Series) -> str:
     return f"{html.escape(label)}<span>{span} · {len(dates)} jogos</span>"
 
 
-def _league_rounds(games: pd.DataFrame) -> str:
+def _league_rounds(games: pd.DataFrame, card=_game) -> str:
     """Um bloco que abre e fecha por jornada; a primeira vem aberta."""
     games = games.copy()
     games["_round"] = games["round"] if "round" in games else None
@@ -98,25 +123,32 @@ def _league_rounds(games: pd.DataFrame) -> str:
     blocks = []
     for i, key in enumerate(order):
         g = games[games["_group"] == key]
-        cards = "".join(_game(x) for x in g.to_dict("records"))
+        cards = "".join(card(x) for x in g.to_dict("records"))
         is_open = " open" if i == 0 else ""
         blocks.append(f"<details{is_open}><summary>{_round_label(g['_round'].iloc[0], g['date'])}"
                       f"</summary>{cards}</details>")
     return "".join(blocks)
 
 
-def render(preds: pd.DataFrame, updated: datetime | None = None) -> str:
-    updated = updated or datetime.now(timezone.utc)
-    sections = []
-    if preds.empty:
-        sections.append('<div class="empty">Não foi possível obter o calendário dos próximos '
-                        'jogos. A página volta a tentar na próxima atualização.</div>')
-    for key, league in LEAGUES.items():
+def _sections(preds: pd.DataFrame, leagues: dict, card) -> list[str]:
+    out = []
+    for key, league in leagues.items():
         games = preds[preds["league"] == key] if not preds.empty else preds
-        if games.empty:
-            continue
-        sections.append(f"<h2>{FLAGS.get(key, '')} {html.escape(league.name)}</h2>"
-                        f"{_league_rounds(games)}")
+        if not games.empty:
+            out.append(f"<h2>{FLAGS.get(key, '')} {html.escape(league.name)}</h2>"
+                       f"{_league_rounds(games, card)}")
+    return out
+
+
+def render(preds: pd.DataFrame, basket: pd.DataFrame | None = None,
+           updated: datetime | None = None) -> str:
+    updated = updated or datetime.now(timezone.utc)
+    basket = basket if basket is not None else pd.DataFrame()
+    football = _sections(preds, LEAGUES, _game) or [
+        '<div class="empty">Não foi possível obter o calendário dos próximos '
+        'jogos. A página volta a tentar na próxima atualização.</div>']
+    hoops = _sections(basket, BASKET_LEAGUES, _basket_game) or [
+        '<div class="empty">Sem jogos de basquetebol nesta atualização.</div>']
 
     return f"""<!doctype html>
 <html lang="pt-PT">
@@ -128,14 +160,25 @@ def render(preds: pd.DataFrame, updated: datetime | None = None) -> str:
 </head>
 <body><main>
 <h1>Previsões de todos os jogos que faltam</h1>
-<p class="sub">Atualizado {updated:%d/%m/%Y %H:%M} UTC · modelo Dixon-Coles treinado com os
-últimos 2 anos de resultados</p>
-<p class="note">Barras: vitória da casa · empate · vitória de fora. São probabilidades, não
-certezas, e usam a forma atual das equipas: os jogos mais distantes vão mudar à medida que a
-época avança. As odds das casas de apostas aparecem quando já existem (perto do jogo). No teste com 11 984 jogos passados o modelo acertou bem nas percentagens mas ficou um
+<p class="sub">Atualizado {updated:%d/%m/%Y %H:%M} UTC</p>
+<p class="note">São probabilidades, não certezas, e usam a forma atual das equipas: os jogos
+mais distantes vão mudar à medida que a época avança.</p>
+<nav><a href="#futebol">⚽ Futebol</a><a href="#basquetebol">🏀 Basquetebol</a></nav>
+
+<h1 class="sport" id="futebol">⚽ Futebol</h1>
+<p class="note">Barras: vitória da casa · empate · vitória de fora. Modelo Dixon-Coles com os
+últimos 2 anos de resultados. As odds das casas de apostas aparecem quando já existem (perto do
+jogo). No teste com 11 984 jogos passados o modelo acertou bem nas percentagens mas ficou um
 pouco atrás das odds de fecho das casas de apostas, por isso ainda não serve para apostar.</p>
-{''.join(sections)}
-<p class="note">Dados: football-data.co.uk.</p>
+{''.join(football)}
+
+<h1 class="sport" id="basquetebol">🏀 Basquetebol</h1>
+<p class="note">Barras: vitória da casa · vitória de fora. Ratings de ataque e defesa de cada
+equipa com os últimos 18 meses de resultados. No teste com jogos passados acertou o vencedor em
+66% dos jogos da NBA, 64% da EuroLeague e 65% da EuroCup.</p>
+{''.join(hoops)}
+
+<p class="note">Dados: football-data.co.uk, openfootball, ESPN e Euroleague Basketball.</p>
 </main></body>
 </html>
 """
