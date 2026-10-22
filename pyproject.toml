@@ -3,7 +3,7 @@ name = "analise-jogos"
 version = "0.1.0"
 description = "Análise de jogos de futebol e basquetebol com modelos de previsão"
 requires-python = ">=3.11"
-dependencies = ["pandas>=2.2", "sqlalchemy>=2.0", "requests>=2.31"]
+dependencies = ["pandas>=2.2", "numpy>=1.26", "scipy>=1.11", "sqlalchemy>=2.0", "requests>=2.31"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8"]
