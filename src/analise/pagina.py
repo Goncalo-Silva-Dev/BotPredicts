@@ -1,4 +1,8 @@
-"""Página estática com as previsões dos próximos jogos (para o GitHub Pages)."""
+"""Site estático com as previsões (para o GitHub Pages).
+
+index.html é o aviso inicial; cada liga tem a sua página em futebol/ ou basquetebol/,
+com um menu comum no topo.
+"""
 import html
 import re
 import json
@@ -41,9 +45,29 @@ h2 { font-size:17px; margin:28px 0 10px; }
 details { margin-bottom:8px; }
 summary { cursor:pointer; padding:8px 2px; font-weight:600; }
 summary span { color:var(--muted); font-weight:400; font-size:13px; margin-left:6px; }
-nav { display:flex; gap:16px; margin:16px 0 0; font-weight:600; }
-nav a { color:var(--home); text-decoration:none; }
-h1.sport { font-size:21px; margin:36px 0 0; padding-top:12px; border-top:1px solid var(--line); }
+header { background:var(--card); border-bottom:1px solid var(--line); position:sticky; top:0;
+  z-index:5; }
+header nav { max-width:860px; margin:0 auto; padding:0 16px; display:flex; gap:4px;
+  align-items:center; flex-wrap:wrap; }
+header a, header summary { color:var(--text); text-decoration:none; font-weight:600;
+  padding:12px 10px; display:block; }
+header a.brand { padding-left:0; margin-right:auto; }
+header details { position:relative; margin:0; }
+header summary { list-style:none; }
+header summary::-webkit-details-marker { display:none; }
+header summary::after { content:" ▾"; color:var(--muted); }
+header .menu { position:absolute; right:0; top:100%; background:var(--card); min-width:240px;
+  border:1px solid var(--line); border-radius:10px; padding:6px; box-shadow:0 8px 24px #0002; }
+header .menu a { font-weight:500; padding:8px 10px; border-radius:6px; }
+header .menu a:hover, header .menu a.on { background:var(--bg); }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px;
+  margin:10px 0 24px; }
+.grid a { background:var(--card); border:1px solid var(--line); border-radius:10px;
+  padding:12px 14px; color:var(--text); text-decoration:none; font-weight:600; }
+.grid a span { display:block; color:var(--muted); font-weight:400; font-size:13px; }
+.warn { background:var(--card); border:1px solid var(--line); border-left:4px solid var(--away);
+  border-radius:10px; padding:14px 16px; margin:16px 0; }
+.warn li { margin:6px 0; }
 .empty { background:var(--card); border:1px dashed var(--line); border-radius:10px; padding:16px; }
 """
 
@@ -130,58 +154,111 @@ def _league_rounds(games: pd.DataFrame, card=_game) -> str:
     return "".join(blocks)
 
 
-def _sections(preds: pd.DataFrame, leagues: dict, card) -> list[str]:
-    out = []
-    for key, league in leagues.items():
-        games = preds[preds["league"] == key] if not preds.empty else preds
-        if not games.empty:
-            out.append(f"<h2>{FLAGS.get(key, '')} {html.escape(league.name)}</h2>"
-                       f"{_league_rounds(games, card)}")
-    return out
+FOOTBALL_NOTE = """Barras: vitória da casa · empate · vitória de fora. Modelo Dixon-Coles com os
+últimos 2 anos de resultados. As odds das casas de apostas aparecem quando já existem (perto do
+jogo). No teste com 11 984 jogos passados o modelo acertou bem nas percentagens, mas ficou um
+pouco atrás das odds de fecho das casas de apostas."""
+
+BASKET_NOTE = """Barras: vitória da casa · vitória de fora. Ratings de ataque e defesa de cada
+equipa com os resultados das últimas épocas (os jogos recentes pesam mais)."""
+
+# Percentagem de vencedores certos no teste com jogos passados (basquete-backtest)
+BASKET_ACCURACY = {"NBA": 66, "EUR": 64, "EUC": 65, "ACB": 69, "LBA": 71, "LPB": 75, "NBB": 73}
 
 
-def render(preds: pd.DataFrame, basket: pd.DataFrame | None = None,
-           updated: datetime | None = None) -> str:
-    updated = updated or datetime.now(timezone.utc)
-    basket = basket if basket is not None else pd.DataFrame()
-    football = _sections(preds, LEAGUES, _game) or [
-        '<div class="empty">Não foi possível obter o calendário dos próximos '
-        'jogos. A página volta a tentar na próxima atualização.</div>']
-    hoops = _sections(basket, BASKET_LEAGUES, _basket_game) or [
-        '<div class="empty">Sem jogos de basquetebol nesta atualização.</div>']
-
+def _page(title: str, body: str, root: str, current: str, updated: datetime) -> str:
+    """Página completa com o menu; root é o caminho relativo até à raiz do site."""
+    def menu(folder, leagues):
+        return "".join(
+            f'<a href="{root}{folder}/{k.lower()}.html"{" class=on" if current == k else ""}>'
+            f"{FLAGS.get(k, '')} {html.escape(l.name)}</a>" for k, l in leagues.items())
     return f"""<!doctype html>
 <html lang="pt-PT">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Previsões BotPredicts</title>
+<title>{html.escape(title)} · BotPredicts</title>
 <style>{CSS}</style>
 </head>
-<body><main>
-<h1>Previsões de todos os jogos que faltam</h1>
-<p class="sub">Atualizado {updated:%d/%m/%Y %H:%M} UTC</p>
-<p class="note">São probabilidades, não certezas, e usam a forma atual das equipas: os jogos
-mais distantes vão mudar à medida que a época avança.</p>
-<nav><a href="#futebol">⚽ Futebol</a><a href="#basquetebol">🏀 Basquetebol</a></nav>
-
-<h1 class="sport" id="futebol">⚽ Futebol</h1>
-<p class="note">Barras: vitória da casa · empate · vitória de fora. Modelo Dixon-Coles com os
-últimos 2 anos de resultados. As odds das casas de apostas aparecem quando já existem (perto do
-jogo). No teste com 11 984 jogos passados o modelo acertou bem nas percentagens mas ficou um
-pouco atrás das odds de fecho das casas de apostas, por isso ainda não serve para apostar.</p>
-{''.join(football)}
-
-<h1 class="sport" id="basquetebol">🏀 Basquetebol</h1>
-<p class="note">Barras: vitória da casa · vitória de fora. Ratings de ataque e defesa de cada
-equipa com os últimos 18 meses de resultados. No teste com jogos passados acertou o vencedor em
-66% dos jogos da NBA, 64% da EuroLeague e 65% da EuroCup.</p>
-{''.join(hoops)}
-
-<p class="note">Dados: football-data.co.uk, openfootball, ESPN e Euroleague Basketball.</p>
-</main></body>
+<body>
+<header><nav>
+<a class="brand" href="{root}index.html">BotPredicts</a>
+<details><summary>⚽ Futebol</summary><div class="menu">{menu("futebol", LEAGUES)}</div></details>
+<details><summary>🏀 Basquetebol</summary><div class="menu">{menu("basquetebol", BASKET_LEAGUES)}</div></details>
+</nav></header>
+<main>
+{body}
+<p class="note">Atualizado {updated:%d/%m/%Y %H:%M} UTC · Dados: football-data.co.uk,
+openfootball, ESPN, Euroleague Basketball e sites oficiais das ligas.</p>
+</main>
+<script>
+// Fecha os outros menus quando se abre um
+document.querySelectorAll("header details").forEach(d => d.addEventListener("toggle", () => {{
+  if (d.open) document.querySelectorAll("header details").forEach(o => {{ if (o !== d) o.open = false; }});
+}}));
+</script>
+</body>
 </html>
 """
+
+
+def _league_page(key, league, games, card, note, root, updated) -> str:
+    if games.empty:
+        content = '<div class="empty">Sem jogos marcados nesta liga por agora.</div>'
+    else:
+        content = _league_rounds(games, card)
+    body = (f"<h1>{FLAGS.get(key, '')} {html.escape(league.name)}</h1>"
+            f'<p class="note">{note}</p>{content}')
+    return _page(league.name, body, root, key, updated)
+
+
+def _index(preds, basket, updated) -> str:
+    def cards(folder, leagues, df):
+        out = []
+        for k, l in leagues.items():
+            n = int((df["league"] == k).sum()) if not df.empty else 0
+            out.append(f'<a href="{folder}/{k.lower()}.html">{FLAGS.get(k, "")} '
+                       f"{html.escape(l.name)}<span>{n} {"jogo" if n == 1 else "jogos"} com previsão</span></a>")
+        return "".join(out)
+    body = f"""<h1>Previsões de futebol e basquetebol</h1>
+<div class="warn">
+<strong>Antes de usares estas previsões</strong>
+<ul>
+<li>São probabilidades calculadas por modelos estatísticos a partir de resultados passados.
+Não são certezas nem dicas garantidas: um jogo com 70% para uma equipa perde-se 3 vezes em 10.</li>
+<li>No teste com milhares de jogos passados os modelos acertaram bem nas percentagens, mas no
+futebol ficaram um pouco atrás das odds das casas de apostas. Isto quer dizer que, por si só,
+não dão lucro a apostar.</li>
+<li>Os modelos só conhecem resultados. Não sabem de lesões, castigos, rotações nem mudanças de
+treinador, e os jogos mais distantes usam a forma atual das equipas.</li>
+<li>Este site é informativo e não tem ligação às ligas, aos clubes nem a casas de apostas.</li>
+<li>Apostar só a partir dos 18 anos e só o que podes perder. Se o jogo deixar de ser diversão,
+procura ajuda: em Portugal, o SICAD apoia casos de jogo excessivo.</li>
+</ul>
+</div>
+<h2>⚽ Futebol</h2><div class="grid">{cards("futebol", LEAGUES, preds)}</div>
+<h2>🏀 Basquetebol</h2><div class="grid">{cards("basquetebol", BASKET_LEAGUES, basket)}</div>"""
+    return _page("Início", body, "", "", updated)
+
+
+def render_site(preds: pd.DataFrame, basket: pd.DataFrame | None = None,
+                updated: datetime | None = None) -> dict[str, str]:
+    """Todas as páginas do site: {caminho relativo: html}."""
+    updated = updated or datetime.now(timezone.utc)
+    basket = basket if basket is not None else pd.DataFrame()
+    pages = {"index.html": _index(preds, basket, updated)}
+    for key, league in LEAGUES.items():
+        games = preds[preds["league"] == key] if not preds.empty else preds
+        pages[f"futebol/{key.lower()}.html"] = _league_page(
+            key, league, games, _game, FOOTBALL_NOTE, "../", updated)
+    for key, league in BASKET_LEAGUES.items():
+        games = basket[basket["league"] == key] if not basket.empty else basket
+        note = BASKET_NOTE
+        if key in BASKET_ACCURACY:
+            note += f" No teste com jogos passados acertou o vencedor em {BASKET_ACCURACY[key]}% dos jogos."
+        pages[f"basquetebol/{key.lower()}.html"] = _league_page(
+            key, league, games, _basket_game, note, "../", updated)
+    return pages
 
 
 def to_json(preds: pd.DataFrame) -> str:

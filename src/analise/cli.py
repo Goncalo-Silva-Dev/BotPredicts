@@ -144,14 +144,16 @@ def run_pagina(engine, args):
     hoops = basket_predictions(today)
     if args.dias and not hoops.empty:
         hoops = hoops[hoops["date"] <= today + timedelta(days=args.dias)]
-    os.makedirs(args.saida, exist_ok=True)
-    with open(os.path.join(args.saida, "index.html"), "w", encoding="utf-8") as f:
-        f.write(pagina.render(res, hoops))
+    for path, page in pagina.render_site(res, hoops).items():
+        full = os.path.join(args.saida, path)
+        os.makedirs(os.path.dirname(full), exist_ok=True)
+        with open(full, "w", encoding="utf-8") as f:
+            f.write(page)
     with open(os.path.join(args.saida, "previsoes.json"), "w", encoding="utf-8") as f:
         f.write(pagina.to_json(res))
     with open(os.path.join(args.saida, "basquetebol.json"), "w", encoding="utf-8") as f:
         f.write(pagina.to_json(hoops))
-    print(f"{len(res)} jogos de futebol e {len(hoops)} de basquetebol em {args.saida}/index.html")
+    print(f"{len(res)} jogos de futebol e {len(hoops)} de basquetebol em {args.saida}/")
 
 
 def basket_predictions(today):
