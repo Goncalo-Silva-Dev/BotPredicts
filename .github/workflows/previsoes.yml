@@ -31,7 +31,14 @@ jobs:
       - run: python -m pytest -q
       - name: Histórico (3 épocas chegam para a janela de 2 anos)
         run: python -m analise.cli historico --epocas 3
-      - run: python -m analise.cli pagina --saida site
+      # Cópia dos jogos das ligas cujo site recusa os servidores do GitHub (NBB, LNB),
+      # guardada todos os dias no ramo "dados"; se o ramo não existir, segue sem ela
+      - uses: actions/checkout@v4
+        continue-on-error: true
+        with:
+          ref: dados
+          path: dados-basquete
+      - run: python -m analise.cli pagina --saida site --dados-basquete dados-basquete
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site

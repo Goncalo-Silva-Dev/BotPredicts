@@ -104,3 +104,14 @@ def test_periods_are_consistent_with_the_game():
     game = m.predict(strong, weak)
     assert periods["1.º quarto"]["casa"] < periods["1.ª parte"]["casa"] < game["home"]
     assert abs(periods["1.ª parte"]["total"] + periods["2.ª parte"]["total"] - game["total"]) < 0.01 * game["total"]
+
+
+def test_reserve_games_roundtrip(tmp_path):
+    from analise.cli import _reserve_games
+    df = pd.DataFrame([{"league": "LNB", "date": date(2026, 10, 23), "time": "19:00",
+                        "round": "Round 5", "home": "Le Mans", "away": "Dijon",
+                        "home_points": None, "away_points": None}])
+    df.to_csv(tmp_path / "LNB.csv", index=False)
+    back = _reserve_games(str(tmp_path), "LNB")
+    assert back["date"].iloc[0] == date(2026, 10, 23) and back["time"].iloc[0] == "19:00"
+    assert _reserve_games(str(tmp_path), "NBB") is None and _reserve_games(None, "LNB") is None
