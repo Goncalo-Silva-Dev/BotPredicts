@@ -1,6 +1,6 @@
 """Jogos de basquetebol (passados e futuros) das fontes grátis.
 
-- NBA: API pública da ESPN, um pedido por dia de calendário.
+- NBA e NBL (Austrália): API pública da ESPN, um pedido por dia de calendário.
 - EuroLeague e EuroCup: API oficial da Euroleague Basketball, um pedido por época.
 - NBB (Brasil): tabela de jogos do site da LNB, uma página por época.
 - ACB (Espanha): calendário do site oficial, uma página por época.
@@ -40,6 +40,7 @@ BASKET_LEAGUES = {
     l.key: l
     for l in [
         BasketLeague("NBA", "NBA", "espn", "nba", off_months=(7, 8, 9)),
+        BasketLeague("NBL", "NBL (Austrália)", "espn", "nbl", off_months=(5, 6, 7, 8)),
         BasketLeague("EUR", "EuroLeague", "euroleague", "E"),
         BasketLeague("EUC", "EuroCup", "euroleague", "U"),
         BasketLeague("ACB", "Liga Endesa (Espanha)", "acb", ""),
@@ -405,7 +406,9 @@ def parse_lnb(days: list[dict], league_key: str = "LNB") -> pd.DataFrame:
 
 def fetch_lnb(league: BasketLeague, years: range) -> pd.DataFrame:
     """Betclic ÉLITE: o calendário de cada época num só pedido."""
-    token = requests.get(LNB_TOKEN_URL, headers=HEADERS, timeout=30).json()["token"]
+    resp = requests.get(LNB_TOKEN_URL, headers=HEADERS, timeout=30)
+    resp.raise_for_status()
+    token = resp.json()["token"]
     headers = {**HEADERS, "Authorization": f"Bearer {token}", "device_type": "web",
                "language_code": "fr"}
     days = []
