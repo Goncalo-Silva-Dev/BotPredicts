@@ -4,6 +4,7 @@
 - EuroLeague e EuroCup: API oficial da Euroleague Basketball, um pedido por época.
 - NBB (Brasil): tabela de jogos do site da LNB, uma página por época.
 - ACB (Espanha): calendário do site oficial, uma página por época.
+- Lega Basket Serie A (Itália): API do site oficial, um pedido por jornada.
 """
 import html as html_lib
 import re
@@ -25,7 +26,7 @@ COLUMNS = ["league", "date", "time", "round", "home", "away", "home_points", "aw
 class BasketLeague:
     key: str
     name: str
-    source: str  # "espn", "euroleague", "nbb" ou "acb"
+    source: str  # "espn", "euroleague", "nbb", "acb" ou "lba"
     code: str  # slug da ESPN ou código da competição na Euroleague
     # Meses sem jogos (a ESPN pede um pedido por dia, por isso saltamos o defeso)
     off_months: tuple = ()
@@ -38,6 +39,7 @@ BASKET_LEAGUES = {
         BasketLeague("EUR", "EuroLeague", "euroleague", "E"),
         BasketLeague("EUC", "EuroCup", "euroleague", "U"),
         BasketLeague("ACB", "Liga Endesa (Espanha)", "acb", ""),
+        BasketLeague("LBA", "Lega Basket Serie A (Itália)", "lba", ""),
         BasketLeague("NBB", "NBB (Brasil)", "nbb", ""),
     ]
 }
@@ -102,6 +104,8 @@ def fetch_games(league: BasketLeague, today: date | None = None, seasons: int = 
         df = fetch_espn(league, date(first, 7, 1), date(season_start(today) + 1, 6, 30))
     elif league.source == "acb":
         df = fetch_acb(league, range(first, season_start(today) + 1))
+    elif league.source == "lba":
+        df = fetch_lba(league, range(first, season_start(today) + 1))
     elif league.source == "nbb":
         df = fetch_nbb(league, range(first, season_start(today) + 1))
     else:
@@ -232,3 +236,46 @@ def fetch_acb(league: BasketLeague, years: range) -> pd.DataFrame:
     if not frames:
         return pd.DataFrame(columns=COLUMNS)
     return _unify_names(pd.concat(frames, ignore_index=True))
+
+
+LBA_API = "https://www.legabasket.it/api/championships"
+
+
+def _lba_get(path: str, **params) -> dict:
+    resp = requests.get(f"{LBA_API}/{path}", params=params, headers=HEADERS, timeout=60)
+    resp.raise_for_status()
+    return resp.json()
+
+
+def parse_lba(matches: list[dict], league_key: str = "LBA") -> pd.DataFrame:
+    rows = []
+    for m in matches:
+        when = pd.Timestamp(m["match_datetime"]).tz_convert("Europe/Lisbon")
+        done = str(m.get("game_status")) == "2"
+        rows.append({
+            "league": league_key, "date": when.date(), "time": when.strftime("%H:%M"),
+            "round": f"Round {m['day_serial']}",
+            "home": m["h_team_name"], "away": m["v_team_name"],
+            "home_points": float(m["home_final_score"]) if done else None,
+            "away_points": float(m["visitor_final_score"]) if done else None,
+            "home_code": m.get("h_club_code"), "away_code": m.get("v_club_code"),
+        })
+    return pd.DataFrame(rows, columns=COLUMNS + ["home_code", "away_code"])
+
+
+def fetch_lba(league: BasketLeague, years: range) -> pd.DataFrame:
+    """Lega Basket Serie A: só a fase regular, uma chamada por jornada."""
+    comps = _lba_get("get-championships", cs_id=1, items=1000)["competitions"]
+    ids = {c["year"]: c["id"] for c in comps if c["ctype_code"] == "RS"}
+    matches = []
+    for year in years:
+        if year not in ids:
+            continue
+        days = _lba_get("get-championships-calendar-by-id", id=ids[year])["filters"]["days"]
+        with ThreadPoolExecutor(max_workers=6) as pool:
+            for day in pool.map(lambda d: _lba_get("get-championships-calendar-by-id",
+                                                   id=ids[year], d=d["event_serial"]), days):
+                matches.extend(day.get("matches") or [])
+    if not matches:
+        return pd.DataFrame(columns=COLUMNS)
+    return _unify_names(parse_lba(matches, league.key))
