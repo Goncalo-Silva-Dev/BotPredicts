@@ -9,6 +9,7 @@ Recolha de dados, modelo de previsões, relatórios por jogo e app web para fute
 pip install -e ".[dev]"
 cp .env.example .env
 python -m analise.cli historico --epocas 6   # descarrega e guarda o histórico
+python -m analise.cli backtest               # Dixon-Coles vs odds de fecho sem margem
 pytest
 ```
 
