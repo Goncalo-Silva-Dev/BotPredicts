@@ -1,0 +1,721 @@
+league,date,time,round,home,away,home_points,away_points
+LNB,2024-09-20,19:00,Round 1,Saint-Quentin,Monaco,68.0,66.0
+LNB,2024-09-21,17:00,Round 1,Le Portel,Bourg-en-Bresse,65.0,94.0
+LNB,2024-09-21,19:30,Round 1,Strasbourg,Chalon/Saône,83.0,80.0
+LNB,2024-09-21,19:30,Round 1,Nancy,La Rochelle,64.0,56.0
+LNB,2024-09-22,15:30,Round 1,Lyon-Villeurbanne,Le Mans,85.0,71.0
+LNB,2024-09-22,15:30,Round 1,Gravelines-Dunkerque,Paris,89.0,85.0
+LNB,2024-09-22,18:00,Round 1,Limoges,Nanterre,90.0,87.0
+LNB,2024-09-27,19:00,Round 2,La Rochelle,Cholet,64.0,78.0
+LNB,2024-09-28,17:00,Round 2,Nanterre,Le Portel,74.0,65.0
+LNB,2024-09-28,19:30,Round 2,Chalon/Saône,Paris,87.0,102.0
+LNB,2024-09-28,17:00,Round 2,Le Mans,Saint-Quentin,69.0,83.0
+LNB,2024-09-29,15:30,Round 2,Gravelines-Dunkerque,Limoges,70.0,56.0
+LNB,2024-09-29,15:30,Round 2,Monaco,Strasbourg,77.0,65.0
+LNB,2024-09-29,18:00,Round 2,Bourg-en-Bresse,Lyon-Villeurbanne,85.0,94.0
+LNB,2024-10-01,19:00,Round 2,Dijon,Nancy,93.0,84.0
+LNB,2024-10-04,19:00,Round 3,Strasbourg,Le Mans,88.0,95.0
+LNB,2024-10-05,19:30,Round 3,Le Portel,Chalon/Saône,87.0,81.0
+LNB,2024-10-05,17:00,Round 3,Nanterre,Bourg-en-Bresse,61.0,86.0
+LNB,2024-10-05,17:00,Round 3,Limoges,Dijon,87.0,73.0
+LNB,2024-10-05,19:30,Round 3,Cholet,Gravelines-Dunkerque,106.0,74.0
+LNB,2024-10-06,15:30,Round 3,Paris,La Rochelle,84.0,75.0
+LNB,2024-10-06,18:00,Round 3,Lyon-Villeurbanne,Monaco,88.0,71.0
+LNB,2024-10-06,15:30,Round 3,Saint-Quentin,Nancy,104.0,96.0
+LNB,2024-10-11,19:00,Round 4,Cholet,Saint-Quentin,82.0,59.0
+LNB,2024-10-12,17:00,Round 4,Nancy,Chalon/Saône,96.0,84.0
+LNB,2024-10-12,17:00,Round 4,Monaco,La Rochelle,82.0,62.0
+LNB,2024-10-12,19:30,Round 4,Le Mans,Nanterre,94.0,87.0
+LNB,2024-10-12,19:30,Round 4,Bourg-en-Bresse,Limoges,74.0,70.0
+LNB,2024-10-13,15:30,Round 4,Gravelines-Dunkerque,Strasbourg,78.0,72.0
+LNB,2024-10-13,15:30,Round 4,Lyon-Villeurbanne,Le Portel,88.0,67.0
+LNB,2024-10-13,18:00,Round 4,Dijon,Paris,83.0,97.0
+LNB,2024-10-18,19:00,Round 5,Le Portel,Gravelines-Dunkerque,69.0,82.0
+LNB,2024-10-19,19:30,Round 5,Strasbourg,Nancy,96.0,76.0
+LNB,2024-10-19,19:30,Round 5,Limoges,Le Mans,92.0,90.0
+LNB,2024-10-19,17:00,Round 5,Bourg-en-Bresse,Dijon,88.0,91.0
+LNB,2024-10-19,17:00,Round 5,La Rochelle,Saint-Quentin,57.0,94.0
+LNB,2024-10-20,15:30,Round 5,Monaco,Cholet,89.0,72.0
+LNB,2024-10-20,15:30,Round 5,Chalon/Saône,Lyon-Villeurbanne,109.0,107.0
+LNB,2024-10-20,18:00,Round 5,Paris,Nanterre,102.0,86.0
+LNB,2024-10-25,19:00,Round 6,Strasbourg,Limoges,110.0,90.0
+LNB,2024-10-26,19:30,Round 6,Nancy,Monaco,77.0,98.0
+LNB,2024-10-26,19:30,Round 6,Cholet,Paris,90.0,80.0
+LNB,2024-10-26,17:00,Round 6,Le Mans,Le Portel,77.0,74.0
+LNB,2024-10-26,17:00,Round 6,Dijon,La Rochelle,88.0,95.0
+LNB,2024-10-27,18:00,Round 6,Saint-Quentin,Lyon-Villeurbanne,63.0,77.0
+LNB,2024-10-27,15:30,Round 6,Gravelines-Dunkerque,Bourg-en-Bresse,75.0,83.0
+LNB,2024-10-27,15:30,Round 6,Nanterre,Chalon/Saône,91.0,70.0
+LNB,2024-11-01,19:00,Round 7,Limoges,Chalon/Saône,74.0,68.0
+LNB,2024-11-01,19:00,Round 7,Le Portel,La Rochelle,83.0,62.0
+LNB,2024-11-02,17:00,Round 7,Bourg-en-Bresse,Strasbourg,89.0,96.0
+LNB,2024-11-02,19:30,Round 7,Le Mans,Dijon,98.0,71.0
+LNB,2024-11-02,19:30,Round 7,Nanterre,Saint-Quentin,95.0,102.0
+LNB,2024-11-03,15:30,Round 7,Lyon-Villeurbanne,Cholet,87.0,101.0
+LNB,2024-11-03,15:30,Round 7,Gravelines-Dunkerque,Monaco,74.0,83.0
+LNB,2024-11-03,18:00,Round 7,Paris,Nancy,115.0,97.0
+LNB,2024-11-08,19:00,Round 8,Strasbourg,Le Portel,75.0,76.0
+LNB,2024-11-09,17:00,Round 8,Chalon/Saône,Le Mans,88.0,84.0
+LNB,2024-11-09,17:00,Round 8,Limoges,Cholet,69.0,75.0
+LNB,2024-11-09,19:30,Round 8,Nancy,Gravelines-Dunkerque,80.0,63.0
+LNB,2024-11-09,19:30,Round 8,La Rochelle,Bourg-en-Bresse,78.0,86.0
+LNB,2024-11-10,15:30,Round 8,Saint-Quentin,Paris,65.0,97.0
+LNB,2024-11-10,15:30,Round 8,Monaco,Dijon,76.0,74.0
+LNB,2024-11-10,18:00,Round 8,Lyon-Villeurbanne,Nanterre,109.0,103.0
+LNB,2024-11-15,19:00,Round 9,La Rochelle,Nanterre,77.0,98.0
+LNB,2024-11-16,19:30,Round 9,Dijon,Saint-Quentin,85.0,91.0
+LNB,2024-11-16,19:30,Round 9,Cholet,Le Portel,80.0,65.0
+LNB,2024-11-16,17:00,Round 9,Chalon/Saône,Bourg-en-Bresse,86.0,93.0
+LNB,2024-11-16,17:00,Round 9,Nancy,Limoges,90.0,86.0
+LNB,2024-11-17,15:30,Round 9,Gravelines-Dunkerque,Lyon-Villeurbanne,60.0,81.0
+LNB,2024-11-17,15:30,Round 9,Monaco,Le Mans,74.0,86.0
+LNB,2024-11-17,18:00,Round 9,Paris,Strasbourg,106.0,74.0
+LNB,2024-11-29,19:00,Round 10,Saint-Quentin,Gravelines-Dunkerque,83.0,86.0
+LNB,2024-11-30,19:30,Round 10,Le Portel,Paris,78.0,87.0
+LNB,2024-11-30,17:00,Round 10,Cholet,Chalon/Saône,88.0,74.0
+LNB,2024-11-30,17:00,Round 10,Limoges,La Rochelle,83.0,62.0
+LNB,2024-11-30,19:30,Round 10,Nanterre,Dijon,72.0,77.0
+LNB,2024-12-01,18:00,Round 10,Bourg-en-Bresse,Monaco,94.0,109.0
+LNB,2024-12-01,15:30,Round 10,Le Mans,Nancy,85.0,96.0
+LNB,2024-12-01,15:30,Round 10,Strasbourg,Lyon-Villeurbanne,77.0,75.0
+LNB,2024-12-07,19:30,Round 11,Strasbourg,Cholet,83.0,94.0
+LNB,2024-12-07,17:00,Round 11,Chalon/Saône,Saint-Quentin,91.0,63.0
+LNB,2024-12-07,17:00,Round 11,Nanterre,Nancy,97.0,75.0
+LNB,2024-12-07,19:30,Round 11,Le Portel,Dijon,74.0,86.0
+LNB,2024-12-07,19:30,Round 11,Bourg-en-Bresse,Le Mans,94.0,87.0
+LNB,2024-12-08,15:30,Round 11,La Rochelle,Gravelines-Dunkerque,76.0,88.0
+LNB,2024-12-08,18:00,Round 11,Paris,Monaco,111.0,104.0
+LNB,2024-12-08,15:30,Round 11,Lyon-Villeurbanne,Limoges,84.0,69.0
+LNB,2024-12-13,19:00,Round 12,La Rochelle,Strasbourg,71.0,78.0
+LNB,2024-12-14,19:30,Round 12,Monaco,Le Portel,78.0,56.0
+LNB,2024-12-14,19:30,Round 12,Cholet,Bourg-en-Bresse,67.0,102.0
+LNB,2024-12-14,17:00,Round 12,Dijon,Chalon/Saône,87.0,94.0
+LNB,2024-12-14,17:00,Round 12,Saint-Quentin,Limoges,72.0,67.0
+LNB,2024-12-15,15:30,Round 12,Gravelines-Dunkerque,Nanterre,83.0,89.0
+LNB,2024-12-15,15:30,Round 12,Le Mans,Paris,84.0,76.0
+LNB,2024-12-15,18:00,Round 12,Nancy,Lyon-Villeurbanne,85.0,91.0
+LNB,2024-12-17,19:00,Round 1,Cholet,Dijon,95.0,89.0
+LNB,2024-12-20,19:00,Round 13,Dijon,Strasbourg,91.0,94.0
+LNB,2024-12-21,17:00,Round 13,Saint-Quentin,Le Portel,71.0,54.0
+LNB,2024-12-21,17:00,Round 13,Nanterre,Cholet,97.0,104.0
+LNB,2024-12-21,19:30,Round 13,Limoges,Monaco,84.0,96.0
+LNB,2024-12-21,19:30,Round 13,Le Mans,La Rochelle,81.0,71.0
+LNB,2024-12-22,18:00,Round 13,Nancy,Bourg-en-Bresse,84.0,79.0
+LNB,2024-12-22,15:30,Round 13,Chalon/Saône,Gravelines-Dunkerque,77.0,67.0
+LNB,2024-12-22,15:30,Round 13,Lyon-Villeurbanne,Paris,98.0,92.0
+LNB,2024-12-23,18:00,Round 14,Paris,Limoges,96.0,88.0
+LNB,2024-12-26,19:00,Round 14,Strasbourg,Nanterre,88.0,95.0
+LNB,2024-12-27,17:00,Round 14,Cholet,Le Mans,86.0,92.0
+LNB,2024-12-27,17:00,Round 14,Le Portel,Nancy,76.0,85.0
+LNB,2024-12-27,19:30,Round 14,Gravelines-Dunkerque,Dijon,83.0,84.0
+LNB,2024-12-27,19:30,Round 14,Bourg-en-Bresse,Saint-Quentin,96.0,85.0
+LNB,2025-01-05,15:00,Round 14,La Rochelle,Lyon-Villeurbanne,75.0,79.0
+LNB,2025-01-05,15:30,Round 14,Monaco,Chalon/Saône,109.0,82.0
+LNB,2025-01-10,19:00,Round 15,Le Mans,Gravelines-Dunkerque,83.0,78.0
+LNB,2025-01-11,17:00,Round 15,Saint-Quentin,Strasbourg,81.0,70.0
+LNB,2025-01-11,17:00,Round 15,Nancy,Cholet,71.0,78.0
+LNB,2025-01-11,19:30,Round 15,Nanterre,Monaco,73.0,81.0
+LNB,2025-01-11,19:30,Round 15,Chalon/Saône,La Rochelle,65.0,62.0
+LNB,2025-01-12,15:30,Round 15,Dijon,Lyon-Villeurbanne,92.0,71.0
+LNB,2025-01-12,15:30,Round 15,Limoges,Le Portel,77.0,98.0
+LNB,2025-01-12,18:00,Round 15,Paris,Bourg-en-Bresse,98.0,89.0
+LNB,2025-01-17,19:00,Round 16,Strasbourg,Bourg-en-Bresse,70.0,76.0
+LNB,2025-01-18,19:30,Round 16,Nanterre,Le Mans,67.0,85.0
+LNB,2025-01-18,19:30,Round 16,Dijon,Le Portel,90.0,82.0
+LNB,2025-01-18,17:00,Round 16,Cholet,Limoges,96.0,86.0
+LNB,2025-01-18,17:00,Round 16,Saint-Quentin,Chalon/Saône,83.0,87.0
+LNB,2025-01-19,15:30,Round 16,Monaco,Nancy,117.0,96.0
+LNB,2025-01-19,15:30,Round 16,La Rochelle,Paris,73.0,90.0
+LNB,2025-01-19,18:00,Round 16,Lyon-Villeurbanne,Gravelines-Dunkerque,90.0,83.0
+LNB,2025-01-24,19:00,Round 17,Chalon/Saône,Limoges,92.0,76.0
+LNB,2025-01-25,19:30,Round 17,Bourg-en-Bresse,Nanterre,100.0,97.0
+LNB,2025-01-25,17:00,Round 17,Le Portel,Saint-Quentin,56.0,58.0
+LNB,2025-01-25,17:00,Round 17,Gravelines-Dunkerque,La Rochelle,94.0,68.0
+LNB,2025-01-25,19:30,Round 17,Nancy,Dijon,85.0,104.0
+LNB,2025-01-26,18:00,Round 17,Paris,Cholet,90.0,77.0
+LNB,2025-01-26,15:30,Round 17,Lyon-Villeurbanne,Strasbourg,95.0,70.0
+LNB,2025-01-26,15:30,Round 17,Le Mans,Monaco,74.0,81.0
+LNB,2025-01-31,19:00,Round 18,Le Portel,Le Mans,92.0,75.0
+LNB,2025-02-01,17:00,Round 18,Nancy,Saint-Quentin,83.0,74.0
+LNB,2025-02-01,17:00,Round 18,La Rochelle,Dijon,92.0,90.0
+LNB,2025-02-01,19:30,Round 18,Nanterre,Paris,78.0,92.0
+LNB,2025-02-01,19:30,Round 18,Limoges,Lyon-Villeurbanne,84.0,81.0
+LNB,2025-02-02,15:30,Round 18,Cholet,Strasbourg,105.0,75.0
+LNB,2025-02-02,15:30,Round 18,Bourg-en-Bresse,Chalon/Saône,103.0,77.0
+LNB,2025-02-02,18:00,Round 18,Monaco,Gravelines-Dunkerque,90.0,59.0
+LNB,2025-02-07,19:00,Round 19,Gravelines-Dunkerque,Cholet,70.0,73.0
+LNB,2025-02-08,17:00,Round 19,Saint-Quentin,Bourg-en-Bresse,81.0,83.0
+LNB,2025-02-08,17:00,Round 19,La Rochelle,Le Portel,96.0,73.0
+LNB,2025-02-08,19:30,Round 19,Dijon,Nanterre,65.0,66.0
+LNB,2025-02-08,19:30,Round 19,Le Mans,Chalon/Saône,112.0,86.0
+LNB,2025-02-09,15:30,Round 19,Limoges,Nancy,97.0,89.0
+LNB,2025-02-09,15:30,Round 19,Strasbourg,Monaco,81.0,95.0
+LNB,2025-02-09,18:00,Round 19,Paris,Lyon-Villeurbanne,111.0,96.0
+LNB,2025-02-28,19:00,Round 20,Le Portel,Strasbourg,67.0,65.0
+LNB,2025-02-28,19:30,Round 20,Nanterre,Gravelines-Dunkerque,93.0,80.0
+LNB,2025-03-01,19:30,Round 20,Paris,Saint-Quentin,86.0,88.0
+LNB,2025-03-01,19:30,Round 20,Chalon/Saône,Dijon,86.0,93.0
+LNB,2025-03-01,17:00,Round 20,Le Mans,Limoges,101.0,77.0
+LNB,2025-03-01,17:00,Round 20,Bourg-en-Bresse,Nancy,81.0,93.0
+LNB,2025-03-02,15:30,Round 20,Lyon-Villeurbanne,La Rochelle,105.0,75.0
+LNB,2025-03-02,18:00,Round 20,Cholet,Monaco,84.0,95.0
+LNB,2025-03-07,19:00,Round 21,Nancy,Le Mans,97.0,89.0
+LNB,2025-03-08,17:00,Round 21,Strasbourg,Saint-Quentin,83.0,69.0
+LNB,2025-03-08,17:00,Round 21,Le Portel,Limoges,79.0,89.0
+LNB,2025-03-08,19:30,Round 21,Bourg-en-Bresse,Gravelines-Dunkerque,94.0,84.0
+LNB,2025-03-08,19:30,Round 21,Dijon,Cholet,67.0,93.0
+LNB,2025-03-09,18:00,Round 21,Monaco,Paris,94.0,63.0
+LNB,2025-03-09,15:30,Round 21,La Rochelle,Chalon/Saône,77.0,86.0
+LNB,2025-03-09,15:30,Round 21,Nanterre,Lyon-Villeurbanne,74.0,88.0
+LNB,2025-03-21,19:00,Round 22,Strasbourg,Paris,79.0,87.0
+LNB,2025-03-22,17:00,Round 22,Limoges,Bourg-en-Bresse,63.0,87.0
+LNB,2025-03-22,17:00,Round 22,Dijon,Le Mans,76.0,74.0
+LNB,2025-03-22,19:30,Round 22,Chalon/Saône,Le Portel,106.0,76.0
+LNB,2025-03-22,19:30,Round 22,Cholet,La Rochelle,83.0,77.0
+LNB,2025-03-23,15:30,Round 22,Saint-Quentin,Nanterre,67.0,76.0
+LNB,2025-03-23,15:30,Round 22,Gravelines-Dunkerque,Nancy,84.0,87.0
+LNB,2025-03-23,18:00,Round 22,Monaco,Lyon-Villeurbanne,86.0,94.0
+LNB,2025-03-28,19:00,Round 23,Nanterre,Limoges,96.0,87.0
+LNB,2025-03-29,19:30,Round 23,Le Mans,Cholet,91.0,68.0
+LNB,2025-03-29,19:30,Round 23,Saint-Quentin,Dijon,85.0,72.0
+LNB,2025-03-29,17:00,Round 23,Nancy,Strasbourg,74.0,80.0
+LNB,2025-03-29,17:00,Round 23,Bourg-en-Bresse,La Rochelle,87.0,67.0
+LNB,2025-03-30,15:30,Round 23,Paris,Gravelines-Dunkerque,109.0,66.0
+LNB,2025-03-30,15:30,Round 23,Le Portel,Monaco,67.0,91.0
+LNB,2025-03-30,18:00,Round 23,Lyon-Villeurbanne,Chalon/Saône,116.0,95.0
+LNB,2025-04-04,19:00,Round 24,La Rochelle,Nancy,79.0,88.0
+LNB,2025-04-05,17:00,Round 24,Dijon,Bourg-en-Bresse,97.0,95.0
+LNB,2025-04-05,17:00,Round 24,Monaco,Nanterre,89.0,74.0
+LNB,2025-04-05,19:30,Round 24,Chalon/Saône,Cholet,105.0,72.0
+LNB,2025-04-05,19:30,Round 24,Limoges,Strasbourg,80.0,87.0
+LNB,2025-04-06,15:30,Round 24,Paris,Le Mans,106.0,103.0
+LNB,2025-04-06,18:00,Round 24,Lyon-Villeurbanne,Saint-Quentin,81.0,75.0
+LNB,2025-04-06,15:30,Round 24,Gravelines-Dunkerque,Le Portel,104.0,80.0
+LNB,2025-04-11,19:00,Round 25,La Rochelle,Limoges,80.0,86.0
+LNB,2025-04-12,17:00,Round 25,Strasbourg,Dijon,58.0,77.0
+LNB,2025-04-12,17:00,Round 25,Monaco,Saint-Quentin,86.0,72.0
+LNB,2025-04-12,17:00,Round 25,Bourg-en-Bresse,Paris,91.0,98.0
+LNB,2025-04-12,19:30,Round 25,Cholet,Nanterre,88.0,78.0
+LNB,2025-04-12,19:30,Round 25,Chalon/Saône,Nancy,103.0,73.0
+LNB,2025-04-13,15:30,Round 25,Gravelines-Dunkerque,Le Mans,91.0,85.0
+LNB,2025-04-13,18:00,Round 25,Le Portel,Lyon-Villeurbanne,74.0,77.0
+LNB,2025-04-18,19:30,Round 26,Lyon-Villeurbanne,Bourg-en-Bresse,89.0,80.0
+LNB,2025-04-19,19:30,Round 26,Nanterre,La Rochelle,63.0,76.0
+LNB,2025-04-19,19:30,Round 26,Nancy,Le Portel,85.0,78.0
+LNB,2025-04-19,17:00,Round 26,Saint-Quentin,Cholet,71.0,77.0
+LNB,2025-04-19,17:00,Round 26,Le Mans,Strasbourg,90.0,70.0
+LNB,2025-04-20,15:30,Round 26,Dijon,Monaco,77.0,78.0
+LNB,2025-04-20,15:30,Round 26,Paris,Chalon/Saône,100.0,97.0
+LNB,2025-04-20,18:00,Round 26,Limoges,Gravelines-Dunkerque,110.0,122.0
+LNB,2025-04-25,19:00,Round 27,Lyon-Villeurbanne,Nancy,92.0,82.0
+LNB,2025-04-25,19:00,Round 27,Strasbourg,La Rochelle,71.0,63.0
+LNB,2025-04-27,15:30,Round 27,Monaco,Limoges,91.0,52.0
+LNB,2025-04-27,15:30,Round 27,Chalon/Saône,Nanterre,107.0,84.0
+LNB,2025-04-27,18:00,Round 27,Le Portel,Cholet,87.0,80.0
+LNB,2025-04-27,18:00,Round 27,Gravelines-Dunkerque,Saint-Quentin,91.0,75.0
+LNB,2025-04-29,19:00,Round 27,Le Mans,Bourg-en-Bresse,96.0,92.0
+LNB,2025-05-02,19:00,Round 28,Nancy,Nanterre,96.0,81.0
+LNB,2025-05-03,17:00,Round 28,Chalon/Saône,Strasbourg,86.0,78.0
+LNB,2025-05-03,17:00,Round 28,Saint-Quentin,Le Mans,89.0,91.0
+LNB,2025-05-03,19:30,Round 28,Dijon,Gravelines-Dunkerque,93.0,77.0
+LNB,2025-05-03,19:30,Round 28,Bourg-en-Bresse,Le Portel,98.0,69.0
+LNB,2025-05-04,15:00,Round 28,Limoges,Paris,71.0,78.0
+LNB,2025-05-04,18:00,Round 28,Cholet,Lyon-Villeurbanne,75.0,94.0
+LNB,2025-05-09,19:00,Round 29,Saint-Quentin,La Rochelle,75.0,59.0
+LNB,2025-05-10,19:30,Round 29,Gravelines-Dunkerque,Chalon/Saône,78.0,71.0
+LNB,2025-05-10,19:30,Round 29,Paris,Le Portel,109.0,65.0
+LNB,2025-05-10,17:00,Round 29,Dijon,Limoges,89.0,83.0
+LNB,2025-05-10,17:00,Round 29,Cholet,Nancy,95.0,74.0
+LNB,2025-05-11,15:30,Round 29,Nanterre,Strasbourg,76.0,75.0
+LNB,2025-05-11,18:00,Round 29,Monaco,Bourg-en-Bresse,73.0,100.0
+LNB,2025-05-12,19:00,Round 29,Le Mans,Lyon-Villeurbanne,97.0,80.0
+LNB,2025-05-13,19:00,Round 28,La Rochelle,Monaco,48.0,86.0
+LNB,2025-05-13,19:30,Round 27,Paris,Dijon,95.0,96.0
+LNB,2025-05-17,17:00,Round 30,La Rochelle,Le Mans,98.0,100.0
+LNB,2025-05-17,17:00,Round 30,Nancy,Paris,86.0,105.0
+LNB,2025-05-17,17:00,Round 30,Limoges,Saint-Quentin,74.0,70.0
+LNB,2025-05-17,17:00,Round 30,Lyon-Villeurbanne,Dijon,84.0,83.0
+LNB,2025-05-17,17:00,Round 30,Chalon/Saône,Monaco,90.0,65.0
+LNB,2025-05-17,17:00,Round 30,Le Portel,Nanterre,90.0,70.0
+LNB,2025-05-17,17:00,Round 30,Strasbourg,Gravelines-Dunkerque,91.0,88.0
+LNB,2025-05-17,17:00,Round 30,Bourg-en-Bresse,Cholet,86.0,89.0
+LNB,2025-09-26,19:30,Round 1,Dijon,Le Mans,89.0,91.0
+LNB,2025-09-27,17:00,Round 1,Boulazac,Saint-Quentin,94.0,76.0
+LNB,2025-09-27,17:10,Round 1,Cholet,Strasbourg,92.0,74.0
+LNB,2025-09-27,17:20,Round 1,Limoges,Bourg-en-Bresse,96.0,84.0
+LNB,2025-09-27,19:30,Round 1,Gravelines-Dunkerque,Paris,66.0,109.0
+LNB,2025-09-28,18:00,Round 1,Lyon-Villeurbanne,Nancy,115.0,71.0
+LNB,2025-09-28,15:30,Round 1,Le Portel,Monaco,63.0,84.0
+LNB,2025-09-30,19:00,Round 1,Chalon/Saône,Nanterre,78.0,86.0
+LNB,2025-10-03,19:30,Round 2,Cholet,Boulazac,92.0,81.0
+LNB,2025-10-04,17:00,Round 2,Limoges,Dijon,80.0,76.0
+LNB,2025-10-04,17:10,Round 2,Nanterre,Gravelines-Dunkerque,101.0,79.0
+LNB,2025-10-04,17:20,Round 2,Strasbourg,Le Portel,80.0,75.0
+LNB,2025-10-04,19:30,Round 2,Nancy,Bourg-en-Bresse,80.0,88.0
+LNB,2025-10-05,15:30,Round 2,Monaco,Chalon/Saône,99.0,104.0
+LNB,2025-10-05,18:00,Round 2,Saint-Quentin,Lyon-Villeurbanne,76.0,81.0
+LNB,2025-10-06,19:00,Round 2,Le Mans,Paris,95.0,89.0
+LNB,2025-10-10,19:30,Round 3,Nanterre,Limoges,91.0,89.0
+LNB,2025-10-11,17:00,Round 3,Bourg-en-Bresse,Le Portel,109.0,79.0
+LNB,2025-10-11,17:10,Round 3,Chalon/Saône,Saint-Quentin,84.0,82.0
+LNB,2025-10-11,17:20,Round 3,Boulazac,Nancy,65.0,87.0
+LNB,2025-10-11,17:30,Round 3,Dijon,Cholet,76.0,64.0
+LNB,2025-10-11,19:30,Round 3,Lyon-Villeurbanne,Le Mans,91.0,66.0
+LNB,2025-10-12,15:30,Round 3,Gravelines-Dunkerque,Strasbourg,81.0,87.0
+LNB,2025-10-12,18:00,Round 3,Paris,Monaco,94.0,99.0
+LNB,2025-10-17,19:30,Round 4,Saint-Quentin,Gravelines-Dunkerque,86.0,74.0
+LNB,2025-10-18,19:30,Round 4,Le Mans,Bourg-en-Bresse,84.0,82.0
+LNB,2025-10-18,17:20,Round 4,Nancy,Limoges,117.0,85.0
+LNB,2025-10-18,17:30,Round 4,Cholet,Chalon/Saône,98.0,79.0
+LNB,2025-10-18,17:10,Round 4,Le Portel,Boulazac,68.0,75.0
+LNB,2025-10-18,17:00,Round 4,Strasbourg,Nanterre,84.0,74.0
+LNB,2025-10-19,15:30,Round 4,Paris,Dijon,97.0,92.0
+LNB,2025-10-19,18:00,Round 4,Lyon-Villeurbanne,Monaco,98.0,102.0
+LNB,2025-10-24,19:30,Round 5,Limoges,Saint-Quentin,80.0,62.0
+LNB,2025-10-25,17:00,Round 5,Le Mans,Le Portel,107.0,68.0
+LNB,2025-10-25,17:10,Round 5,Gravelines-Dunkerque,Nancy,107.0,79.0
+LNB,2025-10-25,17:20,Round 5,Dijon,Strasbourg,95.0,89.0
+LNB,2025-10-25,17:30,Round 5,Bourg-en-Bresse,Cholet,87.0,93.0
+LNB,2025-10-25,19:30,Round 5,Nanterre,Lyon-Villeurbanne,73.0,76.0
+LNB,2025-10-26,18:00,Round 5,Chalon/Saône,Paris,67.0,107.0
+LNB,2025-10-26,15:30,Round 5,Monaco,Boulazac,92.0,85.0
+LNB,2025-10-28,19:30,Round 11,Limoges,Le Portel,74.0,79.0
+LNB,2025-10-31,19:30,Round 6,Saint-Quentin,Nanterre,65.0,89.0
+LNB,2025-11-01,17:00,Round 6,Bourg-en-Bresse,Dijon,101.0,81.0
+LNB,2025-11-01,17:10,Round 6,Strasbourg,Nancy,86.0,82.0
+LNB,2025-11-01,17:20,Round 6,Le Portel,Gravelines-Dunkerque,87.0,92.0
+LNB,2025-11-01,17:30,Round 6,Cholet,Le Mans,80.0,84.0
+LNB,2025-11-01,19:30,Round 6,Lyon-Villeurbanne,Chalon/Saône,85.0,86.0
+LNB,2025-11-02,15:30,Round 6,Boulazac,Paris,73.0,94.0
+LNB,2025-11-02,18:00,Round 6,Limoges,Monaco,77.0,94.0
+LNB,2025-11-07,19:30,Round 7,Nancy,Cholet,91.0,87.0
+LNB,2025-11-08,17:00,Round 7,Le Mans,Strasbourg,72.0,84.0
+LNB,2025-11-08,17:10,Round 7,Boulazac,Bourg-en-Bresse,68.0,82.0
+LNB,2025-11-08,17:20,Round 7,Nanterre,Le Portel,81.0,74.0
+LNB,2025-11-08,17:30,Round 7,Chalon/Saône,Dijon,90.0,74.0
+LNB,2025-11-08,19:30,Round 7,Gravelines-Dunkerque,Lyon-Villeurbanne,62.0,83.0
+LNB,2025-11-09,15:30,Round 7,Monaco,Saint-Quentin,92.0,84.0
+LNB,2025-11-09,18:00,Round 7,Paris,Limoges,115.0,93.0
+LNB,2025-11-11,18:00,Round 10,Boulazac,Gravelines-Dunkerque,97.0,67.0
+LNB,2025-11-14,19:30,Round 8,Cholet,Nanterre,76.0,78.0
+LNB,2025-11-15,19:30,Round 8,Bourg-en-Bresse,Paris,75.0,91.0
+LNB,2025-11-15,17:30,Round 8,Strasbourg,Boulazac,86.0,82.0
+LNB,2025-11-15,17:10,Round 8,Dijon,Gravelines-Dunkerque,109.0,83.0
+LNB,2025-11-15,17:00,Round 8,Saint-Quentin,Nancy,72.0,84.0
+LNB,2025-11-15,17:20,Round 8,Le Portel,Chalon/Saône,78.0,87.0
+LNB,2025-11-16,15:30,Round 8,Limoges,Lyon-Villeurbanne,65.0,81.0
+LNB,2025-11-16,18:00,Round 8,Le Mans,Monaco,84.0,93.0
+LNB,2025-11-22,19:30,Round 9,Lyon-Villeurbanne,Dijon,85.0,80.0
+LNB,2025-11-22,17:00,Round 9,Nanterre,Boulazac,85.0,78.0
+LNB,2025-11-22,17:10,Round 9,Nancy,Le Mans,76.0,78.0
+LNB,2025-11-22,17:20,Round 9,Chalon/Saône,Strasbourg,69.0,75.0
+LNB,2025-11-22,17:30,Round 9,Saint-Quentin,Cholet,77.0,68.0
+LNB,2025-11-23,18:00,Round 9,Monaco,Bourg-en-Bresse,89.0,91.0
+LNB,2025-12-05,19:30,Round 10,Le Portel,Nancy,85.0,97.0
+LNB,2025-12-06,17:00,Round 10,Le Mans,Chalon/Saône,87.0,93.0
+LNB,2025-12-06,17:10,Round 10,Cholet,Limoges,91.0,88.0
+LNB,2025-12-06,17:20,Round 10,Strasbourg,Lyon-Villeurbanne,81.0,96.0
+LNB,2025-12-06,19:30,Round 10,Dijon,Monaco,86.0,99.0
+LNB,2025-12-07,15:30,Round 10,Bourg-en-Bresse,Nanterre,86.0,83.0
+LNB,2025-12-07,18:00,Round 10,Paris,Saint-Quentin,99.0,69.0
+LNB,2025-12-09,18:00,Round 9,Gravelines-Dunkerque,Limoges,79.0,84.0
+LNB,2025-12-09,20:00,Round 9,Paris,Le Portel,110.0,80.0
+LNB,2025-12-12,19:30,Round 11,Nanterre,Le Mans,98.0,88.0
+LNB,2025-12-13,19:30,Round 11,Nancy,Paris,97.0,90.0
+LNB,2025-12-13,17:30,Round 11,Saint-Quentin,Dijon,77.0,83.0
+LNB,2025-12-13,17:00,Round 11,Chalon/Saône,Boulazac,90.0,74.0
+LNB,2025-12-14,15:30,Round 11,Monaco,Strasbourg,88.0,74.0
+LNB,2025-12-14,15:30,Round 11,Gravelines-Dunkerque,Bourg-en-Bresse,75.0,84.0
+LNB,2025-12-14,18:00,Round 11,Lyon-Villeurbanne,Cholet,85.0,87.0
+LNB,2025-12-19,19:50,Round 12,Boulazac,Limoges,92.0,80.0
+LNB,2025-12-20,17:00,Round 12,Dijon,Nancy,90.0,75.0
+LNB,2025-12-20,17:30,Round 12,Le Mans,Gravelines-Dunkerque,87.0,66.0
+LNB,2025-12-20,19:30,Round 12,Bourg-en-Bresse,Chalon/Saône,82.0,80.0
+LNB,2025-12-21,18:00,Round 12,Paris,Cholet,107.0,84.0
+LNB,2025-12-21,15:30,Round 12,Le Portel,Lyon-Villeurbanne,88.0,98.0
+LNB,2025-12-21,15:30,Round 12,Strasbourg,Saint-Quentin,84.0,72.0
+LNB,2025-12-21,14:00,Round 12,Monaco,Nanterre,105.0,98.0
+LNB,2025-12-23,15:30,Round 13,Nancy,Nanterre,84.0,91.0
+LNB,2025-12-23,15:40,Round 13,Dijon,Le Portel,102.0,82.0
+LNB,2025-12-23,15:50,Round 13,Gravelines-Dunkerque,Chalon/Saône,86.0,78.0
+LNB,2025-12-23,16:00,Round 13,Saint-Quentin,Bourg-en-Bresse,75.0,88.0
+LNB,2025-12-23,16:10,Round 13,Limoges,Le Mans,83.0,110.0
+LNB,2025-12-23,18:00,Round 13,Cholet,Monaco,72.0,95.0
+LNB,2025-12-26,20:00,Round 14,Bourg-en-Bresse,Lyon-Villeurbanne,81.0,79.0
+LNB,2025-12-26,18:00,Round 14,Nanterre,Paris,99.0,83.0
+LNB,2025-12-26,16:10,Round 14,Strasbourg,Limoges,100.0,82.0
+LNB,2025-12-26,15:50,Round 14,Le Portel,Cholet,84.0,94.0
+LNB,2025-12-26,15:40,Round 14,Boulazac,Dijon,79.0,78.0
+LNB,2025-12-26,15:30,Round 14,Le Mans,Saint-Quentin,90.0,74.0
+LNB,2025-12-26,16:00,Round 14,Chalon/Saône,Nancy,93.0,84.0
+LNB,2026-01-10,17:40,Round 15,Bourg-en-Bresse,Strasbourg,77.0,80.0
+LNB,2026-01-10,17:00,Round 15,Dijon,Nanterre,88.0,97.0
+LNB,2026-01-10,17:10,Round 15,Boulazac,Le Mans,86.0,97.0
+LNB,2026-01-10,17:20,Round 15,Limoges,Chalon/Saône,95.0,83.0
+LNB,2026-01-10,17:30,Round 15,Saint-Quentin,Le Portel,97.0,81.0
+LNB,2026-01-10,19:30,Round 15,Nancy,Monaco,79.0,93.0
+LNB,2026-01-11,18:00,Round 15,Lyon-Villeurbanne,Paris,93.0,98.0
+LNB,2026-01-11,16:30,Round 15,Gravelines-Dunkerque,Cholet,97.0,98.0
+LNB,2026-01-13,19:00,Round 13,Lyon-Villeurbanne,Boulazac,94.0,77.0
+LNB,2026-01-13,20:10,Round 13,Paris,Strasbourg,96.0,67.0
+LNB,2026-01-13,18:00,Round 14,Monaco,Gravelines-Dunkerque,101.0,82.0
+LNB,2026-01-16,19:30,Round 16,Nancy,Boulazac,83.0,72.0
+LNB,2026-01-17,17:00,Round 16,Dijon,Chalon/Saône,94.0,91.0
+LNB,2026-01-17,17:10,Round 16,Strasbourg,Gravelines-Dunkerque,89.0,72.0
+LNB,2026-01-17,17:20,Round 16,Cholet,Saint-Quentin,93.0,80.0
+LNB,2026-01-17,17:30,Round 16,Monaco,Limoges,99.0,88.0
+LNB,2026-01-17,19:30,Round 16,Nanterre,Bourg-en-Bresse,101.0,93.0
+LNB,2026-01-18,15:30,Round 16,Lyon-Villeurbanne,Le Portel,104.0,58.0
+LNB,2026-01-18,18:00,Round 16,Paris,Le Mans,110.0,92.0
+LNB,2026-01-23,19:30,Round 17,Limoges,Strasbourg,82.0,86.0
+LNB,2026-01-24,17:00,Round 17,Boulazac,Nanterre,84.0,95.0
+LNB,2026-01-24,17:10,Round 17,Gravelines-Dunkerque,Dijon,93.0,85.0
+LNB,2026-01-24,17:20,Round 17,Chalon/Saône,Cholet,87.0,77.0
+LNB,2026-01-24,19:30,Round 17,Le Portel,Paris,57.0,120.0
+LNB,2026-01-25,15:00,Round 17,Bourg-en-Bresse,Nancy,89.0,77.0
+LNB,2026-01-25,15:30,Round 17,Saint-Quentin,Monaco,73.0,98.0
+LNB,2026-01-25,18:10,Round 17,Le Mans,Lyon-Villeurbanne,88.0,91.0
+LNB,2026-01-30,19:30,Round 18,Saint-Quentin,Limoges,77.0,86.0
+LNB,2026-01-31,19:30,Round 18,Strasbourg,Le Mans,103.0,96.0
+LNB,2026-01-31,17:20,Round 18,Nanterre,Chalon/Saône,88.0,82.0
+LNB,2026-01-31,17:00,Round 18,Cholet,Bourg-en-Bresse,102.0,96.0
+LNB,2026-01-31,17:10,Round 18,Nancy,Gravelines-Dunkerque,88.0,93.0
+LNB,2026-02-01,15:00,Round 18,Monaco,Le Portel,113.0,86.0
+LNB,2026-02-01,15:30,Round 18,Paris,Boulazac,87.0,103.0
+LNB,2026-02-01,18:00,Round 18,Dijon,Lyon-Villeurbanne,99.0,90.0
+LNB,2026-02-06,19:30,Round 19,Bourg-en-Bresse,Boulazac,73.0,70.0
+LNB,2026-02-07,17:00,Round 19,Gravelines-Dunkerque,Saint-Quentin,91.0,75.0
+LNB,2026-02-07,17:30,Round 19,Le Mans,Dijon,92.0,86.0
+LNB,2026-02-07,19:30,Round 19,Paris,Nancy,102.0,73.0
+LNB,2026-02-08,15:30,Round 19,Lyon-Villeurbanne,Nanterre,64.0,77.0
+LNB,2026-02-08,18:00,Round 19,Chalon/Saône,Monaco,78.0,92.0
+LNB,2026-02-08,15:00,Round 19,Limoges,Cholet,70.0,78.0
+LNB,2026-02-13,19:30,Round 20,Cholet,Gravelines-Dunkerque,91.0,85.0
+LNB,2026-02-14,17:00,Round 20,Strasbourg,Bourg-en-Bresse,87.0,83.0
+LNB,2026-02-14,17:10,Round 20,Boulazac,Le Portel,94.0,64.0
+LNB,2026-02-14,17:20,Round 20,Dijon,Limoges,86.0,101.0
+LNB,2026-02-14,17:30,Round 20,Nancy,Lyon-Villeurbanne,82.0,88.0
+LNB,2026-02-14,19:30,Round 20,Chalon/Saône,Le Mans,71.0,89.0
+LNB,2026-02-15,15:30,Round 20,Saint-Quentin,Paris,90.0,103.0
+LNB,2026-02-15,18:00,Round 20,Nanterre,Monaco,76.0,81.0
+LNB,2026-03-07,17:30,Round 21,Le Mans,Nanterre,79.0,71.0
+LNB,2026-03-07,17:20,Round 21,Nancy,Chalon/Saône,102.0,80.0
+LNB,2026-03-07,19:30,Round 21,Monaco,Cholet,89.0,79.0
+LNB,2026-03-07,17:00,Round 21,Le Portel,Saint-Quentin,72.0,108.0
+LNB,2026-03-07,17:10,Round 21,Strasbourg,Dijon,96.0,98.0
+LNB,2026-03-08,15:30,Round 21,Gravelines-Dunkerque,Boulazac,91.0,92.0
+LNB,2026-03-08,18:00,Round 21,Limoges,Paris,80.0,86.0
+LNB,2026-03-10,19:00,Round 24,Le Portel,Bourg-en-Bresse,63.0,92.0
+LNB,2026-03-13,19:30,Round 22,Chalon/Saône,Limoges,109.0,56.0
+LNB,2026-03-14,17:00,Round 22,Bourg-en-Bresse,Le Mans,98.0,86.0
+LNB,2026-03-14,17:10,Round 22,Cholet,Le Portel,105.0,58.0
+LNB,2026-03-14,17:20,Round 22,Monaco,Nancy,86.0,94.0
+LNB,2026-03-14,19:30,Round 22,Boulazac,Lyon-Villeurbanne,72.0,67.0
+LNB,2026-03-15,18:00,Round 22,Nanterre,Strasbourg,102.0,88.0
+LNB,2026-03-15,15:00,Round 22,Dijon,Saint-Quentin,119.0,127.0
+LNB,2026-03-15,15:30,Round 22,Paris,Gravelines-Dunkerque,109.0,115.0
+LNB,2026-03-20,19:30,Round 23,Nancy,Dijon,96.0,94.0
+LNB,2026-03-21,17:00,Round 23,Le Portel,Nanterre,59.0,90.0
+LNB,2026-03-21,17:10,Round 23,Saint-Quentin,Chalon/Saône,65.0,86.0
+LNB,2026-03-21,17:20,Round 23,Le Mans,Boulazac,108.0,94.0
+LNB,2026-03-21,17:30,Round 23,Strasbourg,Cholet,94.0,89.0
+LNB,2026-03-21,19:30,Round 23,Gravelines-Dunkerque,Monaco,77.0,89.0
+LNB,2026-03-22,15:30,Round 23,Lyon-Villeurbanne,Limoges,90.0,73.0
+LNB,2026-03-22,18:00,Round 23,Paris,Bourg-en-Bresse,85.0,95.0
+LNB,2026-03-27,19:30,Round 24,Dijon,Paris,76.0,92.0
+LNB,2026-03-27,19:00,Round 24,Chalon/Saône,Gravelines-Dunkerque,86.0,81.0
+LNB,2026-03-28,19:30,Round 24,Cholet,Lyon-Villeurbanne,93.0,85.0
+LNB,2026-03-28,17:10,Round 24,Limoges,Nancy,89.0,95.0
+LNB,2026-03-28,17:20,Round 24,Nanterre,Saint-Quentin,80.0,75.0
+LNB,2026-03-29,15:30,Round 24,Boulazac,Strasbourg,95.0,76.0
+LNB,2026-03-29,18:00,Round 24,Monaco,Le Mans,99.0,85.0
+LNB,2026-04-03,19:30,Round 25,Nancy,Strasbourg,82.0,86.0
+LNB,2026-04-04,17:00,Round 25,Saint-Quentin,Boulazac,88.0,81.0
+LNB,2026-04-04,17:30,Round 25,Le Mans,Cholet,89.0,94.0
+LNB,2026-04-04,20:00,Round 25,Paris,Nanterre,96.0,92.0
+LNB,2026-04-05,18:00,Round 25,Chalon/Saône,Lyon-Villeurbanne,87.0,89.0
+LNB,2026-04-05,14:00,Round 25,Gravelines-Dunkerque,Le Portel,100.0,78.0
+LNB,2026-04-05,15:30,Round 25,Monaco,Dijon,108.0,95.0
+LNB,2026-04-10,19:30,Round 26,Nanterre,Nancy,86.0,72.0
+LNB,2026-04-11,17:00,Round 26,Le Portel,Le Mans,72.0,94.0
+LNB,2026-04-11,17:10,Round 26,Boulazac,Chalon/Saône,94.0,90.0
+LNB,2026-04-11,17:20,Round 26,Limoges,Gravelines-Dunkerque,93.0,64.0
+LNB,2026-04-11,17:30,Round 26,Cholet,Dijon,111.0,74.0
+LNB,2026-04-11,19:30,Round 26,Strasbourg,Paris,86.0,92.0
+LNB,2026-04-12,15:30,Round 26,Lyon-Villeurbanne,Saint-Quentin,86.0,70.0
+LNB,2026-04-12,18:00,Round 26,Bourg-en-Bresse,Monaco,104.0,81.0
+LNB,2026-04-15,19:00,Round 25,Bourg-en-Bresse,Limoges,92.0,71.0
+LNB,2026-04-17,19:30,Round 27,Dijon,Boulazac,103.0,85.0
+LNB,2026-04-18,19:30,Round 27,Chalon/Saône,Bourg-en-Bresse,100.0,84.0
+LNB,2026-04-18,17:20,Round 27,Gravelines-Dunkerque,Le Mans,83.0,96.0
+LNB,2026-04-18,17:00,Round 27,Saint-Quentin,Strasbourg,109.0,87.0
+LNB,2026-04-18,17:10,Round 27,Nancy,Le Portel,95.0,50.0
+LNB,2026-04-19,15:00,Round 27,Limoges,Nanterre,97.0,79.0
+LNB,2026-04-19,16:30,Round 27,Cholet,Paris,93.0,99.0
+LNB,2026-04-19,18:15,Round 27,Monaco,Lyon-Villeurbanne,83.0,87.0
+LNB,2026-04-28,19:00,Round 19,Le Portel,Strasbourg,65.0,102.0
+LNB,2026-04-30,19:00,Round 28,Le Mans,Nancy,102.0,74.0
+LNB,2026-05-01,19:30,Round 28,Lyon-Villeurbanne,Gravelines-Dunkerque,88.0,79.0
+LNB,2026-05-02,17:20,Round 28,Nanterre,Dijon,87.0,69.0
+LNB,2026-05-02,19:30,Round 28,Paris,Chalon/Saône,103.0,105.0
+LNB,2026-05-02,17:00,Round 28,Boulazac,Cholet,68.0,77.0
+LNB,2026-05-02,17:10,Round 28,Le Portel,Limoges,83.0,105.0
+LNB,2026-05-03,15:30,Round 28,Bourg-en-Bresse,Saint-Quentin,71.0,89.0
+LNB,2026-05-03,18:00,Round 28,Strasbourg,Monaco,114.0,118.0
+LNB,2026-05-05,19:00,Round 21,Lyon-Villeurbanne,Bourg-en-Bresse,91.0,77.0
+LNB,2026-05-07,19:50,Round 29,Limoges,Boulazac,80.0,72.0
+LNB,2026-05-09,17:00,Round 29,Chalon/Saône,Le Portel,93.0,58.0
+LNB,2026-05-09,17:10,Round 29,Gravelines-Dunkerque,Nanterre,80.0,85.0
+LNB,2026-05-09,17:20,Round 29,Dijon,Bourg-en-Bresse,101.0,83.0
+LNB,2026-05-09,17:30,Round 29,Saint-Quentin,Le Mans,85.0,88.0
+LNB,2026-05-09,19:30,Round 29,Lyon-Villeurbanne,Strasbourg,89.0,81.0
+LNB,2026-05-10,18:15,Round 29,Monaco,Paris,95.0,123.0
+LNB,2026-05-10,15:30,Round 29,Cholet,Nancy,94.0,91.0
+LNB,2026-05-16,18:00,Round 30,Paris,Lyon-Villeurbanne,87.0,76.0
+LNB,2026-05-16,18:00,Round 30,Le Mans,Limoges,101.0,84.0
+LNB,2026-05-16,18:00,Round 30,Le Portel,Dijon,80.0,126.0
+LNB,2026-05-16,18:00,Round 30,Strasbourg,Chalon/Saône,90.0,91.0
+LNB,2026-05-16,18:00,Round 30,Nanterre,Cholet,66.0,79.0
+LNB,2026-05-16,18:00,Round 30,Bourg-en-Bresse,Gravelines-Dunkerque,95.0,78.0
+LNB,2026-05-16,18:00,Round 30,Nancy,Saint-Quentin,84.0,71.0
+LNB,2026-05-16,18:00,Round 30,Boulazac,Monaco,92.0,74.0
+LNB,2026-09-25,19:00,Round 1,Dijon,Strasbourg,81.0,72.0
+LNB,2026-09-26,17:00,Round 1,Boulazac,Roanne,79.0,81.0
+LNB,2026-09-26,17:00,Round 1,Chalon/Saône,Limoges,82.0,74.0
+LNB,2026-09-26,17:30,Round 1,Gravelines-Dunkerque,Le Mans,97.0,103.0
+LNB,2026-09-26,17:30,Round 1,Saint-Quentin,Bourg-en-Bresse,106.0,103.0
+LNB,2026-09-26,19:30,Round 1,Nanterre,Pau-Lacq-Orthez,78.0,64.0
+LNB,2026-09-27,15:30,Round 1,Nancy,Paris,73.0,78.0
+LNB,2026-09-27,18:00,Round 1,Cholet,Lyon-Villeurbanne,85.0,97.0
+LNB,2026-10-02,19:00,Round 2,Roanne,Nanterre,93.0,83.0
+LNB,2026-10-03,19:30,Round 2,Bourg-en-Bresse,Chalon/Saône,90.0,77.0
+LNB,2026-10-03,17:30,Round 2,Pau-Lacq-Orthez,Dijon,61.0,89.0
+LNB,2026-10-03,17:30,Round 2,Limoges,Saint-Quentin,92.0,75.0
+LNB,2026-10-03,17:00,Round 2,Strasbourg,Boulazac,87.0,75.0
+LNB,2026-10-03,17:00,Round 2,Nancy,Cholet,76.0,85.0
+LNB,2026-10-04,15:30,Round 2,Gravelines-Dunkerque,Lyon-Villeurbanne,65.0,70.0
+LNB,2026-10-04,17:50,Round 2,Le Mans,Paris,101.0,103.0
+LNB,2026-10-09,19:00,Round 3,Dijon,Limoges,108.0,96.0
+LNB,2026-10-10,17:00,Round 3,Cholet,Pau-Lacq-Orthez,85.0,79.0
+LNB,2026-10-10,17:00,Round 3,Nanterre,Gravelines-Dunkerque,101.0,73.0
+LNB,2026-10-10,17:30,Round 3,Chalon/Saône,Nancy,108.0,67.0
+LNB,2026-10-10,19:30,Round 3,Boulazac,Bourg-en-Bresse,84.0,73.0
+LNB,2026-10-11,18:00,Round 3,Lyon-Villeurbanne,Roanne,96.0,77.0
+LNB,2026-10-11,15:00,Round 3,Saint-Quentin,Le Mans,87.0,98.0
+LNB,2026-10-11,15:30,Round 3,Paris,Strasbourg,98.0,84.0
+LNB,2026-10-16,19:00,Round 4,Strasbourg,Roanne,72.0,70.0
+LNB,2026-10-17,17:00,Round 4,Nancy,Nanterre,80.0,65.0
+LNB,2026-10-17,17:00,Round 4,Pau-Lacq-Orthez,Saint-Quentin,102.0,89.0
+LNB,2026-10-17,17:30,Round 4,Cholet,Chalon/Saône,77.0,86.0
+LNB,2026-10-17,18:00,Round 4,Limoges,Lyon-Villeurbanne,94.0,97.0
+LNB,2026-10-18,15:30,Round 4,Paris,Boulazac,90.0,75.0
+LNB,2026-10-18,15:00,Round 4,Gravelines-Dunkerque,Dijon,83.0,92.0
+LNB,2026-10-18,18:05,Round 4,Le Mans,Bourg-en-Bresse,91.0,90.0
+LNB,2026-10-23,19:00,Round 5,Saint-Quentin,Dijon,,
+LNB,2026-10-24,17:00,Round 5,Boulazac,Le Mans,,
+LNB,2026-10-24,17:00,Round 5,Bourg-en-Bresse,Gravelines-Dunkerque,,
+LNB,2026-10-24,17:30,Round 5,Chalon/Saône,Strasbourg,,
+LNB,2026-10-24,19:30,Round 5,Nanterre,Cholet,,
+LNB,2026-10-25,15:00,Round 5,Roanne,Paris,,
+LNB,2026-10-25,15:30,Round 5,Lyon-Villeurbanne,Nancy,,
+LNB,2026-10-25,18:00,Round 5,Pau-Lacq-Orthez,Limoges,,
+LNB,2026-10-27,19:00,Round 13,Saint-Quentin,Strasbourg,,
+LNB,2026-10-30,19:00,Round 6,Dijon,Nancy,,
+LNB,2026-10-31,19:30,Round 6,Bourg-en-Bresse,Nanterre,,
+LNB,2026-10-31,17:30,Round 6,Strasbourg,Cholet,,
+LNB,2026-10-31,17:00,Round 6,Gravelines-Dunkerque,Roanne,,
+LNB,2026-10-31,17:00,Round 6,Le Mans,Pau-Lacq-Orthez,,
+LNB,2026-10-31,17:30,Round 6,Limoges,Boulazac,,
+LNB,2026-11-01,15:30,Round 6,Saint-Quentin,Lyon-Villeurbanne,,
+LNB,2026-11-01,18:00,Round 6,Paris,Chalon/Saône,,
+LNB,2026-11-03,18:30,Round 13,Cholet,Paris,,
+LNB,2026-11-06,19:00,Round 7,Boulazac,Gravelines-Dunkerque,,
+LNB,2026-11-07,17:30,Round 7,Nanterre,Chalon/Saône,,
+LNB,2026-11-07,17:30,Round 7,Nancy,Limoges,,
+LNB,2026-11-07,19:30,Round 7,Lyon-Villeurbanne,Pau-Lacq-Orthez,,
+LNB,2026-11-07,17:00,Round 7,Cholet,Dijon,,
+LNB,2026-11-07,17:00,Round 7,Roanne,Saint-Quentin,,
+LNB,2026-11-08,18:00,Round 7,Strasbourg,Le Mans,,
+LNB,2026-11-08,15:30,Round 7,Paris,Bourg-en-Bresse,,
+LNB,2026-11-13,19:00,Round 8,Pau-Lacq-Orthez,Strasbourg,,
+LNB,2026-11-14,19:30,Round 8,Limoges,Paris,,
+LNB,2026-11-14,17:30,Round 8,Bourg-en-Bresse,Roanne,,
+LNB,2026-11-14,17:00,Round 8,Chalon/Saône,Boulazac,,
+LNB,2026-11-14,17:00,Round 8,Saint-Quentin,Cholet,,
+LNB,2026-11-15,15:00,Round 8,Gravelines-Dunkerque,Nancy,,
+LNB,2026-11-15,15:30,Round 8,Dijon,Nanterre,,
+LNB,2026-11-15,18:00,Round 8,Le Mans,Lyon-Villeurbanne,,
+LNB,2026-11-20,19:00,Round 9,Roanne,Limoges,,
+LNB,2026-11-20,19:30,Round 9,Dijon,Le Mans,,
+LNB,2026-11-21,17:00,Round 9,Chalon/Saône,Saint-Quentin,,
+LNB,2026-11-21,17:00,Round 9,Nancy,Pau-Lacq-Orthez,,
+LNB,2026-11-21,17:30,Round 9,Cholet,Boulazac,,
+LNB,2026-11-21,19:30,Round 9,Nanterre,Strasbourg,,
+LNB,2026-11-22,18:00,Round 9,Lyon-Villeurbanne,Bourg-en-Bresse,,
+LNB,2026-11-22,15:30,Round 9,Paris,Gravelines-Dunkerque,,
+LNB,2026-12-05,17:00,Round 10,Gravelines-Dunkerque,Chalon/Saône,,
+LNB,2026-12-05,17:00,Round 10,Saint-Quentin,Nanterre,,
+LNB,2026-12-05,17:30,Round 10,Boulazac,Nancy,,
+LNB,2026-12-05,17:30,Round 10,Le Mans,Roanne,,
+LNB,2026-12-05,18:00,Round 10,Limoges,Cholet,,
+LNB,2026-12-05,19:30,Round 10,Bourg-en-Bresse,Dijon,,
+LNB,2026-12-06,15:30,Round 10,Strasbourg,Lyon-Villeurbanne,,
+LNB,2026-12-06,18:00,Round 10,Pau-Lacq-Orthez,Paris,,
+LNB,2026-12-11,19:00,Round 11,Roanne,Pau-Lacq-Orthez,,
+LNB,2026-12-12,19:30,Round 11,Nanterre,Limoges,,
+LNB,2026-12-12,17:30,Round 11,Nancy,Saint-Quentin,,
+LNB,2026-12-12,17:00,Round 11,Cholet,Bourg-en-Bresse,,
+LNB,2026-12-12,17:00,Round 11,Strasbourg,Gravelines-Dunkerque,,
+LNB,2026-12-12,17:30,Round 11,Chalon/Saône,Le Mans,,
+LNB,2026-12-13,15:30,Round 11,Dijon,Boulazac,,
+LNB,2026-12-13,18:00,Round 11,Lyon-Villeurbanne,Paris,,
+LNB,2026-12-17,19:00,Round 13,Nanterre,Le Mans,,
+LNB,2026-12-18,19:00,Round 12,Roanne,Nancy,,
+LNB,2026-12-19,17:30,Round 12,Gravelines-Dunkerque,Cholet,,
+LNB,2026-12-19,19:30,Round 12,Bourg-en-Bresse,Strasbourg,,
+LNB,2026-12-19,17:00,Round 12,Boulazac,Saint-Quentin,,
+LNB,2026-12-19,17:00,Round 12,Pau-Lacq-Orthez,Chalon/Saône,,
+LNB,2026-12-20,15:00,Round 12,Le Mans,Limoges,,
+LNB,2026-12-20,15:30,Round 12,Lyon-Villeurbanne,Nanterre,,
+LNB,2026-12-20,18:00,Round 12,Paris,Dijon,,
+LNB,2026-12-22,19:00,Round 13,Pau-Lacq-Orthez,Boulazac,,
+LNB,2026-12-23,17:30,Round 13,Limoges,Gravelines-Dunkerque,,
+LNB,2026-12-23,19:30,Round 13,Dijon,Roanne,,
+LNB,2026-12-27,19:00,Round 14,Roanne,Chalon/Saône,,
+LNB,2026-12-27,19:00,Round 14,Lyon-Villeurbanne,Dijon,,
+LNB,2026-12-27,19:00,Round 14,Strasbourg,Nancy,,
+LNB,2026-12-27,19:00,Round 14,Paris,Saint-Quentin,,
+LNB,2026-12-27,19:00,Round 14,Gravelines-Dunkerque,Pau-Lacq-Orthez,,
+LNB,2026-12-27,19:00,Round 14,Bourg-en-Bresse,Limoges,,
+LNB,2026-12-27,19:00,Round 14,Boulazac,Nanterre,,
+LNB,2026-12-27,19:00,Round 14,Le Mans,Cholet,,
+LNB,2026-12-28,17:30,Round 13,Chalon/Saône,Lyon-Villeurbanne,,
+LNB,2027-01-03,16:00,Round 13,Nancy,Bourg-en-Bresse,,
+LNB,2027-01-09,19:00,Round 15,Boulazac,Lyon-Villeurbanne,,
+LNB,2027-01-09,19:00,Round 15,Cholet,Roanne,,
+LNB,2027-01-09,19:00,Round 15,Dijon,Chalon/Saône,,
+LNB,2027-01-09,19:00,Round 15,Limoges,Strasbourg,,
+LNB,2027-01-09,19:00,Round 15,Saint-Quentin,Gravelines-Dunkerque,,
+LNB,2027-01-09,19:00,Round 15,Nancy,Le Mans,,
+LNB,2027-01-09,19:00,Round 15,Nanterre,Paris,,
+LNB,2027-01-09,19:00,Round 15,Pau-Lacq-Orthez,Bourg-en-Bresse,,
+LNB,2027-01-16,19:00,Round 16,Strasbourg,Bourg-en-Bresse,,
+LNB,2027-01-16,19:00,Round 16,Roanne,Boulazac,,
+LNB,2027-01-16,19:00,Round 16,Paris,Lyon-Villeurbanne,,
+LNB,2027-01-16,19:00,Round 16,Pau-Lacq-Orthez,Nanterre,,
+LNB,2027-01-16,19:00,Round 16,Le Mans,Saint-Quentin,,
+LNB,2027-01-16,19:00,Round 16,Cholet,Nancy,,
+LNB,2027-01-16,19:00,Round 16,Chalon/Saône,Gravelines-Dunkerque,,
+LNB,2027-01-16,19:00,Round 16,Limoges,Dijon,,
+LNB,2027-01-23,19:00,Round 17,Lyon-Villeurbanne,Strasbourg,,
+LNB,2027-01-23,19:00,Round 17,Nancy,Chalon/Saône,,
+LNB,2027-01-23,19:00,Round 17,Saint-Quentin,Pau-Lacq-Orthez,,
+LNB,2027-01-23,19:00,Round 17,Nanterre,Roanne,,
+LNB,2027-01-23,19:00,Round 17,Gravelines-Dunkerque,Limoges,,
+LNB,2027-01-23,19:00,Round 17,Dijon,Paris,,
+LNB,2027-01-23,19:00,Round 17,Bourg-en-Bresse,Cholet,,
+LNB,2027-01-23,19:00,Round 17,Le Mans,Boulazac,,
+LNB,2027-01-30,19:00,Round 18,Strasbourg,Saint-Quentin,,
+LNB,2027-01-30,19:00,Round 18,Boulazac,Paris,,
+LNB,2027-01-30,19:00,Round 18,Bourg-en-Bresse,Lyon-Villeurbanne,,
+LNB,2027-01-30,19:00,Round 18,Chalon/Saône,Nanterre,,
+LNB,2027-01-30,19:00,Round 18,Cholet,Gravelines-Dunkerque,,
+LNB,2027-01-30,19:00,Round 18,Limoges,Nancy,,
+LNB,2027-01-30,19:00,Round 18,Pau-Lacq-Orthez,Le Mans,,
+LNB,2027-01-30,19:00,Round 18,Roanne,Dijon,,
+LNB,2027-02-06,19:00,Round 19,Paris,Limoges,,
+LNB,2027-02-06,19:00,Round 19,Nanterre,Nancy,,
+LNB,2027-02-06,19:00,Round 19,Lyon-Villeurbanne,Chalon/Saône,,
+LNB,2027-02-06,19:00,Round 19,Saint-Quentin,Roanne,,
+LNB,2027-02-06,19:00,Round 19,Gravelines-Dunkerque,Bourg-en-Bresse,,
+LNB,2027-02-06,19:00,Round 19,Dijon,Pau-Lacq-Orthez,,
+LNB,2027-02-06,19:00,Round 19,Boulazac,Cholet,,
+LNB,2027-02-06,19:00,Round 19,Le Mans,Strasbourg,,
+LNB,2027-02-13,19:00,Round 20,Bourg-en-Bresse,Le Mans,,
+LNB,2027-02-13,19:00,Round 20,Chalon/Saône,Dijon,,
+LNB,2027-02-13,19:00,Round 20,Cholet,Saint-Quentin,,
+LNB,2027-02-13,19:00,Round 20,Limoges,Nanterre,,
+LNB,2027-02-13,19:00,Round 20,Nancy,Gravelines-Dunkerque,,
+LNB,2027-02-13,19:00,Round 20,Paris,Pau-Lacq-Orthez,,
+LNB,2027-02-13,19:00,Round 20,Roanne,Strasbourg,,
+LNB,2027-02-13,19:00,Round 20,Lyon-Villeurbanne,Boulazac,,
+LNB,2027-03-06,19:00,Round 21,Roanne,Cholet,,
+LNB,2027-03-06,19:00,Round 21,Strasbourg,Chalon/Saône,,
+LNB,2027-03-06,19:00,Round 21,Pau-Lacq-Orthez,Nancy,,
+LNB,2027-03-06,19:00,Round 21,Nanterre,Lyon-Villeurbanne,,
+LNB,2027-03-06,19:00,Round 21,Boulazac,Limoges,,
+LNB,2027-03-06,19:00,Round 21,Le Mans,Gravelines-Dunkerque,,
+LNB,2027-03-06,19:00,Round 21,Dijon,Bourg-en-Bresse,,
+LNB,2027-03-06,19:00,Round 21,Saint-Quentin,Paris,,
+LNB,2027-03-13,19:00,Round 22,Lyon-Villeurbanne,Le Mans,,
+LNB,2027-03-13,19:00,Round 22,Nancy,Dijon,,
+LNB,2027-03-13,19:00,Round 22,Strasbourg,Pau-Lacq-Orthez,,
+LNB,2027-03-13,19:00,Round 22,Limoges,Roanne,,
+LNB,2027-03-13,19:00,Round 22,Bourg-en-Bresse,Saint-Quentin,,
+LNB,2027-03-13,19:00,Round 22,Cholet,Nanterre,,
+LNB,2027-03-13,19:00,Round 22,Chalon/Saône,Paris,,
+LNB,2027-03-13,19:00,Round 22,Gravelines-Dunkerque,Boulazac,,
+LNB,2027-03-20,19:00,Round 23,Pau-Lacq-Orthez,Lyon-Villeurbanne,,
+LNB,2027-03-20,19:00,Round 23,Boulazac,Strasbourg,,
+LNB,2027-03-20,19:00,Round 23,Chalon/Saône,Cholet,,
+LNB,2027-03-20,19:00,Round 23,Dijon,Gravelines-Dunkerque,,
+LNB,2027-03-20,19:00,Round 23,Saint-Quentin,Limoges,,
+LNB,2027-03-20,19:00,Round 23,Nanterre,Bourg-en-Bresse,,
+LNB,2027-03-20,19:00,Round 23,Paris,Nancy,,
+LNB,2027-03-20,19:00,Round 23,Roanne,Le Mans,,
+LNB,2027-03-27,19:00,Round 24,Strasbourg,Paris,,
+LNB,2027-03-27,19:00,Round 24,Nancy,Roanne,,
+LNB,2027-03-27,19:00,Round 24,Lyon-Villeurbanne,Cholet,,
+LNB,2027-03-27,19:00,Round 24,Saint-Quentin,Boulazac,,
+LNB,2027-03-27,19:00,Round 24,Limoges,Chalon/Saône,,
+LNB,2027-03-27,19:00,Round 24,Le Mans,Dijon,,
+LNB,2027-03-27,19:00,Round 24,Gravelines-Dunkerque,Nanterre,,
+LNB,2027-03-27,19:00,Round 24,Bourg-en-Bresse,Pau-Lacq-Orthez,,
+LNB,2027-04-03,19:00,Round 25,Chalon/Saône,Pau-Lacq-Orthez,,
+LNB,2027-04-03,19:00,Round 25,Cholet,Limoges,,
+LNB,2027-04-03,19:00,Round 25,Dijon,Lyon-Villeurbanne,,
+LNB,2027-04-03,19:00,Round 25,Gravelines-Dunkerque,Strasbourg,,
+LNB,2027-04-03,19:00,Round 25,Nancy,Boulazac,,
+LNB,2027-04-03,19:00,Round 25,Nanterre,Saint-Quentin,,
+LNB,2027-04-03,19:00,Round 25,Paris,Le Mans,,
+LNB,2027-04-03,19:00,Round 25,Roanne,Bourg-en-Bresse,,
+LNB,2027-04-10,19:00,Round 26,Strasbourg,Limoges,,
+LNB,2027-04-10,19:00,Round 26,Pau-Lacq-Orthez,Roanne,,
+LNB,2027-04-10,19:00,Round 26,Paris,Cholet,,
+LNB,2027-04-10,19:00,Round 26,Lyon-Villeurbanne,Gravelines-Dunkerque,,
+LNB,2027-04-10,19:00,Round 26,Le Mans,Nanterre,,
+LNB,2027-04-10,19:00,Round 26,Bourg-en-Bresse,Nancy,,
+LNB,2027-04-10,19:00,Round 26,Boulazac,Dijon,,
+LNB,2027-04-10,19:00,Round 26,Saint-Quentin,Chalon/Saône,,
+LNB,2027-04-17,19:00,Round 27,Nanterre,Boulazac,,
+LNB,2027-04-17,19:00,Round 27,Nancy,Strasbourg,,
+LNB,2027-04-17,19:00,Round 27,Limoges,Pau-Lacq-Orthez,,
+LNB,2027-04-17,19:00,Round 27,Roanne,Lyon-Villeurbanne,,
+LNB,2027-04-17,19:00,Round 27,Dijon,Saint-Quentin,,
+LNB,2027-04-17,19:00,Round 27,Cholet,Le Mans,,
+LNB,2027-04-17,19:00,Round 27,Chalon/Saône,Bourg-en-Bresse,,
+LNB,2027-04-17,19:00,Round 27,Gravelines-Dunkerque,Paris,,
+LNB,2027-04-27,19:00,Round 28,Bourg-en-Bresse,Boulazac,,
+LNB,2027-04-27,19:00,Round 28,Dijon,Cholet,,
+LNB,2027-04-27,19:00,Round 28,Le Mans,Chalon/Saône,,
+LNB,2027-04-27,19:00,Round 28,Saint-Quentin,Nancy,,
+LNB,2027-04-27,19:00,Round 28,Paris,Roanne,,
+LNB,2027-04-27,19:00,Round 28,Pau-Lacq-Orthez,Gravelines-Dunkerque,,
+LNB,2027-04-27,19:00,Round 28,Strasbourg,Nanterre,,
+LNB,2027-04-27,19:00,Round 28,Lyon-Villeurbanne,Limoges,,
+LNB,2027-05-01,19:00,Round 29,Gravelines-Dunkerque,Saint-Quentin,,
+LNB,2027-05-01,19:00,Round 29,Limoges,Le Mans,,
+LNB,2027-05-01,19:00,Round 29,Cholet,Strasbourg,,
+LNB,2027-05-01,19:00,Round 29,Nancy,Lyon-Villeurbanne,,
+LNB,2027-05-01,19:00,Round 29,Bourg-en-Bresse,Paris,,
+LNB,2027-05-01,19:00,Round 29,Boulazac,Pau-Lacq-Orthez,,
+LNB,2027-05-01,19:00,Round 29,Chalon/Saône,Roanne,,
+LNB,2027-05-01,19:00,Round 29,Nanterre,Dijon,,
+LNB,2027-05-09,19:00,Round 30,Pau-Lacq-Orthez,Cholet,,
+LNB,2027-05-09,19:00,Round 30,Roanne,Gravelines-Dunkerque,,
+LNB,2027-05-09,19:00,Round 30,Paris,Nanterre,,
+LNB,2027-05-09,19:00,Round 30,Strasbourg,Dijon,,
+LNB,2027-05-09,19:00,Round 30,Le Mans,Nancy,,
+LNB,2027-05-09,19:00,Round 30,Boulazac,Chalon/Saône,,
+LNB,2027-05-09,19:00,Round 30,Limoges,Bourg-en-Bresse,,
+LNB,2027-05-09,19:00,Round 30,Lyon-Villeurbanne,Saint-Quentin,,
