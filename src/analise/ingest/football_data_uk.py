@@ -79,6 +79,8 @@ def normalize(df: pd.DataFrame, league: League, season: str | None = None) -> pd
         "away": df["AwayTeam"].str.strip(),
         "home_goals": _int(df, "FTHG"),
         "away_goals": _int(df, "FTAG"),
+        "home_goals_ht": _int(df, "HTHG"),
+        "away_goals_ht": _int(df, "HTAG"),
         "home_shots": _int(df, "HS"),
         "away_shots": _int(df, "AS"),
         "home_shots_target": _int(df, "HST"),

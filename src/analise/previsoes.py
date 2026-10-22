@@ -3,7 +3,7 @@ from datetime import date, timedelta
 
 import pandas as pd
 
-from analise.models.dixon_coles import DixonColes, fair_probs
+from analise.models.dixon_coles import HT_SHARE, DixonColes, fair_probs
 
 
 def predict(
@@ -25,6 +25,7 @@ def predict(
     train = train[(train["date"] < as_of) & (train["date"] >= as_of - timedelta(days=window_days))]
     counts = pd.concat([train["home"], train["away"]]).value_counts()
     model = DixonColes(half_life_days=half_life_days).fit(train, as_of=as_of)
+    shares = half_time_shares(train)
 
     rows = []
     for g in fixtures.itertuples(index=False):
@@ -37,6 +38,7 @@ def predict(
                 "mais_2_5": p["over_2_5"], "ambas_marcam": p["btts"],
                 "golos_casa": p["goals_home"], "golos_fora": p["goals_away"],
                 "resultados": ", ".join(f"{s} ({q:.0%})" for s, q in model.top_scores(g.home, g.away)),
+                **model.halves(g.home, g.away, *shares),
             })
         odds = (g.odds_home, g.odds_draw, g.odds_away)
         if all(pd.notna(o) and o > 1 for o in odds):
@@ -44,3 +46,14 @@ def predict(
             row.update({"mercado_casa": m[0], "mercado_empate": m[1], "mercado_fora": m[2]})
         rows.append(row)
     return pd.DataFrame(rows)
+
+
+def half_time_shares(train: pd.DataFrame, min_matches: int = 200) -> tuple[float, float]:
+    """Fração dos golos da casa e de fora que surgem na 1.ª parte, nesta liga."""
+    if "home_goals_ht" not in train:
+        return HT_SHARE
+    ht = train.dropna(subset=["home_goals_ht", "away_goals_ht"])
+    if len(ht) < min_matches or ht["home_goals"].sum() == 0 or ht["away_goals"].sum() == 0:
+        return HT_SHARE
+    return (float(ht["home_goals_ht"].sum() / ht["home_goals"].sum()),
+            float(ht["away_goals_ht"].sum() / ht["away_goals"].sum()))

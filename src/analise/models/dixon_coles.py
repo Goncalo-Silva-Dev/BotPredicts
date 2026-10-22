@@ -12,6 +12,9 @@ import pandas as pd
 from scipy.optimize import minimize
 from scipy.stats import poisson
 
+# Fração dos golos marcados na 1.ª parte (casa, fora) quando a liga não tem resultados
+# ao intervalo (Brasil e MLS no football-data); média das ligas europeias
+HT_SHARE = (0.446, 0.439)
 MAX_GOALS = 10
 
 
@@ -91,6 +94,31 @@ class DixonColes:
             "goals_home": float((g[:, None] * m).sum()),
             "goals_away": float((g[None, :] * m).sum()),
         }
+
+    def expected_goals(self, home: str, away: str) -> tuple[float, float]:
+        h, a = self.teams_.index(home), self.teams_.index(away)
+        return (float(np.exp(self.attack_[h] + self.defence_[a] + self.home_)),
+                float(np.exp(self.attack_[a] + self.defence_[h])))
+
+    def halves(self, home: str, away: str, share_home: float = HT_SHARE[0],
+               share_away: float = HT_SHARE[1]) -> dict:
+        """Mercados por parte. Os golos de cada parte seguem Poissons independentes com
+        uma fração fixa dos golos esperados no jogo (share_* é a fração da 1.ª parte)."""
+        lam, mu = self.expected_goals(home, away)
+        g = np.arange(MAX_GOALS + 1)
+        out = {}
+        for key, sh, sa in (("p1", share_home, share_away), ("p2", 1 - share_home, 1 - share_away)):
+            m = np.outer(poisson.pmf(g, lam * sh), poisson.pmf(g, mu * sa))
+            m /= m.sum()
+            total = g[:, None] + g[None, :]
+            out.update({
+                f"{key}_casa": float(np.tril(m, -1).sum()), f"{key}_empate": float(np.trace(m)),
+                f"{key}_fora": float(np.triu(m, 1).sum()),
+                f"{key}_mais_0_5": float(m[total > 0.5].sum()),
+                f"{key}_mais_1_5": float(m[total > 1.5].sum()),
+                f"{key}_golos": lam * sh + mu * sa,
+            })
+        return out
 
     def top_scores(self, home: str, away: str, n: int = 3) -> list[tuple[str, float]]:
         """Os n resultados exatos mais prováveis, p. ex. [("1-0", 0.12), ...]."""

@@ -19,6 +19,8 @@ def test_predict_gives_probabilities_and_skips_unknown_teams(league):
     assert abs(first["casa"] + first["empate"] + first["fora"] - 1) < 1e-9
     assert 0 < first["mais_2_5"] < 1 and 0 < first["ambas_marcam"] < 1
     assert first["resultados"].count("%") == 3
+    assert abs(first["p1_casa"] + first["p1_empate"] + first["p1_fora"] - 1) < 1e-9
+    assert first["p1_empate"] > first["empate"] and first["p1_golos"] < first["p2_golos"]
     assert abs(first["mercado_casa"] + first["mercado_empate"] + first["mercado_fora"] - 1) < 1e-9
     assert pd.isna(res.iloc[1]["casa"])
 
@@ -55,6 +57,7 @@ def test_render_page(league):
     site = pagina.render_site(res)
     out = site["futebol/por.html"]
     assert "T0 – T1" in out and "Liga Portugal" in out and "Sem previsão" in out
+    assert "Por período" in out and "1.ª parte" in out
     assert "Antes de usares estas previsões" in site["index.html"]
     assert 'href="futebol/por.html"' in site["index.html"]
     assert 'href="../basquetebol/nba.html"' in out

@@ -33,6 +33,7 @@ def predict_upcoming(games: pd.DataFrame, today: date | None = None, half_life_d
                 "casa": p["home"], "fora": p["away"], "pontos_casa": p["points_home"],
                 "pontos_fora": p["points_away"], "diferenca": p["margin"], "total": p["total"],
                 "total_min": p["total_low"], "total_max": p["total_high"],
+                "periodos": model.predict_periods(g.home, g.away),
             })
         rows.append(row)
     return pd.DataFrame(rows)
