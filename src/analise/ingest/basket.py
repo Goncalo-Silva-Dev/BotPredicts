@@ -6,6 +6,7 @@
 - ACB (Espanha): calendário do site oficial, uma página por época.
 - Lega Basket Serie A (Itália): API do site oficial, um pedido por jornada.
 - Liga Betclic Masculina (Portugal): resultados e calendário do site da FPB.
+- Betclic ÉLITE (França): API do site da LNB, com o token público que o site dá a quem o visita.
 """
 import html as html_lib
 import re
@@ -27,7 +28,7 @@ COLUMNS = ["league", "date", "time", "round", "home", "away", "home_points", "aw
 class BasketLeague:
     key: str
     name: str
-    source: str  # "espn", "euroleague", "nbb", "acb", "lba" ou "fpb"
+    source: str  # "espn", "euroleague", "nbb", "acb", "lba", "fpb" ou "lnb"
     code: str  # slug da ESPN ou código da competição na Euroleague
     # Meses sem jogos (a ESPN pede um pedido por dia, por isso saltamos o defeso)
     off_months: tuple = ()
@@ -43,6 +44,7 @@ BASKET_LEAGUES = {
         BasketLeague("LBA", "Lega Basket Serie A (Itália)", "lba", ""),
         BasketLeague("LPB", "Liga Betclic (Portugal)", "fpb", ""),
         BasketLeague("NBB", "NBB (Brasil)", "nbb", ""),
+        BasketLeague("LNB", "Betclic ÉLITE (França)", "lnb", "PROA"),
     ]
 }
 
@@ -112,6 +114,8 @@ def fetch_games(league: BasketLeague, today: date | None = None, seasons: int = 
         df = fetch_fpb(league, range(first, season_start(today) + 1))
     elif league.source == "nbb":
         df = fetch_nbb(league, range(first, season_start(today) + 1))
+    elif league.source == "lnb":
+        df = fetch_lnb(league, range(first, season_start(today) + 1))
     else:
         df = pd.concat([fetch_euroleague(league, y) for y in range(first, season_start(today) + 1)],
                        ignore_index=True)
@@ -360,3 +364,45 @@ def fetch_fpb(league: BasketLeague, years: range) -> pd.DataFrame:
     # O mesmo jogo pode vir nas duas listas; fica a versão com resultado
     df = df.sort_values("home_points", na_position="last")
     return df.drop_duplicates(subset=["date", "home", "away"]).reset_index(drop=True)
+
+
+LNB_TOKEN_URL = "https://lnb.fr/api/token"
+LNB_CALENDAR_URL = "https://api-prod.lnb.fr/match/v3/getCalendar"
+
+
+def parse_lnb(days: list[dict], league_key: str = "LNB") -> pd.DataFrame:
+    rows = []
+    for day in days:
+        for m in day["data"]:
+            if len(m.get("teams") or []) != 2:
+                continue
+            home, away = m["teams"]  # a primeira equipa é a da casa ("Dijon - Le Mans")
+            when = pd.Timestamp(m["match_time_utc"]).tz_convert("Europe/Lisbon")
+            done = m.get("match_status") == "COMPLETE"
+            rows.append({
+                "league": league_key, "date": when.date(), "time": when.strftime("%H:%M"),
+                "round": f"Round {m['round_number']}" if m.get("round_number") else None,
+                "home": home["team_name"], "away": away["team_name"],
+                "home_points": float(home["score_string"]) if done else None,
+                "away_points": float(away["score_string"]) if done else None,
+                "home_code": home.get("club_external_id"), "away_code": away.get("club_external_id"),
+            })
+    return pd.DataFrame(rows, columns=COLUMNS + ["home_code", "away_code"])
+
+
+def fetch_lnb(league: BasketLeague, years: range) -> pd.DataFrame:
+    """Betclic ÉLITE: o calendário de cada época num só pedido."""
+    token = requests.get(LNB_TOKEN_URL, headers=HEADERS, timeout=30).json()["token"]
+    headers = {**HEADERS, "Authorization": f"Bearer {token}", "device_type": "web",
+               "language_code": "fr"}
+    days = []
+    for year in years:
+        body = {"year": year, "competition_abbrev": league.code, "division_external_id": 0,
+                "team_external_id": 0, "round_number": 0, "phase_id": 0,
+                "tournament_number": 0, "direction": "initial", "limit": 1000}
+        resp = requests.post(LNB_CALENDAR_URL, json=body, headers=headers, timeout=60)
+        resp.raise_for_status()
+        days.extend(resp.json().get("data") or [])
+    if not days:
+        return pd.DataFrame(columns=COLUMNS)
+    return _unify_names(parse_lnb(days, league.key))

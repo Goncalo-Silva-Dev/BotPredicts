@@ -1,7 +1,8 @@
 # Análise de jogos
 
 Recolha de dados, modelo de previsões, relatórios por jogo e app web para futebol
-(Portugal, Espanha, Inglaterra, França, Itália, MLS, Brasil) e, mais tarde, basquetebol.
+(Portugal, Espanha, Inglaterra, França, Itália, MLS, Brasil) e basquetebol (NBA, EuroLeague, EuroCup, Espanha, Itália,
+Portugal, França e Brasil).
 
 ## Começar
 
@@ -12,7 +13,7 @@ python -m analise.cli historico --epocas 6   # descarrega e guarda o histórico
 python -m analise.cli backtest               # Dixon-Coles vs odds de fecho sem margem
 python -m analise.cli previsoes              # probabilidades dos jogos dos próximos 7 dias
 python -m analise.cli previsoes --ligas POR --jogo Benfica Porto   # um jogo à escolha
-python -m analise.cli basquete-backtest      # NBA, EuroLeague e EuroCup em jogos passados
+python -m analise.cli basquete-backtest      # ligas de basquetebol em jogos passados
 python -m analise.cli pagina                 # gera site/index.html com todos os jogos que faltam
 pytest
 ```

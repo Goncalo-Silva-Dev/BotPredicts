@@ -70,3 +70,23 @@ def test_parse_nbb_and_unify_sponsor_names():
     assert df["home"].tolist() == ["Desk Manager Mogi Basquete"] * 2
     assert df["home_points"].iloc[0] == 84 and pd.isna(df["home_points"].iloc[1])
     assert df["round"].iloc[0] == "Round 3" and df["time"].iloc[0] == "16:00"
+
+
+def test_parse_lnb_home_team_first_and_unify():
+    from analise.ingest.basket import _unify_names, parse_lnb
+
+    def team(name, club, score):
+        return {"team_name": name, "club_external_id": club, "score_string": score}
+
+    days = [
+        {"date": "2025-09-26", "data": [{
+            "match_time_utc": "2025-09-26T18:30:00.000Z", "match_status": "COMPLETE",
+            "round_number": 1, "teams": [team("JDA Dijon", 27, "89"), team("Le Mans", 38, "91")]}]},
+        {"date": "2026-10-23", "data": [{
+            "match_time_utc": "2026-10-23T18:00:00.000Z", "match_status": "SCHEDULED",
+            "round_number": 5, "teams": [team("Le Mans", 38, ""), team("Dijon", 27, "")]}]},
+    ]
+    df = _unify_names(parse_lnb(days))
+    assert df[["home", "away"]].values.tolist() == [["Dijon", "Le Mans"], ["Le Mans", "Dijon"]]
+    assert df["home_points"].iloc[0] == 89 and pd.isna(df["home_points"].iloc[1])
+    assert df["time"].iloc[0] == "19:30" and df["round"].iloc[1] == "Round 5"

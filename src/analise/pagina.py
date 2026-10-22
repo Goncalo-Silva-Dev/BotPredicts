@@ -15,7 +15,7 @@ from analise.ingest.basket import BASKET_LEAGUES
 from analise.leagues import LEAGUES
 
 FLAGS = {"POR": "🇵🇹", "ESP": "🇪🇸", "ENG": "🏴", "FRA": "🇫🇷", "ITA": "🇮🇹", "USA": "🇺🇸", "BRA": "🇧🇷",
-         "NBA": "🇺🇸", "EUR": "🇪🇺", "EUC": "🇪🇺", "NBB": "🇧🇷", "ACB": "🇪🇸", "LBA": "🇮🇹", "LPB": "🇵🇹"}
+         "NBA": "🇺🇸", "EUR": "🇪🇺", "EUC": "🇪🇺", "NBB": "🇧🇷", "ACB": "🇪🇸", "LBA": "🇮🇹", "LPB": "🇵🇹", "LNB": "🇫🇷"}
 WEEKDAYS = ["seg", "ter", "qua", "qui", "sex", "sáb", "dom"]
 
 CSS = """
@@ -163,7 +163,7 @@ BASKET_NOTE = """Barras: vitória da casa · vitória de fora. Ratings de ataque
 equipa com os resultados das últimas épocas (os jogos recentes pesam mais)."""
 
 # Percentagem de vencedores certos no teste com jogos passados (basquete-backtest)
-BASKET_ACCURACY = {"NBA": 66, "EUR": 64, "EUC": 65, "ACB": 69, "LBA": 71, "LPB": 75, "NBB": 73}
+BASKET_ACCURACY = {"NBA": 66, "EUR": 64, "EUC": 65, "ACB": 69, "LBA": 71, "LPB": 75, "NBB": 73, "LNB": 71}
 
 
 def _page(title: str, body: str, root: str, current: str, updated: datetime) -> str:
