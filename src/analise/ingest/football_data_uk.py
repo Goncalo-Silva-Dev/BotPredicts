@@ -9,7 +9,7 @@ from sqlalchemy import delete
 from analise.db import matches
 from analise.leagues import League
 
-BASE_URL = "https://www.football-data.co.uk"
+BASE_URL = "https://football-data.co.uk"
 
 # Colunas de odds por ordem de preferência: fecho primeiro, depois abertura
 # (as épocas antigas não têm odds de fecho da média do mercado).
@@ -35,8 +35,9 @@ def csv_url(league: League, start_year: int | None = None) -> str:
 def fetch_csv(url: str) -> pd.DataFrame:
     resp = requests.get(url, timeout=30)
     resp.raise_for_status()
-    # Os ficheiros vêm em latin-1 e por vezes com colunas vazias no fim
-    return pd.read_csv(io.StringIO(resp.content.decode("latin-1")), on_bad_lines="skip")
+    # Os ficheiros vêm em latin-1, alguns com BOM, e por vezes com colunas vazias no fim
+    text = resp.content.removeprefix(b"\xef\xbb\xbf").decode("latin-1")
+    return pd.read_csv(io.StringIO(text), on_bad_lines="skip")
 
 
 def _pick(df: pd.DataFrame, choices) -> pd.DataFrame:
@@ -115,3 +116,40 @@ def load_history(engine, league: League, n_seasons: int, today: date | None = No
         raw = fetch_csv(csv_url(league, start))
         total += save(engine, normalize(raw, league, season_label(start, calendar_year=False)))
     return total
+
+
+def fetch_fixtures(leagues: list[League]) -> pd.DataFrame:
+    """Próximos jogos (com odds atuais) das ligas pedidas.
+
+    O site atualiza estes ficheiros ao longo da semana; os jogos de fim de
+    semana costumam aparecer à quinta ou sexta.
+    """
+    frames = []
+    main = [l for l in leagues if not l.fd_extra]
+    if main:
+        df = fetch_csv(f"{BASE_URL}/fixtures.csv")
+        df.columns = df.columns.str.replace("﻿", "").str.strip()
+        codes = {l.fd_code: l.key for l in main}
+        df = df[df["Div"].isin(codes)].assign(league=lambda d: d["Div"].map(codes))
+        frames.append(df)
+    extra = [l for l in leagues if l.fd_extra]
+    if extra:
+        df = fetch_csv(f"{BASE_URL}/new_league_fixtures.csv")
+        df.columns = df.columns.str.replace("﻿", "").str.strip()
+        countries = {l.fd_country: l.key for l in extra}
+        df = df[df["Country"].isin(countries)].assign(league=lambda d: d["Country"].map(countries))
+        frames.append(df.rename(columns={"Home": "HomeTeam", "Away": "AwayTeam"}))
+
+    df = pd.concat(frames, ignore_index=True) if frames else pd.DataFrame()
+    cols = ["league", "date", "time", "home", "away", "odds_home", "odds_draw", "odds_away"]
+    if df.empty:
+        return pd.DataFrame(columns=cols)
+    avg = _pick(df, ODDS_PIN[1:] + ODDS_AVG[1:2])
+    return pd.DataFrame({
+        "league": df["league"],
+        "date": pd.to_datetime(df["Date"], dayfirst=True, format="mixed").dt.date,
+        "time": df.get("Time"),
+        "home": df["HomeTeam"].str.strip(),
+        "away": df["AwayTeam"].str.strip(),
+        "odds_home": avg["h"], "odds_draw": avg["d"], "odds_away": avg["a"],
+    })[cols].sort_values(["date", "time", "league"]).reset_index(drop=True)

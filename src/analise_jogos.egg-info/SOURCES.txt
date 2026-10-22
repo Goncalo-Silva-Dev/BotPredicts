@@ -1,0 +1,17 @@
+README.md
+pyproject.toml
+src/analise/__init__.py
+src/analise/cli.py
+src/analise/db.py
+src/analise/leagues.py
+src/analise/ingest/__init__.py
+src/analise/ingest/football_data_uk.py
+src/analise/models/__init__.py
+src/analise/models/dixon_coles.py
+src/analise_jogos.egg-info/PKG-INFO
+src/analise_jogos.egg-info/SOURCES.txt
+src/analise_jogos.egg-info/dependency_links.txt
+src/analise_jogos.egg-info/requires.txt
+src/analise_jogos.egg-info/top_level.txt
+tests/test_dixon_coles.py
+tests/test_football_data_uk.py

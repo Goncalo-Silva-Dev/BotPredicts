@@ -88,7 +88,15 @@ class DixonColes:
             "away": float(np.triu(m, 1).sum()),
             "over_2_5": float(m[total > 2.5].sum()),
             "btts": float(m[1:, 1:].sum()),
+            "goals_home": float((g[:, None] * m).sum()),
+            "goals_away": float((g[None, :] * m).sum()),
         }
+
+    def top_scores(self, home: str, away: str, n: int = 3) -> list[tuple[str, float]]:
+        """Os n resultados exatos mais prováveis, p. ex. [("1-0", 0.12), ...]."""
+        m = self.score_matrix(home, away)
+        best = np.argsort(m, axis=None)[::-1][:n]
+        return [(f"{i}-{j}", float(m[i, j])) for i, j in zip(*np.unravel_index(best, m.shape))]
 
 
 def fair_probs(odds_home: float, odds_draw: float, odds_away: float) -> tuple[float, float, float]:

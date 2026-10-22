@@ -9,6 +9,10 @@ Recolha de dados, modelo de previsões, relatórios por jogo e app web para fute
 pip install -e ".[dev]"
 cp .env.example .env
 python -m analise.cli historico --epocas 6   # descarrega e guarda o histórico
+python -m analise.cli backtest               # Dixon-Coles vs odds de fecho sem margem
+python -m analise.cli previsoes              # probabilidades dos jogos dos próximos 7 dias
+python -m analise.cli previsoes --ligas POR --jogo Benfica Porto   # um jogo à escolha
+python -m analise.cli pagina                 # gera site/index.html com as previsões
 pytest
 ```
 
@@ -21,3 +25,9 @@ pytest
 | API-Football | MLS, alinhamentos, lesões (100 pedidos/dia) |
 | Understat | xG (Inglaterra, Espanha, Itália, França) |
 | The Odds API | Odds atuais (500 créditos/mês) |
+
+## Página das previsões
+
+O workflow `.github/workflows/previsoes.yml` corre às 6h e às 16h (UTC), descarrega o
+histórico, calcula as previsões dos próximos 10 dias e publica `site/` no GitHub Pages.
+Para funcionar, em Settings → Pages escolhe "Source: GitHub Actions".
