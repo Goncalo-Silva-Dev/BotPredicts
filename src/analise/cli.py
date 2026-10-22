@@ -39,6 +39,12 @@ def main(argv=None):
     pag = sub.add_parser("pagina", help="Gera a página web com as previsões")
     pag.add_argument("--dias", type=int, help="só jogos nos próximos N dias (por omissão, todos)")
     pag.add_argument("--saida", default="site", help="pasta da página")
+    pag.add_argument("--dados-basquete", default=os.environ.get("BASKET_DATA_DIR"),
+                     help="pasta com CSVs de reserva por liga (p. ex. NBB.csv) para as ligas "
+                          "cujo site recusa a recolha")
+    bd = sub.add_parser("basquete-dados", help="Guarda os jogos de basquetebol em CSV por liga")
+    bd.add_argument("--ligas", nargs="*", default=["NBB", "LNB"], choices=list(basket.BASKET_LEAGUES))
+    bd.add_argument("--saida", default="dados-basquete")
     args = parser.parse_args(argv)
 
     engine = get_engine()
@@ -54,6 +60,8 @@ def main(argv=None):
         run_basquete_backtest(args)
     elif args.cmd == "pagina":
         run_pagina(engine, args)
+    elif args.cmd == "basquete-dados":
+        run_basquete_dados(args)
 
 
 def run_backtest(engine, args):
@@ -141,7 +149,7 @@ def run_pagina(engine, args):
     if args.dias:
         fixtures = fixtures[fixtures["date"] <= today + timedelta(days=args.dias)]
     res = predict_fixtures(engine, fixtures, 180.0, 730, today)
-    hoops = basket_predictions(today)
+    hoops = basket_predictions(today, args.dados_basquete)
     if args.dias and not hoops.empty:
         hoops = hoops[hoops["date"] <= today + timedelta(days=args.dias)]
     for path, page in pagina.render_site(res, hoops).items():
@@ -156,19 +164,40 @@ def run_pagina(engine, args):
     print(f"{len(res)} jogos de futebol e {len(hoops)} de basquetebol em {args.saida}/")
 
 
-def basket_predictions(today):
+def basket_predictions(today, reserve_dir=None):
     out = []
     for league in basket.BASKET_LEAGUES.values():
         try:  # uma liga que falhe não estraga a página
             games = basket.fetch_games(league, today)
         except Exception as e:
             print(f"{league.key}: falhou a recolha ({e})")
-            continue
+            games = _reserve_games(reserve_dir, league.key)
+            if games is None:
+                continue
+            print(f"{league.key}: a usar a cópia guardada ({len(games)} jogos)")
         out.append(basquete.predict_upcoming(games, today))
     out = [o for o in out if not o.empty]
     if not out:
         return pd.DataFrame()
     return pd.concat(out).sort_values(["date", "time"], na_position="last")
+
+
+def _reserve_games(folder, key):
+    """Cópia guardada pela tarefa diária (ramo 'dados'), para sites que recusam o GitHub."""
+    path = os.path.join(folder, f"{key}.csv") if folder else None
+    if not path or not os.path.exists(path):
+        return None
+    games = pd.read_csv(path, dtype={"time": str, "round": str})
+    games["date"] = pd.to_datetime(games["date"]).dt.date
+    return games
+
+
+def run_basquete_dados(args):
+    os.makedirs(args.saida, exist_ok=True)
+    for key in args.ligas:
+        games = basket.fetch_games(basket.BASKET_LEAGUES[key])
+        games.to_csv(os.path.join(args.saida, f"{key}.csv"), index=False)
+        print(f"{key}: {len(games)} jogos")
 
 
 def run_basquete_backtest(args):
