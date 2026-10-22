@@ -1,10 +1,11 @@
 import argparse
 import os
+from datetime import date, timedelta
 
 import pandas as pd
 from sqlalchemy import select
 
-from analise import backtest
+from analise import backtest, previsoes
 from analise.db import get_engine, matches
 from analise.ingest import football_data_uk
 from analise.leagues import LEAGUES
@@ -22,6 +23,14 @@ def main(argv=None):
     bt.add_argument("--janela", type=int, default=730, help="dias de histórico no treino")
     bt.add_argument("--desde", help="só avalia jogos a partir desta data (AAAA-MM-DD)")
     bt.add_argument("--saida", default="data/backtest", help="pasta para os CSVs por jogo")
+    prev = sub.add_parser("previsoes", help="Probabilidades para os próximos jogos")
+    prev.add_argument("--ligas", nargs="*", default=list(LEAGUES), choices=list(LEAGUES))
+    prev.add_argument("--dias", type=int, default=7, help="só jogos nos próximos N dias")
+    prev.add_argument("--meia-vida", type=float, default=180.0, help="dias")
+    prev.add_argument("--janela", type=int, default=730, help="dias de histórico no treino")
+    prev.add_argument("--jogo", nargs=2, metavar=("CASA", "FORA"),
+                      help="prevê um jogo à escolha em vez do calendário (precisa de 1 liga)")
+    prev.add_argument("--saida", default="data/previsoes.csv")
     args = parser.parse_args(argv)
 
     engine = get_engine()
@@ -31,6 +40,8 @@ def main(argv=None):
             print(f"{key}: {n} jogos")
     elif args.cmd == "backtest":
         run_backtest(engine, args)
+    elif args.cmd == "previsoes":
+        run_previsoes(engine, args)
 
 
 def run_backtest(engine, args):
@@ -59,6 +70,51 @@ def run_backtest(engine, args):
     for who in ("model", "market"):
         print(f"\nCalibração ({'modelo' if who == 'model' else 'mercado'})")
         print(backtest.calibration(total, who).round(3).to_string())
+
+
+def run_previsoes(engine, args):
+    today = date.today()
+    if args.jogo:
+        if len(args.ligas) != 1:
+            print("Com --jogo indica uma liga, p. ex. --ligas POR")
+            return
+        fixtures = pd.DataFrame([{
+            "league": args.ligas[0], "date": today, "time": None, "home": args.jogo[0],
+            "away": args.jogo[1], "odds_home": None, "odds_draw": None, "odds_away": None}])
+    else:
+        fixtures = football_data_uk.fetch_fixtures([LEAGUES[k] for k in args.ligas])
+        fixtures = fixtures[(fixtures["date"] >= today)
+                            & (fixtures["date"] <= today + timedelta(days=args.dias))]
+    if fixtures.empty:
+        print("Sem jogos marcados no football-data.co.uk para estas ligas e datas.")
+        return
+    out = []
+    for key, games in fixtures.groupby("league"):
+        with engine.connect() as conn:
+            hist = pd.read_sql(select(matches).where(matches.c.league == key), conn)
+        if hist.empty:
+            print(f"{key}: sem histórico (corre primeiro 'historico')")
+            continue
+        out.append(previsoes.predict(
+            hist, games, as_of=today, half_life_days=args.meia_vida, window_days=args.janela))
+    if not out:
+        return
+    res = pd.concat(out).sort_values(["date", "time", "league"])
+    for col in ["casa", "empate", "fora", "mais_2_5", "ambas_marcam", "resultados"]:
+        if col not in res:
+            res[col] = None
+    os.makedirs(os.path.dirname(args.saida) or ".", exist_ok=True)
+    res.to_csv(args.saida, index=False)
+    pct = ["casa", "empate", "fora", "mais_2_5", "ambas_marcam"]
+    show = res[["league", "date", "home", "away"] + pct + ["resultados"]].copy()
+    show[pct] = (show[pct] * 100).round(0)
+    pd.set_option("display.width", 200)
+    print(show.to_string(index=False))
+    missing = res[res["casa"].isna()]
+    if not missing.empty:
+        print("\nSem previsão (equipa com menos de 5 jogos no treino ou nome diferente do histórico):")
+        print(", ".join(f"{g.home} - {g.away}" for g in missing.itertuples()))
+    print(f"\nGuardado em {args.saida} (inclui golos esperados e probabilidades do mercado)")
 
 
 if __name__ == "__main__":
