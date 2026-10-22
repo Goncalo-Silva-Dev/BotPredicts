@@ -1,0 +1,19 @@
+[project]
+name = "analise-jogos"
+version = "0.1.0"
+description = "Análise de jogos de futebol e basquetebol com modelos de previsão"
+requires-python = ">=3.11"
+dependencies = ["pandas>=2.2", "sqlalchemy>=2.0", "requests>=2.31"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
