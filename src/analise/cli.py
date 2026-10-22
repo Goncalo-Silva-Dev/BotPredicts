@@ -5,7 +5,7 @@ from datetime import date, timedelta
 import pandas as pd
 from sqlalchemy import select
 
-from analise import backtest, pagina, previsoes
+from analise import backtest, calendario, pagina, previsoes
 from analise.db import get_engine, matches
 from analise.ingest import football_data_uk
 from analise.leagues import LEAGUES
@@ -32,7 +32,7 @@ def main(argv=None):
                       help="prevê um jogo à escolha em vez do calendário (precisa de 1 liga)")
     prev.add_argument("--saida", default="data/previsoes.csv")
     pag = sub.add_parser("pagina", help="Gera a página web com as previsões")
-    pag.add_argument("--dias", type=int, default=10, help="só jogos nos próximos N dias")
+    pag.add_argument("--dias", type=int, help="só jogos nos próximos N dias (por omissão, todos)")
     pag.add_argument("--saida", default="site", help="pasta da página")
     args = parser.parse_args(argv)
 
@@ -121,7 +121,7 @@ def predict_fixtures(engine, fixtures, half_life_days, window_days, today):
             hist, games, as_of=today, half_life_days=half_life_days, window_days=window_days))
     if not out:
         return pd.DataFrame()
-    res = pd.concat(out).sort_values(["date", "time", "league"], na_position="first")
+    res = pd.concat(out).sort_values(["date", "time", "league"], na_position="last")
     for col in ["casa", "empate", "fora", "mais_2_5", "ambas_marcam", "resultados"]:
         if col not in res:
             res[col] = None
@@ -130,9 +130,9 @@ def predict_fixtures(engine, fixtures, half_life_days, window_days, today):
 
 def run_pagina(engine, args):
     today = date.today()
-    fixtures = football_data_uk.fetch_fixtures(list(LEAGUES.values()))
-    fixtures = fixtures[(fixtures["date"] >= today)
-                        & (fixtures["date"] <= today + timedelta(days=args.dias))]
+    fixtures = calendario.upcoming(engine, list(LEAGUES.values()), today)
+    if args.dias:
+        fixtures = fixtures[fixtures["date"] <= today + timedelta(days=args.dias)]
     res = predict_fixtures(engine, fixtures, 180.0, 730, today)
     os.makedirs(args.saida, exist_ok=True)
     with open(os.path.join(args.saida, "index.html"), "w", encoding="utf-8") as f:

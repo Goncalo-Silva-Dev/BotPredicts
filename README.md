@@ -12,7 +12,7 @@ python -m analise.cli historico --epocas 6   # descarrega e guarda o histórico
 python -m analise.cli backtest               # Dixon-Coles vs odds de fecho sem margem
 python -m analise.cli previsoes              # probabilidades dos jogos dos próximos 7 dias
 python -m analise.cli previsoes --ligas POR --jogo Benfica Porto   # um jogo à escolha
-python -m analise.cli pagina                 # gera site/index.html com as previsões
+python -m analise.cli pagina                 # gera site/index.html com todos os jogos que faltam
 pytest
 ```
 
@@ -23,11 +23,14 @@ pytest
 | football-data.co.uk | Histórico de resultados, estatísticas e odds de fecho |
 | football-data.org | Calendário e resultados atuais (sem MLS) |
 | API-Football | MLS, alinhamentos, lesões (100 pedidos/dia) |
+| openfootball (football.json) | Calendário completo da época (todas menos a MLS) |
 | Understat | xG (Inglaterra, Espanha, Itália, França) |
 | The Odds API | Odds atuais (500 créditos/mês) |
 
 ## Página das previsões
 
 O workflow `.github/workflows/previsoes.yml` corre às 6h e às 16h (UTC), descarrega o
-histórico, calcula as previsões dos próximos 10 dias e publica `site/` no GitHub Pages.
+histórico, calcula as previsões de todos os jogos que faltam na época (calendário do
+openfootball; a MLS só tem os jogos já publicados no football-data.co.uk) e publica `site/`
+no GitHub Pages.
 Para funcionar, em Settings → Pages escolhe "Source: GitHub Actions".

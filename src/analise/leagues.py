@@ -11,17 +11,19 @@ class League:
     fd_extra: bool = False
     # País no ficheiro de próximos jogos das ligas extra (new_league_fixtures.csv)
     fd_country: str | None = None
+    # Ficheiro do calendário completo no openfootball (sem MLS)
+    of_code: str | None = None
 
 
 LEAGUES = {
     l.key: l
     for l in [
-        League("POR", "Liga Portugal", "P1"),
-        League("ESP", "LaLiga", "SP1"),
-        League("ENG", "Premier League", "E0"),
-        League("FRA", "Ligue 1", "F1"),
-        League("ITA", "Serie A", "I1"),
+        League("POR", "Liga Portugal", "P1", of_code="pt.1"),
+        League("ESP", "LaLiga", "SP1", of_code="es.1"),
+        League("ENG", "Premier League", "E0", of_code="en.1"),
+        League("FRA", "Ligue 1", "F1", of_code="fr.1"),
+        League("ITA", "Serie A", "I1", of_code="it.1"),
         League("USA", "MLS", "USA", fd_extra=True, fd_country="USA"),
-        League("BRA", "Brasileirão Série A", "BRA", fd_extra=True, fd_country="Brazil"),
+        League("BRA", "Brasileirão Série A", "BRA", fd_extra=True, fd_country="Brazil", of_code="br.1"),
     ]
 }
