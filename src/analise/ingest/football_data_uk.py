@@ -7,6 +7,7 @@ import requests
 from sqlalchemy import delete
 
 from analise.db import matches
+from analise.ingest import betexplorer
 from analise.leagues import League
 
 BASE_URL = "https://football-data.co.uk"
@@ -104,8 +105,32 @@ def save(engine, df: pd.DataFrame) -> int:
     return len(records)
 
 
+def from_betexplorer(df: pd.DataFrame, league: League, season: str) -> pd.DataFrame:
+    """Resultados do betexplorer no esquema da tabela matches (sem intervalo, remates nem odds)."""
+    df = df.dropna(subset=["home_points", "away_points"])
+    out = pd.DataFrame({
+        "league": league.key, "season": season, "date": df["date"],
+        "home": df["home"], "away": df["away"],
+        "home_goals": df["home_points"].astype("Int64"), "away_goals": df["away_points"].astype("Int64"),
+        "source": "betexplorer.com",
+    })
+    return out.drop_duplicates(subset=["league", "date", "home", "away"])
+
+
 def load_history(engine, league: League, n_seasons: int, today: date | None = None) -> int:
     today = today or date.today()
+    if league.fd_code is None:
+        current = today.year if today.month >= 7 else today.year - 1
+        total = 0
+        for start in range(current - n_seasons + 1, current + 1):
+            path = league.be_path if start == current else league.be_history.format(
+                y=start, y1=start + 1)
+            try:
+                df = betexplorer.fetch_betexplorer(path, league.key, today)
+            except requests.HTTPError:  # época que o site não tem
+                continue
+            total += save(engine, from_betexplorer(df, league, season_label(start, calendar_year=False)))
+        return total
     if league.fd_extra:
         df = normalize(fetch_csv(csv_url(league)), league)
         first = str(today.year - n_seasons + 1)
@@ -127,7 +152,7 @@ def fetch_fixtures(leagues: list[League]) -> pd.DataFrame:
     semana costumam aparecer à quinta ou sexta.
     """
     frames = []
-    main = [l for l in leagues if not l.fd_extra]
+    main = [l for l in leagues if not l.fd_extra and l.fd_code]
     if main:
         df = fetch_csv(f"{BASE_URL}/fixtures.csv")
         df.columns = df.columns.str.replace("﻿", "").str.strip()

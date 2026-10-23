@@ -6,7 +6,7 @@ import pandas as pd
 from sqlalchemy import select
 
 from analise.db import matches
-from analise.ingest import football_data_uk, openfootball
+from analise.ingest import betexplorer, football_data_uk, openfootball
 from analise.leagues import League
 
 log = logging.getLogger(__name__)
@@ -32,19 +32,27 @@ def upcoming(engine, leagues: list[League], today: date | None = None) -> pd.Dat
     fd = fd[fd["date"] >= today]
     frames = []
     for league in leagues:
-        if not league.of_code:
+        if league.of_code:
+            source, fetch = "openfootball", lambda: openfootball.fetch_season(league, today)
+        elif league.be_path:
+            source, fetch = "betexplorer", lambda: betexplorer.fetch_fixtures(
+                league.be_path, league.key, today).assign(played=False)
+        else:
             continue
         try:
-            season = openfootball.fetch_season(league, today)
+            season = fetch()
         except Exception as e:  # sem calendário: fica só com o football-data
-            log.warning("%s: sem calendário do openfootball (%s)", league.key, e)
+            log.warning("%s: sem calendário do %s (%s)", league.key, source, e)
             continue
         season = season[~season["played"] & (season["date"] >= today)]
+        season = season[["league", "round", "date", "time", "home", "away", "played"]]
         names = openfootball.match_teams(
             sorted(set(season["home"]) | set(season["away"])), _recent_teams(engine, league, today))
         season = season.assign(home=season["home"].map(lambda n: names.get(n, n)),
                                away=season["away"].map(lambda n: names.get(n, n)))
-        frames.append(_to_lisbon(season.drop(columns="played"), league.tz))
+        season = season.drop(columns="played")
+        # as horas do betexplorer já vêm na hora de Portugal
+        frames.append(season if source == "betexplorer" else _to_lisbon(season, league.tz))
 
     full = pd.concat(frames, ignore_index=True) if frames else pd.DataFrame(
         columns=["league", "round", "date", "time", "home", "away"])
