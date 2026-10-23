@@ -55,6 +55,9 @@ BASKET_LEAGUES = {
         BasketLeague("ABA", "Liga ABA (Sérvia e Balcãs)", "aba", ""),
         BasketLeague("KBL", "KBL (Coreia do Sul)", "kbl", ""),
         BasketLeague("SBL", "Basketligan (Suécia)", "sbl", ""),
+        BasketLeague("KOR", "Korisliiga (Finlândia)", "kori", ""),
+        BasketLeague("CBA", "CBA (China)", "cba", ""),
+        BasketLeague("PBA", "PBA (Filipinas)", "pba", ""),
     ]
 }
 
@@ -135,6 +138,12 @@ def fetch_games(league: BasketLeague, today: date | None = None, seasons: int = 
         df = fetch_fpb(league, range(first, season_start(today) + 1))
     elif league.source == "nbb":
         df = fetch_nbb(league, range(first, season_start(today) + 1))
+    elif league.source == "pba":
+        df = fetch_pba(league, range(first, season_start(today) + 1), today)
+    elif league.source == "cba":
+        df = fetch_cba(league, range(first, season_start(today) + 1), today)
+    elif league.source == "kori":
+        df = fetch_kori(league, range(first, season_start(today) + 1))
     elif league.source == "sbl":
         df = fetch_sbl(league, range(first, season_start(today) + 1))
     elif league.source == "kbl":
@@ -647,3 +656,169 @@ def fetch_sbl(league: BasketLeague, years: range) -> pd.DataFrame:
             games.extend(get("game-schedule", seasonUuid=seasons[year], seriesUuid=series,
                              gameTypeUuid=t["uuid"]).get("gameInfo") or [])
     return parse_sbl(games, league.key)
+
+
+KORI_API = "https://koripallo-api.torneopal.net/taso/rest"
+# chave pública que o site de resultados manda em todos os pedidos
+KORI_HEADERS = {**HEADERS, "accept": "json/df8e84j9xtdz269euy3h",
+                "Referer": "https://tulospalvelu.basket.fi/"}
+KORI_CATEGORY = "4"  # Korisliiga (masculino)
+
+
+def parse_kori(matches: list[dict], league_key: str = "KOR") -> pd.DataFrame:
+    rows = []
+    for m in matches:
+        if m.get("match_type") != "single" or not m.get("date"):
+            continue  # "series" é o resumo de cada eliminatória dos playoffs
+        clock = (m.get("time") or "")[:5]
+        when = pd.Timestamp(f"{m['date']} {clock or '00:00'}", tz="Europe/Helsinki")
+        when = when.tz_convert("Europe/Lisbon") if clock else when
+        done = m.get("status") == "Played" and str(m.get("fs_A", "")).isdigit()
+        rows.append({
+            "league": league_key, "date": when.date(), "time": when.strftime("%H:%M") if clock else None,
+            "round": None, "home": m["team_A_name"], "away": m["team_B_name"],
+            "home_points": float(m["fs_A"]) if done else None,
+            "away_points": float(m["fs_B"]) if done else None,
+        })
+    return pd.DataFrame(rows, columns=COLUMNS)
+
+
+def fetch_kori(league: BasketLeague, years: range) -> pd.DataFrame:
+    """Korisliiga (Finlândia): todos os jogos de cada época num pedido (a API só tem desde 2025-26)."""
+    matches = []
+    for year in years:
+        resp = requests.get(f"{KORI_API}/getMatches", headers=KORI_HEADERS, timeout=60, params={
+            "competition_id": f"huki{year % 100:02d}{(year + 1) % 100:02d}", "category_id": KORI_CATEGORY})
+        resp.raise_for_status()
+        matches.extend(resp.json().get("matches") or [])  # épocas antigas: erro sem jogos
+    return parse_kori(matches, league.key)
+
+
+BETEXPLORER = "https://www.betexplorer.com/basketball/{path}/{page}/"
+_BE_RESULT = re.compile(
+    r'class="in-match"><span>(?:<strong>)?([^<]+)(?:</strong>)?</span> - <span>(?:<strong>)?([^<]+)'
+    r'(?:</strong>)?</span></a></td><td class="h-text-center"><a [^>]*>(\d+):(\d+)'
+    r'.*?h-text-right h-text-no-wrap">([^<]*)<', re.S)
+_BE_FIXTURE = re.compile(
+    r'table-main__datetime">([^<]*)</td>\s*<td class="h-text-left"><a [^>]*class="in-match">'
+    r'<span>([^<]+)</span> - <span>([^<]+)</span>', re.S)
+# o betexplorer mostra as horas sempre em UTC+1, também no inverno
+BETEXPLORER_TZ = "Etc/GMT-1"
+
+
+def _be_day(text: str, today: date) -> date:
+    """"Today", "Yesterday", "21.12." (ano corrente, que o site omite) ou "04.01.2027"."""
+    if text.startswith(("Today", "Yesterday")):
+        return today - timedelta(days=text.startswith("Yesterday"))
+    d, m, *y = [p for p in text.split(".") if p]
+    return date(int(y[0]) if y else today.year, int(m), int(d))
+
+
+def parse_betexplorer(page: str, today: date, league_key: str) -> pd.DataFrame:
+    """Resultados de uma página do betexplorer (o prolongamento conta)."""
+    rows = [{"league": league_key, "date": _be_day(when.strip(), today), "time": None, "round": None,
+             "home": html_lib.unescape(home).strip(), "away": html_lib.unescape(away).strip(),
+             "home_points": float(hp), "away_points": float(ap)}
+            for home, away, hp, ap, when in _BE_RESULT.findall(page)]
+    return pd.DataFrame(rows, columns=COLUMNS)
+
+
+def parse_betexplorer_fixtures(page: str, today: date, league_key: str) -> pd.DataFrame:
+    """Jogos marcados; uma célula de data vazia repete a da linha anterior."""
+    rows, last = [], None
+    for when, home, away in _BE_FIXTURE.findall(page):
+        when = html_lib.unescape(when).strip() or last
+        last = when
+        if not when:
+            continue
+        day_text, _, clock = when.partition(" ")
+        day = _be_day(day_text, today)
+        stamp = pd.Timestamp(f"{day} {clock}", tz=BETEXPLORER_TZ).tz_convert("Europe/Lisbon")
+        rows.append({"league": league_key, "date": stamp.date(), "time": stamp.strftime("%H:%M"),
+                     "round": None, "home": html_lib.unescape(home).strip(),
+                     "away": html_lib.unescape(away).strip(),
+                     "home_points": None, "away_points": None})
+    return pd.DataFrame(rows, columns=COLUMNS)
+
+
+def _be_get(path: str, page: str, **params) -> str:
+    resp = requests.get(BETEXPLORER.format(path=path, page=page), params=params, headers=HEADERS,
+                        timeout=60)
+    resp.raise_for_status()
+    return resp.text
+
+
+def fetch_betexplorer(path: str, league_key: str, today: date | None = None,
+                      fixtures: bool = False) -> pd.DataFrame:
+    """Todas as fases (fase regular, playoffs...) de um torneio do betexplorer."""
+    today = today or date.today()
+    first = _be_get(path, "results")
+    pages = [first] + [_be_get(path, "results", stage=stage)
+                       for stage in dict.fromkeys(re.findall(r'href="\?stage=([A-Za-z0-9]+)"', first))]
+    frames = [parse_betexplorer(p, today, league_key) for p in pages]
+    if fixtures:
+        frames.append(parse_betexplorer_fixtures(_be_get(path, "fixtures"), today, league_key))
+    df = pd.concat(frames, ignore_index=True)
+    return df.drop_duplicates(subset=["date", "home", "away"])
+
+
+CBA_SCHEDULE = "https://portal-server.cbaleague.com/home/home_schedules"
+# ID de cada clube no site oficial -> nome do betexplorer (os nomes oficiais mudam com o patrocinador)
+CBA_TEAMS = {
+    29115: "Beijing", 29117: "Xinjiang", 29118: "Jiangsu Dragons", 29124: "Guangdong",
+    29125: "Shanghai", 29127: "Sichuan", 29128: "Zhejiang Guangsha", 29129: "Liaoning",
+    29130: "Shandong", 29131: "Shenzhen", 29132: "Shanxi Zhongyu", 29133: "Nanjing Tongxi",
+    29134: "Fujian", 29135: "Qingdao", 29136: "Beijing Royal Fighters", 29137: "Jilin",
+    29138: "Tianjin", 29139: "Guangzhou", 29140: "Zhejiang Chouzhou", 100074683: "Ningbo Rockets",
+}
+CBA_SKIP_TYPES = {3}  # 3: torneio de pré-época por estações (campos neutros)
+# Em 2025-26 a CBA passou às regras FIBA (quartos de 10 minutos): o total caiu de ~207 para
+# ~178 pontos. No teste, usar só jogos desde então foi melhor do que juntar ou reescalar os antigos.
+CBA_FIRST_SEASON = 2025
+
+
+def parse_cba(games: list[dict], league_key: str = "CBA") -> pd.DataFrame:
+    rows = []
+    for g in games:
+        if g.get("ScheduleTypeID") in CBA_SKIP_TYPES:
+            continue
+        when = pd.Timestamp(f"{g['dates']} {g.get('time') or '00:00'}", tz="Asia/Shanghai")
+        if g.get("time"):
+            when = when.tz_convert("Europe/Lisbon")
+        done = g.get("Status") == 4 and g.get("HomeTeamScore") is not None
+        rows.append({
+            "league": league_key, "date": when.date(),
+            "time": when.strftime("%H:%M") if g.get("time") else None,
+            "round": f"Round {g['Round']}" if g.get("Round") else None,
+            "home": CBA_TEAMS.get(g["HomeTeamID"], g["HomeTeamName"]),
+            "away": CBA_TEAMS.get(g["VisitingTeamID"], g["VisitingTeamName"]),
+            "home_points": float(g["HomeTeamScore"]) if done else None,
+            "away_points": float(g["VisitingTeamScore"]) if done else None,
+        })
+    return pd.DataFrame(rows, columns=COLUMNS)
+
+
+def fetch_cba(league: BasketLeague, years: range, today: date | None = None) -> pd.DataFrame:
+    """Época atual (com o calendário que falta) do site oficial; épocas passadas do betexplorer."""
+    today = today or date.today()
+    current = season_start(today)
+    frames = [fetch_betexplorer(f"china/cba-{y}-{y + 1}", league.key, today)
+              for y in years if CBA_FIRST_SEASON <= y < current]
+    if current in years:
+        resp = requests.get(CBA_SCHEDULE, headers=HEADERS, timeout=60)
+        resp.raise_for_status()
+        frames.append(parse_cba(resp.json().get("data") or [], league.key))
+    return pd.concat(frames, ignore_index=True)
+
+
+def fetch_pba(league: BasketLeague, years: range, today: date | None = None) -> pd.DataFrame:
+    """PBA (Filipinas): três torneios por época (Philippine, Commissioner's e Governors' Cup).
+    O site oficial tem proteção anti-robôs, por isso vem tudo do betexplorer."""
+    today = today or date.today()
+    resp = requests.get("https://www.betexplorer.com/basketball/philippines/", headers=HEADERS,
+                        timeout=60)
+    resp.raise_for_status()
+    slugs = dict.fromkeys(re.findall(r'href="/basketball/philippines/(pba-[a-z0-9-]+)/"', resp.text))
+    df = pd.concat([fetch_betexplorer(f"philippines/{s}", league.key, today, fixtures=True)
+                    for s in slugs], ignore_index=True)
+    return df[pd.to_datetime(df["date"]) >= pd.Timestamp(years.start, 7, 1)]
