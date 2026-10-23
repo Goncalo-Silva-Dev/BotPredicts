@@ -168,3 +168,67 @@ def test_parse_kbl_keeps_first_division_league_games():
     assert len(df) == 2 and df["home"].iloc[0] == "Changwon LG Sakers"
     assert df["time"].iloc[0] == "06:00" and df["home_points"].iloc[0] == 81
     assert pd.isna(df["home_points"].iloc[1])
+
+
+def test_parse_sbl_utc_to_lisbon_and_unplayed():
+    from analise.ingest.basket import parse_sbl
+
+    def team(name, score):
+        return {"names": {"long": name}, "score": score}
+
+    games = [
+        {"rawStartDateTime": "2025-09-18T17:04:00.000Z", "state": "post-game",
+         "homeTeamInfo": team("Uppsala Basket", 90), "awayTeamInfo": team("Sloga Uppsala", 84)},
+        {"rawStartDateTime": "2027-01-10T15:00:00.000Z", "state": "pre-game",
+         "homeTeamInfo": team("BC Luleå", None), "awayTeamInfo": team("Borås Basket", None)},
+    ]
+    df = parse_sbl(games)
+    assert list(df["time"]) == ["18:04", "15:00"]  # hora de verão e de inverno em Lisboa
+    assert df.loc[0, "home_points"] == 90 and pd.isna(df.loc[1, "home_points"])
+
+
+def test_parse_kori_skips_series_summaries():
+    from analise.ingest.basket import parse_kori
+
+    base = {"status": "Played", "team_A_name": "Kobrat", "team_B_name": "Tapiolan Honka"}
+    matches = [
+        {**base, "match_type": "single", "date": "2025-10-03", "time": "18:30:00", "fs_A": "74", "fs_B": "80"},
+        {**base, "match_type": "series", "date": "", "time": "", "fs_A": "4", "fs_B": "1"},
+        {**base, "match_type": "single", "date": "2027-01-15", "time": "18:30:00", "status": "Fixture",
+         "fs_A": "", "fs_B": ""},
+    ]
+    df = parse_kori(matches)
+    assert len(df) == 2 and list(df["time"]) == ["16:30", "16:30"]  # Helsínquia está 2 h à frente
+    assert df.loc[0, "away_points"] == 80 and pd.isna(df.loc[1, "home_points"])
+
+
+def test_parse_cba_maps_club_ids_and_skips_preseason():
+    from analise.ingest.basket import parse_cba
+
+    game = {"ScheduleTypeID": 1, "Status": 4, "Round": 1, "dates": "2026-10-16", "time": "19:35",
+            "HomeTeamID": 29125, "HomeTeamName": "上海久事", "HomeTeamScore": 102,
+            "VisitingTeamID": 29131, "VisitingTeamName": "深圳马可波罗", "VisitingTeamScore": 68}
+    df = parse_cba([game, {**game, "ScheduleTypeID": 3}])
+    assert len(df) == 1
+    assert (df.loc[0, "home"], df.loc[0, "away"], df.loc[0, "time"]) == ("Shanghai", "Shenzhen", "12:35")
+
+
+def test_parse_betexplorer_results_and_fixtures():
+    from analise.ingest.basket import parse_betexplorer, parse_betexplorer_fixtures
+
+    result = ('<td class="h-text-left"><a href="/x/" class="in-match"><span><strong>Zhejiang Guangsha'
+              '</strong></span> - <span>Beijing</span></a></td><td class="h-text-center"><a href="/x/">'
+              '117:104 <span title="After Extra Time">AET</span></a></td><td class="table-main__odds">'
+              '</td><td class="h-text-right h-text-no-wrap">{when}</td>')
+    page = result.format(when="19.04.") + result.format(when="12.12.2025") + result.format(when="Yesterday")
+    df = parse_betexplorer(page, date(2026, 10, 23), "CBA")
+    assert list(df["date"]) == [date(2026, 4, 19), date(2025, 12, 12), date(2026, 10, 22)]
+    assert df.loc[0, "home"] == "Zhejiang Guangsha" and df.loc[0, "home_points"] == 117
+
+    row = ('<td class="table-main__datetime">{when}</td> <td class="h-text-left"><a href="/x/" '
+           'class="in-match"><span>Liaoning</span> - <span>Sichuan</span></a></td>')
+    page = row.format(when="04.01.2027 12:35") + row.format(when="&nbsp;") + row.format(when="30.10. 12:35")
+    fx = parse_betexplorer_fixtures(page, date(2026, 10, 23), "CBA")
+    # UTC+1 fixo: no inverno são 11:35 em Lisboa, no verão 12:35
+    assert list(fx["time"]) == ["11:35", "11:35", "11:35"]
+    assert list(fx["date"]) == [date(2027, 1, 4), date(2027, 1, 4), date(2026, 10, 30)]
