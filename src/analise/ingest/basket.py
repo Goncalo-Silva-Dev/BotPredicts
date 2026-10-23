@@ -6,6 +6,7 @@
 - ACB (Espanha): calendário do site oficial, uma página por época.
 - Lega Basket Serie A (Itália): API do site oficial, um pedido por jornada.
 - Liga Betclic Masculina (Portugal): resultados e calendário do site da FPB.
+- KBL (Coreia do Sul): API do site oficial, um pedido por época.
 - Liga ABA (Sérvia e Balcãs): calendário do site oficial, uma página por época.
 - B.League B1 (Japão): calendário do site oficial, um pedido por dia de jogos.
 - Betclic ÉLITE (França): API do site da LNB, com o token público que o site dá a quem o visita.
@@ -52,6 +53,7 @@ BASKET_LEAGUES = {
         BasketLeague("LNB", "Betclic ÉLITE (França)", "lnb", "PROA"),
         BasketLeague("BLG", "B.League (Japão)", "bleague", "2"),
         BasketLeague("ABA", "Liga ABA (Sérvia e Balcãs)", "aba", ""),
+        BasketLeague("KBL", "KBL (Coreia do Sul)", "kbl", ""),
     ]
 }
 
@@ -132,6 +134,8 @@ def fetch_games(league: BasketLeague, today: date | None = None, seasons: int = 
         df = fetch_fpb(league, range(first, season_start(today) + 1))
     elif league.source == "nbb":
         df = fetch_nbb(league, range(first, season_start(today) + 1))
+    elif league.source == "kbl":
+        df = fetch_kbl(league, range(first, season_start(today) + 1))
     elif league.source == "aba":
         df = fetch_aba(league, range(first, season_start(today) + 1))
     elif league.source == "bleague":
@@ -547,3 +551,48 @@ def fetch_aba(league: BasketLeague, years: range) -> pd.DataFrame:
     if not frames:
         return pd.DataFrame(columns=COLUMNS)
     return _unify_names(pd.concat(frames, ignore_index=True))
+
+
+KBL_URL = "https://api.kbl.or.kr/match/list"
+# o site manda estes cabeçalhos em todos os pedidos (sem eles a API responde 400)
+KBL_HEADERS = {**HEADERS, "Channel": "WEB", "TeamCode": "XX", "lang": "ko"}
+KBL_NAMES = {
+    "06": "Suwon KT Sonicboom", "10": "Ulsan Hyundai Mobis Phoebus", "16": "Wonju DB Promy",
+    "35": "Seoul Samsung Thunders", "50": "Changwon LG Sakers", "55": "Seoul SK Knights",
+    "60": "Busan KCC Egis", "64": "Daegu KOGAS Pegasus", "66": "Goyang Sono Skygunners",
+    "70": "Anyang Jung Kwan Jang Red Boosters",
+}
+# 01 fase regular, 03 playoffs, 04 final; ficam de fora a liga D, o EASL e o jogo das estrelas
+KBL_GAME_CODES = {"01", "03", "04"}
+
+
+def parse_kbl(games: list[dict], league_key: str = "KBL") -> pd.DataFrame:
+    rows = []
+    for g in games:
+        if g.get("seasonGrade") != 1 or g.get("gameCode") not in KBL_GAME_CODES:
+            continue
+        start = g.get("gameStart") or ""
+        when = pd.Timestamp(f"{g['gameDate']} {start[:2]}:{start[2:]}" if len(start) == 4
+                            else g["gameDate"], tz="Asia/Seoul")
+        done = g.get("isEnded") == 1 and g.get("scoreH") is not None
+        rows.append({
+            "league": league_key,
+            "date": when.tz_convert("Europe/Lisbon").date() if len(start) == 4 else when.date(),
+            "time": when.tz_convert("Europe/Lisbon").strftime("%H:%M") if len(start) == 4 else None,
+            "round": None,
+            "home": KBL_NAMES.get(g["tcodeH"], g["tnameH"]),
+            "away": KBL_NAMES.get(g["tcodeA"], g["tnameA"]),
+            "home_points": float(g["scoreH"]) if done else None,
+            "away_points": float(g["scoreA"]) if done else None,
+        })
+    return pd.DataFrame(rows, columns=COLUMNS)
+
+
+def fetch_kbl(league: BasketLeague, years: range) -> pd.DataFrame:
+    games = []
+    for year in years:
+        resp = requests.get(KBL_URL, params={"fromDate": f"{year}0901", "toDate": f"{year + 1}0630"},
+                            headers=KBL_HEADERS, timeout=60)
+        resp.raise_for_status()
+        games.extend(resp.json() or [])
+    return parse_kbl(games, league.key)

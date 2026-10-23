@@ -136,3 +136,16 @@ def test_parse_bleague_names_scores_and_skips_all_star():
     assert df[["home", "away"]].values.tolist() == [["Chiba Jets", "Kyoto Hannaryz"], ["Shiga Lakes", "新"]]
     assert df["home_points"].iloc[0] == 81 and pd.isna(df["home_points"].iloc[1])
     assert df["time"].iloc[0] == "11:05" and str(df["date"].iloc[0]) == "2026-10-23"
+
+
+def test_parse_kbl_keeps_first_division_league_games():
+    from analise.ingest.basket import parse_kbl
+    base = {"seasonGrade": 1, "gameCode": "01", "gameDate": "20251003", "gameStart": "1400",
+            "tcodeH": "50", "tnameH": "창원 LG", "tcodeA": "55", "tnameA": "서울 SK",
+            "scoreH": 81, "scoreA": 89, "isEnded": 1}
+    games = [base, {**base, "seasonGrade": 2}, {**base, "gameCode": "07"},
+             {**base, "gameDate": "20261024", "isEnded": 0, "scoreH": 0, "scoreA": 0}]
+    df = parse_kbl(games)
+    assert len(df) == 2 and df["home"].iloc[0] == "Changwon LG Sakers"
+    assert df["time"].iloc[0] == "06:00" and df["home_points"].iloc[0] == 81
+    assert pd.isna(df["home_points"].iloc[1])
