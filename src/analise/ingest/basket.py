@@ -6,6 +6,7 @@
 - ACB (Espanha): calendário do site oficial, uma página por época.
 - Lega Basket Serie A (Itália): API do site oficial, um pedido por jornada.
 - Liga Betclic Masculina (Portugal): resultados e calendário do site da FPB.
+- Liga ABA (Sérvia e Balcãs): calendário do site oficial, uma página por época.
 - B.League B1 (Japão): calendário do site oficial, um pedido por dia de jogos.
 - Betclic ÉLITE (França): API do site da LNB, com o token público que o site dá a quem o visita.
 """
@@ -50,6 +51,7 @@ BASKET_LEAGUES = {
         BasketLeague("NBB", "NBB (Brasil)", "nbb", ""),
         BasketLeague("LNB", "Betclic ÉLITE (França)", "lnb", "PROA"),
         BasketLeague("BLG", "B.League (Japão)", "bleague", "2"),
+        BasketLeague("ABA", "Liga ABA (Sérvia e Balcãs)", "aba", ""),
     ]
 }
 
@@ -130,6 +132,8 @@ def fetch_games(league: BasketLeague, today: date | None = None, seasons: int = 
         df = fetch_fpb(league, range(first, season_start(today) + 1))
     elif league.source == "nbb":
         df = fetch_nbb(league, range(first, season_start(today) + 1))
+    elif league.source == "aba":
+        df = fetch_aba(league, range(first, season_start(today) + 1))
     elif league.source == "bleague":
         df = fetch_bleague(league, range(first, season_start(today) + 1))
     elif league.source == "lnb":
@@ -494,3 +498,52 @@ BLEAGUE_NAMES = {
 }
 # Jogos das estrelas e seleções que aparecem no calendário da B1 (siglas a1, a2, a5...)
 BLEAGUE_SKIP = re.compile(r"^a\d+$")
+
+
+ABA_URL = "https://www.aba-liga.com/calendar/{season}/1/"
+_ABA_ROW = re.compile(
+    r'class="visible-xs">\s*<a[^>]*>\s*([^<]*?)\s*<span>:</span>\s*([^<]*?)</a>.*?'
+    r'class="hidden-xs">\s*<a[^>]*>\s*([^<]*?)\s*<span>:</span>\s*([^<]*?)</a>.*?'
+    r'class="scoretable">(.*?)</td>\s*<td class="locationtable">\s*([^<]*?)\s*</td>', re.S)
+
+
+def parse_aba(html: str, league_key: str = "ABA") -> pd.DataFrame:
+    rows = []
+    # o calendário vem em blocos ("ROUND 5", "Top8 - R1"...); só a fase regular interessa,
+    # porque nas outras fases as equipas ainda não estão definidas
+    parts = re.split(r'aria-controls="#collapse_\d+"[^>]*>\s*([^<]*?)\s*<', html)
+    for label, chunk in zip(parts[1::2], parts[2::2]):
+        rnd = re.fullmatch(r"ROUND (\d+)", label.strip())
+        if not rnd:
+            continue
+        for hc, ac, home, away, score, when in _ABA_ROW.findall(chunk):
+            # "Friday, 02.10.2026 18:30 CET"; mais à frente só há o dia (ou um intervalo de dias)
+            m = re.search(r"(\d\d)\.(\d\d)\.(\d{4})(?: (\d\d:\d\d))?", when)
+            if not m:  # jogos ainda sem data ("TBA")
+                continue
+            day, clock = f"{m[3]}-{m[2]}-{m[1]}", None
+            if m[4]:
+                local = pd.Timestamp(f"{day} {m[4]}", tz="Europe/Belgrade").tz_convert("Europe/Lisbon")
+                day, clock = str(local.date()), local.strftime("%H:%M")
+            pts = re.search(r"(\d+)\s*:\s*(\d+)", score)
+            rows.append({
+                "league": league_key, "date": date.fromisoformat(day), "time": clock,
+                "round": f"Round {rnd[1]}", "home": home.strip(), "away": away.strip(),
+                "home_points": float(pts[1]) if pts else None,
+                "away_points": float(pts[2]) if pts else None,
+                "home_code": hc.strip(), "away_code": ac.strip(),
+            })
+    return pd.DataFrame(rows, columns=COLUMNS + ["home_code", "away_code"])
+
+
+def fetch_aba(league: BasketLeague, years: range) -> pd.DataFrame:
+    """Liga ABA: a página de cada época tem a fase regular inteira."""
+    frames = []
+    for year in years:
+        resp = requests.get(ABA_URL.format(season=year - 2000), headers=HEADERS, timeout=60)
+        resp.raise_for_status()
+        frames.append(parse_aba(resp.text, league.key))
+    frames = [f for f in frames if not f.empty]
+    if not frames:
+        return pd.DataFrame(columns=COLUMNS)
+    return _unify_names(pd.concat(frames, ignore_index=True))
