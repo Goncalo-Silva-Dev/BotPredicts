@@ -61,7 +61,7 @@ def test_render_page(league):
     site = pagina.render_site(res)
     out = site["futebol/por.html"]
     assert "T0 – T1" in out and "Liga Portugal" in out and "Sem previsão" in out
-    assert "Por período" in out and "1.ª parte" in out
+    assert "Por parte" in out and "Por período" not in out and "1.ª parte" in out
     assert "Mais apostas" in out and "Intervalo / final" in out and "Handicap -1 casa" in out
     assert "Antes de usares estas previsões" in site["index.html"]
     assert 'href="futebol/por.html"' in site["index.html"]
@@ -115,3 +115,15 @@ def test_upcoming_joins_calendar_and_odds(monkeypatch):
     assert benfica["time"] == "20:30" and benfica["odds_home"] == 2.2
     assert benfica["round"] == "Matchday 9"
     assert pd.isna(res.iloc[2]["odds_home"])
+
+
+def test_openfootball_local_times_become_portugal_time():
+    from analise.calendario import _to_lisbon
+    games = pd.DataFrame([
+        {"date": date(2026, 10, 24), "time": "20:45"},
+        {"date": date(2026, 10, 24), "time": None},
+    ])
+    rome = _to_lisbon(games, "Europe/Rome")
+    assert rome["time"].tolist()[0] == "19:45" and rome["time"].isna().tolist()[1]
+    late = _to_lisbon(pd.DataFrame([{"date": date(2026, 11, 4), "time": "21:30"}]), "America/Sao_Paulo")
+    assert late.iloc[0]["date"] == date(2026, 11, 5) and late.iloc[0]["time"] == "00:30"

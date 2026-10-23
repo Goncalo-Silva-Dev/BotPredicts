@@ -13,21 +13,30 @@ from datetime import date
 
 import numpy as np
 import pandas as pd
-from scipy.stats import norm
+from scipy.stats import multivariate_normal, norm
 
 # Cada período em função do jogo inteiro, estimado com ~3500 jogos da NBA, EuroLeague e
 # EuroCup com pontos por quarto (os valores quase não mudam de liga para liga):
 # (fração da diferença esperada, fração do total, desvio da diferença e do total em
-# proporção aos do jogo inteiro; o do total alargado 10% para o intervalo de 80% acertar
-# em 80% dos jogos de teste). O 4.º quarto tem menos diferença: quem ganha abranda.
+# proporção aos do jogo inteiro). O 4.º quarto tem menos diferença: quem ganha abranda.
 PERIODS = {
-    "1.º quarto": (0.275, 0.251, 0.565, 0.462),
-    "2.º quarto": (0.258, 0.251, 0.574, 0.476),
-    "3.º quarto": (0.195, 0.245, 0.588, 0.458),
-    "4.º quarto": (0.222, 0.247, 0.570, 0.509),
-    "1.ª parte": (0.533, 0.502, 0.765, 0.691),
-    "2.ª parte": (0.417, 0.492, 0.775, 0.707),
+    "1.º quarto": (0.275, 0.251, 0.565, 0.420),
+    "2.º quarto": (0.258, 0.251, 0.574, 0.433),
+    "3.º quarto": (0.195, 0.245, 0.588, 0.416),
+    "4.º quarto": (0.222, 0.247, 0.570, 0.463),
+    "1.ª parte": (0.533, 0.502, 0.765, 0.628),
+    "2.ª parte": (0.417, 0.492, 0.775, 0.643),
 }
+
+# Os resíduos do próprio ajuste subestimam o erro em jogos futuros (as forças das equipas
+# também são estimadas). Em 7875 jogos de teste das 12 ligas, prevendo cada semana só com
+# o passado, o erro real foi 1,075 vezes o da diferença e 1,08 vezes o do total.
+SD_MARGIN_FACTOR = 1.075
+SD_TOTAL_FACTOR = 1.08
+
+# Diferença da 1.ª parte vs. diferença final: correlação dos desvios ao previsto
+# (0,60 a 0,66 na NBA, EuroLeague e EuroCup)
+H1_FULL_CORR = 0.64
 
 
 @dataclass
@@ -76,8 +85,8 @@ class BasketRatings:
         pred = X @ beta
         margin_res = (y[:g] - y[g:]) - (pred[:g] - pred[g:])
         total_res = (y[:g] + y[g:]) - (pred[:g] + pred[g:])
-        self.sd_margin_ = float(np.sqrt(np.average(margin_res ** 2, weights=w)))
-        self.sd_total_ = float(np.sqrt(np.average(total_res ** 2, weights=w)))
+        self.sd_margin_ = SD_MARGIN_FACTOR * float(np.sqrt(np.average(margin_res ** 2, weights=w)))
+        self.sd_total_ = SD_TOTAL_FACTOR * float(np.sqrt(np.average(total_res ** 2, weights=w)))
         return self
 
     def expected_points(self, home: str, away: str) -> tuple[float, float]:
@@ -116,4 +125,54 @@ class BasketRatings:
                 "pontos_casa": (total + margin) / 2, "pontos_fora": (total - margin) / 2,
                 "total": total, "total_min": total - half, "total_max": total + half,
             })
+        return out
+
+    def markets(self, home: str, away: str) -> dict:
+        """Outras apostas do jogo inteiro, todas da mesma normal da diferença e do total.
+
+        As linhas acabam em ,5 (como nas casas de apostas) e ficam à volta do previsto."""
+        ph, pa = self.expected_points(home, away)
+        m, t = ph - pa, ph + pa
+        sm, st = self.sd_margin_, self.sd_total_
+        # pontos de uma equipa = (total ± diferença) / 2
+        s_team = float(np.sqrt(st ** 2 + sm ** 2) / 2)
+        over = lambda mean, sd, line: float(1 - norm.cdf((line - mean) / sd))  # noqa: E731
+        around = lambda x, steps: [np.floor(x) + 0.5 + k for k in steps]  # noqa: E731
+
+        out = {
+            # handicap da casa: "casa -L" ganha se a diferença final for maior que L
+            "handicap": [(float(line), over(m, sm, line)) for line in around(m, (-6, -3, 0, 3, 6))],
+            "total": [(float(line), over(t, st, line)) for line in around(t, (-10, -5, 0, 5, 10))],
+            "pontos_casa": [(float(line), over(ph, s_team, line)) for line in around(ph, (-5, 0, 5))],
+            "pontos_fora": [(float(line), over(pa, s_team, line)) for line in around(pa, (-5, 0, 5))],
+        }
+        # margem de vitória (sem empate: o prolongamento decide, por isso tira-se a fatia do 0)
+        tie = float(norm.cdf(0.5, m, sm) - norm.cdf(-0.5, m, sm))
+        bands = [(1, 5), (6, 10), (11, 15), (16, 20), (21, None)]
+        margin = []
+        for side, sign in (("casa", 1), ("fora", -1)):
+            for lo, hi in bands:
+                a, b = lo - 0.5, (hi + 0.5) if hi else np.inf
+                p = (norm.cdf(b, sign * m, sm) - norm.cdf(a, sign * m, sm)) / (1 - tie)
+                margin.append((side, f"{lo}-{hi}" if hi else f"{lo}+", float(p)))
+        out["margem"] = margin
+
+        # intervalo/final: diferença na 1.ª parte e no fim como normal bivariada
+        f1, _, r1, _ = PERIODS["1.ª parte"]
+        mean = [f1 * m, m]
+        s1 = r1 * sm
+        cov = [[s1 ** 2, H1_FULL_CORR * s1 * sm], [H1_FULL_CORR * s1 * sm, sm ** 2]]
+        mvn = multivariate_normal(mean, cov)
+        cdf = lambda x, y: float(mvn.cdf([x, y]))  # noqa: E731
+        cut = {"2": (-np.inf, -0.5), "X": (-0.5, 0.5), "1": (0.5, np.inf)}
+        htft = {}
+        for k, (lo, hi) in cut.items():
+            p_h1 = float(norm.cdf(hi, f1 * m, s1) - norm.cdf(lo, f1 * m, s1))
+            hi_c = min(hi, 1e6) if np.isfinite(hi) else 1e6
+            lo_c = max(lo, -1e6) if np.isfinite(lo) else -1e6
+            p_h1_away = cdf(hi_c, 0) - cdf(lo_c, 0)  # 1.ª parte nesse intervalo e perde no fim
+            htft[f"{k}/2"] = max(p_h1_away, 0.0)
+            htft[f"{k}/1"] = max(p_h1 - p_h1_away, 0.0)
+        total_p = sum(htft.values())
+        out["intervalo_final"] = {k: v / total_p for k, v in htft.items()}
         return out

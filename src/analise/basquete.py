@@ -34,6 +34,7 @@ def predict_upcoming(games: pd.DataFrame, today: date | None = None, half_life_d
                 "pontos_fora": p["points_away"], "diferenca": p["margin"], "total": p["total"],
                 "total_min": p["total_low"], "total_max": p["total_high"],
                 "periodos": model.predict_periods(g.home, g.away),
+                "mercados": model.markets(g.home, g.away),
             })
         rows.append(row)
     return pd.DataFrame(rows)
@@ -57,6 +58,7 @@ def walk_forward(games: pd.DataFrame, half_life_days=120.0, window_days=540, min
             p = model.predict(g.home, g.away)
             rows.append({"league": g.league, "date": g.date, "home": g.home, "away": g.away,
                          "p_home": p["home"], "margin": p["margin"], "total": p["total"],
+                         "sd_margin": model.sd_margin_, "sd_total": model.sd_total_,
                          "home_win": g.home_points > g.away_points,
                          "real_margin": g.home_points - g.away_points,
                          "real_total": g.home_points + g.away_points})
