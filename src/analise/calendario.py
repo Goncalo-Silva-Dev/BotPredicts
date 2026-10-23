@@ -44,7 +44,7 @@ def upcoming(engine, leagues: list[League], today: date | None = None) -> pd.Dat
             sorted(set(season["home"]) | set(season["away"])), _recent_teams(engine, league, today))
         season = season.assign(home=season["home"].map(lambda n: names.get(n, n)),
                                away=season["away"].map(lambda n: names.get(n, n)))
-        frames.append(season.drop(columns="played"))
+        frames.append(_to_lisbon(season.drop(columns="played"), league.tz))
 
     full = pd.concat(frames, ignore_index=True) if frames else pd.DataFrame(
         columns=["league", "round", "date", "time", "home", "away"])
@@ -57,3 +57,15 @@ def upcoming(engine, leagues: list[League], today: date | None = None) -> pd.Dat
     extra = extra[extra["_merge"] == "left_only"].drop(columns="_merge").assign(round=None)
     out = pd.concat([full, extra[full.columns]], ignore_index=True)
     return out.sort_values(["date", "time", "league"], na_position="last").reset_index(drop=True)
+
+
+def _to_lisbon(games: pd.DataFrame, tz: str) -> pd.DataFrame:
+    """Passa as horas locais do openfootball para a hora de Portugal (a data pode mudar,
+    p. ex. 21:30 no Brasil é 00:30 do dia seguinte em Lisboa)."""
+    games = games.copy()
+    has_time = games["time"].notna() & (games["time"].astype(str).str.len() >= 4)
+    for i in games.index[has_time]:
+        local = pd.Timestamp(f"{games.at[i, 'date']} {str(games.at[i, 'time'])[:5]}", tz=tz)
+        lisbon = local.tz_convert("Europe/Lisbon")
+        games.at[i, "date"], games.at[i, "time"] = lisbon.date(), lisbon.strftime("%H:%M")
+    return games

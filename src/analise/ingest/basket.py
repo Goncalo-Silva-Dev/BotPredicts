@@ -157,6 +157,14 @@ def _nbb_seasons(html: str) -> dict[int, str]:
     return {int(year): sid for sid, year in found}
 
 
+def _brasilia_to_lisbon(day: str, clock: str | None):
+    d = pd.to_datetime(day, dayfirst=True)
+    if not clock:
+        return d.date(), None
+    t = pd.Timestamp(f"{d.date()} {clock}", tz="America/Sao_Paulo").tz_convert("Europe/Lisbon")
+    return t.date(), t.strftime("%H:%M")
+
+
 def parse_nbb(html: str, league_key: str = "NBB") -> pd.DataFrame:
     rows = []
     for row in re.findall(r'<tr[^>]*>\s*<td[^>]*data-real-id="\d+".*?</tr>', html, re.S):
@@ -173,8 +181,9 @@ def parse_nbb(html: str, league_key: str = "NBB") -> pd.DataFrame:
         played = len(pts) == 2
         rows.append({
             "league": league_key,
-            "date": pd.to_datetime(when.group(1), dayfirst=True).date(),
-            "time": when.group(2),
+            # horas de Brasília, passadas para a hora de Portugal
+            "date": _brasilia_to_lisbon(when.group(1), when.group(2))[0],
+            "time": _brasilia_to_lisbon(when.group(1), when.group(2))[1],
             "round": f"Round {rnd.group(1)}" if rnd else None,
             "home": html_lib.unescape(teams[0].strip()), "away": html_lib.unescape(teams[1].strip()),
             "home_points": float(pts[0][1]) if played else None,

@@ -6,6 +6,7 @@ com um menu comum no topo.
 import html
 import re
 import json
+from zoneinfo import ZoneInfo
 import math
 from datetime import datetime, timezone
 
@@ -13,6 +14,8 @@ import pandas as pd
 
 from analise.ingest.basket import BASKET_LEAGUES
 from analise.leagues import LEAGUES
+
+LISBON = ZoneInfo("Europe/Lisbon")
 
 FLAGS = {"POR": "🇵🇹", "ESP": "🇪🇸", "ENG": "🏴", "FRA": "🇫🇷", "ITA": "🇮🇹", "USA": "🇺🇸", "BRA": "🇧🇷",
          "NBA": "🇺🇸", "NBL": "🇦🇺", "BLG": "🇯🇵", "ABA": "🇷🇸", "KBL": "🇰🇷", "EUR": "🇪🇺", "EUC": "🇪🇺", "NBB": "🇧🇷", "ACB": "🇪🇸", "LBA": "🇮🇹", "LPB": "🇵🇹", "LNB": "🇫🇷"}
@@ -89,14 +92,39 @@ def _pct(v) -> str:
     return "–" if v is None or (isinstance(v, float) and math.isnan(v)) else f"{v * 100:.0f}%"
 
 
+def _n(v: float, digits: int = 1) -> str:
+    """Número com vírgula decimal, como se escreve em Portugal."""
+    return f"{v:.{digits}f}".replace(".", ",")
+
+
+def _line(x: float) -> str:
+    return _n(x, 1)
+
+
 def _when(d, t) -> str:
     d = pd.Timestamp(d)
     hour = f" {t}" if isinstance(t, str) and t else ""
     return f"{WEEKDAYS[d.weekday()]} {d.day:02d}/{d.month:02d}{hour}"
 
 
+# Nomes como se escrevem em Portugal e no Brasil (as fontes inglesas tiram os acentos)
+TEAM_NAMES = {
+    "Sp Lisbon": "Sporting", "Sp Braga": "Braga", "Guimaraes": "Vitória SC",
+    "Famalicao": "Famalicão", "Maritimo": "Marítimo", "Academico Viseu": "Académico de Viseu",
+    "Estrela": "Estrela da Amadora", "Pacos Ferreira": "Paços de Ferreira",
+    "Sao Paulo": "São Paulo", "Gremio": "Grêmio", "Vitoria": "Vitória", "Atletico-MG": "Atlético-MG",
+    "Athletico-PR": "Athletico-PR", "Flamengo RJ": "Flamengo", "Botafogo RJ": "Botafogo",
+    "Chapecoense-SC": "Chapecoense", "Cuiaba": "Cuiabá", "Goias": "Goiás", "Ceara": "Ceará",
+    "America MG": "América-MG", "Avai": "Avaí",
+}
+
+
+def _team(name: str) -> str:
+    return html.escape(TEAM_NAMES.get(name, name))
+
+
 def _game(g) -> str:
-    teams = f"{html.escape(g['home'])} – {html.escape(g['away'])}"
+    teams = f"{_team(g['home'])} – {_team(g['away'])}"
     head = f'<div class="top"><span class="teams">{teams}</span>' \
            f'<span class="when">{_when(g["date"], g.get("time"))}</span></div>'
     if pd.isna(g.get("casa")):
@@ -107,8 +135,8 @@ def _game(g) -> str:
         for c, k, label in [("h", "casa", "Vitória da casa"), ("d", "empate", "Empate"),
                             ("a", "fora", "Vitória de fora")])
     facts = [
-        f"Golos esperados <b>{g['golos_casa']:.1f} – {g['golos_fora']:.1f}</b>",
-        f"Mais de 2.5 <b>{_pct(g['mais_2_5'])}</b>",
+        f"Golos esperados <b>{_n(g['golos_casa'])} – {_n(g['golos_fora'])}</b>",
+        f"Mais de 2,5 <b>{_pct(g['mais_2_5'])}</b>",
         f"Ambas marcam <b>{_pct(g['ambas_marcam'])}</b>",
         f"Resultados <b>{html.escape(g['resultados'])}</b>",
     ]
@@ -124,16 +152,16 @@ def _markets(g) -> str:
     """Mais apostas do jogo inteiro, em blocos pequenos."""
     if pd.isna(g.get("dupla_1x")):
         return ""
-    home, away = html.escape(g["home"]), html.escape(g["away"])
+    home, away = _team(g["home"]), _team(g["away"])
     blocks = [
         ("Dupla hipótese", [("Casa ou empate (1X)", "dupla_1x"), ("Casa ou fora (12)", "dupla_12"),
                             ("Empate ou fora (X2)", "dupla_x2")]),
         ("Empate anula aposta", [(home, g["dnb_casa"]), (away, 1 - g["dnb_casa"])]),
-        ("Total de golos", [(f"Mais de {x}", f"mais_{x}") for x in (0.5, 1.5, 2.5, 3.5, 4.5)]),
+        ("Total de golos", [(f"Mais de {_line(x)}", f"mais_{x}") for x in (0.5, 1.5, 2.5, 3.5, 4.5)]),
         ("Número de golos", [("0", "golos_0"), ("1", "golos_1"), ("2", "golos_2"),
                              ("3", "golos_3"), ("4 ou mais", "golos_4+")]),
-        (f"Golos de {home}", [(f"Mais de {x}", f"casa_mais_{x}") for x in (0.5, 1.5, 2.5)]),
-        (f"Golos de {away}", [(f"Mais de {x}", f"fora_mais_{x}") for x in (0.5, 1.5, 2.5)]),
+        (f"Golos de {home}", [(f"Mais de {_line(x)}", f"casa_mais_{x}") for x in (0.5, 1.5, 2.5)]),
+        (f"Golos de {away}", [(f"Mais de {_line(x)}", f"fora_mais_{x}") for x in (0.5, 1.5, 2.5)]),
         ("Handicap -1 casa", [(f"{home} -1", "hcp_casa_-1"), ("Empate (-1)", "hcp_empate_-1"),
                               (f"{away} +1", "hcp_fora_+1")]),
         ("Handicap +1 casa", [(f"{home} +1", "hcp_casa_+1"), ("Empate (+1)", "hcp_empate_+1"),
@@ -155,10 +183,10 @@ def _markets(g) -> str:
            f'{"".join(html_blocks)}</div></details>'
 
 
-def _per_table(head: list[str], rows: list[list[str]]) -> str:
+def _per_table(head: list[str], rows: list[list[str]], title: str = "Por período") -> str:
     th = "".join(f"<th>{h}</th>" for h in head)
     body = "".join("<tr>" + "".join(f"<td>{c}</td>" for c in r) + "</tr>" for r in rows)
-    return f'<details class="per"><summary>Por período</summary><div class="wrap"><table>' \
+    return f'<details class="per"><summary>{title}</summary><div class="wrap"><table>' \
            f'<tr>{th}</tr>{body}</table></div></details>'
 
 
@@ -166,9 +194,10 @@ def _halves_table(g) -> str:
     if pd.isna(g.get("p1_casa")):
         return ""
     rows = [[name, _pct(g[f"{k}_casa"]), _pct(g[f"{k}_empate"]), _pct(g[f"{k}_fora"]),
-             f"{g[f'{k}_golos']:.1f}", _pct(g[f"{k}_mais_0_5"]), _pct(g[f"{k}_mais_1_5"])]
+             _n(g[f"{k}_golos"]), _pct(g[f"{k}_mais_0_5"]), _pct(g[f"{k}_mais_1_5"])]
             for name, k in (("1.ª parte", "p1"), ("2.ª parte", "p2"))]
-    return _per_table(["", "Casa", "Empate", "Fora", "Golos esperados", "Mais de 0.5", "Mais de 1.5"], rows)
+    return _per_table(["", "Casa", "Empate", "Fora", "Golos esperados", "Mais de 0,5", "Mais de 1,5"], rows,
+                      "Por parte")
 
 
 def _periods_table(g) -> str:
@@ -194,12 +223,42 @@ def _basket_game(g) -> str:
     fav = g["home"] if g["diferenca"] >= 0 else g["away"]
     facts = [
         f"Pontos esperados <b>{g['pontos_casa']:.0f} – {g['pontos_fora']:.0f}</b>",
-        f"Diferença <b>{html.escape(fav)} por {abs(g['diferenca']):.1f}</b>",
+        f"Diferença <b>{html.escape(fav)} por {_n(abs(g['diferenca']))}</b>",
         f"Total <b>{g['total']:.0f}</b> (80%: {g['total_min']:.0f} a {g['total_max']:.0f})",
     ]
     spans = "".join(f"<span>{f}</span>" for f in facts)
     return f'<div class="game">{head}<div class="bar">{bar}</div><div class="facts">{spans}</div>' \
-           f'{_periods_table(g)}</div>'
+           f'{_periods_table(g)}{_basket_markets(g)}</div>'
+
+
+def _signed(x: float) -> str:
+    return ("+" if x > 0 else "−") + _line(abs(x))
+
+
+def _basket_markets(g) -> str:
+    """Mais apostas de basquetebol (jogo inteiro, prolongamento incluído)."""
+    mk = g.get("mercados")
+    if not isinstance(mk, dict):
+        return ""
+    home, away = html.escape(g["home"]), html.escape(g["away"])
+    blocks = [
+        ("Handicap", [(f"{home} {_signed(-line)}", p) for line, p in mk["handicap"]]),
+        ("Handicap (equipa de fora)", [(f"{away} {_signed(line)}", 1 - p) for line, p in mk["handicap"]]),
+        ("Total de pontos", [(f"Mais de {_line(line)}", p) for line, p in mk["total"]]),
+        (f"Pontos de {home}", [(f"Mais de {_line(line)}", p) for line, p in mk["pontos_casa"]]),
+        (f"Pontos de {away}", [(f"Mais de {_line(line)}", p) for line, p in mk["pontos_fora"]]),
+        (f"Margem de vitória: {home}", [(f"{b} pontos", p) for side, b, p in mk["margem"] if side == "casa"]),
+        (f"Margem de vitória: {away}", [(f"{b} pontos", p) for side, b, p in mk["margem"] if side == "fora"]),
+    ]
+    names = {"1": "Casa", "X": "Empate", "2": "Fora"}
+    best = sorted(mk["intervalo_final"].items(), key=lambda kv: -kv[1])
+    blocks.append(("Intervalo / final", [(f"{names[k[0]]} / {names[k[2]]}", v) for k, v in best]))
+    html_blocks = []
+    for title, rows in blocks:
+        cells = "".join(f"<div><span>{label}</span><b>{_pct(v)}</b></div>" for label, v in rows)
+        html_blocks.append(f"<div><h4>{title}</h4>{cells}</div>")
+    return f'<details class="per"><summary>Mais apostas</summary><div class="mk">' \
+           f'{"".join(html_blocks)}</div></details>'
 
 
 def _round_label(r, dates: pd.Series) -> str:
@@ -233,18 +292,22 @@ def _league_rounds(games: pd.DataFrame, card=_game) -> str:
 FOOTBALL_NOTE = """Barras: vitória da casa · empate · vitória de fora. Modelo Dixon-Coles com os
 últimos 2 anos de resultados. As odds das casas de apostas aparecem quando já existem (perto do
 jogo). No teste com 11 984 jogos passados o modelo acertou bem nas percentagens, mas ficou um
-pouco atrás das odds de fecho das casas de apostas. Em "Por período": resultado ao intervalo e
+pouco atrás das odds de fecho das casas de apostas. Em "Por parte": resultado ao intervalo e
 golos em cada parte, com a parte dos golos que cada liga costuma marcar na 1.ª parte; ao
 intervalo o favorito acerta em cerca de 45% dos jogos, porque o empate é muito comum. Em "Mais
 apostas": dupla hipótese, totais, golos por equipa, handicap e intervalo/final, todos tirados do
 mesmo modelo; no teste com 2500 jogos da última época as percentagens bateram certo com o que
-aconteceu (por exemplo, mais de 3.5 golos: 29.5% previsto, 29.9% real)."""
+aconteceu (por exemplo, mais de 3,5 golos: 29,5% previsto, 29,9% real)."""
 
-BASKET_NOTE = """Barras: vitória da casa · vitória de fora. Ratings de ataque e defesa de cada
-equipa com os resultados das últimas épocas (os jogos recentes pesam mais). Em "Por período":
+BASKET_NOTE = """Barras: vitória da casa · vitória de fora. Forças de ataque e defesa de cada
+equipa com os resultados das últimas épocas (os jogos recentes pesam mais). A incerteza foi
+acertada com 7875 jogos passados das 12 ligas, cada um previsto só com os jogos anteriores, para
+que o intervalo de 80% do total apanhe de facto cerca de 80% dos jogos. Em "Por período":
 quartos e partes, calibrados com 3500 jogos com pontos por quarto. Um período é muito mais
 incerto que o jogo: no teste o favorito ganhou o quarto em 52% a 55% das vezes e a parte em
-56% a 57%."""
+56% a 57%. Em "Mais apostas": handicaps, total de pontos, pontos de cada equipa, margem de
+vitória e intervalo/final; no teste com 3513 jogos da NBA, EuroLeague e EuroCup as percentagens
+bateram certo com o que aconteceu (por exemplo, handicaps a 66%: ganharam 67%)."""
 
 # Percentagem de vencedores certos no teste com jogos passados (basquete-backtest)
 BASKET_ACCURACY = {"NBA": 66, "EUR": 64, "EUC": 65, "ACB": 69, "LBA": 71, "LPB": 75, "NBB": 73, "LNB": 71, "NBL": 59, "BLG": 67, "ABA": 80, "KBL": 58}
@@ -272,7 +335,7 @@ def _page(title: str, body: str, root: str, current: str, updated: datetime) -> 
 </nav></header>
 <main>
 {body}
-<p class="note">Atualizado {updated:%d/%m/%Y %H:%M} UTC · Dados: football-data.co.uk,
+<p class="note">Atualizado {updated.astimezone(LISBON):%d/%m/%Y %H:%M} (hora de Portugal) · Dados: football-data.co.uk,
 openfootball, ESPN, Euroleague Basketball e sites oficiais das ligas.</p>
 </main>
 <script>

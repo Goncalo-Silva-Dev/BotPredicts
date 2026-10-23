@@ -69,7 +69,7 @@ def test_parse_nbb_and_unify_sponsor_names():
     df = _unify_names(parse_nbb(html))
     assert df["home"].tolist() == ["Desk Manager Mogi Basquete"] * 2
     assert df["home_points"].iloc[0] == 84 and pd.isna(df["home_points"].iloc[1])
-    assert df["round"].iloc[0] == "Round 3" and df["time"].iloc[0] == "16:00"
+    assert df["round"].iloc[0] == "Round 3" and df["time"].iloc[0] == "20:00"
 
 
 def test_parse_lnb_home_team_first_and_unify():
@@ -104,6 +104,25 @@ def test_periods_are_consistent_with_the_game():
     game = m.predict(strong, weak)
     assert periods["1.º quarto"]["casa"] < periods["1.ª parte"]["casa"] < game["home"]
     assert abs(periods["1.ª parte"]["total"] + periods["2.ª parte"]["total"] - game["total"]) < 0.01 * game["total"]
+
+
+def test_markets_are_consistent_with_the_game():
+    df, att, dfc = _season()
+    m = BasketRatings().fit(df)
+    strong, weak = f"B{int(np.argmax(att - dfc))}", f"B{int(np.argmin(att - dfc))}"
+    mk, game = m.markets(strong, weak), m.predict(strong, weak)
+    for key in ("handicap", "total", "pontos_casa", "pontos_fora"):
+        lines = [line for line, _ in mk[key]]
+        probs = [p for _, p in mk[key]]
+        assert all(line % 1 == 0.5 for line in lines) and lines == sorted(lines)
+        assert all(a > b for a, b in zip(probs, probs[1:]))  # linha mais alta, menos provável
+    # "casa -0,5" no handicap é ganhar o jogo
+    assert abs(dict(mk["handicap"]).get(-0.5, game["home"]) - game["home"]) < 0.02
+    assert abs(sum(p for *_, p in mk["margem"]) - 1) < 1e-9
+    home_bands = sum(p for side, _, p in mk["margem"] if side == "casa")
+    assert abs(home_bands - game["home"]) < 0.02
+    htft = mk["intervalo_final"]
+    assert abs(sum(htft.values()) - 1) < 1e-9 and htft["1/1"] == max(htft.values())
 
 
 def test_reserve_games_roundtrip(tmp_path):
