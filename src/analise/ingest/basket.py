@@ -20,6 +20,8 @@ from datetime import date, timedelta
 import pandas as pd
 import requests
 
+from analise.ingest.betexplorer import fetch_betexplorer
+
 ESPN_URL = "https://site.api.espn.com/apis/site/v2/sports/basketball/{slug}/scoreboard"
 EUROLEAGUE_URL = "https://api-live.euroleague.net/v2/competitions/{comp}/seasons/{comp}{year}/games"
 # Identificação honesta do projeto (alguns sites recusam o agente por omissão do requests)
@@ -694,74 +696,6 @@ def fetch_kori(league: BasketLeague, years: range) -> pd.DataFrame:
     return parse_kori(matches, league.key)
 
 
-BETEXPLORER = "https://www.betexplorer.com/basketball/{path}/{page}/"
-_BE_RESULT = re.compile(
-    r'class="in-match"><span>(?:<strong>)?([^<]+)(?:</strong>)?</span> - <span>(?:<strong>)?([^<]+)'
-    r'(?:</strong>)?</span></a></td><td class="h-text-center"><a [^>]*>(\d+):(\d+)'
-    r'.*?h-text-right h-text-no-wrap">([^<]*)<', re.S)
-_BE_FIXTURE = re.compile(
-    r'table-main__datetime">([^<]*)</td>\s*<td class="h-text-left"><a [^>]*class="in-match">'
-    r'<span>([^<]+)</span> - <span>([^<]+)</span>', re.S)
-# o betexplorer mostra as horas sempre em UTC+1, também no inverno
-BETEXPLORER_TZ = "Etc/GMT-1"
-
-
-def _be_day(text: str, today: date) -> date:
-    """"Today", "Yesterday", "21.12." (ano corrente, que o site omite) ou "04.01.2027"."""
-    if text.startswith(("Today", "Yesterday")):
-        return today - timedelta(days=text.startswith("Yesterday"))
-    d, m, *y = [p for p in text.split(".") if p]
-    return date(int(y[0]) if y else today.year, int(m), int(d))
-
-
-def parse_betexplorer(page: str, today: date, league_key: str) -> pd.DataFrame:
-    """Resultados de uma página do betexplorer (o prolongamento conta)."""
-    rows = [{"league": league_key, "date": _be_day(when.strip(), today), "time": None, "round": None,
-             "home": html_lib.unescape(home).strip(), "away": html_lib.unescape(away).strip(),
-             "home_points": float(hp), "away_points": float(ap)}
-            for home, away, hp, ap, when in _BE_RESULT.findall(page)]
-    return pd.DataFrame(rows, columns=COLUMNS)
-
-
-def parse_betexplorer_fixtures(page: str, today: date, league_key: str) -> pd.DataFrame:
-    """Jogos marcados; uma célula de data vazia repete a da linha anterior."""
-    rows, last = [], None
-    for when, home, away in _BE_FIXTURE.findall(page):
-        when = html_lib.unescape(when).strip() or last
-        last = when
-        if not when:
-            continue
-        day_text, _, clock = when.partition(" ")
-        day = _be_day(day_text, today)
-        stamp = pd.Timestamp(f"{day} {clock}", tz=BETEXPLORER_TZ).tz_convert("Europe/Lisbon")
-        rows.append({"league": league_key, "date": stamp.date(), "time": stamp.strftime("%H:%M"),
-                     "round": None, "home": html_lib.unescape(home).strip(),
-                     "away": html_lib.unescape(away).strip(),
-                     "home_points": None, "away_points": None})
-    return pd.DataFrame(rows, columns=COLUMNS)
-
-
-def _be_get(path: str, page: str, **params) -> str:
-    resp = requests.get(BETEXPLORER.format(path=path, page=page), params=params, headers=HEADERS,
-                        timeout=60)
-    resp.raise_for_status()
-    return resp.text
-
-
-def fetch_betexplorer(path: str, league_key: str, today: date | None = None,
-                      fixtures: bool = False) -> pd.DataFrame:
-    """Todas as fases (fase regular, playoffs...) de um torneio do betexplorer."""
-    today = today or date.today()
-    first = _be_get(path, "results")
-    pages = [first] + [_be_get(path, "results", stage=stage)
-                       for stage in dict.fromkeys(re.findall(r'href="\?stage=([A-Za-z0-9]+)"', first))]
-    frames = [parse_betexplorer(p, today, league_key) for p in pages]
-    if fixtures:
-        frames.append(parse_betexplorer_fixtures(_be_get(path, "fixtures"), today, league_key))
-    df = pd.concat(frames, ignore_index=True)
-    return df.drop_duplicates(subset=["date", "home", "away"])
-
-
 CBA_SCHEDULE = "https://portal-server.cbaleague.com/home/home_schedules"
 # ID de cada clube no site oficial -> nome do betexplorer (os nomes oficiais mudam com o patrocinador)
 CBA_TEAMS = {
@@ -802,7 +736,7 @@ def fetch_cba(league: BasketLeague, years: range, today: date | None = None) -> 
     """Época atual (com o calendário que falta) do site oficial; épocas passadas do betexplorer."""
     today = today or date.today()
     current = season_start(today)
-    frames = [fetch_betexplorer(f"china/cba-{y}-{y + 1}", league.key, today)
+    frames = [fetch_betexplorer(f"basketball/china/cba-{y}-{y + 1}", league.key, today)
               for y in years if CBA_FIRST_SEASON <= y < current]
     if current in years:
         resp = requests.get(CBA_SCHEDULE, headers=HEADERS, timeout=60)
@@ -819,6 +753,6 @@ def fetch_pba(league: BasketLeague, years: range, today: date | None = None) -> 
                         timeout=60)
     resp.raise_for_status()
     slugs = dict.fromkeys(re.findall(r'href="/basketball/philippines/(pba-[a-z0-9-]+)/"', resp.text))
-    df = pd.concat([fetch_betexplorer(f"philippines/{s}", league.key, today, fixtures=True)
+    df = pd.concat([fetch_betexplorer(f"basketball/philippines/{s}", league.key, today, fixtures=True)
                     for s in slugs], ignore_index=True)
     return df[pd.to_datetime(df["date"]) >= pd.Timestamp(years.start, 7, 1)]

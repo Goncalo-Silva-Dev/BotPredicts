@@ -17,7 +17,7 @@ from analise.leagues import LEAGUES
 
 LISBON = ZoneInfo("Europe/Lisbon")
 
-FLAGS = {"POR": "🇵🇹", "ESP": "🇪🇸", "ENG": "🏴", "FRA": "🇫🇷", "ITA": "🇮🇹", "USA": "🇺🇸", "BRA": "🇧🇷",
+FLAGS = {"POR": "🇵🇹", "PO2": "🇵🇹", "U23": "🇵🇹", "TUR": "🇹🇷", "NED": "🇳🇱", "BEL": "🇧🇪", "ESP": "🇪🇸", "ENG": "🏴", "FRA": "🇫🇷", "ITA": "🇮🇹", "USA": "🇺🇸", "BRA": "🇧🇷",
          "NBA": "🇺🇸", "NBL": "🇦🇺", "BLG": "🇯🇵", "ABA": "🇷🇸", "KBL": "🇰🇷", "SBL": "🇸🇪", "KOR": "🇫🇮", "CBA": "🇨🇳", "PBA": "🇵🇭", "EUR": "🇪🇺", "EUC": "🇪🇺", "NBB": "🇧🇷", "ACB": "🇪🇸", "LBA": "🇮🇹", "LPB": "🇵🇹", "LNB": "🇫🇷"}
 WEEKDAYS = ["seg", "ter", "qua", "qui", "sex", "sáb", "dom"]
 
@@ -116,10 +116,16 @@ TEAM_NAMES = {
     "Athletico-PR": "Athletico-PR", "Flamengo RJ": "Flamengo", "Botafogo RJ": "Botafogo",
     "Chapecoense-SC": "Chapecoense", "Cuiaba": "Cuiabá", "Goias": "Goiás", "Ceara": "Ceará",
     "America MG": "América-MG", "Avai": "Avaí",
+    "Academica": "Académica", "Leixoes": "Leixões", "Lusitania FC": "Lusitânia",
+    "SC Farense": "Farense", "Os Belenenses": "Belenenses", "Sporting CP B": "Sporting B",
+    "Sporting CP": "Sporting",
 }
 
 
 def _team(name: str) -> str:
+    if name.endswith(" U23"):  # equipas da Liga Revelação
+        base = name.removesuffix(" U23")
+        return html.escape(f"{TEAM_NAMES.get(base, base)} Sub-23")
     return html.escape(TEAM_NAMES.get(name, name))
 
 
@@ -309,6 +315,19 @@ incerto que o jogo: no teste o favorito ganhou o quarto em 52% a 55% das vezes e
 vitória e intervalo/final; no teste com 3513 jogos da NBA, EuroLeague e EuroCup as percentagens
 bateram certo com o que aconteceu (por exemplo, handicaps a 66%: ganharam 67%)."""
 
+# Notas por liga de futebol (teste com jogos passados de cada liga, prevendo só com o passado)
+NO_HT = (" Esta fonte não tem o resultado ao intervalo, por isso \"Por parte\" usa a parte dos golos "
+         "que as outras ligas marcam na 1.ª parte (cerca de 44%).")
+FOOTBALL_LEAGUE_NOTES = {
+    "TUR": " Nesta liga, no teste com 384 jogos, o favorito do modelo ganhou 49% das vezes.",
+    "NED": " Nesta liga, no teste com 363 jogos, o favorito do modelo ganhou 51% das vezes.",
+    "BEL": " Nesta liga, no teste com 375 jogos, o favorito do modelo ganhou 48% das vezes.",
+    "U23": " Nesta liga, no teste com 250 jogos, o favorito do modelo ganhou 50% das vezes." + NO_HT,
+    "PO2": (" Atenção: na Liga Portugal 2 o modelo não funcionou bem no teste com 341 jogos (o "
+            "favorito ganhou só 41% das vezes e as percentagens foram piores do que usar as médias "
+            "da liga). Aqui as percentagens valem pouco: usa-as com muita cautela." + NO_HT),
+}
+
 # Percentagem de vencedores certos no teste com jogos passados (basquete-backtest)
 BASKET_ACCURACY = {"NBA": 66, "EUR": 64, "EUC": 65, "ACB": 69, "LBA": 71, "LPB": 75, "NBB": 73, "LNB": 71, "NBL": 59, "BLG": 67, "ABA": 80, "KBL": 58, "SBL": 73, "KOR": 57, "CBA": 71, "PBA": 66}
 
@@ -397,7 +416,8 @@ def render_site(preds: pd.DataFrame, basket: pd.DataFrame | None = None,
     for key, league in LEAGUES.items():
         games = preds[preds["league"] == key] if not preds.empty else preds
         pages[f"futebol/{key.lower()}.html"] = _league_page(
-            key, league, games, _game, FOOTBALL_NOTE, "../", updated)
+            key, league, games, _game, FOOTBALL_NOTE + FOOTBALL_LEAGUE_NOTES.get(key, ""), "../",
+            updated)
     for key, league in BASKET_LEAGUES.items():
         games = basket[basket["league"] == key] if not basket.empty else basket
         note = BASKET_NOTE

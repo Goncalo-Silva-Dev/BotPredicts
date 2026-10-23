@@ -15,8 +15,12 @@ from analise.leagues import League
 
 BASE_URL = "https://raw.githubusercontent.com/openfootball/football.json/master"
 
-# Pares que a comparação automática não acerta: nome openfootball -> football-data
+# Pares que a comparação automática não acerta: nome openfootball (ou betexplorer) -> football-data
 ALIASES = {
+    "Basaksehir": "Buyuksehyr",
+    "Royale Union SG": "St. Gilloise",
+    "St. Liege": "Standard",
+    "NEC": "Nijmegen",
     "Sporting Clube de Portugal": "Sp Lisbon",
     "Athletic Club": "Ath Bilbao",
     "Club Atlético de Madrid": "Ath Madrid",

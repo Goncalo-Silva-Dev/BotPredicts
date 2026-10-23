@@ -108,6 +108,11 @@ def test_upcoming_joins_calendar_and_odds(monkeypatch):
     ])
     monkeypatch.setattr(openfootball, "fetch_season", lambda league, today: season)
     monkeypatch.setattr(calendario.football_data_uk, "fetch_fixtures", lambda leagues: fd)
+
+    def no_calendar(*args):  # a MLS fica só com o football-data, como quando o betexplorer falha
+        raise ConnectionError("sem rede no teste")
+
+    monkeypatch.setattr(calendario.betexplorer, "fetch_fixtures", no_calendar)
     res = calendario.upcoming(engine, [LEAGUES["POR"], LEAGUES["USA"]], today=date(2026, 10, 22))
     assert res[["league", "home", "away"]].values.tolist() == [
         ["USA", "A", "B"], ["POR", "Benfica", "Porto"], ["POR", "Sp Lisbon", "Benfica"]]
@@ -127,3 +132,27 @@ def test_openfootball_local_times_become_portugal_time():
     assert rome["time"].tolist()[0] == "19:45" and rome["time"].isna().tolist()[1]
     late = _to_lisbon(pd.DataFrame([{"date": date(2026, 11, 4), "time": "21:30"}]), "America/Sao_Paulo")
     assert late.iloc[0]["date"] == date(2026, 11, 5) and late.iloc[0]["time"] == "00:30"
+
+
+def test_upcoming_uses_betexplorer_calendar_with_history_names(monkeypatch):
+    from analise import calendario
+    from analise.db import get_engine, metadata
+
+    engine = get_engine("sqlite://")
+    metadata.create_all(engine)
+    with engine.begin() as conn:
+        conn.execute(calendario.matches.insert(), [
+            {"league": "BEL", "season": "2026-27", "date": date(2026, 9, 1), "home": h, "away": a,
+             "source": "t"} for h, a in [("Standard", "Club Brugge"), ("St. Gilloise", "Standard")]])
+    fixtures = pd.DataFrame([
+        {"league": "BEL", "date": date(2026, 10, 25), "time": "19:45", "round": None,
+         "home": "St. Liege", "away": "Club Brugge KV", "home_points": None, "away_points": None},
+        {"league": "BEL", "date": date(2026, 11, 1), "time": "15:00", "round": None,
+         "home": "Royale Union SG", "away": "St. Liege", "home_points": None, "away_points": None},
+    ])
+    monkeypatch.setattr(calendario.betexplorer, "fetch_fixtures", lambda path, key, today: fixtures)
+    monkeypatch.setattr(calendario.football_data_uk, "fetch_fixtures", lambda leagues: pd.DataFrame(
+        columns=["league", "date", "time", "home", "away", "odds_home", "odds_draw", "odds_away"]))
+    res = calendario.upcoming(engine, [LEAGUES["BEL"]], today=date(2026, 10, 22))
+    assert res[["home", "away", "time"]].values.tolist() == [
+        ["Standard", "Club Brugge", "19:45"], ["St. Gilloise", "Standard", "15:00"]]

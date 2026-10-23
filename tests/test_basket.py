@@ -214,7 +214,7 @@ def test_parse_cba_maps_club_ids_and_skips_preseason():
 
 
 def test_parse_betexplorer_results_and_fixtures():
-    from analise.ingest.basket import parse_betexplorer, parse_betexplorer_fixtures
+    from analise.ingest.betexplorer import parse_betexplorer, parse_betexplorer_fixtures
 
     result = ('<td class="h-text-left"><a href="/x/" class="in-match"><span><strong>Zhejiang Guangsha'
               '</strong></span> - <span>Beijing</span></a></td><td class="h-text-center"><a href="/x/">'
