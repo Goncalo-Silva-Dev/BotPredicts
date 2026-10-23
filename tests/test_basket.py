@@ -168,3 +168,20 @@ def test_parse_kbl_keeps_first_division_league_games():
     assert len(df) == 2 and df["home"].iloc[0] == "Changwon LG Sakers"
     assert df["time"].iloc[0] == "06:00" and df["home_points"].iloc[0] == 81
     assert pd.isna(df["home_points"].iloc[1])
+
+
+def test_parse_sbl_utc_to_lisbon_and_unplayed():
+    from analise.ingest.basket import parse_sbl
+
+    def team(name, score):
+        return {"names": {"long": name}, "score": score}
+
+    games = [
+        {"rawStartDateTime": "2025-09-18T17:04:00.000Z", "state": "post-game",
+         "homeTeamInfo": team("Uppsala Basket", 90), "awayTeamInfo": team("Sloga Uppsala", 84)},
+        {"rawStartDateTime": "2027-01-10T15:00:00.000Z", "state": "pre-game",
+         "homeTeamInfo": team("BC Luleå", None), "awayTeamInfo": team("Borås Basket", None)},
+    ]
+    df = parse_sbl(games)
+    assert list(df["time"]) == ["18:04", "15:00"]  # hora de verão e de inverno em Lisboa
+    assert df.loc[0, "home_points"] == 90 and pd.isna(df.loc[1, "home_points"])

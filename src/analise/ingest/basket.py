@@ -54,6 +54,7 @@ BASKET_LEAGUES = {
         BasketLeague("BLG", "B.League (Japão)", "bleague", "2"),
         BasketLeague("ABA", "Liga ABA (Sérvia e Balcãs)", "aba", ""),
         BasketLeague("KBL", "KBL (Coreia do Sul)", "kbl", ""),
+        BasketLeague("SBL", "Basketligan (Suécia)", "sbl", ""),
     ]
 }
 
@@ -134,6 +135,8 @@ def fetch_games(league: BasketLeague, today: date | None = None, seasons: int = 
         df = fetch_fpb(league, range(first, season_start(today) + 1))
     elif league.source == "nbb":
         df = fetch_nbb(league, range(first, season_start(today) + 1))
+    elif league.source == "sbl":
+        df = fetch_sbl(league, range(first, season_start(today) + 1))
     elif league.source == "kbl":
         df = fetch_kbl(league, range(first, season_start(today) + 1))
     elif league.source == "aba":
@@ -605,3 +608,42 @@ def fetch_kbl(league: BasketLeague, years: range) -> pd.DataFrame:
         resp.raise_for_status()
         games.extend(resp.json() or [])
     return parse_kbl(games, league.key)
+
+
+SBL_API = "https://www.sblherr.se/api/sports-v2"
+
+
+def parse_sbl(games: list[dict], league_key: str = "SBL") -> pd.DataFrame:
+    rows = []
+    for g in games:
+        home, away = g["homeTeamInfo"], g["awayTeamInfo"]
+        when = pd.Timestamp(g["rawStartDateTime"]).tz_convert("Europe/Lisbon")
+        done = g.get("state") == "post-game" and home.get("score") is not None
+        rows.append({
+            "league": league_key, "date": when.date(), "time": when.strftime("%H:%M"),
+            "round": None, "home": home["names"]["long"], "away": away["names"]["long"],
+            "home_points": float(home["score"]) if done else None,
+            "away_points": float(away["score"]) if done else None,
+        })
+    return pd.DataFrame(rows, columns=COLUMNS)
+
+
+def fetch_sbl(league: BasketLeague, years: range) -> pd.DataFrame:
+    """Basketligan (Suécia): fase regular e playoffs de cada época, um pedido por fase."""
+    def get(path, **params):
+        resp = requests.get(f"{SBL_API}/{path}", params=params, headers=HEADERS, timeout=60)
+        resp.raise_for_status()
+        return resp.json()
+
+    filters = get("season-series-game-types-filter")
+    series = filters["series"][0]["uuid"]
+    seasons = {int(s["code"]): s["uuid"] for s in filters["season"] if s["code"].isdigit()}
+    games = []
+    for year in years:
+        if year not in seasons:
+            continue
+        types = get("season-series-game-types-filter", season=seasons[year], series=series)
+        for t in types["gameType"]:
+            games.extend(get("game-schedule", seasonUuid=seasons[year], seriesUuid=series,
+                             gameTypeUuid=t["uuid"]).get("gameInfo") or [])
+    return parse_sbl(games, league.key)
