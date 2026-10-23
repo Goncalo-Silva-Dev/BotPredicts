@@ -95,6 +95,57 @@ class DixonColes:
             "goals_away": float((g[None, :] * m).sum()),
         }
 
+    def markets(self, home: str, away: str) -> dict:
+        """Mercados que saem da matriz de resultados exatos do jogo inteiro."""
+        m = self.score_matrix(home, away)
+        g = np.arange(MAX_GOALS + 1)
+        hg, ag = np.meshgrid(g, g, indexing="ij")
+        total, diff = hg + ag, hg - ag
+        p = lambda mask: float(m[mask].sum())  # noqa: E731
+        out = {
+            "dupla_1x": p(diff >= 0), "dupla_12": p(diff != 0), "dupla_x2": p(diff <= 0),
+            # empate anula aposta: o empate devolve o dinheiro, por isso fica de fora
+            "dnb_casa": p(diff > 0) / max(p(diff != 0), 1e-12),
+            "casa_sem_sofrer": p((diff > 0) & (ag == 0)), "fora_sem_sofrer": p((diff < 0) & (hg == 0)),
+            "casa_marca": p(hg > 0), "fora_marca": p(ag > 0),
+        }
+        for line in (0.5, 1.5, 2.5, 3.5, 4.5):
+            out[f"mais_{line}"] = p(total > line)
+        for line in (0.5, 1.5, 2.5):
+            out[f"casa_mais_{line}"] = p(hg > line)
+            out[f"fora_mais_{line}"] = p(ag > line)
+        for n in range(4):
+            out[f"golos_{n}"] = p(total == n)
+        out["golos_4+"] = p(total >= 4)
+        # handicap europeu de -1 golo para a casa: casa ganha por 2+, empate ganha por 1
+        out["hcp_casa_-1"], out["hcp_empate_-1"], out["hcp_fora_+1"] = p(diff >= 2), p(diff == 1), p(diff <= 0)
+        out["hcp_casa_+1"], out["hcp_empate_+1"], out["hcp_fora_-1"] = p(diff >= 0), p(diff == -1), p(diff <= -2)
+        return out
+
+    def half_time_full_time(self, home: str, away: str, share_home: float = HT_SHARE[0],
+                            share_away: float = HT_SHARE[1]) -> dict:
+        """Intervalo/final (9 combinações), com as partes como Poissons independentes."""
+        lam, mu = self.expected_goals(home, away)
+        g = np.arange(MAX_GOALS + 1)
+
+        def half(sh, sa):
+            m = np.outer(poisson.pmf(g, lam * sh), poisson.pmf(g, mu * sa))
+            return m / m.sum()
+
+        first, second = half(share_home, share_away), half(1 - share_home, 1 - share_away)
+        d = g[:, None] - g[None, :]
+        n = 2 * MAX_GOALS + 1
+        # distribuição da diferença de golos em cada parte, de -MAX a +MAX
+        d1 = np.bincount((d + MAX_GOALS).ravel(), weights=first.ravel(), minlength=n)
+        d2 = np.bincount((d + MAX_GOALS).ravel(), weights=second.ravel(), minlength=n)
+        diffs = np.arange(-MAX_GOALS, MAX_GOALS + 1)
+        sign = lambda x: "1" if x > 0 else ("X" if x == 0 else "2")  # noqa: E731
+        out = {f"{a}/{b}": 0.0 for a in "1X2" for b in "1X2"}
+        for i, x in enumerate(diffs):
+            for j, y in enumerate(diffs):
+                out[f"{sign(x)}/{sign(x + y)}"] += float(d1[i] * d2[j])
+        return out
+
     def expected_goals(self, home: str, away: str) -> tuple[float, float]:
         h, a = self.teams_.index(home), self.teams_.index(away)
         return (float(np.exp(self.attack_[h] + self.defence_[a] + self.home_)),

@@ -15,7 +15,7 @@ from analise.ingest.basket import BASKET_LEAGUES
 from analise.leagues import LEAGUES
 
 FLAGS = {"POR": "🇵🇹", "ESP": "🇪🇸", "ENG": "🏴", "FRA": "🇫🇷", "ITA": "🇮🇹", "USA": "🇺🇸", "BRA": "🇧🇷",
-         "NBA": "🇺🇸", "EUR": "🇪🇺", "EUC": "🇪🇺", "NBB": "🇧🇷", "ACB": "🇪🇸", "LBA": "🇮🇹", "LPB": "🇵🇹", "LNB": "🇫🇷"}
+         "NBA": "🇺🇸", "NBL": "🇦🇺", "EUR": "🇪🇺", "EUC": "🇪🇺", "NBB": "🇧🇷", "ACB": "🇪🇸", "LBA": "🇮🇹", "LPB": "🇵🇹", "LNB": "🇫🇷"}
 WEEKDAYS = ["seg", "ter", "qua", "qui", "sex", "sáb", "dom"]
 
 CSS = """
@@ -53,6 +53,11 @@ details.per summary { padding:2px 0; font-size:13px; color:var(--home); }
   white-space:nowrap; }
 .per th { color:var(--muted); font-weight:500; }
 .per th:first-child, .per td:first-child { text-align:left; }
+.mk { display:grid; grid-template-columns:repeat(auto-fill, minmax(190px, 1fr)); gap:8px 20px;
+  margin-top:6px; font-size:13px; }
+.mk h4 { margin:4px 0 2px; font-size:12px; font-weight:600; color:var(--muted); }
+.mk div div { display:flex; justify-content:space-between; border-bottom:1px solid var(--line);
+  padding:2px 0; }
 header { background:var(--card); border-bottom:1px solid var(--line); position:sticky; top:0;
   z-index:5; }
 header nav { max-width:860px; margin:0 auto; padding:0 16px; display:flex; gap:4px;
@@ -112,7 +117,42 @@ def _game(g) -> str:
             _pct(g[k]) for k in ("mercado_casa", "mercado_empate", "mercado_fora")) + "</b>")
     spans = "".join(f"<span>{f}</span>" for f in facts)
     return f'<div class="game">{head}<div class="bar">{bar}</div><div class="facts">{spans}</div>' \
-           f'{_halves_table(g)}</div>'
+           f'{_halves_table(g)}{_markets(g)}</div>'
+
+
+def _markets(g) -> str:
+    """Mais apostas do jogo inteiro, em blocos pequenos."""
+    if pd.isna(g.get("dupla_1x")):
+        return ""
+    home, away = html.escape(g["home"]), html.escape(g["away"])
+    blocks = [
+        ("Dupla hipótese", [("Casa ou empate (1X)", "dupla_1x"), ("Casa ou fora (12)", "dupla_12"),
+                            ("Empate ou fora (X2)", "dupla_x2")]),
+        ("Empate anula aposta", [(home, g["dnb_casa"]), (away, 1 - g["dnb_casa"])]),
+        ("Total de golos", [(f"Mais de {x}", f"mais_{x}") for x in (0.5, 1.5, 2.5, 3.5, 4.5)]),
+        ("Número de golos", [("0", "golos_0"), ("1", "golos_1"), ("2", "golos_2"),
+                             ("3", "golos_3"), ("4 ou mais", "golos_4+")]),
+        (f"Golos de {home}", [(f"Mais de {x}", f"casa_mais_{x}") for x in (0.5, 1.5, 2.5)]),
+        (f"Golos de {away}", [(f"Mais de {x}", f"fora_mais_{x}") for x in (0.5, 1.5, 2.5)]),
+        ("Handicap -1 casa", [(f"{home} -1", "hcp_casa_-1"), ("Empate (-1)", "hcp_empate_-1"),
+                              (f"{away} +1", "hcp_fora_+1")]),
+        ("Handicap +1 casa", [(f"{home} +1", "hcp_casa_+1"), ("Empate (+1)", "hcp_empate_+1"),
+                              (f"{away} -1", "hcp_fora_-1")]),
+        ("Ganha sem sofrer", [(home, "casa_sem_sofrer"), (away, "fora_sem_sofrer")]),
+    ]
+    htft = g.get("intervalo_final")
+    if isinstance(htft, dict):
+        names = {"1": "Casa", "X": "Empate", "2": "Fora"}
+        best = sorted(htft.items(), key=lambda kv: -kv[1])
+        blocks.append(("Intervalo / final", [
+            (f"{names[k[0]]} / {names[k[2]]}", v) for k, v in best]))
+    html_blocks = []
+    for title, rows in blocks:
+        cells = "".join(f"<div><span>{label}</span><b>{_pct(g[v] if isinstance(v, str) else v)}</b></div>"
+                        for label, v in rows)
+        html_blocks.append(f"<div><h4>{title}</h4>{cells}</div>")
+    return f'<details class="per"><summary>Mais apostas</summary><div class="mk">' \
+           f'{"".join(html_blocks)}</div></details>'
 
 
 def _per_table(head: list[str], rows: list[list[str]]) -> str:
@@ -195,7 +235,10 @@ FOOTBALL_NOTE = """Barras: vitória da casa · empate · vitória de fora. Model
 jogo). No teste com 11 984 jogos passados o modelo acertou bem nas percentagens, mas ficou um
 pouco atrás das odds de fecho das casas de apostas. Em "Por período": resultado ao intervalo e
 golos em cada parte, com a parte dos golos que cada liga costuma marcar na 1.ª parte; ao
-intervalo o favorito acerta em cerca de 45% dos jogos, porque o empate é muito comum."""
+intervalo o favorito acerta em cerca de 45% dos jogos, porque o empate é muito comum. Em "Mais
+apostas": dupla hipótese, totais, golos por equipa, handicap e intervalo/final, todos tirados do
+mesmo modelo; no teste com 2500 jogos da última época as percentagens bateram certo com o que
+aconteceu (por exemplo, mais de 3.5 golos: 29.5% previsto, 29.9% real)."""
 
 BASKET_NOTE = """Barras: vitória da casa · vitória de fora. Ratings de ataque e defesa de cada
 equipa com os resultados das últimas épocas (os jogos recentes pesam mais). Em "Por período":
@@ -204,7 +247,7 @@ incerto que o jogo: no teste o favorito ganhou o quarto em 52% a 55% das vezes e
 56% a 57%."""
 
 # Percentagem de vencedores certos no teste com jogos passados (basquete-backtest)
-BASKET_ACCURACY = {"NBA": 66, "EUR": 64, "EUC": 65, "ACB": 69, "LBA": 71, "LPB": 75, "NBB": 73, "LNB": 71}
+BASKET_ACCURACY = {"NBA": 66, "EUR": 64, "EUC": 65, "ACB": 69, "LBA": 71, "LPB": 75, "NBB": 73, "LNB": 71, "NBL": 59}
 
 
 def _page(title: str, body: str, root: str, current: str, updated: datetime) -> str:

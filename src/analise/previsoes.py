@@ -39,6 +39,8 @@ def predict(
                 "golos_casa": p["goals_home"], "golos_fora": p["goals_away"],
                 "resultados": ", ".join(f"{s} ({q:.0%})" for s, q in model.top_scores(g.home, g.away)),
                 **model.halves(g.home, g.away, *shares),
+                **model.markets(g.home, g.away),
+                "intervalo_final": model.half_time_full_time(g.home, g.away, *shares),
             })
         odds = (g.odds_home, g.odds_draw, g.odds_away)
         if all(pd.notna(o) and o > 1 for o in odds):
