@@ -6,6 +6,9 @@
 - ACB (Espanha): calendário do site oficial, uma página por época.
 - Lega Basket Serie A (Itália): API do site oficial, um pedido por jornada.
 - Liga Betclic Masculina (Portugal): resultados e calendário do site da FPB.
+- KBL (Coreia do Sul): API do site oficial, um pedido por época.
+- Liga ABA (Sérvia e Balcãs): calendário do site oficial, uma página por época.
+- B.League B1 (Japão): calendário do site oficial, um pedido por dia de jogos.
 - Betclic ÉLITE (França): API do site da LNB, com o token público que o site dá a quem o visita.
 """
 import html as html_lib
@@ -48,6 +51,9 @@ BASKET_LEAGUES = {
         BasketLeague("LPB", "Liga Betclic (Portugal)", "fpb", ""),
         BasketLeague("NBB", "NBB (Brasil)", "nbb", ""),
         BasketLeague("LNB", "Betclic ÉLITE (França)", "lnb", "PROA"),
+        BasketLeague("BLG", "B.League (Japão)", "bleague", "2"),
+        BasketLeague("ABA", "Liga ABA (Sérvia e Balcãs)", "aba", ""),
+        BasketLeague("KBL", "KBL (Coreia do Sul)", "kbl", ""),
     ]
 }
 
@@ -128,6 +134,12 @@ def fetch_games(league: BasketLeague, today: date | None = None, seasons: int = 
         df = fetch_fpb(league, range(first, season_start(today) + 1))
     elif league.source == "nbb":
         df = fetch_nbb(league, range(first, season_start(today) + 1))
+    elif league.source == "kbl":
+        df = fetch_kbl(league, range(first, season_start(today) + 1))
+    elif league.source == "aba":
+        df = fetch_aba(league, range(first, season_start(today) + 1))
+    elif league.source == "bleague":
+        df = fetch_bleague(league, range(first, season_start(today) + 1))
     elif league.source == "lnb":
         df = fetch_lnb(league, range(first, season_start(today) + 1))
     else:
@@ -422,3 +434,165 @@ def fetch_lnb(league: BasketLeague, years: range) -> pd.DataFrame:
     if not days:
         return pd.DataFrame(columns=COLUMNS)
     return _unify_names(parse_lnb(days, league.key))
+
+
+BLEAGUE_URL = "https://www.bleague.jp/schedule/"
+_BLEAGUE_GAME = re.compile(r'<li class="list-item" id="(\d+)">(.*?)class="data-link"', re.S)
+
+
+def parse_bleague(html: str, day: date, league_key: str = "BLG") -> pd.DataFrame:
+    rows = []
+    for _, block in _BLEAGUE_GAME.findall(html):
+        names = re.findall(r'team-name">([^<]*)<', block)
+        codes = re.findall(r'/logo/\d+/s/(\w+)\.png', block)
+        if len(names) != 2 or any(BLEAGUE_SKIP.match(c) for c in codes):
+            continue
+        scores = re.findall(r'(home|away)-score[^"]*"><span>(\d+)</span>', block)
+        pts = {side: float(v) for side, v in scores}
+        clock = re.search(r"<span>(\d\d:\d\d)</span>", block)
+        when = None
+        if clock:  # horas do Japão
+            when = pd.Timestamp(f"{day} {clock.group(1)}", tz="Asia/Tokyo").tz_convert("Europe/Lisbon")
+        rows.append({
+            "league": league_key, "date": when.date() if when is not None else day,
+            "time": when.strftime("%H:%M") if when is not None else None, "round": None,
+            "home": BLEAGUE_NAMES.get(codes[0], names[0]) if len(codes) == 2 else names[0],
+            "away": BLEAGUE_NAMES.get(codes[1], names[1]) if len(codes) == 2 else names[1],
+            "home_points": pts.get("home"), "away_points": pts.get("away"),
+        })
+    return pd.DataFrame(rows, columns=COLUMNS)
+
+
+def _bleague_get(**params) -> str:
+    resp = requests.get(BLEAGUE_URL, params={"tab": 1, "club": "", **params}, headers=HEADERS,
+                        timeout=60)
+    resp.raise_for_status()
+    return resp.text
+
+
+def fetch_bleague(league: BasketLeague, years: range) -> pd.DataFrame:
+    """B1: a página de cada mês diz em que dias há jogos; depois um pedido por dia."""
+    days = []
+    for year in years:
+        for month in (9, 10, 11, 12, 1, 2, 3, 4, 5):
+            html = _bleague_get(year=year, mon=month, event=league.code)
+            cal_year = year if month >= 7 else year + 1
+            for d in sorted(set(re.findall(r'data-day="(\d+)"', html))):
+                days.append((year, date(cal_year, month, int(d))))
+    with ThreadPoolExecutor(max_workers=6) as pool:
+        frames = list(pool.map(lambda yd: parse_bleague(
+            _bleague_get(year=yd[0], mon=yd[1].month, day=yd[1].day, event=league.code),
+            yd[1], league.key), days))
+    frames = [f for f in frames if not f.empty]
+    return pd.concat(frames, ignore_index=True) if frames else pd.DataFrame(columns=COLUMNS)
+
+
+# Nomes das equipas pela sigla do logótipo (o site só os dá em japonês); uma sigla nova
+# aparece com o nome japonês até ser acrescentada aqui
+BLEAGUE_NAMES = {
+    "ac": "Altiri Chiba", "an": "Akita Northern Happinets", "at": "Alvark Tokyo",
+    "bw": "Shinshu Brave Warriors", "cj": "Chiba Jets", "dd": "Nagoya Diamond Dolphins",
+    "fe": "FE Nagoya", "gc": "Gunma Crane Thunders", "hd": "Hiroshima Dragonflies",
+    "ir": "Ibaraki Robots", "ka": "Koshigaya Alphas", "kb": "Kawasaki Brave Thunders",
+    "kh": "Kyoto Hannaryz", "lh": "Levanga Hokkaido", "ls": "Shiga Lakes",
+    "ns": "Kobe Storks", "nv": "Nagasaki Velca", "oe": "Osaka Evessa", "rg": "Ryukyu Golden Kings",
+    "se": "Sendai 89ers", "sg": "Saga Ballooners", "sm": "SeaHorses Mikawa",
+    "sn": "San-en NeoPhoenix", "sr": "Sunrockers Shibuya", "ss": "Shimane Susanoo Magic",
+    "tg": "Toyama Grouses", "ub": "Utsunomiya Brex", "yb": "Yokohama B-Corsairs",
+}
+# Jogos das estrelas e seleções que aparecem no calendário da B1 (siglas a1, a2, a5...)
+BLEAGUE_SKIP = re.compile(r"^a\d+$")
+
+
+ABA_URL = "https://www.aba-liga.com/calendar/{season}/1/"
+_ABA_ROW = re.compile(
+    r'class="visible-xs">\s*<a[^>]*>\s*([^<]*?)\s*<span>:</span>\s*([^<]*?)</a>.*?'
+    r'class="hidden-xs">\s*<a[^>]*>\s*([^<]*?)\s*<span>:</span>\s*([^<]*?)</a>.*?'
+    r'class="scoretable">(.*?)</td>\s*<td class="locationtable">\s*([^<]*?)\s*</td>', re.S)
+
+
+def parse_aba(html: str, league_key: str = "ABA") -> pd.DataFrame:
+    rows = []
+    # o calendário vem em blocos ("ROUND 5", "Top8 - R1"...); só a fase regular interessa,
+    # porque nas outras fases as equipas ainda não estão definidas
+    parts = re.split(r'aria-controls="#collapse_\d+"[^>]*>\s*([^<]*?)\s*<', html)
+    for label, chunk in zip(parts[1::2], parts[2::2]):
+        rnd = re.fullmatch(r"ROUND (\d+)", label.strip())
+        if not rnd:
+            continue
+        for hc, ac, home, away, score, when in _ABA_ROW.findall(chunk):
+            # "Friday, 02.10.2026 18:30 CET"; mais à frente só há o dia (ou um intervalo de dias)
+            m = re.search(r"(\d\d)\.(\d\d)\.(\d{4})(?: (\d\d:\d\d))?", when)
+            if not m:  # jogos ainda sem data ("TBA")
+                continue
+            day, clock = f"{m[3]}-{m[2]}-{m[1]}", None
+            if m[4]:
+                local = pd.Timestamp(f"{day} {m[4]}", tz="Europe/Belgrade").tz_convert("Europe/Lisbon")
+                day, clock = str(local.date()), local.strftime("%H:%M")
+            pts = re.search(r"(\d+)\s*:\s*(\d+)", score)
+            rows.append({
+                "league": league_key, "date": date.fromisoformat(day), "time": clock,
+                "round": f"Round {rnd[1]}", "home": home.strip(), "away": away.strip(),
+                "home_points": float(pts[1]) if pts else None,
+                "away_points": float(pts[2]) if pts else None,
+                "home_code": hc.strip(), "away_code": ac.strip(),
+            })
+    return pd.DataFrame(rows, columns=COLUMNS + ["home_code", "away_code"])
+
+
+def fetch_aba(league: BasketLeague, years: range) -> pd.DataFrame:
+    """Liga ABA: a página de cada época tem a fase regular inteira."""
+    frames = []
+    for year in years:
+        resp = requests.get(ABA_URL.format(season=year - 2000), headers=HEADERS, timeout=60)
+        resp.raise_for_status()
+        frames.append(parse_aba(resp.text, league.key))
+    frames = [f for f in frames if not f.empty]
+    if not frames:
+        return pd.DataFrame(columns=COLUMNS)
+    return _unify_names(pd.concat(frames, ignore_index=True))
+
+
+KBL_URL = "https://api.kbl.or.kr/match/list"
+# o site manda estes cabeçalhos em todos os pedidos (sem eles a API responde 400)
+KBL_HEADERS = {**HEADERS, "Channel": "WEB", "TeamCode": "XX", "lang": "ko"}
+KBL_NAMES = {
+    "06": "Suwon KT Sonicboom", "10": "Ulsan Hyundai Mobis Phoebus", "16": "Wonju DB Promy",
+    "35": "Seoul Samsung Thunders", "50": "Changwon LG Sakers", "55": "Seoul SK Knights",
+    "60": "Busan KCC Egis", "64": "Daegu KOGAS Pegasus", "66": "Goyang Sono Skygunners",
+    "70": "Anyang Jung Kwan Jang Red Boosters",
+}
+# 01 fase regular, 03 playoffs, 04 final; ficam de fora a liga D, o EASL e o jogo das estrelas
+KBL_GAME_CODES = {"01", "03", "04"}
+
+
+def parse_kbl(games: list[dict], league_key: str = "KBL") -> pd.DataFrame:
+    rows = []
+    for g in games:
+        if g.get("seasonGrade") != 1 or g.get("gameCode") not in KBL_GAME_CODES:
+            continue
+        start = g.get("gameStart") or ""
+        when = pd.Timestamp(f"{g['gameDate']} {start[:2]}:{start[2:]}" if len(start) == 4
+                            else g["gameDate"], tz="Asia/Seoul")
+        done = g.get("isEnded") == 1 and g.get("scoreH") is not None
+        rows.append({
+            "league": league_key,
+            "date": when.tz_convert("Europe/Lisbon").date() if len(start) == 4 else when.date(),
+            "time": when.tz_convert("Europe/Lisbon").strftime("%H:%M") if len(start) == 4 else None,
+            "round": None,
+            "home": KBL_NAMES.get(g["tcodeH"], g["tnameH"]),
+            "away": KBL_NAMES.get(g["tcodeA"], g["tnameA"]),
+            "home_points": float(g["scoreH"]) if done else None,
+            "away_points": float(g["scoreA"]) if done else None,
+        })
+    return pd.DataFrame(rows, columns=COLUMNS)
+
+
+def fetch_kbl(league: BasketLeague, years: range) -> pd.DataFrame:
+    games = []
+    for year in years:
+        resp = requests.get(KBL_URL, params={"fromDate": f"{year}0901", "toDate": f"{year + 1}0630"},
+                            headers=KBL_HEADERS, timeout=60)
+        resp.raise_for_status()
+        games.extend(resp.json() or [])
+    return parse_kbl(games, league.key)
