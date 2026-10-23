@@ -115,3 +115,24 @@ def test_reserve_games_roundtrip(tmp_path):
     back = _reserve_games(str(tmp_path), "LNB")
     assert back["date"].iloc[0] == date(2026, 10, 23) and back["time"].iloc[0] == "19:00"
     assert _reserve_games(str(tmp_path), "NBB") is None and _reserve_games(None, "LNB") is None
+
+
+BLG_GAME = """<li class="list-item" id="{id}"><div class="inner"><a class="data-game" href="#">
+<div class="game "><span class="team home"><span class="team-logo"><img src="https://x/logo/2026/s/{hc}.png"></span>
+<span class="team-name">{hn}</span></span><span class="point font-blg">{score}</span>
+<span class="team away"><span class="team-name">{an}</span><span class="team-logo"><img src="https://x/logo/2026/s/{ac}.png"></span></span></div>
+<div class="info"><div class="info-arena"><span>滋賀県</span><span>19:05</span></div></div></a>
+<div class="data-link"></div></div></li>"""
+
+
+def test_parse_bleague_names_scores_and_skips_all_star():
+    from analise.ingest.basket import parse_bleague
+    score = ('<span class="number home-score "><span>81</span></span><span class="hifun"></span>'
+             '<span class="number away-score gr"><span>52</span></span>')
+    html = (BLG_GAME.format(id=1, hc="cj", hn="千葉J", ac="kh", an="京都", score=score)
+            + BLG_GAME.format(id=2, hc="ls", hn="滋賀", ac="zz", an="新", score="")
+            + BLG_GAME.format(id=3, hc="a1", hn="B.BLACK", ac="a2", an="B.WHITE", score=score))
+    df = parse_bleague(html, date(2026, 10, 23))
+    assert df[["home", "away"]].values.tolist() == [["Chiba Jets", "Kyoto Hannaryz"], ["Shiga Lakes", "新"]]
+    assert df["home_points"].iloc[0] == 81 and pd.isna(df["home_points"].iloc[1])
+    assert df["time"].iloc[0] == "11:05" and str(df["date"].iloc[0]) == "2026-10-23"

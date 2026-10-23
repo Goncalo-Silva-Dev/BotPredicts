@@ -6,6 +6,7 @@
 - ACB (Espanha): calendário do site oficial, uma página por época.
 - Lega Basket Serie A (Itália): API do site oficial, um pedido por jornada.
 - Liga Betclic Masculina (Portugal): resultados e calendário do site da FPB.
+- B.League B1 (Japão): calendário do site oficial, um pedido por dia de jogos.
 - Betclic ÉLITE (França): API do site da LNB, com o token público que o site dá a quem o visita.
 """
 import html as html_lib
@@ -48,6 +49,7 @@ BASKET_LEAGUES = {
         BasketLeague("LPB", "Liga Betclic (Portugal)", "fpb", ""),
         BasketLeague("NBB", "NBB (Brasil)", "nbb", ""),
         BasketLeague("LNB", "Betclic ÉLITE (França)", "lnb", "PROA"),
+        BasketLeague("BLG", "B.League (Japão)", "bleague", "2"),
     ]
 }
 
@@ -128,6 +130,8 @@ def fetch_games(league: BasketLeague, today: date | None = None, seasons: int = 
         df = fetch_fpb(league, range(first, season_start(today) + 1))
     elif league.source == "nbb":
         df = fetch_nbb(league, range(first, season_start(today) + 1))
+    elif league.source == "bleague":
+        df = fetch_bleague(league, range(first, season_start(today) + 1))
     elif league.source == "lnb":
         df = fetch_lnb(league, range(first, season_start(today) + 1))
     else:
@@ -422,3 +426,71 @@ def fetch_lnb(league: BasketLeague, years: range) -> pd.DataFrame:
     if not days:
         return pd.DataFrame(columns=COLUMNS)
     return _unify_names(parse_lnb(days, league.key))
+
+
+BLEAGUE_URL = "https://www.bleague.jp/schedule/"
+_BLEAGUE_GAME = re.compile(r'<li class="list-item" id="(\d+)">(.*?)class="data-link"', re.S)
+
+
+def parse_bleague(html: str, day: date, league_key: str = "BLG") -> pd.DataFrame:
+    rows = []
+    for _, block in _BLEAGUE_GAME.findall(html):
+        names = re.findall(r'team-name">([^<]*)<', block)
+        codes = re.findall(r'/logo/\d+/s/(\w+)\.png', block)
+        if len(names) != 2 or any(BLEAGUE_SKIP.match(c) for c in codes):
+            continue
+        scores = re.findall(r'(home|away)-score[^"]*"><span>(\d+)</span>', block)
+        pts = {side: float(v) for side, v in scores}
+        clock = re.search(r"<span>(\d\d:\d\d)</span>", block)
+        when = None
+        if clock:  # horas do Japão
+            when = pd.Timestamp(f"{day} {clock.group(1)}", tz="Asia/Tokyo").tz_convert("Europe/Lisbon")
+        rows.append({
+            "league": league_key, "date": when.date() if when is not None else day,
+            "time": when.strftime("%H:%M") if when is not None else None, "round": None,
+            "home": BLEAGUE_NAMES.get(codes[0], names[0]) if len(codes) == 2 else names[0],
+            "away": BLEAGUE_NAMES.get(codes[1], names[1]) if len(codes) == 2 else names[1],
+            "home_points": pts.get("home"), "away_points": pts.get("away"),
+        })
+    return pd.DataFrame(rows, columns=COLUMNS)
+
+
+def _bleague_get(**params) -> str:
+    resp = requests.get(BLEAGUE_URL, params={"tab": 1, "club": "", **params}, headers=HEADERS,
+                        timeout=60)
+    resp.raise_for_status()
+    return resp.text
+
+
+def fetch_bleague(league: BasketLeague, years: range) -> pd.DataFrame:
+    """B1: a página de cada mês diz em que dias há jogos; depois um pedido por dia."""
+    days = []
+    for year in years:
+        for month in (9, 10, 11, 12, 1, 2, 3, 4, 5):
+            html = _bleague_get(year=year, mon=month, event=league.code)
+            cal_year = year if month >= 7 else year + 1
+            for d in sorted(set(re.findall(r'data-day="(\d+)"', html))):
+                days.append((year, date(cal_year, month, int(d))))
+    with ThreadPoolExecutor(max_workers=6) as pool:
+        frames = list(pool.map(lambda yd: parse_bleague(
+            _bleague_get(year=yd[0], mon=yd[1].month, day=yd[1].day, event=league.code),
+            yd[1], league.key), days))
+    frames = [f for f in frames if not f.empty]
+    return pd.concat(frames, ignore_index=True) if frames else pd.DataFrame(columns=COLUMNS)
+
+
+# Nomes das equipas pela sigla do logótipo (o site só os dá em japonês); uma sigla nova
+# aparece com o nome japonês até ser acrescentada aqui
+BLEAGUE_NAMES = {
+    "ac": "Altiri Chiba", "an": "Akita Northern Happinets", "at": "Alvark Tokyo",
+    "bw": "Shinshu Brave Warriors", "cj": "Chiba Jets", "dd": "Nagoya Diamond Dolphins",
+    "fe": "FE Nagoya", "gc": "Gunma Crane Thunders", "hd": "Hiroshima Dragonflies",
+    "ir": "Ibaraki Robots", "ka": "Koshigaya Alphas", "kb": "Kawasaki Brave Thunders",
+    "kh": "Kyoto Hannaryz", "lh": "Levanga Hokkaido", "ls": "Shiga Lakes",
+    "ns": "Kobe Storks", "nv": "Nagasaki Velca", "oe": "Osaka Evessa", "rg": "Ryukyu Golden Kings",
+    "se": "Sendai 89ers", "sg": "Saga Ballooners", "sm": "SeaHorses Mikawa",
+    "sn": "San-en NeoPhoenix", "sr": "Sunrockers Shibuya", "ss": "Shimane Susanoo Magic",
+    "tg": "Toyama Grouses", "ub": "Utsunomiya Brex", "yb": "Yokohama B-Corsairs",
+}
+# Jogos das estrelas e seleções que aparecem no calendário da B1 (siglas a1, a2, a5...)
+BLEAGUE_SKIP = re.compile(r"^a\d+$")
