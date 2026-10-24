@@ -5,8 +5,8 @@ from datetime import date, timedelta
 import pandas as pd
 from sqlalchemy import select
 
-from analise import backtest, basquete, calendario, pagina, previsoes
-from analise.ingest import basket
+from analise import backtest, basquete, calendario, hoquei, pagina, previsoes
+from analise.ingest import basket, hockey
 from analise.db import get_engine, matches
 from analise.ingest import football_data_uk
 from analise.leagues import LEAGUES
@@ -36,6 +36,10 @@ def main(argv=None):
     bb.add_argument("--ligas", nargs="*", default=list(basket.BASKET_LEAGUES),
                     choices=list(basket.BASKET_LEAGUES))
     bb.add_argument("--epocas", type=int, default=3)
+    hb = sub.add_parser("hoquei-backtest", help="Testa o modelo de hóquei em jogos passados")
+    hb.add_argument("--ligas", nargs="*", default=list(hockey.HOCKEY_LEAGUES),
+                    choices=list(hockey.HOCKEY_LEAGUES))
+    hb.add_argument("--epocas", type=int, default=3)
     pag = sub.add_parser("pagina", help="Gera a página web com as previsões")
     pag.add_argument("--dias", type=int, help="só jogos nos próximos N dias (por omissão, todos)")
     pag.add_argument("--saida", default="site", help="pasta da página")
@@ -58,6 +62,8 @@ def main(argv=None):
         run_previsoes(engine, args)
     elif args.cmd == "basquete-backtest":
         run_basquete_backtest(args)
+    elif args.cmd == "hoquei-backtest":
+        run_hoquei_backtest(args)
     elif args.cmd == "pagina":
         run_pagina(engine, args)
     elif args.cmd == "basquete-dados":
@@ -152,7 +158,10 @@ def run_pagina(engine, args):
     hoops = basket_predictions(today, args.dados_basquete)
     if args.dias and not hoops.empty:
         hoops = hoops[hoops["date"] <= today + timedelta(days=args.dias)]
-    for path, page in pagina.render_site(res, hoops).items():
+    ice = hockey_predictions(today)
+    if args.dias and not ice.empty:
+        ice = ice[ice["date"] <= today + timedelta(days=args.dias)]
+    for path, page in pagina.render_site(res, hoops, hockey=ice).items():
         full = os.path.join(args.saida, path)
         os.makedirs(os.path.dirname(full), exist_ok=True)
         with open(full, "w", encoding="utf-8") as f:
@@ -161,7 +170,25 @@ def run_pagina(engine, args):
         f.write(pagina.to_json(res))
     with open(os.path.join(args.saida, "basquetebol.json"), "w", encoding="utf-8") as f:
         f.write(pagina.to_json(hoops))
-    print(f"{len(res)} jogos de futebol e {len(hoops)} de basquetebol em {args.saida}/")
+    with open(os.path.join(args.saida, "hoquei.json"), "w", encoding="utf-8") as f:
+        f.write(pagina.to_json(ice))
+    print(f"{len(res)} jogos de futebol, {len(hoops)} de basquetebol e {len(ice)} de hóquei "
+          f"em {args.saida}/")
+
+
+def hockey_predictions(today):
+    out = []
+    for league in hockey.HOCKEY_LEAGUES.values():
+        try:  # uma liga que falhe não estraga a página
+            games = hockey.fetch_games(league, today)
+        except Exception as e:
+            print(f"{league.key}: falhou a recolha ({e})")
+            continue
+        out.append(hoquei.predict_upcoming(games, today))
+    out = [o for o in out if not o.empty]
+    if not out:
+        return pd.DataFrame()
+    return pd.concat(out).sort_values(["date", "time"], na_position="last")
 
 
 def basket_predictions(today, reserve_dir=None):
@@ -206,6 +233,16 @@ def run_basquete_backtest(args):
         games = basket.fetch_games(basket.BASKET_LEAGUES[key], seasons=args.epocas)
         res = basquete.walk_forward(games)
         rows.append({"liga": key, **basquete.summary(res)})
+    pd.set_option("display.width", 160)
+    print(pd.DataFrame(rows).set_index("liga").round(3).to_string())
+
+
+
+def run_hoquei_backtest(args):
+    rows = []
+    for key in args.ligas:
+        games = hockey.fetch_games(hockey.HOCKEY_LEAGUES[key], seasons=args.epocas)
+        rows.append({"liga": key, **hoquei.summary(hoquei.walk_forward(games))})
     pd.set_option("display.width", 160)
     print(pd.DataFrame(rows).set_index("liga").round(3).to_string())
 

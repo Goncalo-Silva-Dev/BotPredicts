@@ -1,6 +1,6 @@
 """Site estático com as previsões (para o GitHub Pages).
 
-index.html é o aviso inicial; cada liga tem a sua página em futebol/ ou basquetebol/,
+index.html é o aviso inicial; cada liga tem a sua página em futebol/, basquetebol/ ou hoquei/,
 com um menu comum no topo.
 """
 import html
@@ -13,12 +13,13 @@ from datetime import datetime, timezone
 import pandas as pd
 
 from analise.ingest.basket import BASKET_LEAGUES
+from analise.ingest.hockey import HOCKEY_LEAGUES
 from analise.leagues import LEAGUES
 
 LISBON = ZoneInfo("Europe/Lisbon")
 
 FLAGS = {"POR": "🇵🇹", "PO2": "🇵🇹", "U23": "🇵🇹", "TUR": "🇹🇷", "NED": "🇳🇱", "BEL": "🇧🇪", "ESP": "🇪🇸", "ENG": "🏴", "FRA": "🇫🇷", "ITA": "🇮🇹", "USA": "🇺🇸", "BRA": "🇧🇷",
-         "NBA": "🇺🇸", "NBL": "🇦🇺", "BLG": "🇯🇵", "ABA": "🇷🇸", "KBL": "🇰🇷", "SBL": "🇸🇪", "KOR": "🇫🇮", "CBA": "🇨🇳", "PBA": "🇵🇭", "EUR": "🇪🇺", "EUC": "🇪🇺", "NBB": "🇧🇷", "ACB": "🇪🇸", "LBA": "🇮🇹", "LPB": "🇵🇹", "LNB": "🇫🇷"}
+         "NBA": "🇺🇸", "NHL": "🇺🇸", "NBL": "🇦🇺", "BLG": "🇯🇵", "ABA": "🇷🇸", "KBL": "🇰🇷", "SBL": "🇸🇪", "KOR": "🇫🇮", "CBA": "🇨🇳", "PBA": "🇵🇭", "EUR": "🇪🇺", "EUC": "🇪🇺", "NBB": "🇧🇷", "ACB": "🇪🇸", "LBA": "🇮🇹", "LPB": "🇵🇹", "LNB": "🇫🇷"}
 WEEKDAYS = ["seg", "ter", "qua", "qui", "sex", "sáb", "dom"]
 
 CSS = """
@@ -267,6 +268,72 @@ def _basket_markets(g) -> str:
            f'{"".join(html_blocks)}</div></details>'
 
 
+def _hockey_game(g) -> str:
+    teams = f"{_team(g['home'])} – {_team(g['away'])}"
+    head = f'<div class="top"><span class="teams">{teams}</span>' \
+           f'<span class="when">{_when(g["date"], g.get("time"))}</span></div>'
+    if pd.isna(g.get("casa")):
+        return f'<div class="game">{head}<p class="note">Sem previsão: uma das equipas ' \
+               f'tem poucos jogos no histórico.</p></div>'
+    bar = "".join(
+        f'<span class="{c}" style="flex:{g[k]:.4f}" title="{label}">{_pct(g[k])}</span>'
+        for c, k, label in [("h", "casa", "Vitória da casa (com prolongamento e penáltis)"),
+                            ("a", "fora", "Vitória de fora (com prolongamento e penáltis)")])
+    mk = g["mercados"]
+    facts = [
+        f"Golos esperados <b>{_n(g['golos_casa'])} – {_n(g['golos_fora'])}</b>",
+        "60 minutos <b>" + " / ".join(_pct(g[k]) for k in ("reg_casa", "reg_empate", "reg_fora")) + "</b>",
+        f"Vai a prolongamento <b>{_pct(mk['prolongamento'])}</b>",
+        "Resultados (60') <b>" + ", ".join(s for s, _ in mk["resultados"][:3]) + "</b>",
+    ]
+    spans = "".join(f"<span>{f}</span>" for f in facts)
+    return f'<div class="game">{head}<div class="bar">{bar}</div><div class="facts">{spans}</div>' \
+           f'{_hockey_periods(g)}{_hockey_markets(g)}</div>'
+
+
+def _hockey_periods(g) -> str:
+    periods = g.get("periodos")
+    if not isinstance(periods, list):
+        return ""
+    rows = [[p["periodo"], _pct(p["casa"]), _pct(p["empate"]), _pct(p["fora"]),
+             f"{_n(p['golos_casa'])} – {_n(p['golos_fora'])}", _pct(p["mais_0_5"]),
+             _pct(p["mais_1_5"]), _pct(p["mais_2_5"])] for p in periods]
+    most = g.get("periodo_mais_golos")
+    if isinstance(most, dict):
+        rows.append(["Período com mais golos"] + [""] * 7)
+        rows += [[f"&nbsp;&nbsp;{html.escape(k)}", _pct(v)] + [""] * 6 for k, v in most.items()]
+    return _per_table(["", "Casa", "Empate", "Fora", "Golos", "Mais de 0,5", "Mais de 1,5",
+                       "Mais de 2,5"], rows)
+
+
+def _hockey_markets(g) -> str:
+    """Mais apostas de hóquei; as linhas de golos contam com o prolongamento e os penáltis."""
+    mk = g.get("mercados")
+    if not isinstance(mk, dict):
+        return ""
+    home, away = _team(g["home"]), _team(g["away"])
+    names = {"casa": home, "fora": away}
+    blocks = [
+        ("Resultado aos 60 minutos", [(home, g["reg_casa"]), ("Empate", g["reg_empate"]), (away, g["reg_fora"])]),
+        ("Dupla hipótese (60 minutos)", [("Casa ou empate (1X)", mk["dupla"]["1X"]),
+                                         ("Casa ou fora (12)", mk["dupla"]["12"]),
+                                         ("Empate ou fora (X2)", mk["dupla"]["X2"])]),
+        ("Puck line", [(f"{names[side]} {_signed(line)}", p) for side, line, p in mk["puck_line"]]),
+        ("Total de golos", [(f"Mais de {_line(line)}", p) for line, p in mk["total"]]),
+        (f"Golos de {home}", [(f"Mais de {_line(line)}", p) for line, p in mk["golos_casa"]]),
+        (f"Golos de {away}", [(f"Mais de {_line(line)}", p) for line, p in mk["golos_fora"]]),
+        ("Outras", [("Ambas marcam (60 minutos)", mk["ambas_marcam"]),
+                    ("Há prolongamento", mk["prolongamento"]), ("Não há prolongamento", 1 - mk["prolongamento"])]),
+        ("Resultado exato aos 60 minutos", mk["resultados"]),
+    ]
+    html_blocks = []
+    for title, rows in blocks:
+        cells = "".join(f"<div><span>{label}</span><b>{_pct(v)}</b></div>" for label, v in rows)
+        html_blocks.append(f"<div><h4>{title}</h4>{cells}</div>")
+    return f'<details class="per"><summary>Mais apostas</summary><div class="mk">' \
+           f'{"".join(html_blocks)}</div></details>'
+
+
 def _round_label(r, dates: pd.Series) -> str:
     if isinstance(r, str) and r:
         label = re.sub(r"^(Matchday|Round)\s*", "Jornada ", r)
@@ -328,6 +395,18 @@ FOOTBALL_LEAGUE_NOTES = {
             "da liga). Aqui as percentagens valem pouco: usa-as com muita cautela." + NO_HT),
 }
 
+HOCKEY_NOTE = """Barras: vitória da casa · vitória de fora, já com prolongamento e penáltis. Forças
+de ataque e defesa de cada equipa com os golos dos 60 minutos das últimas épocas (os jogos
+recentes pesam mais), mais o fim de jogo do hóquei: quem perde tira o guarda-redes, o que dá
+golos na baliza deserta ou empates tardios. No teste com 2766 jogos passados da NHL, cada um
+previsto só com os jogos anteriores, o favorito ganhou 55% das vezes (a NHL é das ligas mais
+equilibradas e imprevisíveis), o empate aos 60 minutos foi previsto em 23,5% dos jogos e
+aconteceu em 23,1%, e a puck line -1,5 da casa foi prevista a 31,6% e ganhou 32,4%. Nas casas de
+apostas, o total de golos e a puck line contam com o prolongamento e os penáltis (quem ganha
+fica com mais 1 golo), e é assim que estão aqui. O "Resultado aos 60 minutos" e o resultado
+exato são só do tempo regulamentar. Em "Por período" as percentagens ficam perto das médias da
+liga: um período tem poucos golos e é muito difícil de prever."""
+
 # Percentagem de vencedores certos no teste com jogos passados (basquete-backtest)
 BASKET_ACCURACY = {"NBA": 66, "EUR": 64, "EUC": 65, "ACB": 69, "LBA": 71, "LPB": 75, "NBB": 73, "LNB": 71, "NBL": 59, "BLG": 67, "ABA": 80, "KBL": 58, "SBL": 73, "KOR": 57, "CBA": 71, "PBA": 66}
 
@@ -351,11 +430,12 @@ def _page(title: str, body: str, root: str, current: str, updated: datetime) -> 
 <a class="brand" href="{root}index.html">BotPredicts</a>
 <details><summary>⚽ Futebol</summary><div class="menu">{menu("futebol", LEAGUES)}</div></details>
 <details><summary>🏀 Basquetebol</summary><div class="menu">{menu("basquetebol", BASKET_LEAGUES)}</div></details>
+<details><summary>🏒 Hóquei</summary><div class="menu">{menu("hoquei", HOCKEY_LEAGUES)}</div></details>
 </nav></header>
 <main>
 {body}
 <p class="note">Atualizado {updated.astimezone(LISBON):%d/%m/%Y %H:%M} (hora de Portugal) · Dados: football-data.co.uk,
-openfootball, ESPN, Euroleague Basketball e sites oficiais das ligas.</p>
+openfootball, ESPN (NBA e NHL), Euroleague Basketball e sites oficiais das ligas.</p>
 </main>
 <script>
 // Fecha os outros menus quando se abre um
@@ -378,7 +458,7 @@ def _league_page(key, league, games, card, note, root, updated) -> str:
     return _page(league.name, body, root, key, updated)
 
 
-def _index(preds, basket, updated) -> str:
+def _index(preds, basket, hockey, updated) -> str:
     def cards(folder, leagues, df):
         out = []
         for k, l in leagues.items():
@@ -386,7 +466,7 @@ def _index(preds, basket, updated) -> str:
             out.append(f'<a href="{folder}/{k.lower()}.html">{FLAGS.get(k, "")} '
                        f"{html.escape(l.name)}<span>{n} {"jogo" if n == 1 else "jogos"} com previsão</span></a>")
         return "".join(out)
-    body = f"""<h1>Previsões de futebol e basquetebol</h1>
+    body = f"""<h1>Previsões de futebol, basquetebol e hóquei no gelo</h1>
 <div class="warn">
 <strong>Antes de usares estas previsões</strong>
 <ul>
@@ -403,16 +483,18 @@ procura ajuda: em Portugal, o SICAD apoia casos de jogo excessivo.</li>
 </ul>
 </div>
 <h2>⚽ Futebol</h2><div class="grid">{cards("futebol", LEAGUES, preds)}</div>
-<h2>🏀 Basquetebol</h2><div class="grid">{cards("basquetebol", BASKET_LEAGUES, basket)}</div>"""
+<h2>🏀 Basquetebol</h2><div class="grid">{cards("basquetebol", BASKET_LEAGUES, basket)}</div>
+<h2>🏒 Hóquei no gelo</h2><div class="grid">{cards("hoquei", HOCKEY_LEAGUES, hockey)}</div>"""
     return _page("Início", body, "", "", updated)
 
 
 def render_site(preds: pd.DataFrame, basket: pd.DataFrame | None = None,
-                updated: datetime | None = None) -> dict[str, str]:
+                updated: datetime | None = None, hockey: pd.DataFrame | None = None) -> dict[str, str]:
     """Todas as páginas do site: {caminho relativo: html}."""
     updated = updated or datetime.now(timezone.utc)
     basket = basket if basket is not None else pd.DataFrame()
-    pages = {"index.html": _index(preds, basket, updated)}
+    hockey = hockey if hockey is not None else pd.DataFrame()
+    pages = {"index.html": _index(preds, basket, hockey, updated)}
     for key, league in LEAGUES.items():
         games = preds[preds["league"] == key] if not preds.empty else preds
         pages[f"futebol/{key.lower()}.html"] = _league_page(
@@ -425,6 +507,10 @@ def render_site(preds: pd.DataFrame, basket: pd.DataFrame | None = None,
             note += f" No teste com jogos passados acertou o vencedor em {BASKET_ACCURACY[key]}% dos jogos."
         pages[f"basquetebol/{key.lower()}.html"] = _league_page(
             key, league, games, _basket_game, note, "../", updated)
+    for key, league in HOCKEY_LEAGUES.items():
+        games = hockey[hockey["league"] == key] if not hockey.empty else hockey
+        pages[f"hoquei/{key.lower()}.html"] = _league_page(
+            key, league, games, _hockey_game, HOCKEY_NOTE, "../", updated)
     return pages
 
 
