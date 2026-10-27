@@ -1,11 +1,11 @@
 import argparse
 import os
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, timezone
 
 import pandas as pd
 from sqlalchemy import select
 
-from analise import backtest, basquete, calendario, hoquei, pagina, previsoes
+from analise import backtest, basquete, calendario, hoquei, pagina, previsoes, registo
 from analise.ingest import basket, hockey
 from analise.db import get_engine, matches
 from analise.ingest import football_data_uk
@@ -46,6 +46,9 @@ def main(argv=None):
     pag.add_argument("--dados-basquete", default=os.environ.get("BASKET_DATA_DIR"),
                      help="pasta com CSVs de reserva por liga (p. ex. NBB.csv) para as ligas "
                           "cujo site recusa a recolha")
+    pag.add_argument("--historico", default=os.environ.get("HISTORICO_DIR"),
+                     help="pasta do registo das previsões (ramo 'historico'): guarda as de hoje, "
+                          "junta os resultados e gera a página do histórico")
     bd = sub.add_parser("basquete-dados", help="Guarda os jogos de basquetebol em CSV por liga")
     bd.add_argument("--ligas", nargs="*", default=["NBB", "LNB"], choices=list(basket.BASKET_LEAGUES))
     bd.add_argument("--saida", default="dados-basquete")
@@ -155,13 +158,18 @@ def run_pagina(engine, args):
     if args.dias:
         fixtures = fixtures[fixtures["date"] <= today + timedelta(days=args.dias)]
     res = predict_fixtures(engine, fixtures, 180.0, 730, today)
-    hoops = basket_predictions(today, args.dados_basquete)
+    basket_games, hockey_games = [], []
+    hoops = basket_predictions(today, args.dados_basquete, basket_games)
     if args.dias and not hoops.empty:
         hoops = hoops[hoops["date"] <= today + timedelta(days=args.dias)]
-    ice = hockey_predictions(today)
+    ice = hockey_predictions(today, hockey_games)
     if args.dias and not ice.empty:
         ice = ice[ice["date"] <= today + timedelta(days=args.dias)]
-    for path, page in pagina.render_site(res, hoops, hockey=ice).items():
+    track = None
+    if args.historico:
+        track = update_track(engine, args.historico, {"futebol": res, "basquetebol": hoops, "hoquei": ice},
+                             {"basquetebol": basket_games, "hoquei": hockey_games})
+    for path, page in pagina.render_site(res, hoops, hockey=ice, track=track).items():
         full = os.path.join(args.saida, path)
         os.makedirs(os.path.dirname(full), exist_ok=True)
         with open(full, "w", encoding="utf-8") as f:
@@ -176,7 +184,30 @@ def run_pagina(engine, args):
           f"em {args.saida}/")
 
 
-def hockey_predictions(today):
+def update_track(engine, folder, preds, games):
+    """Guarda as previsões dos jogos que ainda não começaram e junta os resultados finais."""
+    now = datetime.now(timezone.utc)
+    store = registo.load(folder)
+    for sport, df in preds.items():
+        n = registo.record(store, df, sport, now)
+        print(f"histórico: {n} previsões de {sport} guardadas")
+    pending = [r["data"] for r in store.values() if r["estado"] == "pendente"]
+    if pending:
+        since = date.fromisoformat(min(pending)) - timedelta(days=2)
+        with engine.connect() as conn:
+            football = pd.read_sql(select(matches).where(matches.c.date >= since), conn)
+        results = {"futebol": football}
+        for sport, frames in games.items():
+            frames = [f for f in frames if not f.empty]
+            results[sport] = pd.concat(frames, ignore_index=True) if frames else pd.DataFrame()
+        for sport, df in results.items():
+            n = registo.resolve(store, df, sport, now)
+            print(f"histórico: {n} resultados de {sport} juntados")
+    registo.save(store, folder)
+    return store
+
+
+def hockey_predictions(today, collect=None):
     out = []
     for league in hockey.HOCKEY_LEAGUES.values():
         try:  # uma liga que falhe não estraga a página
@@ -184,6 +215,8 @@ def hockey_predictions(today):
         except Exception as e:
             print(f"{league.key}: falhou a recolha ({e})")
             continue
+        if collect is not None:
+            collect.append(games)
         out.append(hoquei.predict_upcoming(games, today))
     out = [o for o in out if not o.empty]
     if not out:
@@ -191,7 +224,7 @@ def hockey_predictions(today):
     return pd.concat(out).sort_values(["date", "time"], na_position="last")
 
 
-def basket_predictions(today, reserve_dir=None):
+def basket_predictions(today, reserve_dir=None, collect=None):
     out = []
     for league in basket.BASKET_LEAGUES.values():
         try:  # uma liga que falhe não estraga a página
@@ -202,6 +235,8 @@ def basket_predictions(today, reserve_dir=None):
             if games is None:
                 continue
             print(f"{league.key}: a usar a cópia guardada ({len(games)} jogos)")
+        if collect is not None:
+            collect.append(games)
         out.append(basquete.predict_upcoming(games, today))
     out = [o for o in out if not o.empty]
     if not out:

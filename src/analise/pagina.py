@@ -12,6 +12,7 @@ from datetime import datetime, timezone
 
 import pandas as pd
 
+from analise import registo
 from analise.ingest.basket import BASKET_LEAGUES
 from analise.ingest.hockey import HOCKEY_LEAGUES
 from analise.leagues import LEAGUES
@@ -86,6 +87,17 @@ header .menu a:hover, header .menu a.on { background:var(--bg); }
   border-radius:10px; padding:14px 16px; margin:16px 0; }
 .warn li { margin:6px 0; }
 .empty { background:var(--card); border:1px dashed var(--line); border-radius:10px; padding:16px; }
+.tbl { overflow-x:auto; background:var(--card); border:1px solid var(--line); border-radius:10px;
+  margin:8px 0 16px; }
+.tbl table { border-collapse:collapse; font-size:13px; width:100%; }
+.tbl th, .tbl td { padding:6px 10px; text-align:right; border-bottom:1px solid var(--line);
+  white-space:nowrap; }
+.tbl tr:last-child td { border-bottom:0; }
+.tbl th { color:var(--muted); font-weight:500; }
+.tbl th:first-child, .tbl td:first-child { text-align:left; }
+.tbl.games th, .tbl.games td { text-align:left; }
+.note a { color:var(--home); }
+.ok { color:#2e9e5b; font-weight:600; } .ko { color:var(--away); font-weight:600; }
 """
 
 
@@ -431,6 +443,7 @@ def _page(title: str, body: str, root: str, current: str, updated: datetime) -> 
 <details><summary>⚽ Futebol</summary><div class="menu">{menu("futebol", LEAGUES)}</div></details>
 <details><summary>🏀 Basquetebol</summary><div class="menu">{menu("basquetebol", BASKET_LEAGUES)}</div></details>
 <details><summary>🏒 Hóquei</summary><div class="menu">{menu("hoquei", HOCKEY_LEAGUES)}</div></details>
+<a href="{root}historico.html">📊 Histórico</a>
 </nav></header>
 <main>
 {body}
@@ -484,17 +497,135 @@ procura ajuda: em Portugal, o SICAD apoia casos de jogo excessivo.</li>
 </div>
 <h2>⚽ Futebol</h2><div class="grid">{cards("futebol", LEAGUES, preds)}</div>
 <h2>🏀 Basquetebol</h2><div class="grid">{cards("basquetebol", BASKET_LEAGUES, basket)}</div>
-<h2>🏒 Hóquei no gelo</h2><div class="grid">{cards("hoquei", HOCKEY_LEAGUES, hockey)}</div>"""
+<h2>🏒 Hóquei no gelo</h2><div class="grid">{cards("hoquei", HOCKEY_LEAGUES, hockey)}</div>
+<h2>📊 Histórico</h2><div class="grid"><a href="historico.html">Acertos das previsões publicadas
+<span>todas guardadas antes de cada jogo e comparadas com o resultado final</span></a></div>"""
     return _page("Início", body, "", "", updated)
 
 
+SPORTS = {"futebol": ("⚽ Futebol", LEAGUES), "basquetebol": ("🏀 Basquetebol", BASKET_LEAGUES),
+          "hoquei": ("🏒 Hóquei no gelo", HOCKEY_LEAGUES)}
+STORE_URL = "https://github.com/Goncalo-Silva-Dev/BotPredicts/commits/historico"
+
+TRACK_NOTE = f"""Duas vezes por dia, quando o site atualiza, fica guardada a previsão de cada jogo
+dos próximos 7 dias. Quando o jogo começa a previsão fica congelada: conta a última feita antes do
+início, e só entram jogos depois de terminados. Jogos sem hora marcada só contam com previsões da
+véspera ou antes. As gravações ficam no ramo <a href="{STORE_URL}">historico</a> do GitHub, com data
+e hora, para qualquer pessoa confirmar que nada foi mexido depois do jogo."""
+
+TRACK_HELP = """<b>Acerto</b>: quantas vezes aconteceu o lado que o modelo achou mais provável.
+<b>Confiança</b>: a percentagem média que o modelo deu a esse lado; num modelo bem afinado as duas
+ficam perto (quem diz 70% deve acertar cerca de 7 em 10). <b>Pontuação</b> (log loss): mede todas
+as percentagens e não só o favorito; quanto mais baixa melhor. <b>À sorte</b> é a pontuação de quem
+dá a mesma percentagem a todos os resultados (1,10 nos mercados de 3 resultados, 0,69 nos de
+sim/não). Com poucas dezenas de jogos os números ainda mudam muito."""
+
+
+def _tbl(head: list[str], rows: list[list[str]], cls: str = "") -> str:
+    th = "".join(f"<th>{h}</th>" for h in head)
+    body = "".join("<tr>" + "".join(f"<td>{c}</td>" for c in r) + "</tr>" for r in rows)
+    return f'<div class="tbl {cls}"><table><tr>{th}</tr>{body}</table></div>'
+
+
+def _stat_rows(t: pd.DataFrame, label) -> list[list[str]]:
+    return [[label(r), f"{r.jogos}", _pct(r.acerto), _pct(r.confianca), _n(r.logloss, 3),
+             _n(r.referencia, 2)] for r in t.itertuples()]
+
+
+def _pick_label(rec) -> tuple[str, bool | None]:
+    """Favorito do mercado principal e se acertou."""
+    p, res = rec["p"], rec["resultado"]
+    if rec["desporto"] == "futebol":
+        names = [_team(rec["casa"]), "Empate", _team(rec["fora"])]
+        i = max(range(3), key=lambda k: p["1x2"][k])
+        real = 0 if res["casa"] > res["fora"] else (1 if res["casa"] == res["fora"] else 2)
+        return f"{names[i]} {_pct(p['1x2'][i])}", i == real
+    home = p["vencedor"] >= 0.5
+    name = _team(rec["casa"] if home else rec["fora"])
+    return f"{name} {_pct(max(p['vencedor'], 1 - p['vencedor']))}", home == (res["casa"] > res["fora"])
+
+
+def _track_page(store: dict, updated: datetime) -> str:
+    ev = registo.evaluate(store)
+    recs = list(store.values())
+    pending = sum(r["estado"] == "pendente" for r in recs)
+    body = ['<h1>📊 Histórico de acertos</h1>',
+            '<p class="sub">As previsões publicadas no site comparadas com o resultado final.</p>',
+            f'<p class="note">{TRACK_NOTE}</p>']
+    if recs:
+        since = min(r["feita_em"] for r in recs)
+        since = datetime.fromisoformat(since.replace("Z", "+00:00")).astimezone(LISBON)
+        body.append(f'<p class="note">Registo desde {since:%d/%m/%Y}. {pending} '
+                    f'{"jogo guardado à espera" if pending == 1 else "jogos guardados à espera"} '
+                    f"do resultado.</p>")
+    if ev.empty:
+        body.append('<div class="empty">Ainda não há jogos terminados com previsão guardada. Os '
+                    "primeiros resultados aparecem aqui depois dos próximos jogos.</div>")
+        return _page("Histórico", "".join(body), "", "historico", updated)
+
+    main = ev[ev["chave"] == ev["desporto"].map(registo.MAIN)]
+    cards = []
+    for sport, (title, _) in SPORTS.items():
+        part = main[main["desporto"] == sport]
+        if len(part):
+            cards.append(f'<a href="#{sport}">{title}<span>{len(part)} jogos · acertou o vencedor em '
+                         f'{_pct(part["acerto"].mean())}</span></a>')
+    body.append(f'<div class="grid">{"".join(cards)}</div>')
+    body.append(f'<p class="note">{TRACK_HELP}</p>')
+
+    head = ["Mercado", "Jogos", "Acerto", "Confiança", "Pontuação", "À sorte"]
+    for sport, (title, leagues) in SPORTS.items():
+        part = ev[ev["desporto"] == sport]
+        if part.empty:
+            continue
+        body.append(f'<h2 id="{sport}">{title}</h2>')
+        body.append(_tbl(head, _stat_rows(registo.table(part, ["mercado"]), lambda r: html.escape(r.mercado))))
+        by_league = registo.table(part[part["chave"] == registo.MAIN[sport]], ["liga"])
+        rows = _stat_rows(by_league, lambda r: f"{FLAGS.get(r.liga, '')} {html.escape(leagues[r.liga].name)}"
+                          if r.liga in leagues else html.escape(r.liga))
+        league_head = ["Liga (vencedor)"] + head[1:]
+        if sport == "futebol":
+            market = registo.table(part[part["chave"] == "mercado_1x2"], ["liga"]).set_index("liga")
+            league_head += ["Casas: jogos", "Casas: acerto", "Casas: pontuação"]
+            for row, liga in zip(rows, by_league["liga"]):
+                m = market.loc[liga] if liga in market.index else None
+                row += ["–", "–", "–"] if m is None else [f"{m.jogos}", _pct(m.acerto), _n(m.logloss, 3)]
+        body.append(_tbl(league_head, rows))
+    if (ev["chave"] == "mercado_1x2").any():
+        body.append('<p class="note">"Casas" são as odds das casas de apostas sem margem, nos jogos de '
+                    "futebol em que já existiam quando a previsão foi guardada.</p>")
+
+    cal = registo.calibration(ev)
+    body.append("<h2>Percentagens bem afinadas?</h2>")
+    body.append('<p class="note">Todas as previsões de todos os mercados, agrupadas pela percentagem '
+                "que o modelo deu ao lado escolhido.</p>")
+    body.append(_tbl(["Confiança do modelo", "Previsões", "Média prevista", "Aconteceu"],
+                     [[r.grupo, f"{r.previsoes}", _pct(r.confianca), _pct(r.acerto)] for r in cal.itertuples()]))
+
+    done = sorted((r for r in recs if r["estado"] == "terminado"),
+                  key=lambda r: (r["data"], r["hora"] or ""), reverse=True)[:40]
+    rows = []
+    for rec in done:
+        label, ok = _pick_label(rec)
+        res = rec["resultado"]
+        rows.append([f"{_when(rec['data'], rec['hora'])}",
+                     f"{FLAGS.get(rec['liga'], '')} {_team(rec['casa'])} – {_team(rec['fora'])}",
+                     label, f"{res['casa']}–{res['fora']}",
+                     '<span class="ok">✓</span>' if ok else '<span class="ko">✗</span>'])
+    body.append("<h2>Últimos jogos</h2>")
+    body.append(_tbl(["Data", "Jogo", "Favorito do modelo", "Resultado", ""], rows, "games"))
+    return _page("Histórico", "".join(body), "", "historico", updated)
+
+
 def render_site(preds: pd.DataFrame, basket: pd.DataFrame | None = None,
-                updated: datetime | None = None, hockey: pd.DataFrame | None = None) -> dict[str, str]:
-    """Todas as páginas do site: {caminho relativo: html}."""
+                updated: datetime | None = None, hockey: pd.DataFrame | None = None,
+                track: dict | None = None) -> dict[str, str]:
+    """Todas as páginas do site: {caminho relativo: html}; track é o registo das previsões."""
     updated = updated or datetime.now(timezone.utc)
     basket = basket if basket is not None else pd.DataFrame()
     hockey = hockey if hockey is not None else pd.DataFrame()
-    pages = {"index.html": _index(preds, basket, hockey, updated)}
+    pages = {"index.html": _index(preds, basket, hockey, updated),
+             "historico.html": _track_page(track or {}, updated)}
     for key, league in LEAGUES.items():
         games = preds[preds["league"] == key] if not preds.empty else preds
         pages[f"futebol/{key.lower()}.html"] = _league_page(
