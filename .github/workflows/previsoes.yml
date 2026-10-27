@@ -10,7 +10,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: read
+  contents: write  # para guardar o registo das previsões no ramo "historico"
   pages: write
   id-token: write
 
@@ -38,10 +38,35 @@ jobs:
         with:
           ref: dados
           path: dados-basquete
-      - run: python -m analise.cli pagina --saida site --dados-basquete dados-basquete
+      # Registo de todas as previsões publicadas (ramo "historico"); na primeira vez não existe
+      - uses: actions/checkout@v4
+        continue-on-error: true
+        with:
+          ref: historico
+          path: historico
+      - run: python -m analise.cli pagina --saida site --dados-basquete dados-basquete --historico historico
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
+      # Cada gravação fica com data e hora no git: prova de que a previsão é anterior ao jogo
+      - name: Guarda o registo das previsões
+        continue-on-error: true
+        working-directory: historico
+        env:
+          TOKEN: ${{ github.token }}
+        run: |
+          if ! git rev-parse --verify -q HEAD >/dev/null 2>&1; then
+            rm -rf .git
+            git init -q -b historico
+            git remote add origin "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+            printf '# Histórico\n\nTodas as previsões publicadas no site, guardadas antes de cada jogo, com o resultado final.\nGeradas pelo workflow Previsões (`python -m analise.cli pagina --historico`).\n' > README.md
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898341+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then echo "sem alterações"; exit 0; fi
+          git commit -q -m "Previsões e resultados ($(date -u '+%Y-%m-%d %H:%M') UTC)"
+          git push origin HEAD:historico
 
   deploy:
     needs: build
