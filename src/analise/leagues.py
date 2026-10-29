@@ -32,6 +32,7 @@ LEAGUES = {
         League("ENG", "Premier League", "E0", of_code="en.1", tz="Europe/London"),
         League("FRA", "Ligue 1", "F1", of_code="fr.1", tz="Europe/Paris"),
         League("ITA", "Serie A", "I1", of_code="it.1", tz="Europe/Rome"),
+        League("GER", "Bundesliga", "D1", of_code="de.1", tz="Europe/Berlin"),
         League("USA", "MLS", "USA", fd_extra=True, fd_country="USA", be_path="football/usa/mls"),
         League("BRA", "Brasileirão Série A", "BRA", fd_extra=True, fd_country="Brazil", of_code="br.1",
                tz="America/Sao_Paulo"),

@@ -34,6 +34,7 @@ ALIASES = {
     "Manchester United FC": "Man United",
     "RCD Espanyol de Barcelona": "Espanol",
     "Stade Rennais FC 1901": "Rennes",
+    "Borussia Mönchengladbach": "M'gladbach",
 }
 
 # Palavras que não distinguem clubes

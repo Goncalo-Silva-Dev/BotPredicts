@@ -19,7 +19,7 @@ from analise.leagues import LEAGUES
 
 LISBON = ZoneInfo("Europe/Lisbon")
 
-FLAGS = {"POR": "🇵🇹", "PO2": "🇵🇹", "U23": "🇵🇹", "TUR": "🇹🇷", "NED": "🇳🇱", "BEL": "🇧🇪", "ESP": "🇪🇸", "ENG": "🏴", "FRA": "🇫🇷", "ITA": "🇮🇹", "USA": "🇺🇸", "BRA": "🇧🇷",
+FLAGS = {"POR": "🇵🇹", "PO2": "🇵🇹", "U23": "🇵🇹", "TUR": "🇹🇷", "NED": "🇳🇱", "BEL": "🇧🇪", "ESP": "🇪🇸", "ENG": "🏴", "FRA": "🇫🇷", "ITA": "🇮🇹", "GER": "🇩🇪", "USA": "🇺🇸", "BRA": "🇧🇷",
          "NBA": "🇺🇸", "NHL": "🇺🇸", "NBL": "🇦🇺", "BLG": "🇯🇵", "ABA": "🇷🇸", "KBL": "🇰🇷", "SBL": "🇸🇪", "KOR": "🇫🇮", "CBA": "🇨🇳", "PBA": "🇵🇭", "EUR": "🇪🇺", "EUC": "🇪🇺", "NBB": "🇧🇷", "ACB": "🇪🇸", "LBA": "🇮🇹", "LPB": "🇵🇹", "LNB": "🇫🇷"}
 WEEKDAYS = ["seg", "ter", "qua", "qui", "sex", "sáb", "dom"]
 
@@ -398,6 +398,7 @@ bateram certo com o que aconteceu (por exemplo, handicaps a 66%: ganharam 67%)."
 NO_HT = (" Esta fonte não tem o resultado ao intervalo, por isso \"Por parte\" usa a parte dos golos "
          "que as outras ligas marcam na 1.ª parte (cerca de 44%).")
 FOOTBALL_LEAGUE_NOTES = {
+    "GER": " Nesta liga, no teste com 1238 jogos, o favorito do modelo ganhou 52% das vezes.",
     "TUR": " Nesta liga, no teste com 384 jogos, o favorito do modelo ganhou 49% das vezes.",
     "NED": " Nesta liga, no teste com 363 jogos, o favorito do modelo ganhou 51% das vezes.",
     "BEL": " Nesta liga, no teste com 375 jogos, o favorito do modelo ganhou 48% das vezes.",

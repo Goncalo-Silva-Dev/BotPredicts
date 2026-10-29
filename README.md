@@ -1,7 +1,7 @@
 # Análise de jogos
 
 Recolha de dados, modelo de previsões, relatórios por jogo e app web para futebol
-(Portugal, Espanha, Inglaterra, França, Itália, MLS, Brasil) e basquetebol (NBA, EuroLeague, EuroCup, Espanha, Itália,
+(Portugal, Espanha, Inglaterra, França, Itália, Alemanha, MLS, Brasil) e basquetebol (NBA, EuroLeague, EuroCup, Espanha, Itália,
 Portugal, França e Brasil), e hóquei no gelo (NHL).
 
 ## Começar
