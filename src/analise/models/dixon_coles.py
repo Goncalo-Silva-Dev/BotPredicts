@@ -3,13 +3,17 @@
 Golos de cada equipa ~ Poisson(ataque * defesa adversária * vantagem casa), com
 correção rho para os resultados baixos (0-0, 1-0, 0-1, 1-1) e jogos antigos
 pesados menos (decaimento exponencial com meia-vida configurável).
+
+Quando há remates à baliza, as forças são estimadas com uma mistura de golos e
+remates à baliza convertidos em golos (metade de cada): os remates têm menos
+sorte que os golos e o backtest walk-forward melhora em todas as ligas com esses dados.
 """
 from dataclasses import dataclass
 from datetime import date
 
 import numpy as np
 import pandas as pd
-from scipy.optimize import minimize
+from scipy.optimize import minimize, minimize_scalar
 from scipy.stats import poisson
 
 # Fração dos golos marcados na 1.ª parte (casa, fora) quando a liga não tem resultados
@@ -27,9 +31,27 @@ def _tau(x, y, lam, mu, rho):
     return t
 
 
+def _shot_targets(df: pd.DataFrame, x: np.ndarray, y: np.ndarray, goals_weight: float):
+    """Golos misturados com remates à baliza × (golos por remate à baliza na amostra).
+    Jogos sem remates ficam só com os golos."""
+    if goals_weight >= 1 or "home_shots_target" not in df:
+        return None
+    hs = pd.to_numeric(df["home_shots_target"], errors="coerce").to_numpy(dtype=float)
+    as_ = pd.to_numeric(df["away_shots_target"], errors="coerce").to_numpy(dtype=float)
+    ok = ~np.isnan(hs) & ~np.isnan(as_)
+    if ok.mean() < 0.5 or hs[ok].sum() + as_[ok].sum() == 0:
+        return None
+    k = (x[ok].sum() + y[ok].sum()) / (hs[ok].sum() + as_[ok].sum())
+    a = goals_weight
+    return (np.where(ok, a * x + (1 - a) * k * np.nan_to_num(hs), x),
+            np.where(ok, a * y + (1 - a) * k * np.nan_to_num(as_), y))
+
+
 @dataclass
 class DixonColes:
     half_life_days: float = 180.0
+    # peso dos golos reais face aos remates à baliza (1 = só golos)
+    goals_weight: float = 0.5
     teams_: list | None = None
     attack_: np.ndarray | None = None
     defence_: np.ndarray | None = None
@@ -37,7 +59,8 @@ class DixonColes:
     rho_: float = 0.0
 
     def fit(self, df: pd.DataFrame, as_of: date | None = None) -> "DixonColes":
-        """df precisa de: date, home, away, home_goals, away_goals."""
+        """df precisa de: date, home, away, home_goals, away_goals (e, se houver,
+        home_shots_target, away_shots_target)."""
         df = df.dropna(subset=["home_goals", "away_goals"])
         as_of = pd.Timestamp(as_of or df["date"].max())
         age = (as_of - pd.to_datetime(df["date"])).dt.days.to_numpy()
@@ -50,24 +73,49 @@ class DixonColes:
         x = df["home_goals"].to_numpy(dtype=int)
         y = df["away_goals"].to_numpy(dtype=int)
         n = len(self.teams_)
+        shots = _shot_targets(df, x, y, self.goals_weight)
+        # com remates, as forças vêm dos alvos misturados (sem rho) e o rho dos golos a seguir
+        joint = shots is None
+        tx, ty = (x, y) if joint else shots
 
         def unpack(p):
             att = np.append(p[: n - 1], -p[: n - 1].sum())  # soma zero para identificar o modelo
             dfc = p[n - 1 : 2 * n - 1]
-            return att, dfc, p[-2], p[-1]
+            return att, dfc, p[2 * n - 1], (p[2 * n] if joint else 0.0)
 
         def nll(p):
+            # log-verosimilhança de Poisson (sem constantes) com gradiente analítico
             att, dfc, home, rho = unpack(p)
-            lam = np.exp(att[hi] + dfc[ai] + home)
-            mu = np.exp(att[ai] + dfc[hi])
-            tau = np.clip(_tau(x, y, lam, mu, rho), 1e-10, None)
-            ll = np.log(tau) + poisson.logpmf(x, lam) + poisson.logpmf(y, mu)
-            return -(w * ll).sum()
+            log_lam, log_mu = att[hi] + dfc[ai] + home, att[ai] + dfc[hi]
+            lam, mu = np.exp(log_lam), np.exp(log_mu)
+            val = (w * (tx * log_lam - lam + ty * log_mu - mu)).sum()
+            g_lam, g_mu = w * (tx - lam), w * (ty - mu)
+            g_rho = []
+            if joint:
+                tau = np.clip(_tau(x, y, lam, mu, rho), 1e-10, None)
+                val += (w * np.log(tau)).sum()
+                m00, m01 = (x == 0) & (y == 0), (x == 0) & (y == 1)
+                m10, m11 = (x == 1) & (y == 0), (x == 1) & (y == 1)
+                wt = w / tau
+                g_lam -= np.where(m00, wt * lam * mu * rho, 0) - np.where(m01, wt * lam * rho, 0)
+                g_mu -= np.where(m00, wt * lam * mu * rho, 0) - np.where(m10, wt * mu * rho, 0)
+                g_rho = [(np.where(m00, -wt * lam * mu, 0) + np.where(m01, wt * lam, 0)
+                          + np.where(m10, wt * mu, 0) - np.where(m11, wt, 0)).sum()]
+            g_att = np.bincount(hi, g_lam, n) + np.bincount(ai, g_mu, n)
+            g_def = np.bincount(ai, g_lam, n) + np.bincount(hi, g_mu, n)
+            grad = np.concatenate([g_att[:-1] - g_att[-1], g_def, [g_lam.sum()], g_rho])
+            return -val, -grad
 
-        p0 = np.concatenate([np.zeros(n - 1), np.zeros(n), [0.25, -0.05]])
-        bounds = [(None, None)] * (2 * n - 1) + [(None, None), (-0.3, 0.3)]
-        res = minimize(nll, p0, method="L-BFGS-B", bounds=bounds)
+        p0 = np.concatenate([np.zeros(n - 1), np.zeros(n), [0.25], [-0.05] if joint else []])
+        bounds = [(None, None)] * (2 * n) + ([(-0.3, 0.3)] if joint else [])
+        res = minimize(nll, p0, jac=True, method="L-BFGS-B", bounds=bounds)
         self.attack_, self.defence_, self.home_, self.rho_ = unpack(res.x)
+        if not joint:
+            lam = np.exp(self.attack_[hi] + self.defence_[ai] + self.home_)
+            mu = np.exp(self.attack_[ai] + self.defence_[hi])
+            self.rho_ = float(minimize_scalar(
+                lambda r: -(w * np.log(np.clip(_tau(x, y, lam, mu, r), 1e-10, None))).sum(),
+                bounds=(-0.3, 0.3), method="bounded").x)
         return self
 
     def score_matrix(self, home: str, away: str) -> np.ndarray:

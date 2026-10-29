@@ -50,3 +50,23 @@ def test_fair_probs_removes_margin():
 def test_log_loss():
     probs = np.array([[0.5, 0.3, 0.2], [0.2, 0.3, 0.5]])
     assert log_loss(probs, np.array([0, 2])) == pytest.approx(-np.log(0.5))
+
+
+def test_shots_on_target_move_strengths(simulated):
+    """Com os mesmos golos, a equipa com mais remates à baliza fica com mais ataque."""
+    df = simulated.assign(home_shots_target=simulated["home_goals"] * 3 + 1,
+                          away_shots_target=simulated["away_goals"] * 3 + 1)
+    df.loc[df["home"] == "C", "home_shots_target"] += 6
+    goals = DixonColes(goals_weight=1.0).fit(df)
+    mixed = DixonColes().fit(df)
+    gap = lambda m: dict(zip(m.teams_, m.attack_))["C"] - dict(zip(m.teams_, m.attack_))["B"]  # noqa: E731
+    assert gap(mixed) > gap(goals)
+    p = mixed.predict("A", "D")
+    assert p["home"] + p["draw"] + p["away"] == pytest.approx(1, abs=1e-9)
+    assert -0.3 <= mixed.rho_ <= 0.3
+
+
+def test_without_shots_uses_goals_only(simulated):
+    a = DixonColes().fit(simulated)
+    b = DixonColes(goals_weight=1.0).fit(simulated)
+    assert a.predict("A", "D")["home"] == pytest.approx(b.predict("A", "D")["home"])

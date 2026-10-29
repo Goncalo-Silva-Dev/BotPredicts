@@ -375,9 +375,10 @@ def _league_rounds(games: pd.DataFrame, card=_game) -> str:
 
 
 FOOTBALL_NOTE = """Barras: vitória da casa · empate · vitória de fora. Modelo Dixon-Coles com os
-últimos 2 anos de resultados. As odds das casas de apostas aparecem quando já existem (perto do
-jogo). No teste com 11 984 jogos passados o modelo acertou bem nas percentagens, mas ficou um
-pouco atrás das odds de fecho das casas de apostas. Em "Por parte": resultado ao intervalo e
+últimos 2 anos de resultados; nas ligas com remates à baliza (Europa) conta metade golos, metade
+remates à baliza, o que no teste melhorou as previsões em todas essas ligas. As odds das casas de
+apostas aparecem quando já existem (perto do jogo). No teste com 21 079 jogos passados o modelo
+acertou bem nas percentagens, mas ficou um pouco atrás das odds de fecho das casas de apostas. Em "Por parte": resultado ao intervalo e
 golos em cada parte, com a parte dos golos que cada liga costuma marcar na 1.ª parte; ao
 intervalo o favorito acerta em cerca de 45% dos jogos, porque o empate é muito comum. Em "Mais
 apostas": dupla hipótese, totais, golos por equipa, handicap e intervalo/final, todos tirados do
