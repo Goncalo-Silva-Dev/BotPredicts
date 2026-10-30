@@ -12,7 +12,7 @@ from datetime import datetime, timezone
 
 import pandas as pd
 
-from analise import registo
+from analise import aovivo, registo
 from analise.ingest.basket import BASKET_LEAGUES
 from analise.ingest.hockey import HOCKEY_LEAGUES
 from analise.leagues import LEAGUES
@@ -98,7 +98,91 @@ header .menu a:hover, header .menu a.on { background:var(--bg); }
 .tbl.games th, .tbl.games td { text-align:left; }
 .note a { color:var(--home); }
 .ok { color:#2e9e5b; font-weight:600; } .ko { color:var(--away); font-weight:600; }
+.sc.on { font-weight:700; background:var(--bg); border:1px solid var(--line); border-radius:6px;
+  padding:0 6px; white-space:nowrap; }
+.st { font-weight:600; margin-right:8px; } .st:empty { display:none; }
+.st.in { color:#d6342c; } .st.in::before { content:"● "; animation:pulse 1.5s infinite; }
+@keyframes pulse { 50% { opacity:.25; } }
 """
+
+LIVE_JS = """
+// Resultados ao vivo da ESPN: só os jogos a decorrer (ou acabados há menos de um dia),
+// atualizados a cada 30 segundos enquanto a página está aberta
+(() => {
+  const cards = [...document.querySelectorAll("[data-espn]")].map(el => {
+    const [slug, day, id, start] = el.dataset.espn.split("|");
+    return {el, slug, day, id, start: Date.parse(start), done: false};
+  });
+  if (!cards.length) return;
+  const ord = p => `${p}.º`;
+  function status(ev, slug) {
+    const s = ev.status, t = s.type, p = s.period || 0, c = s.displayClock || "", n = t.name || "";
+    const sport = slug.split("/")[0], d = t.shortDetail || "";
+    if (n === "STATUS_POSTPONED") return "Adiado";
+    if (/CANCEL/.test(n)) return "Cancelado";
+    if (/SUSPENDED|ABANDONED/.test(n)) return "Suspenso";
+    if (t.state === "post") {
+      if (sport === "soccer") return /PEN/.test(n) ? "Terminado após penáltis" : /AET/.test(n) ? "Terminado após prolongamento" : "Terminado";
+      if (sport === "hockey" && /SO/.test(d)) return "Terminado após penáltis";
+      return p > (sport === "hockey" ? 3 : 4) ? "Terminado após prolongamento" : "Terminado";
+    }
+    if (t.state !== "in") return /DELAY/.test(n) ? "Atrasado" : "";
+    if (/HALFTIME/.test(n)) return "Intervalo";
+    if (sport === "soccer") return /SHOOTOUT/.test(n) ? "Penáltis" : p > 2 ? `Prolongamento ${c}` : c;
+    const unit = sport === "hockey" ? "período" : "quarto", last = sport === "hockey" ? 3 : 4;
+    if (sport === "hockey" && p > last + 1) return "Penáltis";
+    const name = p > last ? "Prolongamento" : `${ord(p)} ${unit}`;
+    return /END_PERIOD/.test(n) ? `Fim do ${name.toLowerCase()}` : `${name} · ${c}`;
+  }
+  function show(card, ev) {
+    const t = ev.status.type, teams = ev.competitions[0].competitors;
+    const score = side => teams.find(x => x.homeAway === side).score;
+    const st = card.el.querySelector(".st"), sc = card.el.querySelector(".sc");
+    card.done = t.state === "post";
+    if (t.state === "in" || (t.state === "post" && t.completed)) {
+      sc.textContent = `${score("home")} – ${score("away")}`;
+      sc.classList.add("on");
+    }
+    st.textContent = status(ev, card.slug);
+    st.className = "st" + (t.state === "in" ? " in" : "");
+  }
+  async function tick() {
+    const now = Date.now();
+    const due = cards.filter(c => !c.done && now >= c.start - 15 * 60e3 && now <= c.start + 24 * 3600e3);
+    const groups = {};
+    due.forEach(c => (groups[`${c.slug}|${c.day}`] ||= []).push(c));
+    if (!document.hidden) await Promise.all(Object.entries(groups).map(async ([key, list]) => {
+      const [slug, day] = key.split("|");
+      try {
+        const r = await fetch(`https://site.api.espn.com/apis/site/v2/sports/${slug}/scoreboard?dates=${day}`, {cache: "no-store"});
+        const byId = Object.fromEntries(((await r.json()).events || []).map(e => [String(e.id), e]));
+        list.forEach(c => byId[c.id] && show(c, byId[c.id]));
+      } catch (e) { /* sem ligação: tenta outra vez daqui a 30 segundos */ }
+    }));
+    setTimeout(tick, 30e3);
+  }
+  tick();
+})();
+"""
+
+
+def _live(g) -> str:
+    """Atributo com o jogo da ESPN, para o resultado ao vivo (vazio se não houver)."""
+    ref = g.get("espn")
+    return f' data-espn="{html.escape(ref)}"' if isinstance(ref, str) else ""
+
+
+def _vs(g, home: str, away: str) -> str:
+    """"Casa – Fora"; com resultado ao vivo, o traço dá lugar ao marcador."""
+    if not isinstance(g.get("espn"), str):
+        return f"{home} – {away}"
+    return f'{home} <span class="sc">–</span> {away}'
+
+
+def _head(g, home: str, away: str) -> str:
+    return f'<div class="top"><span class="teams">{_vs(g, home, away)}</span>' \
+           f'<span class="when"><span class="st"></span>{_when(g["date"], g.get("time"))}</span></div>'
+
 
 
 def _pct(v) -> str:
@@ -143,11 +227,9 @@ def _team(name: str) -> str:
 
 
 def _game(g) -> str:
-    teams = f"{_team(g['home'])} – {_team(g['away'])}"
-    head = f'<div class="top"><span class="teams">{teams}</span>' \
-           f'<span class="when">{_when(g["date"], g.get("time"))}</span></div>'
+    head = _head(g, _team(g["home"]), _team(g["away"]))
     if pd.isna(g.get("casa")):
-        return f'<div class="game">{head}<p class="note">Sem previsão: uma das equipas ' \
+        return f'<div class="game"{_live(g)}>{head}<p class="note">Sem previsão: uma das equipas ' \
                f'tem poucos jogos no histórico.</p></div>'
     bar = "".join(
         f'<span class="{c}" style="flex:{g[k]:.4f}" title="{label}">{_pct(g[k])}</span>'
@@ -163,7 +245,7 @@ def _game(g) -> str:
         facts.append("Casas de apostas <b>" + " / ".join(
             _pct(g[k]) for k in ("mercado_casa", "mercado_empate", "mercado_fora")) + "</b>")
     spans = "".join(f"<span>{f}</span>" for f in facts)
-    return f'<div class="game">{head}<div class="bar">{bar}</div><div class="facts">{spans}</div>' \
+    return f'<div class="game"{_live(g)}>{head}<div class="bar">{bar}</div><div class="facts">{spans}</div>' \
            f'{_halves_table(g)}{_markets(g)}</div>'
 
 
@@ -230,11 +312,9 @@ def _periods_table(g) -> str:
 
 
 def _basket_game(g) -> str:
-    teams = f"{html.escape(g['home'])} – {html.escape(g['away'])}"
-    head = f'<div class="top"><span class="teams">{teams}</span>' \
-           f'<span class="when">{_when(g["date"], g.get("time"))}</span></div>'
+    head = _head(g, html.escape(g["home"]), html.escape(g["away"]))
     if pd.isna(g.get("casa")):
-        return f'<div class="game">{head}<p class="note">Sem previsão: uma das equipas ' \
+        return f'<div class="game"{_live(g)}>{head}<p class="note">Sem previsão: uma das equipas ' \
                f'tem poucos jogos no histórico.</p></div>'
     bar = "".join(
         f'<span class="{c}" style="flex:{g[k]:.4f}" title="{label}">{_pct(g[k])}</span>'
@@ -246,7 +326,7 @@ def _basket_game(g) -> str:
         f"Total <b>{g['total']:.0f}</b> (80%: {g['total_min']:.0f} a {g['total_max']:.0f})",
     ]
     spans = "".join(f"<span>{f}</span>" for f in facts)
-    return f'<div class="game">{head}<div class="bar">{bar}</div><div class="facts">{spans}</div>' \
+    return f'<div class="game"{_live(g)}>{head}<div class="bar">{bar}</div><div class="facts">{spans}</div>' \
            f'{_periods_table(g)}{_basket_markets(g)}</div>'
 
 
@@ -281,11 +361,9 @@ def _basket_markets(g) -> str:
 
 
 def _hockey_game(g) -> str:
-    teams = f"{_team(g['home'])} – {_team(g['away'])}"
-    head = f'<div class="top"><span class="teams">{teams}</span>' \
-           f'<span class="when">{_when(g["date"], g.get("time"))}</span></div>'
+    head = _head(g, _team(g["home"]), _team(g["away"]))
     if pd.isna(g.get("casa")):
-        return f'<div class="game">{head}<p class="note">Sem previsão: uma das equipas ' \
+        return f'<div class="game"{_live(g)}>{head}<p class="note">Sem previsão: uma das equipas ' \
                f'tem poucos jogos no histórico.</p></div>'
     bar = "".join(
         f'<span class="{c}" style="flex:{g[k]:.4f}" title="{label}">{_pct(g[k])}</span>'
@@ -299,7 +377,7 @@ def _hockey_game(g) -> str:
         "Resultados (60') <b>" + ", ".join(s for s, _ in mk["resultados"][:3]) + "</b>",
     ]
     spans = "".join(f"<span>{f}</span>" for f in facts)
-    return f'<div class="game">{head}<div class="bar">{bar}</div><div class="facts">{spans}</div>' \
+    return f'<div class="game"{_live(g)}>{head}<div class="bar">{bar}</div><div class="facts">{spans}</div>' \
            f'{_hockey_periods(g)}{_hockey_markets(g)}</div>'
 
 
@@ -452,17 +530,21 @@ def _page(title: str, body: str, root: str, current: str, updated: datetime) -> 
 <main>
 {body}
 <p class="note">Atualizado {updated.astimezone(LISBON):%d/%m/%Y %H:%M} (hora de Portugal) · Dados: football-data.co.uk,
-openfootball, ESPN (NBA e NHL), Euroleague Basketball e sites oficiais das ligas.</p>
+openfootball, ESPN (NBA e NHL), Euroleague Basketball e sites oficiais das ligas. Resultados ao vivo: ESPN.</p>
 </main>
 <script>
 // Fecha os outros menus quando se abre um
 document.querySelectorAll("header details").forEach(d => d.addEventListener("toggle", () => {{
   if (d.open) document.querySelectorAll("header details").forEach(o => {{ if (o !== d) o.open = false; }});
 }}));
-</script>
+{LIVE_JS}</script>
 </body>
 </html>
 """
+
+
+LIVE_NOTE = (" Com a página aberta, os jogos a decorrer mostram o resultado e o tempo de jogo, "
+             "atualizados a cada 30 segundos (dados da ESPN).")
 
 
 def _league_page(key, league, games, card, note, root, updated) -> str:
@@ -470,6 +552,10 @@ def _league_page(key, league, games, card, note, root, updated) -> str:
         content = '<div class="empty">Sem jogos marcados nesta liga por agora.</div>'
     else:
         content = _league_rounds(games, card)
+    if key in aovivo.ESPN_SLUGS:
+        note += LIVE_NOTE
+    else:
+        note += " Esta liga não tem resultados ao vivo (a ESPN não a cobre)."
     body = (f"<h1>{FLAGS.get(key, '')} {html.escape(league.name)}</h1>"
             f'<p class="note">{note}</p>{content}')
     return _page(league.name, body, root, key, updated)
@@ -538,8 +624,8 @@ def _safe_page(preds: pd.DataFrame, updated: datetime) -> str:
             label = team if kind == "vitoria" else f"{team} ou empate"
             league = f'<a href="futebol/{g["league"].lower()}.html" title="{html.escape(LEAGUES[g["league"]].name)}">' \
                      f'{FLAGS.get(g["league"], "")}</a>'
-            rows[kind].append((p, [_when(g["date"], g.get("time")),
-                                   f"{league} {_team(g['home'])} – {_team(g['away'])}", f"<b>{label}</b>", _pct(p)]))
+            game = f'<span{_live(g)}><span class="st"></span>{league} {_vs(g, _team(g["home"]), _team(g["away"]))}</span>'
+            rows[kind].append((p, [_when(g["date"], g.get("time")), game, f"<b>{label}</b>", _pct(p)]))
     body = ["<h1>✅ Jogos mais seguros</h1>",
             f'<p class="note">{SAFE_NOTE.format(win=_pct(SAFE_BACKTEST["vitoria"]), double=_pct(SAFE_BACKTEST["dupla"]))}</p>']
     head = ["Data", "Jogo", "Escolha", "%"]

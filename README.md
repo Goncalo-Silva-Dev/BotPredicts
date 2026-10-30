@@ -28,7 +28,7 @@ pytest
 | football-data.org | Calendário e resultados atuais (sem MLS) |
 | API-Football | MLS, alinhamentos, lesões (100 pedidos/dia) |
 | openfootball (football.json) | Calendário completo da época (todas menos a MLS) |
-| ESPN (API pública) | NBA: calendário e resultados |
+| ESPN (API pública) | NBA, NBL e NHL: calendário e resultados; resultados ao vivo no site (12 ligas de futebol, NBA, NBL e NHL) |
 | Euroleague Basketball (api-live.euroleague.net) | EuroLeague e EuroCup |
 | Understat | xG (Inglaterra, Espanha, Itália, França) |
 | The Odds API | Odds atuais (500 créditos/mês) |
