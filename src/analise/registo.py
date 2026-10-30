@@ -250,6 +250,42 @@ def table(ev: pd.DataFrame, by: list[str]) -> pd.DataFrame:
         logloss=("logloss", "mean"), referencia=("referencia", "mean")).reset_index()
 
 
+# "Jogos mais seguros": vitória do favorito com 65% ou mais; senão, dupla hipótese do favorito
+# (favorito ou empate) com 80% ou mais. No backtest de 15 872 jogos acertaram 77% (15% dos jogos) e 85% (17%).
+SAFE_WIN, SAFE_DOUBLE = 0.65, 0.80
+# Só as ligas desse teste (têm remates à baliza); na MLS a vitória com 65% ou mais acertou só 57%
+SAFE_LEAGUES = {"POR", "ESP", "ENG", "FRA", "ITA", "GER", "TUR", "NED", "BEL"}
+
+
+def safe_pick(p1x2) -> tuple[str, int, float] | None:
+    """("vitoria" ou "dupla", 0 casa / 2 fora, probabilidade) ou None se o jogo não é claro."""
+    side = 0 if p1x2[0] >= p1x2[2] else 2
+    if p1x2[side] < p1x2[1]:
+        return None  # o mais provável é o empate
+    if p1x2[side] >= SAFE_WIN:
+        return "vitoria", side, float(p1x2[side])
+    if p1x2[side] + p1x2[1] >= SAFE_DOUBLE:
+        return "dupla", side, float(p1x2[side] + p1x2[1])
+    return None
+
+
+def safe_evaluate(store: dict) -> pd.DataFrame:
+    """Jogos de futebol terminados que estavam nos "mais seguros", e se a escolha acertou."""
+    rows = []
+    for rec in store.values():
+        if rec["desporto"] != "futebol" or rec["estado"] != "terminado" or rec["liga"] not in SAFE_LEAGUES:
+            continue
+        pick = safe_pick(rec["p"]["1x2"])
+        if pick is None:
+            continue
+        kind, side, p = pick
+        real = _1x2(rec["resultado"]["casa"], rec["resultado"]["fora"])
+        ok = real == side if kind == "vitoria" else real != 2 - side
+        rows.append({"tipo": kind, "liga": rec["liga"], "data": rec["data"], "acerto": float(ok),
+                     "confianca": p})
+    return pd.DataFrame(rows, columns=["tipo", "liga", "data", "acerto", "confianca"])
+
+
 BUCKETS = [(0.0, 0.5, "Menos de 50%"), (0.5, 0.6, "50% a 60%"), (0.6, 0.7, "60% a 70%"),
            (0.7, 0.8, "70% a 80%"), (0.8, 0.9, "80% a 90%"), (0.9, 1.01, "90% ou mais")]
 
