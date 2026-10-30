@@ -127,7 +127,9 @@ def load_history(engine, league: League, n_seasons: int, today: date | None = No
                 y=start, y1=start + 1)
             try:
                 df = betexplorer.fetch_betexplorer(path, league.key, today)
-            except requests.HTTPError:  # época que o site não tem
+            except requests.HTTPError as e:
+                if e.response is None or e.response.status_code != 404:  # 404: época que o site não tem
+                    print(f"{league.key} {start}: falhou a recolha ({e})")
                 continue
             total += save(engine, from_betexplorer(df, league, season_label(start, calendar_year=False)))
         return total

@@ -6,6 +6,7 @@ calendário das ligas que o openfootball não tem). O caminho é o do site, p. e
 """
 import html as html_lib
 import re
+import time
 from datetime import date, timedelta
 
 import pandas as pd
@@ -63,11 +64,29 @@ def parse_betexplorer_fixtures(page: str, today: date, league_key: str) -> pd.Da
     return pd.DataFrame(rows, columns=COLUMNS)
 
 
-def _be_get(path: str, page: str, **params) -> str:
-    resp = requests.get(BETEXPLORER.format(path=path, page=page), params=params, headers=HEADERS,
-                        timeout=60)
+# O site responde "429 Too Many Requests" a rajadas de pedidos (o futebol e o basquetebol
+# fazem dezenas seguidas na mesma corrida): espaçar os pedidos e, se recusar, esperar e repetir.
+MIN_INTERVAL = 1.5
+RETRY_WAITS = (10, 30, 60, 120)
+_last_request = 0.0
+
+
+def get(url: str, **params) -> str:
+    global _last_request
+    for wait in (*RETRY_WAITS, None):
+        time.sleep(max(0.0, _last_request + MIN_INTERVAL - time.monotonic()))
+        resp = requests.get(url, params=params, headers=HEADERS, timeout=60)
+        _last_request = time.monotonic()
+        if resp.status_code not in (429, 503) or wait is None:
+            break
+        retry_after = resp.headers.get("Retry-After", "")
+        time.sleep(min(int(retry_after), 300) if retry_after.isdigit() else wait)
     resp.raise_for_status()
     return resp.text
+
+
+def _be_get(path: str, page: str, **params) -> str:
+    return get(BETEXPLORER.format(path=path, page=page), **params)
 
 
 def fetch_betexplorer(path: str, league_key: str, today: date | None = None,
