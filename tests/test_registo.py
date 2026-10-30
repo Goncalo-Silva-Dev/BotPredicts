@@ -116,3 +116,35 @@ def test_basket_and_hockey_markets():
     assert ev.loc[("hoquei", "prolongamento"), "acerto"] == float(pro >= 0.5) * 1.0
     page = pagina.render_site(pd.DataFrame(), track=store)["historico.html"]
     assert "Puck line -1,5 da casa" in page and "Total dentro do intervalo de 80%" in page
+
+
+def test_safe_pick_rules():
+    assert registo.safe_pick([0.70, 0.20, 0.10]) == ("vitoria", 0, 0.70)
+    assert registo.safe_pick([0.15, 0.25, 0.60]) == ("dupla", 2, 0.85)
+    assert registo.safe_pick([0.45, 0.30, 0.25]) is None
+    assert registo.safe_pick([0.30, 0.40, 0.30]) is None  # o empate é o mais provável
+
+
+def test_safe_page_and_history():
+    now = datetime(2026, 10, 30, 8, 0, tzinfo=timezone.utc)
+    preds = pd.DataFrame([
+        {"league": "POR", "date": date(2026, 10, 31), "time": "20:30", "home": "Benfica", "away": "Arouca",
+         "casa": 0.78, "empate": 0.14, "fora": 0.08},
+        {"league": "ENG", "date": date(2026, 11, 1), "time": "15:00", "home": "Burnley", "away": "Arsenal",
+         "casa": 0.15, "empate": 0.24, "fora": 0.61},
+        {"league": "ESP", "date": date(2026, 11, 1), "time": "15:00", "home": "Getafe", "away": "Celta",
+         "casa": 0.40, "empate": 0.30, "fora": 0.30},
+        {"league": "POR", "date": date(2026, 12, 20), "time": "20:30", "home": "Porto", "away": "Arouca",
+         "casa": 0.80, "empate": 0.12, "fora": 0.08},  # fora dos 7 dias
+        {"league": "USA", "date": date(2026, 11, 1), "time": "20:00", "home": "Miami", "away": "Austin",
+         "casa": 0.80, "empate": 0.12, "fora": 0.08}])  # MLS não entra
+    page = pagina._safe_page(preds, now)
+    assert "<b>Benfica</b>" in page and "<b>Arsenal ou empate</b>" in page
+    assert "Getafe" not in page and "Porto" not in page and "Miami" not in page
+
+    store = {"a": {"desporto": "futebol", "estado": "terminado", "liga": "POR", "data": "2026-10-31",
+                   "p": {"1x2": [0.78, 0.14, 0.08]}, "resultado": {"casa": 1, "fora": 1}},
+             "b": {"desporto": "futebol", "estado": "terminado", "liga": "ENG", "data": "2026-11-01",
+                   "p": {"1x2": [0.15, 0.24, 0.61]}, "resultado": {"casa": 1, "fora": 1}}}
+    safe = registo.safe_evaluate(store).set_index("tipo")
+    assert safe.loc["vitoria", "acerto"] == 0 and safe.loc["dupla", "acerto"] == 1

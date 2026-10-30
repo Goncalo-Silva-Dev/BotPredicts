@@ -11,6 +11,7 @@ pip install -e ".[dev]"
 cp .env.example .env
 python -m analise.cli historico --epocas 6   # descarrega e guarda o histórico
 python -m analise.cli backtest               # Dixon-Coles vs odds de fecho sem margem
+python -m analise.cli backtest --peso-golos 1   # o mesmo, só com golos (sem remates à baliza)
 python -m analise.cli previsoes              # probabilidades dos jogos dos próximos 7 dias
 python -m analise.cli previsoes --ligas POR --jogo Benfica Porto   # um jogo à escolha
 python -m analise.cli basquete-backtest      # ligas de basquetebol em jogos passados

@@ -23,6 +23,8 @@ def main(argv=None):
     bt.add_argument("--meia-vida", type=float, default=180.0, help="dias")
     bt.add_argument("--janela", type=int, default=730, help="dias de histórico no treino")
     bt.add_argument("--desde", help="só avalia jogos a partir desta data (AAAA-MM-DD)")
+    bt.add_argument("--peso-golos", type=float, default=0.5,
+                    help="peso dos golos face aos remates à baliza (1 = só golos)")
     bt.add_argument("--saida", default="data/backtest", help="pasta para os CSVs por jogo")
     prev = sub.add_parser("previsoes", help="Probabilidades para os próximos jogos")
     prev.add_argument("--ligas", nargs="*", default=list(LEAGUES), choices=list(LEAGUES))
@@ -83,7 +85,8 @@ def run_backtest(engine, args):
             print(f"{key}: sem dados (corre primeiro 'historico')")
             continue
         res = backtest.walk_forward(
-            df, half_life_days=args.meia_vida, window_days=args.janela, start=args.desde)
+            df, half_life_days=args.meia_vida, window_days=args.janela, start=args.desde,
+            goals_weight=args.peso_golos)
         res.insert(0, "league", key)
         res.to_csv(os.path.join(args.saida, f"{key}.csv"), index=False)
         all_res.append(res)

@@ -34,6 +34,7 @@ def walk_forward(
     min_train: int = 300,
     min_team_matches: int = 5,
     start=None,
+    goals_weight: float = 0.5,
 ) -> pd.DataFrame:
     """Uma linha por jogo previsto, com probabilidades do modelo e do mercado.
 
@@ -54,7 +55,7 @@ def walk_forward(
         if len(train) < min_train:
             continue
         counts = pd.concat([train["home"], train["away"]]).value_counts()
-        model = DixonColes(half_life_days=half_life_days).fit(train, as_of=week)
+        model = DixonColes(half_life_days=half_life_days, goals_weight=goals_weight).fit(train, as_of=week)
         for g in games.itertuples(index=False):
             row = g._asdict()
             known = min(counts.get(g.home, 0), counts.get(g.away, 0)) >= min_team_matches

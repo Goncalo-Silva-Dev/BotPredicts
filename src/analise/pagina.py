@@ -375,9 +375,10 @@ def _league_rounds(games: pd.DataFrame, card=_game) -> str:
 
 
 FOOTBALL_NOTE = """Barras: vitória da casa · empate · vitória de fora. Modelo Dixon-Coles com os
-últimos 2 anos de resultados. As odds das casas de apostas aparecem quando já existem (perto do
-jogo). No teste com 11 984 jogos passados o modelo acertou bem nas percentagens, mas ficou um
-pouco atrás das odds de fecho das casas de apostas. Em "Por parte": resultado ao intervalo e
+últimos 2 anos de resultados; nas ligas com remates à baliza (Europa) conta metade golos, metade
+remates à baliza, o que no teste melhorou as previsões em todas essas ligas. As odds das casas de
+apostas aparecem quando já existem (perto do jogo). No teste com 21 079 jogos passados o modelo
+acertou bem nas percentagens, mas ficou um pouco atrás das odds de fecho das casas de apostas. Em "Por parte": resultado ao intervalo e
 golos em cada parte, com a parte dos golos que cada liga costuma marcar na 1.ª parte; ao
 intervalo o favorito acerta em cerca de 45% dos jogos, porque o empate é muito comum. Em "Mais
 apostas": dupla hipótese, totais, golos por equipa, handicap e intervalo/final, todos tirados do
@@ -444,6 +445,7 @@ def _page(title: str, body: str, root: str, current: str, updated: datetime) -> 
 <details><summary>⚽ Futebol</summary><div class="menu">{menu("futebol", LEAGUES)}</div></details>
 <details><summary>🏀 Basquetebol</summary><div class="menu">{menu("basquetebol", BASKET_LEAGUES)}</div></details>
 <details><summary>🏒 Hóquei</summary><div class="menu">{menu("hoquei", HOCKEY_LEAGUES)}</div></details>
+<a href="{root}seguros.html">✅ Mais seguros</a>
 <a href="{root}historico.html">📊 Histórico</a>
 </nav></header>
 <main>
@@ -499,9 +501,54 @@ procura ajuda: em Portugal, o SICAD apoia casos de jogo excessivo.</li>
 <h2>⚽ Futebol</h2><div class="grid">{cards("futebol", LEAGUES, preds)}</div>
 <h2>🏀 Basquetebol</h2><div class="grid">{cards("basquetebol", BASKET_LEAGUES, basket)}</div>
 <h2>🏒 Hóquei no gelo</h2><div class="grid">{cards("hoquei", HOCKEY_LEAGUES, hockey)}</div>
+<h2>✅ Jogos mais seguros</h2><div class="grid"><a href="seguros.html">Os jogos de futebol mais claros
+<span>só os favoritos fortes; no teste com jogos passados acertaram cerca de 8 em cada 10</span></a></div>
 <h2>📊 Histórico</h2><div class="grid"><a href="historico.html">Acertos das previsões publicadas
 <span>todas guardadas antes de cada jogo e comparadas com o resultado final</span></a></div>"""
     return _page("Início", body, "", "", updated)
+
+
+SAFE_NOTE = """Só os jogos dos próximos 7 dias em que o modelo vê um favorito claro, nas ligas
+europeias principais (Portugal, Espanha, Inglaterra, França, Itália, Alemanha, Turquia, Países Baixos e
+Bélgica); nas outras o modelo é mais fraco e estes números não se confirmam.
+<b>Vitória</b>: o favorito tem 65% ou mais; no teste com 15 872 jogos passados (cada previsão feita só
+com os jogos anteriores) acertou {win} das vezes. <b>Dupla hipótese</b>: nos outros jogos, o favorito
+ganha ou empata com 80% ou mais; no mesmo teste acertou {double}. Atenção: nestes jogos as odds são
+baixas, por isso acertar muitas vezes não quer dizer ganhar dinheiro. O acerto real destes jogos
+aparece no <a href="historico.html#seguros">histórico</a>."""
+# acerto no backtest walk-forward das 9 ligas com remates à baliza (regras de registo.safe_pick)
+SAFE_BACKTEST = {"vitoria": 0.77, "dupla": 0.85}
+
+
+def _safe_page(preds: pd.DataFrame, updated: datetime) -> str:
+    today = updated.astimezone(LISBON).date()
+    rows = {"vitoria": [], "dupla": []}
+    if not preds.empty and "casa" in preds:
+        games = preds.dropna(subset=["casa"])
+        games = games[games["league"].isin(registo.SAFE_LEAGUES)]
+        dates = pd.to_datetime(games["date"]).dt.date
+        games = games[(dates >= today) & (dates <= today + pd.Timedelta(days=registo.DAYS_AHEAD))]
+        for g in games.to_dict("records"):
+            pick = registo.safe_pick([g["casa"], g["empate"], g["fora"]])
+            if pick is None:
+                continue
+            kind, side, p = pick
+            team = _team(g["home"] if side == 0 else g["away"])
+            label = team if kind == "vitoria" else f"{team} ou empate"
+            league = f'<a href="futebol/{g["league"].lower()}.html" title="{html.escape(LEAGUES[g["league"]].name)}">' \
+                     f'{FLAGS.get(g["league"], "")}</a>'
+            rows[kind].append((p, [_when(g["date"], g.get("time")),
+                                   f"{league} {_team(g['home'])} – {_team(g['away'])}", f"<b>{label}</b>", _pct(p)]))
+    body = ["<h1>✅ Jogos mais seguros</h1>",
+            f'<p class="note">{SAFE_NOTE.format(win=_pct(SAFE_BACKTEST["vitoria"]), double=_pct(SAFE_BACKTEST["dupla"]))}</p>']
+    head = ["Data", "Jogo", "Escolha", "%"]
+    for kind, title in (("vitoria", "Vitória (65% ou mais)"), ("dupla", "Dupla hipótese (80% ou mais)")):
+        body.append(f"<h2>{title}</h2>")
+        if rows[kind]:
+            body.append(_tbl(head, [r for _, r in sorted(rows[kind], key=lambda x: -x[0])], "games"))
+        else:
+            body.append('<div class="empty">Sem jogos destes nos próximos 7 dias.</div>')
+    return _page("Jogos mais seguros", "".join(body), "", "seguros", updated)
 
 
 SPORTS = {"futebol": ("⚽ Futebol", LEAGUES), "basquetebol": ("🏀 Basquetebol", BASKET_LEAGUES),
@@ -596,6 +643,16 @@ def _track_page(store: dict, updated: datetime) -> str:
         body.append('<p class="note">"Casas" são as odds das casas de apostas sem margem, nos jogos de '
                     "futebol em que já existiam quando a previsão foi guardada.</p>")
 
+    safe = registo.safe_evaluate(store)
+    if not safe.empty:
+        body.append('<h2 id="seguros">✅ Jogos mais seguros</h2>')
+        names = {"vitoria": "Vitória do favorito (65% ou mais)", "dupla": "Dupla hipótese (80% ou mais)"}
+        t = safe.groupby("tipo", sort=False).agg(jogos=("acerto", "size"), acerto=("acerto", "mean"),
+                                                 confianca=("confianca", "mean"))
+        body.append(_tbl(["Escolha", "Jogos", "Acerto", "Confiança", "Acerto no teste"],
+                         [[names[k], f"{r.jogos}", _pct(r.acerto), _pct(r.confianca), _pct(SAFE_BACKTEST[k])]
+                          for k, r in t.iterrows()]))
+
     cal = registo.calibration(ev)
     body.append("<h2>Percentagens bem afinadas?</h2>")
     body.append('<p class="note">Todas as previsões de todos os mercados, agrupadas pela percentagem '
@@ -626,7 +683,8 @@ def render_site(preds: pd.DataFrame, basket: pd.DataFrame | None = None,
     basket = basket if basket is not None else pd.DataFrame()
     hockey = hockey if hockey is not None else pd.DataFrame()
     pages = {"index.html": _index(preds, basket, hockey, updated),
-             "historico.html": _track_page(track or {}, updated)}
+             "historico.html": _track_page(track or {}, updated),
+             "seguros.html": _safe_page(preds, updated)}
     for key, league in LEAGUES.items():
         games = preds[preds["league"] == key] if not preds.empty else preds
         pages[f"futebol/{key.lower()}.html"] = _league_page(
