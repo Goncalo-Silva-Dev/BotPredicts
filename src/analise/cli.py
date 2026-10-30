@@ -5,7 +5,7 @@ from datetime import date, datetime, timedelta, timezone
 import pandas as pd
 from sqlalchemy import select
 
-from analise import backtest, basquete, calendario, hoquei, pagina, previsoes, registo
+from analise import aovivo, backtest, basquete, calendario, hoquei, pagina, previsoes, registo
 from analise.ingest import basket, hockey
 from analise.db import get_engine, matches
 from analise.ingest import football_data_uk
@@ -172,6 +172,10 @@ def run_pagina(engine, args):
     if args.historico:
         track = update_track(engine, args.historico, {"futebol": res, "basquetebol": hoops, "hoquei": ice},
                              {"basquetebol": basket_games, "hoquei": hockey_games})
+    try:  # resultados ao vivo: sem a ESPN o site sai na mesma, só sem marcador
+        res, hoops, ice = (aovivo.attach(df, today) for df in (res, hoops, ice))
+    except Exception as e:
+        print(f"ao vivo: falhou a ligação à ESPN ({e})")
     for path, page in pagina.render_site(res, hoops, hockey=ice, track=track).items():
         full = os.path.join(args.saida, path)
         os.makedirs(os.path.dirname(full), exist_ok=True)
