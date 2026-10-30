@@ -43,5 +43,7 @@ LEAGUES = {
                be_history="football/portugal/liga-portugal-2-{y}-{y1}"),
         League("U23", "Liga Revelação Sub-23", None, be_path="football/portugal/liga-next-gen-u23",
                be_history="football/portugal/liga-revelacao-u23-{y}-{y1}"),
+        League("SAU", "Saudi Pro League", None, be_path="football/saudi-arabia/saudi-professional-league",
+               be_history="football/saudi-arabia/saudi-professional-league-{y}-{y1}"),
     ]
 }

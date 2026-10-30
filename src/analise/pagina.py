@@ -19,7 +19,7 @@ from analise.leagues import LEAGUES
 
 LISBON = ZoneInfo("Europe/Lisbon")
 
-FLAGS = {"POR": "🇵🇹", "PO2": "🇵🇹", "U23": "🇵🇹", "TUR": "🇹🇷", "NED": "🇳🇱", "BEL": "🇧🇪", "ESP": "🇪🇸", "ENG": "🏴", "FRA": "🇫🇷", "ITA": "🇮🇹", "GER": "🇩🇪", "USA": "🇺🇸", "BRA": "🇧🇷",
+FLAGS = {"POR": "🇵🇹", "PO2": "🇵🇹", "U23": "🇵🇹", "TUR": "🇹🇷", "NED": "🇳🇱", "BEL": "🇧🇪", "ESP": "🇪🇸", "ENG": "🏴", "FRA": "🇫🇷", "ITA": "🇮🇹", "GER": "🇩🇪", "USA": "🇺🇸", "BRA": "🇧🇷", "SAU": "🇸🇦",
          "NBA": "🇺🇸", "NHL": "🇺🇸", "NBL": "🇦🇺", "BLG": "🇯🇵", "ABA": "🇷🇸", "KBL": "🇰🇷", "SBL": "🇸🇪", "KOR": "🇫🇮", "CBA": "🇨🇳", "PBA": "🇵🇭", "EUR": "🇪🇺", "EUC": "🇪🇺", "NBB": "🇧🇷", "ACB": "🇪🇸", "LBA": "🇮🇹", "LPB": "🇵🇹", "LNB": "🇫🇷"}
 WEEKDAYS = ["seg", "ter", "qua", "qui", "sex", "sáb", "dom"]
 
@@ -403,6 +403,7 @@ FOOTBALL_LEAGUE_NOTES = {
     "TUR": " Nesta liga, no teste com 384 jogos, o favorito do modelo ganhou 49% das vezes.",
     "NED": " Nesta liga, no teste com 363 jogos, o favorito do modelo ganhou 51% das vezes.",
     "BEL": " Nesta liga, no teste com 375 jogos, o favorito do modelo ganhou 48% das vezes.",
+    "SAU": " Nesta liga, no teste com 1144 jogos, o favorito do modelo ganhou 55% das vezes." + NO_HT,
     "U23": " Nesta liga, no teste com 250 jogos, o favorito do modelo ganhou 50% das vezes." + NO_HT,
     "PO2": (" Atenção: na Liga Portugal 2 o modelo não funcionou bem no teste com 341 jogos (o "
             "favorito ganhou só 41% das vezes e as percentagens foram piores do que usar as médias "
