@@ -232,3 +232,20 @@ def test_parse_betexplorer_results_and_fixtures():
     # UTC+1 fixo: no inverno são 11:35 em Lisboa, no verão 12:35
     assert list(fx["time"]) == ["11:35", "11:35", "11:35"]
     assert list(fx["date"]) == [date(2027, 1, 4), date(2027, 1, 4), date(2026, 10, 30)]
+
+
+def test_betexplorer_waits_and_retries_when_rate_limited(monkeypatch):
+    from analise.ingest import betexplorer
+
+    class Resp:
+        def __init__(self, status):
+            self.status_code, self.text, self.headers = status, "ok", {"Retry-After": "7"}
+
+        def raise_for_status(self):
+            assert self.status_code == 200
+
+    answers, waits = [Resp(429), Resp(429), Resp(200)], []
+    monkeypatch.setattr(betexplorer.requests, "get", lambda *a, **k: answers.pop(0))
+    monkeypatch.setattr(betexplorer.time, "sleep", waits.append)
+    assert betexplorer.get("https://www.betexplorer.com/x/") == "ok"
+    assert not answers and waits.count(7) == 2
