@@ -7,27 +7,60 @@
   "hora": null,
   "casa": "SC Braga",
   "fora": "Sporting CP",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4924,
+   "vencedor": 0.4926,
    "pontos": [
-    79.9042,
-    80.15
+    79.9098,
+    80.1506
    ],
    "handicap": [
     -0.5,
-    0.5078
+    0.508
    ],
    "total": [
     160.5,
-    0.4887
+    0.4889
    ],
    "total_80": [
     [
-     139.8498,
-     180.2587
+     139.8533,
+     180.2673
     ],
     0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "futebol|ESP|2026-11-01|Villarreal|Espanol",
+  "desporto": "futebol",
+  "liga": "ESP",
+  "data": "2026-11-01",
+  "hora": null,
+  "casa": "Villarreal",
+  "fora": "Espanol",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "1x2": [
+    0.6475,
+    0.2123,
+    0.1402
+   ],
+   "golos": [
+    2.0735,
+    0.8636
+   ],
+   "ambas": 0.5118,
+   "mais_1.5": 0.7975,
+   "mais_2.5": 0.5626,
+   "mais_3.5": 0.3387,
+   "dnb_casa": 0.822,
+   "intervalo": [
+    0.493,
+    0.3725,
+    0.1345
    ]
   },
   "estado": "pendente",
@@ -41,25 +74,25 @@
   "hora": "00:00",
   "casa": "Memphis Grizzlies",
   "fora": "Sacramento Kings",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6967,
+   "vencedor": 0.7206,
    "pontos": [
-    120.7544,
-    112.4519
+    121.5919,
+    112.1866
    ],
    "handicap": [
-    8.5,
-    0.4951
+    9.5,
+    0.4977
    ],
    "total": [
     233.5,
-    0.4942
+    0.5054
    ],
    "total_80": [
     [
-     207.1396,
-     259.2731
+     207.5977,
+     259.9594
     ],
     0.8
    ]
@@ -75,25 +108,25 @@
   "hora": "00:00",
   "casa": "Milwaukee Bucks",
   "fora": "Cleveland Cavaliers",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.3051,
+   "vencedor": 0.3041,
    "pontos": [
-    111.725,
-    119.9412
+    111.6876,
+    119.9375
    ],
    "handicap": [
     -8.5,
-    0.507
+    0.5062
    ],
    "total": [
     231.5,
-    0.5033
+    0.5024
    ],
    "total_80": [
     [
-     205.5994,
-     257.733
+     205.4443,
+     257.806
     ],
     0.8
    ]
@@ -109,25 +142,25 @@
   "hora": "00:00",
   "casa": "San Antonio Spurs",
   "fora": "Minnesota Timberwolves",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6514,
+   "vencedor": 0.6496,
    "pontos": [
-    116.7448,
-    110.4711
+    116.7216,
+    110.5398
    ],
    "handicap": [
     6.5,
-    0.4944
+    0.4921
    ],
    "total": [
     227.5,
-    0.4944
+    0.4953
    ],
    "total_80": [
     [
-     201.1491,
-     253.2827
+     201.0806,
+     253.4423
     ],
     0.8
    ]
@@ -143,28 +176,28 @@
   "hora": "00:00",
   "casa": "Dallas Stars",
   "fora": "Columbus Blue Jackets",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6132,
+   "vencedor": 0.5993,
    "60min": [
-    0.4911,
-    0.2347,
-    0.2743
+    0.4763,
+    0.2363,
+    0.2874
    ],
    "golos": [
-    3.3576,
-    2.6478
+    3.3257,
+    2.7065
    ],
-   "prolongamento": 0.2347,
+   "prolongamento": 0.2363,
    "total": [
     6.5,
-    0.4209
+    0.4257
    ],
    "puck_casa": [
     -1.5,
-    0.3853
+    0.3718
    ],
-   "ambas": 0.8777
+   "ambas": 0.8809
   },
   "estado": "pendente",
   "resultado": null
@@ -177,25 +210,25 @@
   "hora": "00:30",
   "casa": "Houston Rockets",
   "fora": "Oklahoma City Thunder",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5367,
+   "vencedor": 0.5376,
    "pontos": [
-    110.7599,
-    109.2744
+    110.7818,
+    109.263
    ],
    "handicap": [
     1.5,
-    0.4996
+    0.5005
    ],
    "total": [
     220.5,
-    0.4909
+    0.4911
    ],
    "total_80": [
     [
-     193.9675,
-     246.1011
+     193.864,
+     246.2257
     ],
     0.8
    ]
@@ -211,19 +244,19 @@
   "hora": "01:30",
   "casa": "Colorado Rapids",
   "fora": "Chicago Fire",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.3527,
-    0.2671,
-    0.3802
+    0.267,
+    0.3803
    ],
    "golos": [
-    1.3669,
-    1.4276
+    1.3667,
+    1.4275
    ],
-   "ambas": 0.5734,
-   "mais_1.5": 0.7751,
+   "ambas": 0.5733,
+   "mais_1.5": 0.7749,
    "mais_2.5": 0.5292,
    "mais_3.5": 0.3068,
    "dnb_casa": 0.4812,
@@ -249,28 +282,28 @@
   "hora": "02:00",
   "casa": "Colorado Avalanche",
   "fora": "Calgary Flames",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.715,
+   "vencedor": 0.7147,
    "60min": [
-    0.6099,
-    0.202,
-    0.1881
+    0.6096,
+    0.2019,
+    0.1885
    ],
    "golos": [
-    3.8888,
-    2.4349
+    3.8939,
+    2.4414
    ],
-   "prolongamento": 0.202,
+   "prolongamento": 0.2019,
    "total": [
     6.5,
-    0.4731
+    0.4751
    ],
    "puck_casa": [
     -1.5,
-    0.5039
+    0.5037
    ],
-   "ambas": 0.8754
+   "ambas": 0.8761
   },
   "estado": "pendente",
   "resultado": null
@@ -283,25 +316,25 @@
   "hora": "04:00",
   "casa": "South East Melbourne Phoenix",
   "fora": "Tasmania JackJumpers",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6517,
+   "vencedor": 0.6464,
    "pontos": [
-    99.8416,
-    94.0365
+    98.2078,
+    92.6696
    ],
    "handicap": [
     5.5,
-    0.5082
+    0.501
    ],
    "total": [
-    193.5,
-    0.5082
+    190.5,
+    0.5078
    ],
    "total_80": [
     [
-     170.2748,
-     217.4813
+     166.1706,
+     215.5841
     ],
     0.8
    ]
@@ -317,31 +350,34 @@
   "hora": "04:55",
   "casa": "Shimane Susanoo Magic",
   "fora": "Hiroshima Dragonflies",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.3632,
+   "vencedor": 0.3709,
    "pontos": [
-    80.4943,
-    85.6175
+    80.5901,
+    85.421
    ],
    "handicap": [
-    -5.5,
-    0.5103
+    -4.5,
+    0.491
    ],
    "total": [
     166.5,
-    0.4915
+    0.4893
    ],
    "total_80": [
     [
-     142.7646,
-     189.459
+     142.7155,
+     189.3066
     ],
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 88,
+   "fora": 95
+  }
  },
  {
   "id": "basquetebol|KBL|2026-11-01|Changwon LG Sakers|Wonju DB Promy",
@@ -351,25 +387,25 @@
   "hora": "05:00",
   "casa": "Changwon LG Sakers",
   "fora": "Wonju DB Promy",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.592,
+   "vencedor": 0.587,
    "pontos": [
-    86.2032,
-    83.2588
+    86.0225,
+    83.2431
    ],
    "handicap": [
     2.5,
-    0.514
+    0.5088
    ],
    "total": [
     169.5,
-    0.4992
+    0.495
    ],
    "total_80": [
     [
-     145.5423,
-     193.3817
+     145.3395,
+     193.1917
     ],
     0.8
    ]
@@ -385,25 +421,25 @@
   "hora": "05:00",
   "casa": "Goyang Sono Skygunners",
   "fora": "Suwon KT Sonicboom",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6873,
+   "vencedor": 0.6729,
    "pontos": [
-    84.509,
-    78.3319
+    84.5704,
+    78.9103
    ],
    "handicap": [
-    6.5,
-    0.4898
+    5.5,
+    0.5051
    ],
    "total": [
-    162.5,
-    0.5073
+    163.5,
+    0.4996
    ],
    "total_80": [
     [
-     138.9212,
-     186.7606
+     139.5546,
+     187.4069
     ],
     0.8
    ]
@@ -419,25 +455,25 @@
   "hora": "05:05",
   "casa": "Akita Northern Happinets",
   "fora": "Altiri Chiba",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4377,
+   "vencedor": 0.4403,
    "pontos": [
-    79.3568,
-    81.6521
+    79.927,
+    82.1302
    ],
    "handicap": [
     -2.5,
-    0.5056
+    0.5081
    ],
    "total": [
-    161.5,
-    0.4892
+    162.5,
+    0.4903
    ],
    "total_80": [
     [
-     137.6617,
-     184.3561
+     138.7617,
+     185.3528
     ],
     0.8
    ]
@@ -453,31 +489,34 @@
   "hora": "05:05",
   "casa": "Chiba Jets",
   "fora": "Toyama Grouses",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6462,
+   "vencedor": 0.6481,
    "pontos": [
-    90.4218,
-    84.9298
+    90.4981,
+    84.9222
    ],
    "handicap": [
     5.5,
-    0.4998
+    0.5021
    ],
    "total": [
     175.5,
-    0.4967
+    0.4983
    ],
    "total_80": [
     [
-     152.0044,
-     198.6988
+     152.1247,
+     198.7158
     ],
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 93,
+   "fora": 100
+  }
  },
  {
   "id": "basquetebol|BLG|2026-11-01|Kobe Storks|Nagasaki Velca",
@@ -487,31 +526,34 @@
   "hora": "05:05",
   "casa": "Kobe Storks",
   "fora": "Nagasaki Velca",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.2221,
+   "vencedor": 0.2278,
    "pontos": [
-    75.2671,
-    86.4662
+    75.4873,
+    86.4309
    ],
    "handicap": [
-    -11.5,
-    0.5082
+    -10.5,
+    0.4879
    ],
    "total": [
     161.5,
-    0.5051
+    0.5092
    ],
    "total_80": [
     [
-     138.3861,
-     185.0804
+     138.6227,
+     185.2138
     ],
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 71,
+   "fora": 81
+  }
  },
  {
   "id": "basquetebol|BLG|2026-11-01|Sendai 89ers|Sunrockers Shibuya",
@@ -521,31 +563,34 @@
   "hora": "05:05",
   "casa": "Sendai 89ers",
   "fora": "Sunrockers Shibuya",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5157,
+   "vencedor": 0.5203,
    "pontos": [
-    81.4409,
-    80.8659
+    81.4672,
+    80.7201
    ],
    "handicap": [
     0.5,
-    0.502
+    0.5067
    ],
    "total": [
     162.5,
-    0.4958
+    0.4931
    ],
    "total_80": [
     [
-     138.9596,
-     185.654
+     138.8917,
+     185.4828
     ],
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 73,
+   "fora": 80
+  }
  },
  {
   "id": "basquetebol|BLG|2026-11-01|Shinshu Brave Warriors|Kyoto Hannaryz",
@@ -555,25 +600,25 @@
   "hora": "05:05",
   "casa": "Shinshu Brave Warriors",
   "fora": "Kyoto Hannaryz",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.3642,
+   "vencedor": 0.4078,
    "pontos": [
-    82.1902,
-    87.2724
+    81.9791,
+    85.3985
    ],
    "handicap": [
-    -5.5,
-    0.5114
+    -3.5,
+    0.5022
    ],
    "total": [
-    169.5,
-    0.4992
+    167.5,
+    0.4973
    ],
    "total_80": [
     [
-     146.1155,
-     192.8098
+     144.082,
+     190.6731
     ],
     0.8
    ]
@@ -589,25 +634,25 @@
   "hora": "06:00",
   "casa": "Adelaide 36ers",
   "fora": "Brisbane Bullets",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.7463,
+   "vencedor": 0.754,
    "pontos": [
-    97.844,
-    87.9772
+    99.1118,
+    88.9839
    ],
    "handicap": [
-    9.5,
-    0.5098
+    10.5,
+    0.4899
    ],
    "total": [
-    185.5,
-    0.507
+    188.5,
+    0.4916
    ],
    "total_80": [
     [
-     162.2179,
-     209.4245
+     163.3888,
+     212.8024
     ],
     0.8
    ]
@@ -623,31 +668,34 @@
   "hora": "06:05",
   "casa": "Alvark Tokyo",
   "fora": "Utsunomiya Brex",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5972,
+   "vencedor": 0.5987,
    "pontos": [
-    85.7053,
-    82.1026
+    85.7141,
+    82.0486
    ],
    "handicap": [
     3.5,
-    0.5028
+    0.5045
    ],
    "total": [
     167.5,
-    0.5067
+    0.5058
    ],
    "total_80": [
     [
-     144.4607,
-     191.1551
+     144.4672,
+     191.0583
     ],
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 100,
+   "fora": 90
+  }
  },
  {
   "id": "basquetebol|BLG|2026-11-01|Gunma Crane Thunders|Osaka Evessa",
@@ -657,31 +705,34 @@
   "hora": "06:05",
   "casa": "Gunma Crane Thunders",
   "fora": "Osaka Evessa",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.8727,
+   "vencedor": 0.8748,
    "pontos": [
-    85.2613,
-    68.5811
+    85.3379,
+    68.4784
    ],
    "handicap": [
     16.5,
-    0.5049
+    0.5098
    ],
    "total": [
     153.5,
-    0.5075
+    0.5069
    ],
    "total_80": [
     [
-     130.4952,
-     177.1896
+     130.5208,
+     177.1119
     ],
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 93,
+   "fora": 60
+  }
  },
  {
   "id": "basquetebol|BLG|2026-11-01|Ibaraki Robots|Levanga Hokkaido",
@@ -691,31 +742,34 @@
   "hora": "06:05",
   "casa": "Ibaraki Robots",
   "fora": "Levanga Hokkaido",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4159,
+   "vencedor": 0.4226,
    "pontos": [
-    87.1204,
-    90.2282
+    87.2036,
+    90.0684
    ],
    "handicap": [
-    -3.5,
-    0.5107
+    -2.5,
+    0.4901
    ],
    "total": [
     177.5,
-    0.4967
+    0.495
    ],
    "total_80": [
     [
-     154.0014,
-     200.6958
+     153.9764,
+     200.5675
     ],
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 101,
+   "fora": 69
+  }
  },
  {
   "id": "basquetebol|BLG|2026-11-01|Nagoya Diamond Dolphins|Shiga Lakes",
@@ -725,25 +779,25 @@
   "hora": "06:05",
   "casa": "Nagoya Diamond Dolphins",
   "fora": "Shiga Lakes",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.7238,
+   "vencedor": 0.7735,
    "pontos": [
-    88.179,
-    79.4825
+    89.62,
+    78.6144
    ],
    "handicap": [
-    8.5,
-    0.5054
+    11.5,
+    0.4866
    ],
    "total": [
-    167.5,
-    0.5035
+    168.5,
+    0.4942
    ],
    "total_80": [
     [
-     144.3144,
-     191.0088
+     144.9388,
+     191.5299
     ],
     0.8
    ]
@@ -759,31 +813,34 @@
   "hora": "06:05",
   "casa": "SeaHorses Mikawa",
   "fora": "Saga Ballooners",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.8034,
+   "vencedor": 0.8081,
    "pontos": [
-    87.9157,
-    75.4189
+    88.0773,
+    75.3028
    ],
    "handicap": [
     12.5,
-    0.4999
+    0.5075
    ],
    "total": [
     163.5,
-    0.4964
+    0.4974
    ],
    "total_80": [
     [
-     139.9874,
-     186.6817
+     140.0845,
+     186.6756
     ],
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 100,
+   "fora": 83
+  }
  },
  {
   "id": "basquetebol|KBL|2026-11-01|Seoul Samsung Thunders|Seoul SK Knights",
@@ -793,25 +850,25 @@
   "hora": "07:30",
   "casa": "Seoul Samsung Thunders",
   "fora": "Seoul SK Knights",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5296,
+   "vencedor": 0.5413,
    "pontos": [
-    79.8309,
-    78.8917
+    80.407,
+    79.0959
    ],
    "handicap": [
-    0.5,
-    0.5138
+    1.5,
+    0.494
    ],
    "total": [
-    158.5,
-    0.5048
+    159.5,
+    0.5001
    ],
    "total_80": [
     [
-     134.8029,
-     182.6423
+     135.5767,
+     183.429
     ],
     0.8
    ]
@@ -827,31 +884,34 @@
   "hora": "09:05",
   "casa": "Ryukyu Golden Kings",
   "fora": "San-en NeoPhoenix",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5566,
+   "vencedor": 0.5576,
    "pontos": [
-    83.0452,
-    80.9606
+    83.0468,
+    80.9207
    ],
    "handicap": [
     2.5,
-    0.4887
+    0.4898
    ],
    "total": [
-    164.5,
-    0.4892
+    163.5,
+    0.5103
    ],
    "total_80": [
     [
-     140.6586,
-     187.353
+     140.6719,
+     187.263
     ],
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 86,
+   "fora": 80
+  }
  },
  {
   "id": "basquetebol|BLG|2026-11-01|Kawasaki Brave Thunders|Yokohama B-Corsairs",
@@ -861,31 +921,34 @@
   "hora": "10:05",
   "casa": "Kawasaki Brave Thunders",
   "fora": "Yokohama B-Corsairs",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4626,
+   "vencedor": 0.4679,
    "pontos": [
-    80.4379,
-    81.8133
+    80.5421,
+    81.7228
    ],
    "handicap": [
     -1.5,
-    0.5034
+    0.5087
    ],
    "total": [
     162.5,
-    0.4946
+    0.4948
    ],
    "total_80": [
     [
-     138.9041,
-     185.5985
+     138.9693,
+     185.5604
     ],
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 65,
+   "fora": 75
+  }
  },
  {
   "id": "futebol|TUR|2026-11-01|Amedspor|Eyupspor",
@@ -895,7 +958,7 @@
   "hora": "10:30",
   "casa": "Amedspor",
   "fora": "Eyupspor",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.7914,
@@ -933,25 +996,25 @@
   "hora": "11:00",
   "casa": "Asisa Joventut",
   "fora": "Surne Bilbao",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.749,
+   "vencedor": 0.7488,
    "pontos": [
-    89.9912,
-    81.0424
+    89.9919,
+    81.0483
    ],
    "handicap": [
     8.5,
-    0.5134
+    0.5133
    ],
    "total": [
     171.5,
-    0.4902
+    0.4903
    ],
    "total_80": [
     [
-     146.7593,
-     195.3081
+     146.7615,
+     195.3191
     ],
     0.8
    ]
@@ -967,25 +1030,25 @@
   "hora": "11:00",
   "casa": "Monbus Obradoiro",
   "fora": "Río Breogán",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "vencedor": 0.5485,
    "pontos": [
-    96.2506,
-    94.6242
+    96.2462,
+    94.6211
    ],
    "handicap": [
     1.5,
-    0.5038
+    0.5037
    ],
    "total": [
     190.5,
-    0.5079
+    0.5077
    ],
    "total_80": [
     [
-     166.6004,
-     215.1491
+     166.5886,
+     215.1462
     ],
     0.8
    ]
@@ -1001,12 +1064,12 @@
   "hora": "11:00",
   "casa": "Napoli Basketball",
   "fora": "Umana Reyer Venezia",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "vencedor": 0.5676,
    "pontos": [
-    90.462,
-    88.4769
+    90.4602,
+    88.4736
    ],
    "handicap": [
     1.5,
@@ -1014,12 +1077,12 @@
    ],
    "total": [
     178.5,
-    0.5106
+    0.5105
    ],
    "total_80": [
     [
-     157.8161,
-     200.0617
+     157.8093,
+     200.0583
     ],
     0.8
    ]
@@ -1035,26 +1098,26 @@
   "hora": "11:00",
   "casa": "Vizela",
   "fora": "Academica",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.2788,
+    0.279,
     0.2274,
-    0.4938
+    0.4936
    ],
    "golos": [
-    1.1126,
-    1.5831
+    1.113,
+    1.5827
    ],
-   "ambas": 0.522,
+   "ambas": 0.5221,
    "mais_1.5": 0.7391,
    "mais_2.5": 0.5053,
    "mais_3.5": 0.285,
-   "dnb_casa": 0.3609,
+   "dnb_casa": 0.3611,
    "intervalo": [
-    0.2279,
+    0.228,
     0.418,
-    0.3541
+    0.354
    ]
   },
   "estado": "pendente",
@@ -1068,26 +1131,26 @@
   "hora": "11:15",
   "casa": "Zwolle",
   "fora": "Den Haag",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.3891,
-    0.2674,
-    0.3435
+    0.2675,
+    0.3434
    ],
    "golos": [
-    1.6223,
-    1.5164
+    1.6221,
+    1.5161
    ],
-   "ambas": 0.6419,
-   "mais_1.5": 0.8361,
-   "mais_2.5": 0.6072,
-   "mais_3.5": 0.3838,
-   "dnb_casa": 0.5311,
+   "ambas": 0.6418,
+   "mais_1.5": 0.836,
+   "mais_2.5": 0.607,
+   "mais_3.5": 0.3837,
+   "dnb_casa": 0.5312,
    "intervalo": [
-    0.3326,
-    0.3821,
-    0.2854
+    0.333,
+    0.3824,
+    0.2846
    ],
    "mercado_1x2": [
     0.427,
@@ -1106,25 +1169,25 @@
   "hora": "11:30",
   "casa": "Real Madrid",
   "fora": "Recoletas Salud San Pablo Burgos",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.8527,
+   "vencedor": 0.8525,
    "pontos": [
-    101.665,
-    87.6945
+    101.6554,
+    87.696
    ],
    "handicap": [
     13.5,
-    0.5141
+    0.5137
    ],
    "total": [
     189.5,
-    0.497
+    0.4969
    ],
    "total_80": [
     [
-     165.0851,
-     213.6339
+     165.0727,
+     213.6302
     ],
     0.8
    ]
@@ -1140,26 +1203,26 @@
   "hora": "11:30",
   "casa": "Como",
   "fora": "Venezia",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.7392,
+    0.7399,
     0.1658,
-    0.095
+    0.0943
    ],
    "golos": [
-    2.2636,
-    0.6633
+    2.2588,
+    0.657
    ],
-   "ambas": 0.4325,
-   "mais_1.5": 0.7877,
-   "mais_2.5": 0.5603,
-   "mais_3.5": 0.3364,
-   "dnb_casa": 0.8861,
+   "ambas": 0.4293,
+   "mais_1.5": 0.786,
+   "mais_2.5": 0.5577,
+   "mais_3.5": 0.3339,
+   "dnb_casa": 0.887,
    "intervalo": [
-    0.5175,
-    0.3733,
-    0.1092
+    0.5187,
+    0.3734,
+    0.1079
    ],
    "mercado_1x2": [
     0.7297,
@@ -1178,25 +1241,25 @@
   "hora": "11:35",
   "casa": "Beijing",
   "fora": "Zhejiang Guangsha",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.7888,
+   "vencedor": 0.7852,
    "pontos": [
-    93.4529,
-    82.2339
+    93.2786,
+    82.3023
    ],
    "handicap": [
-    11.5,
-    0.492
+    10.5,
+    0.5137
    ],
    "total": [
     175.5,
-    0.5045
+    0.5019
    ],
    "total_80": [
     [
-     154.584,
-     196.7897
+     154.3153,
+     196.8466
     ],
     0.8
    ]
@@ -1212,25 +1275,25 @@
   "hora": "11:35",
   "casa": "Jilin",
   "fora": "Guangzhou",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4422,
+   "vencedor": 0.4665,
    "pontos": [
-    85.0763,
-    87.108
+    85.4698,
+    86.6374
    ],
    "handicap": [
-    -2.5,
-    0.5134
+    -1.5,
+    0.5095
    ],
    "total": [
     172.5,
-    0.4924
+    0.4906
    ],
    "total_80": [
     [
-     151.0814,
-     193.2872
+     150.8416,
+     193.3729
     ],
     0.8
    ]
@@ -1246,25 +1309,25 @@
   "hora": "11:35",
   "casa": "Liaoning",
   "fora": "Shenzhen",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6514,
+   "vencedor": 0.6662,
    "pontos": [
-    95.5235,
-    90.0829
+    96.1233,
+    90.155
    ],
    "handicap": [
     5.5,
-    0.4983
+    0.5134
    ],
    "total": [
-    185.5,
-    0.5026
+    186.5,
+    0.4947
    ],
    "total_80": [
     [
-     164.5035,
-     206.7092
+     165.0126,
+     207.5439
     ],
     0.8
    ]
@@ -1280,25 +1343,25 @@
   "hora": "11:35",
   "casa": "Shanghai",
   "fora": "Nanjing Tongxi",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.9566,
+   "vencedor": 0.9575,
    "pontos": [
-    106.8652,
-    82.9175
+    106.7515,
+    82.8146
    ],
    "handicap": [
     23.5,
-    0.5128
+    0.5125
    ],
    "total": [
     189.5,
-    0.5069
+    0.5016
    ],
    "total_80": [
     [
-     168.6799,
-     210.8856
+     168.3004,
+     210.8318
     ],
     0.8
    ]
@@ -1314,25 +1377,25 @@
   "hora": "11:35",
   "casa": "Shanxi Zhongyu",
   "fora": "Sichuan",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.9767,
+   "vencedor": 0.9798,
    "pontos": [
-    104.5965,
-    76.7753
+    105.4749,
+    76.9834
    ],
    "handicap": [
-    27.5,
-    0.5092
+    28.5,
+    0.4998
    ],
    "total": [
-    181.5,
-    0.4969
+    182.5,
+    0.499
    ],
    "total_80": [
     [
-     160.2689,
-     202.4746
+     161.1927,
+     203.724
     ],
     0.8
    ]
@@ -1348,25 +1411,25 @@
   "hora": "11:35",
   "casa": "Tianjin",
   "fora": "Ningbo Rockets",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.598,
+   "vencedor": 0.6137,
    "pontos": [
-    91.5938,
-    88.1253
+    92.6335,
+    88.6161
    ],
    "handicap": [
-    3.5,
-    0.4991
+    4.5,
+    0.4861
    ],
    "total": [
-    179.5,
-    0.5053
+    181.5,
+    0.494
    ],
    "total_80": [
     [
-     158.6162,
-     200.8219
+     159.9839,
+     202.5152
     ],
     0.8
    ]
@@ -1382,25 +1445,25 @@
   "hora": "11:35",
   "casa": "Zhejiang Chouzhou",
   "fora": "Jiangsu Dragons",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.8658,
+   "vencedor": 0.8609,
    "pontos": [
-    87.778,
-    72.3043
+    87.4637,
+    72.3969
    ],
    "handicap": [
     15.5,
-    0.4992
+    0.4876
    ],
    "total": [
-    160.5,
-    0.4899
+    159.5,
+    0.5087
    ],
    "total_80": [
     [
-     138.9795,
-     181.1852
+     138.5949,
+     181.1263
     ],
     0.8
    ]
@@ -1416,7 +1479,7 @@
   "hora": "12:30",
   "casa": "Cercle Brugge",
   "fora": "Antwerp",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.4519,
@@ -1454,7 +1517,7 @@
   "hora": "13:00",
   "casa": "Getafe",
   "fora": "Sevilla",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.3063,
@@ -1492,7 +1555,7 @@
   "hora": "13:00",
   "casa": "Levante",
   "fora": "Ath Madrid",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.2819,
@@ -1530,7 +1593,7 @@
   "hora": "13:00",
   "casa": "Buyuksehyr",
   "fora": "Samsunspor",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.5945,
@@ -1568,7 +1631,7 @@
   "hora": "13:00",
   "casa": "Trabzonspor",
   "fora": "Gaziantep",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.7141,
@@ -1606,26 +1669,26 @@
   "hora": "13:30",
   "casa": "Excelsior",
   "fora": "Twente",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.1937,
-    0.2571,
-    0.5492
+    0.2572,
+    0.5491
    ],
    "golos": [
     1.036,
-    1.852
+    1.8517
    ],
    "ambas": 0.5594,
    "mais_1.5": 0.799,
-   "mais_2.5": 0.5513,
-   "mais_3.5": 0.3277,
-   "dnb_casa": 0.2607,
+   "mais_2.5": 0.5512,
+   "mais_3.5": 0.3276,
+   "dnb_casa": 0.2608,
    "intervalo": [
-    0.1993,
-    0.3943,
-    0.4064
+    0.1997,
+    0.3949,
+    0.4054
    ],
    "mercado_1x2": [
     0.1898,
@@ -1644,26 +1707,26 @@
   "hora": "13:30",
   "casa": "Telstar",
   "fora": "Utrecht",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.3253,
+    0.3254,
     0.2557,
-    0.419
+    0.4189
    ],
    "golos": [
-    1.5598,
-    1.7838
+    1.5595,
+    1.7831
    ],
-   "ambas": 0.6714,
-   "mais_1.5": 0.8609,
-   "mais_2.5": 0.6493,
-   "mais_3.5": 0.4293,
-   "dnb_casa": 0.4371,
+   "ambas": 0.6713,
+   "mais_1.5": 0.8608,
+   "mais_2.5": 0.6491,
+   "mais_3.5": 0.4291,
+   "dnb_casa": 0.4372,
    "intervalo": [
-    0.2962,
-    0.3684,
-    0.3354
+    0.2967,
+    0.3688,
+    0.3345
    ],
    "mercado_1x2": [
     0.341,
@@ -1716,7 +1779,7 @@
   "hora": "14:00",
   "casa": "Strasbourg",
   "fora": "Auxerre",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.5134,
@@ -1754,26 +1817,26 @@
   "hora": "14:00",
   "casa": "Frosinone",
   "fora": "Torino",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.6159,
+    0.6157,
     0.1733,
-    0.2109
+    0.211
    ],
    "golos": [
-    2.6725,
-    1.554
+    2.6713,
+    1.5538
    ],
-   "ambas": 0.7327,
+   "ambas": 0.7326,
    "mais_1.5": 0.9222,
-   "mais_2.5": 0.7933,
-   "mais_3.5": 0.6096,
-   "dnb_casa": 0.745,
+   "mais_2.5": 0.7932,
+   "mais_3.5": 0.6094,
+   "dnb_casa": 0.7448,
    "intervalo": [
-    0.4649,
-    0.3162,
-    0.2189
+    0.466,
+    0.316,
+    0.218
    ],
    "mercado_1x2": [
     0.4381,
@@ -1792,26 +1855,26 @@
   "hora": "14:00",
   "casa": "Lazio",
   "fora": "Cagliari",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.5549,
-    0.2373,
+    0.5548,
+    0.2374,
     0.2078
    ],
    "golos": [
-    1.6693,
-    0.9124
+    1.6685,
+    0.912
    ],
-   "ambas": 0.4829,
-   "mais_1.5": 0.7263,
-   "mais_2.5": 0.477,
-   "mais_3.5": 0.26,
+   "ambas": 0.4827,
+   "mais_1.5": 0.726,
+   "mais_2.5": 0.4767,
+   "mais_3.5": 0.2598,
    "dnb_casa": 0.7276,
    "intervalo": [
-    0.3844,
-    0.4322,
-    0.1834
+    0.3853,
+    0.432,
+    0.1827
    ],
    "mercado_1x2": [
     0.6547,
@@ -1830,24 +1893,24 @@
   "hora": "14:00",
   "casa": "Tondela",
   "fora": "Felgueiras",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.4456,
+    0.4455,
     0.2893,
     0.2652
    ],
    "golos": [
-    1.106,
-    0.7686
+    1.1059,
+    0.7688
    ],
    "ambas": 0.3464,
    "mais_1.5": 0.5465,
    "mais_2.5": 0.2894,
    "mais_3.5": 0.121,
-   "dnb_casa": 0.6269,
+   "dnb_casa": 0.6268,
    "intervalo": [
-    0.2997,
+    0.2996,
     0.5113,
     0.189
    ]
@@ -1863,7 +1926,7 @@
   "hora": "14:30",
   "casa": "Union Berlin",
   "fora": "FC Koln",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.4235,
@@ -1901,12 +1964,12 @@
   "hora": "15:00",
   "casa": "Dolomiti Energia Trentino",
   "fora": "Maxima Roma",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "vencedor": 0.6253,
    "pontos": [
-    85.8491,
-    82.124
+    85.8542,
+    82.1282
    ],
    "handicap": [
     3.5,
@@ -1914,12 +1977,12 @@
    ],
    "total": [
     167.5,
-    0.5114
+    0.5117
    ],
    "total_80": [
     [
-     146.8503,
-     189.0959
+     146.8579,
+     189.1069
     ],
     0.8
    ]
@@ -1935,7 +1998,7 @@
   "hora": "15:00",
   "casa": "St Truiden",
   "fora": "Oud-Heverlee Leuven",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.5628,
@@ -1973,7 +2036,7 @@
   "hora": "15:15",
   "casa": "Santander",
   "fora": "Real Madrid",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.1407,
@@ -2011,7 +2074,7 @@
   "hora": "15:15",
   "casa": "Vallecano",
   "fora": "Celta",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.4236,
@@ -2049,25 +2112,25 @@
   "hora": "15:30",
   "casa": "Saint-Quentin",
   "fora": "Lyon-Villeurbanne",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.3037,
+   "vencedor": 0.2944,
    "pontos": [
-    82.173,
-    88.8639
+    81.7715,
+    88.8993
    ],
    "handicap": [
-    -6.5,
-    0.4942
+    -7.5,
+    0.5113
    ],
    "total": [
-    171.5,
-    0.4889
+    170.5,
+    0.504
    ],
    "total_80": [
     [
-     149.6578,
-     192.4161
+     149.0297,
+     192.312
     ],
     0.8
    ]
@@ -2083,26 +2146,26 @@
   "hora": "15:30",
   "casa": "Lusitania FC",
   "fora": "SC Farense",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.4112,
+    0.4111,
     0.2401,
-    0.3487
+    0.3488
    ],
    "golos": [
-    1.358,
-    1.2248
+    1.3575,
+    1.2249
    ],
    "ambas": 0.5125,
-   "mais_1.5": 0.7172,
-   "mais_2.5": 0.4773,
-   "mais_3.5": 0.2603,
-   "dnb_casa": 0.5412,
+   "mais_1.5": 0.7171,
+   "mais_2.5": 0.4772,
+   "mais_3.5": 0.2602,
+   "dnb_casa": 0.541,
    "intervalo": [
-    0.3063,
-    0.4313,
-    0.2624
+    0.3062,
+    0.4314,
+    0.2625
    ]
   },
   "estado": "pendente",
@@ -2116,7 +2179,7 @@
   "hora": "15:30",
   "casa": "Arouca",
   "fora": "Nacional",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.5084,
@@ -2154,26 +2217,26 @@
   "hora": "15:45",
   "casa": "Groningen",
   "fora": "Sparta Rotterdam",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.5509,
-    0.2308,
-    0.2182
+    0.551,
+    0.2309,
+    0.2181
    ],
    "golos": [
-    2.1574,
-    1.3282
+    2.1573,
+    1.3277
    ],
-   "ambas": 0.6628,
+   "ambas": 0.6627,
    "mais_1.5": 0.8753,
-   "mais_2.5": 0.6765,
-   "mais_3.5": 0.4603,
-   "dnb_casa": 0.7163,
+   "mais_2.5": 0.6764,
+   "mais_3.5": 0.4601,
+   "dnb_casa": 0.7164,
    "intervalo": [
-    0.4425,
-    0.3467,
-    0.2108
+    0.443,
+    0.3468,
+    0.2101
    ],
    "mercado_1x2": [
     0.5337,
@@ -2192,25 +2255,25 @@
   "hora": "16:00",
   "casa": "SC Derby",
   "fora": "Perspektiva Ilirija",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5142,
+   "vencedor": 0.4965,
    "pontos": [
-    83.5032,
-    83.1247
+    83.2717,
+    83.3674
    ],
    "handicap": [
-    0.5,
-    0.4954
+    -0.5,
+    0.5149
    ],
    "total": [
     166.5,
-    0.5032
+    0.5034
    ],
    "total_80": [
     [
-     145.9222,
-     187.3335
+     145.9732,
+     187.305
     ],
     0.8
    ]
@@ -2226,25 +2289,25 @@
   "hora": "16:00",
   "casa": "Kosner Baskonia",
   "fora": "Kids&Us Manresa",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.9023,
+   "vencedor": 0.9021,
    "pontos": [
-    97.4428,
-    80.1822
+    97.4364,
+    80.1905
    ],
    "handicap": [
     17.5,
-    0.4928
+    0.4924
    ],
    "total": [
     177.5,
-    0.5026
+    0.5027
    ],
    "total_80": [
     [
-     153.3506,
-     201.8993
+     153.3481,
+     201.9057
     ],
     0.8
    ]
@@ -2260,25 +2323,25 @@
   "hora": "16:00",
   "casa": "APU Old Wild West Udine",
   "fora": "Bertram Derthona Tortona",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "vencedor": 0.6039,
    "pontos": [
-    84.3049,
-    81.2336
+    84.3102,
+    81.2368
    ],
    "handicap": [
     3.5,
-    0.4853
+    0.4854
    ],
    "total": [
     165.5,
-    0.5009
+    0.5011
    ],
    "total_80": [
     [
-     144.4157,
-     186.6613
+     144.4225,
+     186.6715
     ],
     0.8
    ]
@@ -2294,7 +2357,7 @@
   "hora": "16:00",
   "casa": "Kasimpasa",
   "fora": "Besiktas",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.2766,
@@ -2332,7 +2395,7 @@
   "hora": "16:15",
   "casa": "Paris FC",
   "fora": "Monaco",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.4063,
@@ -2370,7 +2433,7 @@
   "hora": "16:30",
   "casa": "Liverpool",
   "fora": "Arsenal",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.273,
@@ -2408,7 +2471,7 @@
   "hora": "16:30",
   "casa": "Ein Frankfurt",
   "fora": "Hamburg",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.5551,
@@ -2446,25 +2509,25 @@
   "hora": "17:00",
   "casa": "MoraBanc Andorra",
   "fora": "Valencia Basket",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "vencedor": 0.2236,
    "pontos": [
-    86.5264,
-    96.6609
+    86.5253,
+    96.6577
    ],
    "handicap": [
     -10.5,
-    0.5109
+    0.511
    ],
    "total": [
     183.5,
-    0.4934
+    0.4933
    ],
    "total_80": [
     [
-     158.9129,
-     207.4616
+     158.9042,
+     207.4618
     ],
     0.8
    ]
@@ -2480,26 +2543,26 @@
   "hora": "17:00",
   "casa": "Lecce",
   "fora": "Genoa",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.319,
-    0.2926,
-    0.3884
+    0.2927,
+    0.3883
    ],
    "golos": [
-    0.9795,
-    1.1145
+    0.9793,
+    1.1142
    ],
-   "ambas": 0.4164,
-   "mais_1.5": 0.6156,
-   "mais_2.5": 0.3488,
-   "mais_3.5": 0.1602,
+   "ambas": 0.4162,
+   "mais_1.5": 0.6155,
+   "mais_2.5": 0.3486,
+   "mais_3.5": 0.1601,
    "dnb_casa": 0.451,
    "intervalo": [
-    0.229,
-    0.4936,
-    0.2774
+    0.2297,
+    0.4937,
+    0.2766
    ],
    "mercado_1x2": [
     0.2955,
@@ -2518,7 +2581,7 @@
   "hora": "17:30",
   "casa": "Lommel SK",
   "fora": "Gent",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.3297,
@@ -2556,7 +2619,7 @@
   "hora": "17:30",
   "casa": "Betis",
   "fora": "Malaga",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.7473,
@@ -2594,7 +2657,7 @@
   "hora": "17:30",
   "casa": "Elche",
   "fora": "Valencia",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.509,
@@ -2632,25 +2695,25 @@
   "hora": "18:00",
   "casa": "Unicaja",
   "fora": "Barça",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5238,
+   "vencedor": 0.5231,
    "pontos": [
-    87.7538,
-    86.9571
+    87.7493,
+    86.9765
    ],
    "handicap": [
     0.5,
-    0.5089
+    0.5082
    ],
    "total": [
     174.5,
-    0.5044
+    0.5048
    ],
    "total_80": [
     [
-     150.4366,
-     198.9853
+     150.447,
+     199.0045
     ],
     0.8
    ]
@@ -2666,25 +2729,25 @@
   "hora": "18:00",
   "casa": "Paris",
   "fora": "Chalon/Saône",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.7247,
+   "vencedor": 0.714,
    "pontos": [
-    93.8556,
-    86.0837
+    93.5141,
+    86.0638
    ],
    "handicap": [
     7.5,
-    0.5083
+    0.4985
    ],
    "total": [
     179.5,
-    0.5105
+    0.5018
    ],
    "total_80": [
     [
-     158.5602,
-     201.3184
+     157.9368,
+     201.219
     ],
     0.8
    ]
@@ -2700,7 +2763,7 @@
   "hora": "18:00",
   "casa": "Academico Viseu",
   "fora": "Rio Ave",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.6084,
@@ -2738,7 +2801,7 @@
   "hora": "18:00",
   "casa": "Maritimo",
   "fora": "Santa Clara",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.219,
@@ -2776,28 +2839,28 @@
   "hora": "18:00",
   "casa": "Carolina Hurricanes",
   "fora": "Winnipeg Jets",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6754,
+   "vencedor": 0.6844,
    "60min": [
-    0.5625,
-    0.2169,
-    0.2206
+    0.5732,
+    0.2136,
+    0.2131
    ],
    "golos": [
-    3.6684,
-    2.5195
+    3.7198,
+    2.5027
    ],
-   "prolongamento": 0.2169,
+   "prolongamento": 0.2136,
    "total": [
     6.5,
-    0.4509
+    0.4566
    ],
    "puck_casa": [
     -1.5,
-    0.4554
+    0.4663
    ],
-   "ambas": 0.8775
+   "ambas": 0.8774
   },
   "estado": "pendente",
   "resultado": null
@@ -2810,7 +2873,7 @@
   "hora": "18:15",
   "casa": "Charleroi",
   "fora": "RAAL La Louviere",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.6058,
@@ -2848,7 +2911,7 @@
   "hora": "19:45",
   "casa": "Marseille",
   "fora": "Toulouse",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.5086,
@@ -2886,26 +2949,26 @@
   "hora": "19:45",
   "casa": "Juventus",
   "fora": "Napoli",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.3897,
-    0.2757,
-    0.3346
+    0.3902,
+    0.2761,
+    0.3337
    ],
    "golos": [
-    1.2126,
-    1.1007
+    1.2112,
+    1.0965
    ],
-   "ambas": 0.4657,
-   "mais_1.5": 0.669,
-   "mais_2.5": 0.4075,
-   "mais_3.5": 0.2034,
-   "dnb_casa": 0.5381,
+   "ambas": 0.4644,
+   "mais_1.5": 0.6677,
+   "mais_2.5": 0.406,
+   "mais_3.5": 0.2022,
+   "dnb_casa": 0.5391,
    "intervalo": [
-    0.2776,
-    0.4684,
-    0.254
+    0.2785,
+    0.469,
+    0.2525
    ],
    "mercado_1x2": [
     0.4167,
@@ -2924,7 +2987,7 @@
   "hora": "20:00",
   "casa": "Ath Bilbao",
   "fora": "Sociedad",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.5056,
@@ -2962,7 +3025,7 @@
   "hora": "20:00",
   "casa": "Barcelona",
   "fora": "Alaves",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.7832,
@@ -3000,7 +3063,7 @@
   "hora": "20:00",
   "casa": "La Coruna",
   "fora": "Osasuna",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.5057,
@@ -3031,44 +3094,6 @@
   "resultado": null
  },
  {
-  "id": "futebol|ESP|2026-11-01|Villarreal|Espanol",
-  "desporto": "futebol",
-  "liga": "ESP",
-  "data": "2026-11-01",
-  "hora": "20:00",
-  "casa": "Villarreal",
-  "fora": "Espanol",
-  "feita_em": "2026-10-30T20:34Z",
-  "p": {
-   "1x2": [
-    0.6475,
-    0.2123,
-    0.1402
-   ],
-   "golos": [
-    2.0735,
-    0.8636
-   ],
-   "ambas": 0.5118,
-   "mais_1.5": 0.7975,
-   "mais_2.5": 0.5626,
-   "mais_3.5": 0.3387,
-   "dnb_casa": 0.822,
-   "intervalo": [
-    0.493,
-    0.3725,
-    0.1345
-   ],
-   "mercado_1x2": [
-    0.6699,
-    0.1893,
-    0.1408
-   ]
-  },
-  "estado": "pendente",
-  "resultado": null
- },
- {
   "id": "basquetebol|NBA|2026-11-01|Orlando Magic|Boston Celtics",
   "desporto": "basquetebol",
   "liga": "NBA",
@@ -3076,25 +3101,25 @@
   "hora": "20:30",
   "casa": "Orlando Magic",
   "fora": "Boston Celtics",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.3557,
+   "vencedor": 0.365,
    "pontos": [
-    108.562,
-    114.5268
+    109.1954,
+    114.7497
    ],
    "handicap": [
     -5.5,
-    0.4885
+    0.4987
    ],
    "total": [
     223.5,
-    0.4919
+    0.5087
    ],
    "total_80": [
     [
-     197.0221,
-     249.1556
+     197.7643,
+     250.1259
     ],
     0.8
    ]
@@ -3110,7 +3135,7 @@
   "hora": "20:30",
   "casa": "Sp Braga",
   "fora": "Famalicao",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.4407,
@@ -3148,26 +3173,26 @@
   "hora": "20:30",
   "casa": "Vancouver Whitecaps",
   "fora": "Seattle Sounders",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.6025,
+    0.6026,
     0.2352,
     0.1622
    ],
    "golos": [
-    1.8483,
-    0.8528
+    1.8479,
+    0.8525
    ],
-   "ambas": 0.4897,
-   "mais_1.5": 0.7578,
-   "mais_2.5": 0.5067,
-   "mais_3.5": 0.2862,
+   "ambas": 0.4895,
+   "mais_1.5": 0.7576,
+   "mais_2.5": 0.5065,
+   "mais_3.5": 0.286,
    "dnb_casa": 0.7879,
    "intervalo": [
-    0.4402,
+    0.4401,
     0.4021,
-    0.1578
+    0.1577
    ],
    "mercado_1x2": [
     0.583,
@@ -3186,28 +3211,28 @@
   "hora": "20:30",
   "casa": "Washington Capitals",
   "fora": "Minnesota Wild",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4806,
+   "vencedor": 0.4886,
    "60min": [
-    0.3563,
-    0.2388,
-    0.4049
+    0.3645,
+    0.2384,
+    0.397
    ],
    "golos": [
-    3.0341,
-    3.1807
+    3.0738,
+    3.1683
    ],
-   "prolongamento": 0.2388,
+   "prolongamento": 0.2384,
    "total": [
     6.5,
-    0.4571
+    0.4618
    ],
    "puck_casa": [
     -1.5,
-    0.2661
+    0.2734
    ],
-   "ambas": 0.8952
+   "ambas": 0.8967
   },
   "estado": "pendente",
   "resultado": null
@@ -3220,28 +3245,28 @@
   "hora": "21:00",
   "casa": "Philadelphia Flyers",
   "fora": "Utah Mammoth",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4677,
+   "vencedor": 0.468,
    "60min": [
-    0.3425,
-    0.2405,
-    0.417
+    0.343,
+    0.2402,
+    0.4168
    ],
    "golos": [
-    2.9396,
-    3.1681
+    2.9479,
+    3.1744
    ],
-   "prolongamento": 0.2405,
+   "prolongamento": 0.2402,
    "total": [
     6.5,
-    0.439
+    0.4415
    ],
    "puck_casa": [
     -1.5,
-    0.2536
+    0.2541
    ],
-   "ambas": 0.8893
+   "ambas": 0.8901
   },
   "estado": "pendente",
   "resultado": null
@@ -3254,26 +3279,26 @@
   "hora": "21:30",
   "casa": "Atlanta Utd",
   "fora": "Toronto FC",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.3819,
-    0.2597,
+    0.382,
+    0.2596,
     0.3584
    ],
    "golos": [
-    1.4922,
-    1.4391
+    1.4921,
+    1.439
    ],
-   "ambas": 0.5981,
-   "mais_1.5": 0.7971,
+   "ambas": 0.598,
+   "mais_1.5": 0.797,
    "mais_2.5": 0.5612,
-   "mais_3.5": 0.3374,
+   "mais_3.5": 0.3373,
    "dnb_casa": 0.5159,
    "intervalo": [
     0.31,
     0.4008,
-    0.2892
+    0.2891
    ],
    "mercado_1x2": [
     0.4371,
@@ -3292,22 +3317,22 @@
   "hora": "21:30",
   "casa": "Nashville SC",
   "fora": "New York Red Bulls",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.7144,
-    0.1932,
+    0.7145,
+    0.1931,
     0.0924
    ],
    "golos": [
-    2.1122,
+    2.1123,
     0.6265
    ],
    "ambas": 0.4143,
-   "mais_1.5": 0.7634,
+   "mais_1.5": 0.7633,
    "mais_2.5": 0.5158,
    "mais_3.5": 0.2945,
-   "dnb_casa": 0.8855,
+   "dnb_casa": 0.8854,
    "intervalo": [
     0.5163,
     0.3779,
@@ -3330,25 +3355,25 @@
   "hora": "22:00",
   "casa": "Indiana Pacers",
   "fora": "Brooklyn Nets",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5967,
+   "vencedor": 0.5999,
    "pontos": [
-    117.3983,
-    113.451
+    117.356,
+    113.2832
    ],
    "handicap": [
-    3.5,
-    0.5111
+    4.5,
+    0.4894
    ],
    "total": [
     230.5,
-    0.5069
+    0.5027
    ],
    "total_80": [
     [
-     204.7825,
-     256.9161
+     204.4583,
+     256.82
     ],
     0.8
    ]
@@ -3364,28 +3389,28 @@
   "hora": "23:00",
   "casa": "New York Rangers",
   "fora": "Edmonton Oilers",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5091,
+   "vencedor": 0.5099,
    "60min": [
-    0.3864,
-    0.2358,
-    0.3779
+    0.3873,
+    0.2355,
+    0.3772
    ],
    "golos": [
-    3.2069,
-    3.1678
+    3.2153,
+    3.1711
    ],
-   "prolongamento": 0.2358,
+   "prolongamento": 0.2355,
    "total": [
     6.5,
-    0.4839
+    0.4859
    ],
    "puck_casa": [
     -1.5,
-    0.2935
+    0.2943
    ],
-   "ambas": 0.9032
+   "ambas": 0.9037
   },
   "estado": "pendente",
   "resultado": null
@@ -3398,25 +3423,25 @@
   "hora": "00:00",
   "casa": "New England Revolution",
   "fora": "Inter Miami",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.3848,
-    0.2216,
+    0.3849,
+    0.2215,
     0.3936
    ],
    "golos": [
-    1.9014,
-    1.9236
+    1.9012,
+    1.9234
    ],
-   "ambas": 0.7311,
-   "mais_1.5": 0.8995,
+   "ambas": 0.731,
+   "mais_1.5": 0.8994,
    "mais_2.5": 0.7351,
-   "mais_3.5": 0.5316,
+   "mais_3.5": 0.5315,
    "dnb_casa": 0.4944,
    "intervalo": [
     0.3303,
-    0.3414,
+    0.3415,
     0.3283
    ],
    "mercado_1x2": [
@@ -3436,28 +3461,28 @@
   "hora": "01:00",
   "casa": "Anaheim Ducks",
   "fora": "Ottawa Senators",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "vencedor": 0.4402,
    "60min": [
-    0.3185,
-    0.2338,
-    0.4477
+    0.3196,
+    0.2318,
+    0.4487
    ],
    "golos": [
-    2.9533,
-    3.3651
+    3.0018,
+    3.416
    ],
-   "prolongamento": 0.2338,
+   "prolongamento": 0.2318,
    "total": [
     6.5,
-    0.4743
+    0.4908
    ],
    "puck_casa": [
     -1.5,
-    0.2346
+    0.2362
    ],
-   "ambas": 0.8984
+   "ambas": 0.9031
   },
   "estado": "pendente",
   "resultado": null
@@ -3470,25 +3495,25 @@
   "hora": "01:30",
   "casa": "Golden State Warriors",
   "fora": "LA Clippers",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5179,
+   "vencedor": 0.5169,
    "pontos": [
-    112.467,
-    111.7433
+    112.443,
+    111.7595
    ],
    "handicap": [
     0.5,
-    0.5055
+    0.5045
    ],
    "total": [
     224.5,
-    0.4943
+    0.4942
    ],
    "total_80": [
     [
-     198.1434,
-     250.277
+     198.0217,
+     250.3834
     ],
     0.8
    ]
@@ -3504,25 +3529,25 @@
   "hora": "01:30",
   "casa": "Los Angeles FC",
   "fora": "Minnesota United",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.5817,
-    0.2268,
-    0.1915
+    0.5822,
+    0.2264,
+    0.1914
    ],
    "golos": [
-    1.9795,
-    1.0578
+    1.9836,
+    1.0595
    ],
-   "ambas": 0.5686,
-   "mais_1.5": 0.8123,
-   "mais_2.5": 0.5851,
-   "mais_3.5": 0.3611,
-   "dnb_casa": 0.7523,
+   "ambas": 0.5694,
+   "mais_1.5": 0.8131,
+   "mais_2.5": 0.5864,
+   "mais_3.5": 0.3624,
+   "dnb_casa": 0.7526,
    "intervalo": [
-    0.4374,
-    0.378,
+    0.4378,
+    0.3775,
     0.1847
    ],
    "mercado_1x2": [
@@ -3542,25 +3567,25 @@
   "hora": "02:00",
   "casa": "Los Angeles Lakers",
   "fora": "Toronto Raptors",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4501,
+   "vencedor": 0.4573,
    "pontos": [
-    111.3706,
-    113.3932
+    111.7332,
+    113.4573
    ],
    "handicap": [
-    -2.5,
-    0.5118
+    -1.5,
+    0.4944
    ],
    "total": [
-    224.5,
-    0.5052
+    225.5,
+    0.494
    ],
    "total_80": [
     [
-     198.697,
-     250.8306
+     199.0097,
+     251.3714
     ],
     0.8
    ]
@@ -3576,26 +3601,26 @@
   "hora": "02:45",
   "casa": "Portland Timbers",
   "fora": "Houston Dynamo",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.4013,
+    0.4014,
     0.2747,
     0.324
    ],
    "golos": [
-    1.407,
-    1.2404
+    1.4065,
+    1.2399
    ],
-   "ambas": 0.544,
-   "mais_1.5": 0.7489,
-   "mais_2.5": 0.4934,
-   "mais_3.5": 0.2743,
+   "ambas": 0.5438,
+   "mais_1.5": 0.7487,
+   "mais_2.5": 0.4932,
+   "mais_3.5": 0.2741,
    "dnb_casa": 0.5533,
    "intervalo": [
-    0.3141,
+    0.314,
     0.425,
-    0.261
+    0.2609
    ],
    "mercado_1x2": [
     0.5068,
@@ -3614,25 +3639,25 @@
   "hora": "08:30",
   "casa": "Melbourne United",
   "fora": "New Zealand Breakers",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5765,
+   "vencedor": 0.5867,
    "pontos": [
-    90.9319,
-    88.0601
+    92.1123,
+    88.8843
    ],
    "handicap": [
-    2.5,
-    0.51
+    3.5,
+    0.4926
    ],
    "total": [
-    178.5,
-    0.5107
+    180.5,
+    0.5103
    ],
    "total_80": [
     [
-     155.3887,
-     202.5953
+     156.2897,
+     205.7033
     ],
     0.8
    ]
@@ -3648,25 +3673,25 @@
   "hora": "10:00",
   "casa": "Daegu KOGAS Pegasus",
   "fora": "Anyang Jung Kwan Jang Red Boosters",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4065,
+   "vencedor": 0.403,
    "pontos": [
-    74.1992,
-    77.1919
+    74.0659,
+    77.1715
    ],
    "handicap": [
-    -2.5,
-    0.4845
+    -3.5,
+    0.5124
    ],
    "total": [
     151.5,
-    0.4977
+    0.4944
    ],
    "total_80": [
     [
-     127.4714,
-     175.3108
+     127.3112,
+     175.1635
     ],
     0.8
    ]
@@ -3682,25 +3707,25 @@
   "hora": "11:35",
   "casa": "Guangdong",
   "fora": "Qingdao",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.652,
+   "vencedor": 0.645,
    "pontos": [
-    91.8475,
-    86.3836
+    91.53,
+    86.3629
    ],
    "handicap": [
     5.5,
-    0.499
+    0.4904
    ],
    "total": [
-    178.5,
-    0.4935
+    177.5,
+    0.5094
    ],
    "total_80": [
     [
-     157.1282,
-     199.334
+     156.6273,
+     199.1586
     ],
     0.8
    ]
@@ -3716,25 +3741,25 @@
   "hora": "11:35",
   "casa": "Shandong",
   "fora": "Beijing Royal Fighters",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5525,
+   "vencedor": 0.5521,
    "pontos": [
-    93.6391,
-    91.7932
+    93.4438,
+    91.6221
    ],
    "handicap": [
     1.5,
-    0.5099
+    0.5092
    ],
    "total": [
     185.5,
-    0.4984
+    0.4896
    ],
    "total_80": [
     [
-     164.3295,
-     206.5352
+     163.8002,
+     206.3316
     ],
     0.8
    ]
@@ -3750,25 +3775,25 @@
   "hora": "12:00",
   "casa": "Partizan Mozzart Bet",
   "fora": "U-BT Cluj-Napoca",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.798,
+   "vencedor": 0.7826,
    "pontos": [
-    90.8331,
-    81.9726
+    90.7577,
+    82.3022
    ],
    "handicap": [
     8.5,
-    0.5135
+    0.4984
    ],
    "total": [
-    172.5,
-    0.5075
+    173.5,
+    0.4891
    ],
    "total_80": [
     [
-     152.1,
-     193.5113
+     152.3941,
+     193.7258
     ],
     0.8
    ]
@@ -3852,25 +3877,25 @@
   "hora": "15:30",
   "casa": "Dubai Basketball",
   "fora": "Zadar",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.9,
+   "vencedor": 0.8899,
    "pontos": [
-    88.1325,
-    74.5246
+    88.0703,
+    74.7983
    ],
    "handicap": [
     13.5,
-    0.5041
+    0.4916
    ],
    "total": [
     162.5,
-    0.5039
+    0.5091
    ],
    "total_80": [
     [
-     141.9514,
-     183.3627
+     142.2028,
+     183.5346
     ],
     0.8
    ]
@@ -3886,26 +3911,26 @@
   "hora": "16:00",
   "casa": "Leixoes U23",
   "fora": "Rio Ave U23",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.3754,
+    0.377,
     0.2578,
-    0.3668
+    0.3653
    ],
    "golos": [
-    1.4389,
-    1.4199
+    1.4456,
+    1.4194
    ],
-   "ambas": 0.5824,
-   "mais_1.5": 0.7827,
-   "mais_2.5": 0.5445,
-   "mais_3.5": 0.3212,
-   "dnb_casa": 0.5058,
+   "ambas": 0.5837,
+   "mais_1.5": 0.7839,
+   "mais_2.5": 0.5459,
+   "mais_3.5": 0.3226,
+   "dnb_casa": 0.5079,
    "intervalo": [
-    0.3023,
-    0.4069,
-    0.2908
+    0.3035,
+    0.4064,
+    0.2901
    ]
   },
   "estado": "pendente",
@@ -3919,7 +3944,7 @@
   "hora": "17:00",
   "casa": "Genclerbirligi",
   "fora": "Alanyaspor",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.3507,
@@ -3957,25 +3982,25 @@
   "hora": "17:30",
   "casa": "Mega Superbet",
   "fora": "Spartak Office Shoes",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.3798,
+   "vencedor": 0.3584,
    "pontos": [
-    82.2817,
-    85.531
+    82.0127,
+    85.9398
    ],
    "handicap": [
     -3.5,
-    0.5094
+    0.4843
    ],
    "total": [
     167.5,
-    0.5077
+    0.5112
    ],
    "total_80": [
     [
-     147.107,
-     188.5184
+     147.2866,
+     188.6184
     ],
     0.8
    ]
@@ -3991,26 +4016,26 @@
   "hora": "17:30",
   "casa": "Sassuolo",
   "fora": "Fiorentina",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.4053,
-    0.2362,
-    0.3586
+    0.2363,
+    0.3584
    ],
    "golos": [
-    1.565,
-    1.4584
+    1.5641,
+    1.4571
    ],
-   "ambas": 0.6042,
-   "mais_1.5": 0.8016,
-   "mais_2.5": 0.582,
-   "mais_3.5": 0.358,
-   "dnb_casa": 0.5306,
+   "ambas": 0.6039,
+   "mais_1.5": 0.8013,
+   "mais_2.5": 0.5815,
+   "mais_3.5": 0.3575,
+   "dnb_casa": 0.5307,
    "intervalo": [
-    0.308,
-    0.4016,
-    0.2903
+    0.309,
+    0.4018,
+    0.2893
    ],
    "mercado_1x2": [
     0.3368,
@@ -4029,19 +4054,19 @@
   "hora": "18:00",
   "casa": "Penafiel",
   "fora": "Feirense",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.5867,
     0.2294,
-    0.1839
+    0.1838
    ],
    "golos": [
     1.5795,
     0.7349
    ],
    "ambas": 0.4022,
-   "mais_1.5": 0.6614,
+   "mais_1.5": 0.6615,
    "mais_2.5": 0.4078,
    "mais_3.5": 0.2036,
    "dnb_casa": 0.7614,
@@ -4062,25 +4087,25 @@
   "hora": "18:04",
   "casa": "Uppsala Basket",
   "fora": "Borås Basket",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.3352,
+   "vencedor": 0.3345,
    "pontos": [
-    79.4915,
-    85.3909
+    79.6741,
+    85.5766
    ],
    "handicap": [
     -5.5,
-    0.4885
+    0.4884
    ],
    "total": [
-    164.5,
-    0.5095
+    165.5,
+    0.4938
    ],
    "total_80": [
     [
-     144.3454,
-     185.4193
+     144.8196,
+     185.6819
     ],
     0.8
    ]
@@ -4096,16 +4121,16 @@
   "hora": "19:00",
   "casa": "Virtus Costa Bologna",
   "fora": "Pallacanestro Trieste",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.8406,
+   "vencedor": 0.8404,
    "pontos": [
-    92.5258,
-    80.9017
+    92.5214,
+    80.9044
    ],
    "handicap": [
     11.5,
-    0.5042
+    0.504
    ],
    "total": [
     173.5,
@@ -4113,7 +4138,7 @@
    ],
    "total_80": [
     [
-     152.3047,
+     152.3013,
      194.5503
     ],
     0.8
@@ -4130,25 +4155,25 @@
   "hora": "19:30",
   "casa": "Acqua S.Bernardo Cantù",
   "fora": "Armani Olimpia Milano",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.2145,
+   "vencedor": 0.2148,
    "pontos": [
-    78.9698,
-    88.1927
+    78.9792,
+    88.1901
    ],
    "handicap": [
     -9.5,
-    0.5095
+    0.5099
    ],
    "total": [
     167.5,
-    0.4918
+    0.492
    ],
    "total_80": [
     [
-     146.0396,
-     188.2852
+     146.0447,
+     188.2937
     ],
     0.8
    ]
@@ -4164,26 +4189,26 @@
   "hora": "19:45",
   "casa": "Atalanta",
   "fora": "Parma",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.5694,
+    0.5698,
     0.242,
-    0.1886
+    0.1882
    ],
    "golos": [
-    1.6185,
-    0.8068
+    1.6181,
+    0.805
    ],
-   "ambas": 0.4412,
-   "mais_1.5": 0.6942,
-   "mais_2.5": 0.4369,
-   "mais_3.5": 0.2266,
-   "dnb_casa": 0.7511,
+   "ambas": 0.4405,
+   "mais_1.5": 0.6937,
+   "mais_2.5": 0.4363,
+   "mais_3.5": 0.2261,
+   "dnb_casa": 0.7517,
    "intervalo": [
-    0.3874,
-    0.4462,
-    0.1664
+    0.3885,
+    0.446,
+    0.1655
    ],
    "mercado_1x2": [
     0.6358,
@@ -4202,7 +4227,7 @@
   "hora": "20:00",
   "casa": "Newcastle",
   "fora": "Everton",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.408,
@@ -4240,7 +4265,7 @@
   "hora": "20:15",
   "casa": "Benfica",
   "fora": "Alverca",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.7453,
@@ -4278,7 +4303,7 @@
   "hora": "20:15",
   "casa": "Gil Vicente",
   "fora": "Guimaraes",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.4227,
@@ -4316,25 +4341,25 @@
   "hora": "00:00",
   "casa": "Cleveland Cavaliers",
   "fora": "Oklahoma City Thunder",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4319,
+   "vencedor": 0.4335,
    "pontos": [
-    112.2801,
-    115.046
+    112.1881,
+    114.8835
    ],
    "handicap": [
     -2.5,
-    0.4934
+    0.4952
    ],
    "total": [
     227.5,
-    0.4966
+    0.4916
    ],
    "total_80": [
     [
-     201.2594,
-     253.3929
+     200.8907,
+     253.2524
     ],
     0.8
    ]
@@ -4350,28 +4375,28 @@
   "hora": "00:00",
   "casa": "Boston Bruins",
   "fora": "Vegas Golden Knights",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5626,
+   "vencedor": 0.5597,
    "60min": [
-    0.439,
-    0.2375,
-    0.3235
+    0.4361,
+    0.2374,
+    0.3265
    ],
    "golos": [
-    3.2803,
-    2.8955
+    3.2781,
+    2.9117
    ],
-   "prolongamento": 0.2375,
+   "prolongamento": 0.2374,
    "total": [
     6.5,
-    0.4504
+    0.4528
    ],
    "puck_casa": [
     -1.5,
-    0.3389
+    0.3364
    ],
-   "ambas": 0.8918
+   "ambas": 0.8926
   },
   "estado": "pendente",
   "resultado": null
@@ -4384,28 +4409,28 @@
   "hora": "00:00",
   "casa": "Florida Panthers",
   "fora": "Detroit Red Wings",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5495,
+   "vencedor": 0.5574,
    "60min": [
-    0.425,
-    0.2391,
-    0.3359
+    0.4335,
+    0.2379,
+    0.3285
    ],
    "golos": [
-    3.2247,
-    2.9261
+    3.2638,
+    2.9129
    ],
-   "prolongamento": 0.2391,
+   "prolongamento": 0.2379,
    "total": [
     6.5,
-    0.4463
+    0.4506
    ],
    "puck_casa": [
     -1.5,
-    0.3261
+    0.334
    ],
-   "ambas": 0.8912
+   "ambas": 0.8921
   },
   "estado": "pendente",
   "resultado": null
@@ -4418,25 +4443,25 @@
   "hora": "00:30",
   "casa": "Charlotte Hornets",
   "fora": "Detroit Pistons",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.3755,
+   "vencedor": 0.3558,
    "pontos": [
-    104.2508,
-    109.3677
+    102.879,
+    108.8271
    ],
    "handicap": [
     -5.5,
-    0.5095
+    0.4889
    ],
    "total": [
-    213.5,
-    0.5023
+    211.5,
+    0.504
    ],
    "total_80": [
     [
-     187.5517,
-     239.6853
+     185.5253,
+     237.8869
     ],
     0.8
    ]
@@ -4452,25 +4477,25 @@
   "hora": "00:30",
   "casa": "Indiana Pacers",
   "fora": "Atlanta Hawks",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.3499,
+   "vencedor": 0.3487,
    "pontos": [
-    116.017,
-    122.2331
+    115.9335,
+    122.1898
    ],
    "handicap": [
     -6.5,
-    0.507
+    0.506
    ],
    "total": [
     238.5,
-    0.4951
+    0.4926
    ],
    "total_80": [
     [
-     212.1833,
-     264.3169
+     211.9425,
+     264.3041
     ],
     0.8
    ]
@@ -4486,25 +4511,25 @@
   "hora": "00:30",
   "casa": "New York Knicks",
   "fora": "Brooklyn Nets",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.7972,
+   "vencedor": 0.7963,
    "pontos": [
-    116.9281,
-    103.5185
+    116.4168,
+    103.083
    ],
    "handicap": [
     13.5,
-    0.4978
+    0.4959
    ],
    "total": [
-    220.5,
-    0.499
+    219.5,
+    0.5
    ],
    "total_80": [
     [
-     194.3798,
-     246.5133
+     193.319,
+     245.6807
     ],
     0.8
    ]
@@ -4520,25 +4545,25 @@
   "hora": "00:30",
   "casa": "Orlando Magic",
   "fora": "Washington Wizards",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.7339,
+   "vencedor": 0.728,
    "pontos": [
-    121.7416,
-    111.6726
+    120.9771,
+    111.2114
    ],
    "handicap": [
-    10.5,
-    0.4893
+    9.5,
+    0.5066
    ],
    "total": [
-    233.5,
-    0.4983
+    232.5,
+    0.4939
    ],
    "total_80": [
     [
-     207.3474,
-     259.481
+     206.0077,
+     258.3694
     ],
     0.8
    ]
@@ -4554,25 +4579,25 @@
   "hora": "00:30",
   "casa": "Philadelphia 76ers",
   "fora": "Chicago Bulls",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6458,
+   "vencedor": 0.6496,
    "pontos": [
-    122.0169,
-    115.9855
+    121.7512,
+    115.5683
    ],
    "handicap": [
     6.5,
-    0.4884
+    0.4921
    ],
    "total": [
-    238.5,
-    0.4902
+    237.5,
+    0.4965
    ],
    "total_80": [
     [
-     211.9356,
-     264.0692
+     211.1387,
+     263.5004
     ],
     0.8
    ]
@@ -4588,25 +4613,25 @@
   "hora": "01:00",
   "casa": "Dallas Mavericks",
   "fora": "Sacramento Kings",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.7031,
+   "vencedor": 0.7066,
    "pontos": [
-    121.1427,
-    112.5466
+    121.5646,
+    112.82
    ],
    "handicap": [
     8.5,
-    0.5024
+    0.5061
    ],
    "total": [
-    233.5,
-    0.5037
+    234.5,
+    0.4977
    ],
    "total_80": [
     [
-     207.6225,
-     259.7561
+     208.2038,
+     260.5655
     ],
     0.8
    ]
@@ -4622,25 +4647,25 @@
   "hora": "01:00",
   "casa": "Memphis Grizzlies",
   "fora": "New Orleans Pelicans",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5378,
+   "vencedor": 0.5571,
    "pontos": [
-    118.2173,
-    116.6866
+    118.917,
+    116.6069
    ],
    "handicap": [
-    1.5,
-    0.5008
+    2.5,
+    0.4953
    ],
    "total": [
-    234.5,
-    0.5079
+    235.5,
+    0.5005
    ],
    "total_80": [
     [
-     208.8371,
-     260.9707
+     209.3431,
+     261.7048
     ],
     0.8
    ]
@@ -4656,25 +4681,25 @@
   "hora": "01:00",
   "casa": "Minnesota Timberwolves",
   "fora": "Milwaukee Bucks",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.786,
+   "vencedor": 0.7855,
    "pontos": [
-    120.8983,
-    108.1199
+    120.9697,
+    108.2437
    ],
    "handicap": [
     12.5,
-    0.5069
+    0.5056
    ],
    "total": [
     229.5,
-    0.4905
+    0.4944
    ],
    "total_80": [
     [
-     202.9514,
-     255.0849
+     203.0325,
+     255.3942
     ],
     0.8
    ]
@@ -4690,28 +4715,28 @@
   "hora": "01:00",
   "casa": "Chicago Blackhawks",
   "fora": "Colorado Avalanche",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.297,
+   "vencedor": 0.2971,
    "60min": [
-    0.191,
-    0.2037,
+    0.1912,
+    0.2035,
     0.6053
    ],
    "golos": [
-    2.4624,
-    3.8608
+    2.4681,
+    3.8669
    ],
-   "prolongamento": 0.2037,
+   "prolongamento": 0.2035,
    "total": [
     6.5,
-    0.4731
+    0.4751
    ],
    "puck_casa": [
     -1.5,
-    0.1318
+    0.132
    ],
-   "ambas": 0.8767
+   "ambas": 0.8774
   },
   "estado": "pendente",
   "resultado": null
@@ -4724,25 +4749,25 @@
   "hora": "01:30",
   "casa": "Houston Rockets",
   "fora": "Boston Celtics",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4921,
+   "vencedor": 0.4916,
    "pontos": [
-    109.8151,
-    110.1325
+    110.0303,
+    110.3688
    ],
    "handicap": [
     -0.5,
-    0.5045
+    0.504
    ],
    "total": [
-    219.5,
-    0.5088
+    220.5,
+    0.498
    ],
    "total_80": [
     [
-     193.8808,
-     246.0143
+     194.2183,
+     246.5799
     ],
     0.8
    ]
@@ -4758,25 +4783,25 @@
   "hora": "01:30",
   "casa": "San Antonio Spurs",
   "fora": "Utah Jazz",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.8303,
+   "vencedor": 0.8281,
    "pontos": [
-    125.2731,
-    109.8728
+    125.2123,
+    109.9803
    ],
    "handicap": [
     15.5,
-    0.4975
+    0.4934
    ],
    "total": [
     235.5,
-    0.4931
+    0.494
    ],
    "total_80": [
     [
-     209.0791,
-     261.2126
+     209.0118,
+     261.3735
     ],
     0.8
    ]
@@ -4792,25 +4817,25 @@
   "hora": "02:00",
   "casa": "Denver Nuggets",
   "fora": "Portland Trail Blazers",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.534,
+   "vencedor": 0.559,
    "pontos": [
-    117.081,
-    115.7066
+    117.4547,
+    115.0647
    ],
    "handicap": [
-    1.5,
-    0.4969
+    2.5,
+    0.4973
    ],
    "total": [
     232.5,
-    0.5056
+    0.5004
    ],
    "total_80": [
     [
-     206.7208,
-     258.8544
+     206.3385,
+     258.7002
     ],
     0.8
    ]
@@ -4826,28 +4851,28 @@
   "hora": "02:00",
   "casa": "San Jose Sharks",
   "fora": "Calgary Flames",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5561,
+   "vencedor": 0.5555,
    "60min": [
-    0.4321,
-    0.2382,
-    0.3297
+    0.4315,
+    0.2383,
+    0.3302
    ],
    "golos": [
-    3.2549,
-    2.9127
+    3.252,
+    2.9136
    ],
-   "prolongamento": 0.2382,
+   "prolongamento": 0.2383,
    "total": [
     6.5,
-    0.4491
+    0.4487
    ],
    "puck_casa": [
     -1.5,
-    0.3326
+    0.332
    ],
-   "ambas": 0.8917
+   "ambas": 0.8916
   },
   "estado": "pendente",
   "resultado": null
@@ -4860,25 +4885,25 @@
   "hora": "03:00",
   "casa": "Golden State Warriors",
   "fora": "Phoenix Suns",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5731,
+   "vencedor": 0.5728,
    "pontos": [
-    113.8841,
-    110.9123
+    113.9062,
+    110.9544
    ],
    "handicap": [
     2.5,
-    0.5117
+    0.5112
    ],
    "total": [
     224.5,
-    0.5058
+    0.507
    ],
    "total_80": [
     [
-     198.7296,
-     250.8631
+     198.6797,
+     251.0414
     ],
     0.8
    ]
@@ -4894,25 +4919,25 @@
   "hora": "03:00",
   "casa": "LA Clippers",
   "fora": "Toronto Raptors",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4555,
+   "vencedor": 0.4629,
    "pontos": [
-    109.9194,
-    111.7226
+    110.274,
+    111.7733
    ],
    "handicap": [
     -1.5,
-    0.4925
+    0.5
    ],
    "total": [
-    221.5,
-    0.5028
+    222.5,
+    0.4912
    ],
    "total_80": [
     [
-     195.5751,
-     247.7087
+     195.8664,
+     248.2281
     ],
     0.8
    ]
@@ -4928,25 +4953,25 @@
   "hora": "03:00",
   "casa": "Los Angeles Lakers",
   "fora": "Miami Heat",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5601,
+   "vencedor": 0.5586,
    "pontos": [
-    120.4062,
-    117.9698
+    120.4343,
+    118.0626
    ],
    "handicap": [
     2.5,
-    0.4984
+    0.4968
    ],
    "total": [
     238.5,
-    0.4976
+    0.4999
    ],
    "total_80": [
     [
-     212.3093,
-     264.4428
+     212.316,
+     264.6777
     ],
     0.8
    ]
@@ -4962,25 +4987,25 @@
   "hora": "09:15",
   "casa": "Rain or Shine Elasto Painters",
   "fora": "Converge FiberXers",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4606,
+   "vencedor": 0.4526,
    "pontos": [
-    113.9943,
-    115.4569
+    115.0026,
+    116.7781
    ],
    "handicap": [
     -1.5,
-    0.501
+    0.4926
    ],
    "total": [
-    229.5,
-    0.4992
+    231.5,
+    0.5046
    ],
    "total_80": [
     [
-     198.2075,
-     260.6949
+     200.5544,
+     263.007
     ],
     0.8
    ]
@@ -4996,25 +5021,25 @@
   "hora": "10:00",
   "casa": "Busan KCC Egis",
   "fora": "Goyang Sono Skygunners",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4545,
+   "vencedor": 0.4624,
    "pontos": [
-    85.9307,
-    87.376
+    86.3582,
+    87.5513
    ],
    "handicap": [
     -1.5,
-    0.5017
+    0.5097
    ],
    "total": [
     173.5,
-    0.4959
+    0.5087
    ],
    "total_80": [
     [
-     149.3869,
-     197.2264
+     149.9833,
+     197.8356
     ],
     0.8
    ]
@@ -5030,26 +5055,26 @@
   "hora": "11:00",
   "casa": "Estrela U23",
   "fora": "Santa Clara U23",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.3196,
-    0.2888,
-    0.3916
+    0.3174,
+    0.2902,
+    0.3924
    ],
    "golos": [
-    1.0964,
-    1.2433
+    1.0857,
+    1.2384
    ],
-   "ambas": 0.4783,
-   "mais_1.5": 0.6827,
-   "mais_2.5": 0.4145,
-   "mais_3.5": 0.2088,
-   "dnb_casa": 0.4494,
+   "ambas": 0.475,
+   "mais_1.5": 0.6793,
+   "mais_2.5": 0.4104,
+   "mais_3.5": 0.2056,
+   "dnb_casa": 0.4472,
    "intervalo": [
-    0.2527,
-    0.4566,
-    0.2906
+    0.251,
+    0.4583,
+    0.2907
    ]
   },
   "estado": "pendente",
@@ -5063,25 +5088,25 @@
   "hora": "11:30",
   "casa": "Barangay Ginebra San Miguel",
   "fora": "San Miguel Beermen",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.48,
+   "vencedor": 0.531,
    "pontos": [
-    101.3177,
-    102.0606
+    103.0195,
+    101.8605
    ],
    "handicap": [
-    -0.5,
-    0.4935
+    1.5,
+    0.4909
    ],
    "total": [
-    203.5,
-    0.498
+    204.5,
+    0.5062
    ],
    "total_80": [
     [
-     172.1346,
-     234.622
+     173.6537,
+     236.1063
     ],
     0.8
    ]
@@ -5097,25 +5122,25 @@
   "hora": "11:35",
   "casa": "Beijing",
   "fora": "Ningbo Rockets",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.9217,
+   "vencedor": 0.9274,
    "pontos": [
-    92.7801,
-    72.9674
+    93.9059,
+    73.6602
    ],
    "handicap": [
-    19.5,
-    0.5089
+    20.5,
+    0.4927
    ],
    "total": [
-    165.5,
-    0.506
+    167.5,
+    0.5016
    ],
    "total_80": [
     [
-     144.6446,
-     186.8504
+     146.3004,
+     188.8318
     ],
     0.8
    ]
@@ -5131,25 +5156,25 @@
   "hora": "11:35",
   "casa": "Liaoning",
   "fora": "Guangzhou",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6454,
+   "vencedor": 0.6856,
    "pontos": [
-    90.3161,
-    85.1025
+    92.487,
+    85.7694
    ],
    "handicap": [
-    5.5,
-    0.4918
+    6.5,
+    0.5062
    ],
    "total": [
-    175.5,
-    0.498
+    178.5,
+    0.4941
    ],
    "total_80": [
     [
-     154.3157,
-     196.5215
+     156.9907,
+     199.522
     ],
     0.8
    ]
@@ -5165,25 +5190,25 @@
   "hora": "11:35",
   "casa": "Nanjing Tongxi",
   "fora": "Jiangsu Dragons",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5903,
+   "vencedor": 0.5838,
    "pontos": [
-    90.7483,
-    87.5564
+    90.5706,
+    87.6307
    ],
    "handicap": [
-    3.5,
-    0.4912
+    2.5,
+    0.5126
    ],
    "total": [
     178.5,
-    0.4953
+    0.4928
    ],
    "total_80": [
     [
-     157.2018,
-     199.4075
+     156.9356,
+     199.467
     ],
     0.8
    ]
@@ -5199,25 +5224,25 @@
   "hora": "11:35",
   "casa": "Shanghai",
   "fora": "Jilin",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.949,
+   "vencedor": 0.9494,
    "pontos": [
-    99.9336,
-    77.0641
+    99.2249,
+    76.44
    ],
    "handicap": [
     22.5,
-    0.5105
+    0.5082
    ],
    "total": [
-    176.5,
-    0.5121
+    175.5,
+    0.504
    ],
    "total_80": [
     [
-     155.8949,
-     198.1006
+     154.3992,
+     196.9305
     ],
     0.8
    ]
@@ -5233,25 +5258,25 @@
   "hora": "11:35",
   "casa": "Shanxi Zhongyu",
   "fora": "Xinjiang",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.7622,
+   "vencedor": 0.7778,
    "pontos": [
-    95.5867,
-    85.6094
+    96.4408,
+    85.8109
    ],
    "handicap": [
-    9.5,
-    0.5136
+    10.5,
+    0.5037
    ],
    "total": [
-    181.5,
-    0.4926
+    182.5,
+    0.494
    ],
    "total_80": [
     [
-     160.0933,
-     202.299
+     160.986,
+     203.5173
     ],
     0.8
    ]
@@ -5267,25 +5292,25 @@
   "hora": "11:35",
   "casa": "Shenzhen",
   "fora": "Zhejiang Chouzhou",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4324,
+   "vencedor": 0.432,
    "pontos": [
-    87.2768,
-    89.658
+    86.6555,
+    89.0342
    ],
    "handicap": [
     -2.5,
-    0.5034
+    0.5035
    ],
    "total": [
-    176.5,
-    0.5105
+    175.5,
+    0.5046
    ],
    "total_80": [
     [
-     155.8319,
-     198.0376
+     154.424,
+     196.9554
     ],
     0.8
    ]
@@ -5301,25 +5326,25 @@
   "hora": "11:35",
   "casa": "Sichuan",
   "fora": "Fujian",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.1092,
+   "vencedor": 0.1068,
    "pontos": [
-    82.1611,
-    99.3719
+    82.0488,
+    99.3328
    ],
    "handicap": [
     -17.5,
-    0.5082
+    0.5062
    ],
    "total": [
     181.5,
-    0.5008
+    0.4972
    ],
    "total_80": [
     [
-     160.4301,
-     202.6359
+     160.116,
+     202.6473
     ],
     0.8
    ]
@@ -5335,25 +5360,25 @@
   "hora": "11:35",
   "casa": "Tianjin",
   "fora": "Zhejiang Guangsha",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.357,
+   "vencedor": 0.3527,
    "pontos": [
-    92.2666,
-    97.3918
+    92.0062,
+    97.2582
    ],
    "handicap": [
     -5.5,
-    0.5107
+    0.5071
    ],
    "total": [
     189.5,
-    0.5038
+    0.4943
    ],
    "total_80": [
     [
-     168.5555,
-     210.7613
+     167.9988,
+     210.5301
     ],
     0.8
    ]
@@ -5369,26 +5394,26 @@
   "hora": "15:00",
   "casa": "Academico Viseu U23",
   "fora": "Torreense U23",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.5067,
-    0.2577,
-    0.2355
+    0.5092,
+    0.2572,
+    0.2336
    ],
    "golos": [
-    1.6027,
-    1.0138
+    1.6109,
+    1.0116
    ],
-   "ambas": 0.5129,
-   "mais_1.5": 0.7398,
-   "mais_2.5": 0.4857,
-   "mais_3.5": 0.2676,
-   "dnb_casa": 0.6827,
+   "ambas": 0.5135,
+   "mais_1.5": 0.7411,
+   "mais_2.5": 0.4872,
+   "mais_3.5": 0.2689,
+   "dnb_casa": 0.6855,
    "intervalo": [
-    0.3755,
-    0.4215,
-    0.203
+    0.3773,
+    0.4207,
+    0.202
    ]
   },
   "estado": "pendente",
@@ -5402,26 +5427,26 @@
   "hora": "15:00",
   "casa": "Gil Vicente U23",
   "fora": "Felgueiras U23",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.2979,
-    0.2481,
-    0.454
+    0.2981,
+    0.2484,
+    0.4535
    ],
    "golos": [
-    1.3053,
-    1.6602
+    1.3061,
+    1.6593
    ],
-   "ambas": 0.5941,
-   "mais_1.5": 0.7994,
+   "ambas": 0.5944,
+   "mais_1.5": 0.7996,
    "mais_2.5": 0.569,
    "mais_3.5": 0.345,
-   "dnb_casa": 0.3962,
+   "dnb_casa": 0.3966,
    "intervalo": [
-    0.2566,
-    0.3966,
-    0.3468
+    0.2568,
+    0.3967,
+    0.3465
    ]
   },
   "estado": "pendente",
@@ -5435,26 +5460,26 @@
   "hora": "15:00",
   "casa": "Maritimo U23",
   "fora": "Moreirense U23",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.0833,
-    0.16,
-    0.7567
+    0.0834,
+    0.1602,
+    0.7564
    ],
    "golos": [
-    0.6907,
-    2.438
+    0.6917,
+    2.4385
    ],
-   "ambas": 0.4577,
-   "mais_1.5": 0.8218,
-   "mais_2.5": 0.6051,
-   "mais_3.5": 0.3816,
-   "dnb_casa": 0.0992,
+   "ambas": 0.4583,
+   "mais_1.5": 0.8221,
+   "mais_2.5": 0.6054,
+   "mais_3.5": 0.382,
+   "dnb_casa": 0.0993,
    "intervalo": [
-    0.1059,
+    0.106,
     0.3421,
-    0.552
+    0.5519
    ]
   },
   "estado": "pendente",
@@ -5468,26 +5493,26 @@
   "hora": "15:00",
   "casa": "Vizela U23",
   "fora": "Portimonense U23",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.5405,
+    0.541,
     0.2401,
-    0.2194
+    0.2189
    ],
    "golos": [
-    1.7834,
-    1.0557
+    1.7865,
+    1.056
    ],
-   "ambas": 0.5462,
-   "mais_1.5": 0.7792,
-   "mais_2.5": 0.5398,
-   "mais_3.5": 0.3168,
-   "dnb_casa": 0.7113,
+   "ambas": 0.5468,
+   "mais_1.5": 0.78,
+   "mais_2.5": 0.5406,
+   "mais_3.5": 0.3175,
+   "dnb_casa": 0.712,
    "intervalo": [
-    0.4036,
-    0.3987,
-    0.1976
+    0.4042,
+    0.3984,
+    0.1975
    ]
   },
   "estado": "pendente",
@@ -5501,25 +5526,25 @@
   "hora": "16:30",
   "casa": "Tampereen Pyrintö",
   "fora": "Kouvot",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.7282,
+   "vencedor": 0.7142,
    "pontos": [
-    89.5848,
-    81.1373
+    90.9598,
+    83.0141
    ],
    "handicap": [
-    8.5,
-    0.4985
+    7.5,
+    0.5127
    ],
    "total": [
-    170.5,
-    0.505
+    173.5,
+    0.51
    ],
    "total_80": [
     [
-     147.8422,
-     193.6021
+     149.7997,
+     198.148
     ],
     0.8
    ]
@@ -5535,25 +5560,25 @@
   "hora": "16:30",
   "casa": "Tapiolan Honka",
   "fora": "Helsinki Seagulls",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6637,
+   "vencedor": 0.6898,
    "pontos": [
-    91.8406,
-    85.9626
+    94.2131,
+    87.2557
    ],
    "handicap": [
-    5.5,
-    0.5108
+    6.5,
+    0.513
    ],
    "total": [
-    177.5,
-    0.5068
+    181.5,
+    0.4993
    ],
    "total_80": [
     [
-     154.9233,
-     200.6832
+     157.2946,
+     205.6429
     ],
     0.8
    ]
@@ -5569,25 +5594,25 @@
   "hora": "17:00",
   "casa": "Tofas Bursa",
   "fora": "Neptunas Klaipeda",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.8527,
+   "vencedor": 0.8524,
    "pontos": [
-    96.8179,
-    83.587
+    96.8021,
+    83.5882
    ],
    "handicap": [
     13.5,
-    0.4915
+    0.491
    ],
    "total": [
     180.5,
-    0.4976
+    0.4972
    ],
    "total_80": [
     [
-     160.4726,
-     200.3372
+     160.4549,
+     200.3257
     ],
     0.8
    ]
@@ -5603,12 +5628,12 @@
   "hora": "18:00",
   "casa": "Buducnost VOLI Podgorica",
   "fora": "NINERS Chemnitz",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "vencedor": 0.5752,
    "pontos": [
-    86.2054,
-    83.8107
+    86.2057,
+    83.8112
    ],
    "handicap": [
     2.5,
@@ -5620,8 +5645,8 @@
    ],
    "total_80": [
     [
-     150.0838,
-     189.9484
+     150.0815,
+     189.9523
     ],
     0.8
    ]
@@ -5637,25 +5662,25 @@
   "hora": "18:00",
   "casa": "PAOK Thessaloniki",
   "fora": "Roma Basketball",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.8192,
+   "vencedor": 0.8188,
    "pontos": [
-    91.405,
-    79.8885
+    91.3923,
+    79.894
    ],
    "handicap": [
     11.5,
-    0.5005
+    0.4999
    ],
    "total": [
     171.5,
-    0.4947
+    0.4945
    ],
    "total_80": [
     [
-     151.3612,
-     191.2258
+     151.3508,
+     191.2217
     ],
     0.8
    ]
@@ -5671,25 +5696,25 @@
   "hora": "18:04",
   "casa": "Sloga Uppsala",
   "fora": "Högsbo Lions",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4085,
+   "vencedor": 0.4033,
    "pontos": [
-    86.0008,
-    89.2085
+    86.0774,
+    89.46
    ],
    "handicap": [
     -3.5,
-    0.5084
+    0.5034
    ],
    "total": [
     175.5,
-    0.4928
+    0.5009
    ],
    "total_80": [
     [
-     154.6724,
-     195.7463
+     155.1062,
+     195.9686
     ],
     0.8
    ]
@@ -5705,25 +5730,25 @@
   "hora": "18:30",
   "casa": "ratiopharm ulm",
   "fora": "Bahcesehir College Istanbul",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4316,
+   "vencedor": 0.4317,
    "pontos": [
-    86.2167,
-    88.3931
+    86.2134,
+    88.3848
    ],
    "handicap": [
     -2.5,
-    0.5102
+    0.5104
    ],
    "total": [
     174.5,
-    0.5028
+    0.5025
    ],
    "total_80": [
     [
-     154.6775,
-     194.5421
+     154.6627,
+     194.5336
     ],
     0.8
    ]
@@ -5739,25 +5764,25 @@
   "hora": "18:30",
   "casa": "Cholet",
   "fora": "Paris",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.3637,
+   "vencedor": 0.3599,
    "pontos": [
-    87.4647,
-    92.0042
+    87.1806,
+    91.9106
    ],
    "handicap": [
     -4.5,
-    0.4988
+    0.493
    ],
    "total": [
     179.5,
-    0.4993
+    0.4903
    ],
    "total_80": [
     [
-     158.0898,
-     200.8481
+     157.4501,
+     200.7323
     ],
     0.8
    ]
@@ -5773,25 +5798,25 @@
   "hora": "19:00",
   "casa": "Napoli Basketball",
   "fora": "Dolomiti Energia Trento",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.8271,
+   "vencedor": 0.8268,
    "pontos": [
-    91.8442,
-    79.9432
+    91.8354,
+    79.9498
    ],
    "handicap": [
     11.5,
-    0.5127
+    0.5122
    ],
    "total": [
     171.5,
-    0.5074
+    0.5073
    ],
    "total_80": [
     [
-     151.855,
-     191.7197
+     151.8497,
+     191.7206
     ],
     0.8
    ]
@@ -5875,26 +5900,26 @@
   "hora": null,
   "casa": "Athletico-PR",
   "fora": "Vasco",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.6279,
-    0.2084,
-    0.1638
+    0.6045,
+    0.2172,
+    0.1784
    ],
    "golos": [
-    2.2504,
-    1.088
+    2.1618,
+    1.1128
    ],
-   "ambas": 0.6012,
-   "mais_1.5": 0.854,
-   "mais_2.5": 0.6482,
-   "mais_3.5": 0.4281,
-   "dnb_casa": 0.7931,
+   "ambas": 0.6024,
+   "mais_1.5": 0.8466,
+   "mais_2.5": 0.6355,
+   "mais_3.5": 0.4141,
+   "dnb_casa": 0.7722,
    "intervalo": [
-    0.4776,
-    0.3501,
-    0.1723
+    0.4605,
+    0.3578,
+    0.1817
    ]
   },
   "estado": "pendente",
@@ -5908,26 +5933,26 @@
   "hora": null,
   "casa": "Botafogo RJ",
   "fora": "Atletico-MG",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.3897,
-    0.295,
-    0.3154
+    0.392,
+    0.2946,
+    0.3134
    ],
    "golos": [
-    1.3084,
-    1.1534
+    1.3145,
+    1.1504
    ],
-   "ambas": 0.5112,
-   "mais_1.5": 0.7165,
-   "mais_2.5": 0.4464,
-   "mais_3.5": 0.2343,
-   "dnb_casa": 0.5527,
+   "ambas": 0.5116,
+   "mais_1.5": 0.7171,
+   "mais_2.5": 0.4472,
+   "mais_3.5": 0.235,
+   "dnb_casa": 0.5557,
    "intervalo": [
-    0.3037,
-    0.4432,
-    0.2531
+    0.3052,
+    0.4428,
+    0.252
    ]
   },
   "estado": "pendente",
@@ -5941,26 +5966,26 @@
   "hora": null,
   "casa": "Chapecoense-SC",
   "fora": "Mirassol",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.2399,
-    0.2621,
-    0.498
+    0.2409,
+    0.2622,
+    0.497
    ],
    "golos": [
-    1.11,
-    1.6865
+    1.1127,
+    1.6847
    ],
-   "ambas": 0.5567,
-   "mais_1.5": 0.7787,
-   "mais_2.5": 0.5297,
-   "mais_3.5": 0.3073,
-   "dnb_casa": 0.3251,
+   "ambas": 0.5572,
+   "mais_1.5": 0.7789,
+   "mais_2.5": 0.5299,
+   "mais_3.5": 0.3075,
+   "dnb_casa": 0.3264,
    "intervalo": [
-    0.2194,
+    0.2201,
     0.4074,
-    0.3731
+    0.3725
    ]
   },
   "estado": "pendente",
@@ -5974,26 +5999,26 @@
   "hora": null,
   "casa": "Cruzeiro",
   "fora": "Bahia",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.5392,
-    0.2479,
-    0.2129
+    0.5421,
+    0.2469,
+    0.2109
    ],
    "golos": [
-    1.8335,
-    1.0845
+    1.8426,
+    1.0809
    ],
-   "ambas": 0.5659,
-   "mais_1.5": 0.7981,
-   "mais_2.5": 0.5582,
-   "mais_3.5": 0.3344,
-   "dnb_casa": 0.7169,
+   "ambas": 0.5658,
+   "mais_1.5": 0.7989,
+   "mais_2.5": 0.5595,
+   "mais_3.5": 0.3356,
+   "dnb_casa": 0.7199,
    "intervalo": [
-    0.4091,
-    0.3918,
-    0.1991
+    0.4111,
+    0.3911,
+    0.1979
    ]
   },
   "estado": "pendente",
@@ -6007,26 +6032,26 @@
   "hora": null,
   "casa": "Flamengo RJ",
   "fora": "Gremio",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.7953,
-    0.1461,
-    0.0586
+    0.7814,
+    0.1547,
+    0.064
    ],
    "golos": [
-    2.5986,
-    0.6057
+    2.516,
+    0.6158
    ],
-   "ambas": 0.4264,
-   "mais_1.5": 0.8353,
-   "mais_2.5": 0.6211,
-   "mais_3.5": 0.3985,
-   "dnb_casa": 0.9314,
+   "ambas": 0.4288,
+   "mais_1.5": 0.8259,
+   "mais_2.5": 0.6058,
+   "mais_3.5": 0.3824,
+   "dnb_casa": 0.9243,
    "intervalo": [
-    0.5949,
-    0.3205,
-    0.0846
+    0.5815,
+    0.3297,
+    0.0888
    ]
   },
   "estado": "pendente",
@@ -6040,26 +6065,26 @@
   "hora": null,
   "casa": "Internacional",
   "fora": "Coritiba",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.549,
-    0.2574,
-    0.1936
+    0.5509,
+    0.2565,
+    0.1926
    ],
    "golos": [
-    1.7303,
-    0.9425
+    1.7376,
+    0.942
    ],
-   "ambas": 0.5124,
-   "mais_1.5": 0.7566,
-   "mais_2.5": 0.4997,
-   "mais_3.5": 0.2799,
-   "dnb_casa": 0.7393,
+   "ambas": 0.513,
+   "mais_1.5": 0.7578,
+   "mais_2.5": 0.5014,
+   "mais_3.5": 0.2814,
+   "dnb_casa": 0.741,
    "intervalo": [
-    0.4076,
-    0.4113,
-    0.1811
+    0.409,
+    0.4104,
+    0.1806
    ]
   },
   "estado": "pendente",
@@ -6073,26 +6098,26 @@
   "hora": null,
   "casa": "Palmeiras",
   "fora": "Remo",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.7625,
-    0.178,
-    0.0596
+    0.7635,
+    0.1772,
+    0.0592
    ],
    "golos": [
-    2.1705,
-    0.4681
+    2.176,
+    0.4677
    ],
-   "ambas": 0.3378,
-   "mais_1.5": 0.7466,
-   "mais_2.5": 0.4912,
-   "mais_3.5": 0.2724,
-   "dnb_casa": 0.9275,
+   "ambas": 0.3377,
+   "mais_1.5": 0.7476,
+   "mais_2.5": 0.4925,
+   "mais_3.5": 0.2736,
+   "dnb_casa": 0.928,
    "intervalo": [
-    0.5485,
-    0.3739,
-    0.0776
+    0.5495,
+    0.3732,
+    0.0773
    ]
   },
   "estado": "pendente",
@@ -6106,26 +6131,26 @@
   "hora": null,
   "casa": "Sao Paulo",
   "fora": "Corinthians",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.4694,
-    0.2993,
-    0.2313
+    0.4716,
+    0.2987,
+    0.2296
    ],
    "golos": [
-    1.3701,
-    0.8868
+    1.375,
+    0.8835
    ],
-   "ambas": 0.4502,
-   "mais_1.5": 0.6707,
-   "mais_2.5": 0.3925,
-   "mais_3.5": 0.192,
-   "dnb_casa": 0.6699,
+   "ambas": 0.4499,
+   "mais_1.5": 0.671,
+   "mais_2.5": 0.3929,
+   "mais_3.5": 0.1923,
+   "dnb_casa": 0.6725,
    "intervalo": [
-    0.3442,
-    0.4606,
-    0.1953
+    0.3455,
+    0.4602,
+    0.1942
    ]
   },
   "estado": "pendente",
@@ -6139,26 +6164,26 @@
   "hora": null,
   "casa": "Vitoria",
   "fora": "Fluminense",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.3064,
-    0.2975,
-    0.3961
+    0.308,
+    0.2974,
+    0.3946
    ],
    "golos": [
-    1.1165,
-    1.3022
+    1.1208,
+    1.3001
    ],
-   "ambas": 0.5015,
-   "mais_1.5": 0.7074,
-   "mais_2.5": 0.4352,
-   "mais_3.5": 0.2252,
-   "dnb_casa": 0.4362,
+   "ambas": 0.5021,
+   "mais_1.5": 0.7079,
+   "mais_2.5": 0.4357,
+   "mais_3.5": 0.2257,
+   "dnb_casa": 0.4384,
    "intervalo": [
-    0.2517,
-    0.448,
-    0.3003
+    0.2527,
+    0.4478,
+    0.2995
    ]
   },
   "estado": "pendente",
@@ -6172,28 +6197,28 @@
   "hora": "00:00",
   "casa": "Columbus Blue Jackets",
   "fora": "Colorado Avalanche",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.3915,
+   "vencedor": 0.3923,
    "60min": [
-    0.2726,
-    0.2284,
-    0.499
+    0.2735,
+    0.2282,
+    0.4983
    ],
    "golos": [
-    2.7649,
-    3.4979
+    2.7741,
+    3.5025
    ],
-   "prolongamento": 0.2284,
+   "prolongamento": 0.2282,
    "total": [
     6.5,
-    0.4645
+    0.4669
    ],
    "puck_casa": [
     -1.5,
-    0.1963
+    0.1971
    ],
-   "ambas": 0.8911
+   "ambas": 0.8919
   },
   "estado": "pendente",
   "resultado": null
@@ -6206,28 +6231,28 @@
   "hora": "00:00",
   "casa": "Montreal Canadiens",
   "fora": "Winnipeg Jets",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6085,
+   "vencedor": 0.6274,
    "60min": [
-    0.4873,
-    0.2329,
-    0.2798
+    0.5084,
+    0.2286,
+    0.263
    ],
    "golos": [
-    3.4031,
-    2.7179
+    3.4883,
+    2.6742
    ],
-   "prolongamento": 0.2329,
+   "prolongamento": 0.2286,
    "total": [
     6.5,
-    0.4407
+    0.4474
    ],
    "puck_casa": [
     -1.5,
-    0.3829
+    0.403
    ],
-   "ambas": 0.8847
+   "ambas": 0.8845
   },
   "estado": "pendente",
   "resultado": null
@@ -6240,28 +6265,28 @@
   "hora": "00:00",
   "casa": "New York Rangers",
   "fora": "St. Louis Blues",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5243,
+   "vencedor": 0.5118,
    "60min": [
-    0.3997,
-    0.2394,
-    0.3609
+    0.3871,
+    0.2395,
+    0.3734
    ],
    "golos": [
-    3.1645,
-    3.0283
+    3.1276,
+    3.0722
    ],
-   "prolongamento": 0.2394,
+   "prolongamento": 0.2395,
    "total": [
     6.5,
-    0.4535
+    0.4547
    ],
    "puck_casa": [
     -1.5,
-    0.3038
+    0.2928
    ],
-   "ambas": 0.8942
+   "ambas": 0.8947
   },
   "estado": "pendente",
   "resultado": null
@@ -6274,28 +6299,28 @@
   "hora": "00:00",
   "casa": "Philadelphia Flyers",
   "fora": "Minnesota Wild",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4083,
+   "vencedor": 0.4122,
    "60min": [
-    0.2849,
-    0.237,
-    0.478
+    0.2887,
+    0.2372,
+    0.4741
    ],
    "golos": [
-    2.6894,
-    3.2986
+    2.7105,
+    3.2954
    ],
-   "prolongamento": 0.237,
+   "prolongamento": 0.2372,
    "total": [
-    5.5,
-    0.5201
+    6.5,
+    0.4212
    ],
    "puck_casa": [
     -1.5,
-    0.2047
+    0.2079
    ],
-   "ambas": 0.8782
+   "ambas": 0.8797
   },
   "estado": "pendente",
   "resultado": null
@@ -6308,28 +6333,28 @@
   "hora": "00:00",
   "casa": "Pittsburgh Penguins",
   "fora": "Vegas Golden Knights",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4877,
+   "vencedor": 0.4979,
    "60min": [
-    0.3646,
-    0.2366,
-    0.3988
+    0.3749,
+    0.2363,
+    0.3888
    ],
    "golos": [
-    3.1131,
-    3.2136
+    3.1574,
+    3.1918
    ],
-   "prolongamento": 0.2366,
+   "prolongamento": 0.2363,
    "total": [
     6.5,
-    0.4759
+    0.4797
    ],
    "puck_casa": [
     -1.5,
-    0.2741
+    0.2832
    ],
-   "ambas": 0.9008
+   "ambas": 0.902
   },
   "estado": "pendente",
   "resultado": null
@@ -6342,28 +6367,28 @@
   "hora": "00:00",
   "casa": "Tampa Bay Lightning",
   "fora": "Detroit Red Wings",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6194,
+   "vencedor": 0.6188,
    "60min": [
-    0.5003,
-    0.2289,
-    0.2708
+    0.4998,
+    0.2286,
+    0.2716
    ],
    "golos": [
-    3.4929,
-    2.7289
+    3.5002,
+    2.7392
    ],
-   "prolongamento": 0.2289,
+   "prolongamento": 0.2286,
    "total": [
     6.5,
-    0.4576
+    0.4606
    ],
    "puck_casa": [
     -1.5,
-    0.3959
+    0.3957
    ],
-   "ambas": 0.8888
+   "ambas": 0.8897
   },
   "estado": "pendente",
   "resultado": null
@@ -6376,28 +6401,28 @@
   "hora": "00:00",
   "casa": "Toronto Maple Leafs",
   "fora": "Utah Mammoth",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4887,
+   "vencedor": 0.4892,
    "60min": [
-    0.367,
-    0.2338,
-    0.3992
+    0.3677,
+    0.2335,
+    0.3988
    ],
    "golos": [
-    3.1831,
-    3.2776
+    3.1929,
+    3.2843
    ],
-   "prolongamento": 0.2338,
+   "prolongamento": 0.2335,
    "total": [
     6.5,
-    0.4981
+    0.5008
    ],
    "puck_casa": [
     -1.5,
-    0.2771
+    0.2778
    ],
-   "ambas": 0.907
+   "ambas": 0.9077
   },
   "estado": "pendente",
   "resultado": null
@@ -6410,28 +6435,28 @@
   "hora": "00:00",
   "casa": "Washington Capitals",
   "fora": "Dallas Stars",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.508,
+   "vencedor": 0.5253,
    "60min": [
-    0.3824,
-    0.2414,
-    0.3763
+    0.4003,
+    0.2402,
+    0.3595
    ],
    "golos": [
-    3.074,
-    3.0434
+    3.1495,
+    3.0072
    ],
-   "prolongamento": 0.2414,
+   "prolongamento": 0.2402,
    "total": [
     6.5,
-    0.4408
+    0.4474
    ],
    "puck_casa": [
     -1.5,
-    0.2881
+    0.3041
    ],
-   "ambas": 0.8905
+   "ambas": 0.8923
   },
   "estado": "pendente",
   "resultado": null
@@ -6444,28 +6469,28 @@
   "hora": "00:30",
   "casa": "New Jersey Devils",
   "fora": "Edmonton Oilers",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4958,
+   "vencedor": 0.5097,
    "60min": [
-    0.3728,
-    0.2363,
-    0.3909
+    0.387,
+    0.2359,
+    0.3772
    ],
    "golos": [
-    3.1507,
-    3.1987
+    3.2071,
+    3.1638
    ],
-   "prolongamento": 0.2363,
+   "prolongamento": 0.2359,
    "total": [
     6.5,
-    0.4797
+    0.4833
    ],
    "puck_casa": [
     -1.5,
-    0.2814
+    0.294
    ],
-   "ambas": 0.902
+   "ambas": 0.903
   },
   "estado": "pendente",
   "resultado": null
@@ -6478,28 +6503,28 @@
   "hora": "01:00",
   "casa": "Nashville Predators",
   "fora": "Carolina Hurricanes",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.416,
+   "vencedor": 0.4111,
    "60min": [
-    0.2946,
-    0.2332,
-    0.4722
+    0.2904,
+    0.2319,
+    0.4777
    ],
    "golos": [
-    2.8233,
-    3.391
+    2.8201,
+    3.4212
    ],
-   "prolongamento": 0.2332,
+   "prolongamento": 0.2319,
    "total": [
     6.5,
-    0.4567
+    0.4611
    ],
    "puck_casa": [
     -1.5,
-    0.2141
+    0.2107
    ],
-   "ambas": 0.8913
+   "ambas": 0.8922
   },
   "estado": "pendente",
   "resultado": null
@@ -6512,28 +6537,28 @@
   "hora": "02:00",
   "casa": "Vancouver Canucks",
   "fora": "Anaheim Ducks",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4277,
+   "vencedor": 0.4255,
    "60min": [
-    0.3085,
-    0.229,
-    0.4626
+    0.3069,
+    0.2278,
+    0.4653
    ],
    "golos": [
-    2.9956,
-    3.4953
+    3.0112,
+    3.527
    ],
-   "prolongamento": 0.229,
+   "prolongamento": 0.2278,
    "total": [
     6.5,
-    0.5028
+    0.5106
    ],
    "puck_casa": [
     -1.5,
-    0.2273
+    0.2262
    ],
-   "ambas": 0.9056
+   "ambas": 0.9075
   },
   "estado": "pendente",
   "resultado": null
@@ -6546,25 +6571,25 @@
   "hora": "09:00",
   "casa": "Brisbane Bullets",
   "fora": "Perth Wildcats",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.3013,
+   "vencedor": 0.2988,
    "pontos": [
-    88.4567,
-    96.2075
+    88.7645,
+    96.5481
    ],
    "handicap": [
     -7.5,
-    0.4933
+    0.4923
    ],
    "total": [
-    184.5,
-    0.5036
+    185.5,
+    0.4961
    ],
    "total_80": [
     [
-     161.0609,
-     208.2674
+     160.6059,
+     210.0194
     ],
     0.8
    ]
@@ -6580,25 +6605,25 @@
   "hora": "10:00",
   "casa": "Seoul SK Knights",
   "fora": "Daegu KOGAS Pegasus",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6884,
+   "vencedor": 0.6847,
    "pontos": [
-    81.4812,
-    75.2658
+    81.3176,
+    75.2401
    ],
    "handicap": [
     6.5,
-    0.491
+    0.4867
    ],
    "total": [
     156.5,
-    0.5053
+    0.5012
    ],
    "total_80": [
     [
-     132.8272,
-     180.6666
+     132.6315,
+     180.4838
     ],
     0.8
    ]
@@ -6614,26 +6639,26 @@
   "hora": "15:00",
   "casa": "Leiria U23",
   "fora": "Estoril U23",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.298,
-    0.2627,
-    0.4394
+    0.2982,
+    0.263,
+    0.4389
    ],
    "golos": [
-    1.1977,
-    1.506
+    1.199,
+    1.5057
    ],
-   "ambas": 0.5474,
-   "mais_1.5": 0.7561,
-   "mais_2.5": 0.5073,
-   "mais_3.5": 0.2867,
-   "dnb_casa": 0.4041,
+   "ambas": 0.5478,
+   "mais_1.5": 0.7565,
+   "mais_2.5": 0.5075,
+   "mais_3.5": 0.2869,
+   "dnb_casa": 0.4046,
    "intervalo": [
-    0.25,
-    0.4193,
-    0.3307
+    0.2503,
+    0.4192,
+    0.3305
    ]
   },
   "estado": "pendente",
@@ -6647,25 +6672,25 @@
   "hora": "16:30",
   "casa": "Turk Telekom Ankara",
   "fora": "Skyliners Frankfurt",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.7002,
+   "vencedor": 0.7,
    "pontos": [
-    88.7235,
-    82.0982
+    88.7163,
+    82.0955
    ],
    "handicap": [
     6.5,
-    0.504
+    0.5038
    ],
    "total": [
     170.5,
-    0.5083
+    0.508
    ],
    "total_80": [
     [
-     150.8893,
-     190.754
+     150.8764,
+     190.7472
     ],
     0.8
    ]
@@ -6681,25 +6706,25 @@
   "hora": "16:30",
   "casa": "Bisons Loimaa",
   "fora": "Lahti Basketball",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6193,
+   "vencedor": 0.6376,
    "pontos": [
-    87.3343,
-    83.1117
+    86.0941,
+    81.1509
    ],
    "handicap": [
     4.5,
-    0.492
+    0.5126
    ],
    "total": [
-    170.5,
-    0.4988
+    167.5,
+    0.4946
    ],
    "total_80": [
     [
-     147.5661,
-     193.326
+     143.0708,
+     191.4191
     ],
     0.8
    ]
@@ -6715,25 +6740,25 @@
   "hora": "16:30",
   "casa": "Kipinä Basket",
   "fora": "KTP-Basket",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5885,
+   "vencedor": 0.6118,
    "pontos": [
-    91.0883,
-    87.9788
+    92.1266,
+    88.1362
    ],
    "handicap": [
     3.5,
-    0.4888
+    0.5139
    ],
    "total": [
-    179.5,
-    0.4903
+    180.5,
+    0.495
    ],
    "total_80": [
     [
-     156.1872,
-     201.9471
+     156.0886,
+     204.4369
     ],
     0.8
    ]
@@ -6749,25 +6774,25 @@
   "hora": "16:30",
   "casa": "Korihait",
   "fora": "Kauhajoki",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6796,
+   "vencedor": 0.6686,
    "pontos": [
-    88.4043,
-    81.9161
+    88.8595,
+    82.7366
    ],
    "handicap": [
     6.5,
-    0.4997
+    0.4893
    ],
    "total": [
-    170.5,
-    0.496
+    171.5,
+    0.502
    ],
    "total_80": [
     [
-     147.4405,
-     193.2004
+     147.4219,
+     195.7702
     ],
     0.8
    ]
@@ -6783,25 +6808,25 @@
   "hora": "17:00",
   "casa": "Lietkabelis Panevezys",
   "fora": "Kids&Us Manresa",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4554,
+   "vencedor": 0.4555,
    "pontos": [
-    83.5663,
-    84.9806
+    83.5649,
+    84.9751
    ],
    "handicap": [
     -1.5,
-    0.5027
+    0.5028
    ],
    "total": [
     168.5,
-    0.5012
+    0.501
    ],
    "total_80": [
     [
-     148.6146,
-     188.4793
+     148.6045,
+     188.4754
     ],
     0.8
    ]
@@ -6817,25 +6842,25 @@
   "hora": "17:00",
   "casa": "Riga Zelli",
   "fora": "Le Mans Sarthe Basket",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.478,
+   "vencedor": 0.4783,
    "pontos": [
-    81.047,
-    81.7423
+    81.056,
+    81.7429
    ],
    "handicap": [
     -0.5,
-    0.4938
+    0.4941
    ],
    "total": [
     162.5,
-    0.5074
+    0.5077
    ],
    "total_80": [
     [
-     142.8569,
-     182.7216
+     142.8635,
+     182.7343
     ],
     0.8
    ]
@@ -6851,26 +6876,26 @@
   "hora": "17:00",
   "casa": "Penafiel U23",
   "fora": "Famalicao U23",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.2529,
+    0.2518,
     0.226,
-    0.5211
+    0.5222
    ],
    "golos": [
-    1.3149,
-    1.9591
+    1.3131,
+    1.9627
    ],
-   "ambas": 0.6317,
-   "mais_1.5": 0.8415,
-   "mais_2.5": 0.6353,
-   "mais_3.5": 0.4139,
-   "dnb_casa": 0.3267,
+   "ambas": 0.6318,
+   "mais_1.5": 0.8419,
+   "mais_2.5": 0.6357,
+   "mais_3.5": 0.4143,
+   "dnb_casa": 0.3253,
    "intervalo": [
-    0.234,
-    0.37,
-    0.396
+    0.2335,
+    0.3697,
+    0.3968
    ]
   },
   "estado": "pendente",
@@ -6884,25 +6909,25 @@
   "hora": "17:30",
   "casa": "Cedevita Olimpija Ljubljana",
   "fora": "Baglietto Derthona Tortona",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6328,
+   "vencedor": 0.6327,
    "pontos": [
-    82.263,
-    77.9807
+    82.267,
+    77.9871
    ],
    "handicap": [
     4.5,
-    0.4931
+    0.493
    ],
    "total": [
     160.5,
-    0.4934
+    0.4937
    ],
    "total_80": [
     [
-     140.3114,
-     180.176
+     140.3187,
+     180.1895
     ],
     0.8
    ]
@@ -6918,25 +6943,25 @@
   "hora": "18:00",
   "casa": "Slask Wroclaw",
   "fora": "Cosea JL Bourg-en-Bresse",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.3279,
+   "vencedor": 0.3282,
    "pontos": [
-    81.5983,
-    87.2262
+    81.6042,
+    87.2215
    ],
    "handicap": [
     -5.5,
-    0.496
+    0.4963
    ],
    "total": [
     168.5,
-    0.5083
+    0.5084
    ],
    "total_80": [
     [
-     148.8922,
-     188.7568
+     148.8903,
+     188.7612
     ],
     0.8
    ]
@@ -6952,25 +6977,25 @@
   "hora": "18:30",
   "casa": "BOSNA BH Telecom Sarajevo",
   "fora": "Balkan Botevgrad",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.8784,
+   "vencedor": 0.878,
    "pontos": [
-    82.654,
-    67.9252
+    82.6625,
+    67.9555
    ],
    "handicap": [
     14.5,
-    0.5072
+    0.5065
    ],
    "total": [
     150.5,
-    0.502
+    0.503
    ],
    "total_80": [
     [
-     130.6468,
-     170.5115
+     130.6826,
+     170.5534
     ],
     0.8
    ]
@@ -6986,25 +7011,25 @@
   "hora": "19:00",
   "casa": "Hapoel Midtown Jerusalem",
   "fora": "Aris Thessaloniki",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5885,
+   "vencedor": 0.5887,
    "pontos": [
-    86.3914,
-    83.5677
+    86.3928,
+    83.5625
    ],
    "handicap": [
     2.5,
-    0.5102
+    0.5104
    ],
    "total": [
     169.5,
-    0.5118
+    0.5117
    ],
    "total_80": [
     [
-     150.0268,
-     189.8914
+     150.0198,
+     189.8907
     ],
     0.8
    ]
@@ -7020,25 +7045,25 @@
   "hora": "19:00",
   "casa": "Umana Reyer Venice",
   "fora": "Siauliai Basketball",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.7281,
+   "vencedor": 0.7279,
    "pontos": [
-    87.7328,
-    80.0708
+    87.7326,
+    80.0764
    ],
    "handicap": [
     7.5,
-    0.5051
+    0.5049
    ],
    "total": [
     167.5,
-    0.5078
+    0.5079
    ],
    "total_80": [
     [
-     147.8712,
-     187.7359
+     147.8736,
+     187.7444
     ],
     0.8
    ]
@@ -7054,25 +7079,25 @@
   "hora": "19:30",
   "casa": "Maxima Roma",
   "fora": "London Lions",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "vencedor": 0.5716,
    "pontos": [
-    78.9714,
-    76.6927
+    78.9805,
+    76.7039
    ],
    "handicap": [
     2.5,
-    0.493
+    0.4929
    ],
    "total": [
     155.5,
-    0.5042
+    0.5047
    ],
    "total_80": [
     [
-     135.7318,
-     175.5965
+     135.7489,
+     175.6198
     ],
     0.8
    ]
@@ -7088,16 +7113,16 @@
   "hora": "19:30",
   "casa": "Recoletas Salud San Pablo Burgos",
   "fora": "Rostock Seawolves",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.7148,
+   "vencedor": 0.7146,
    "pontos": [
-    88.1352,
-    80.9726
+    88.1308,
+    80.9748
    ],
    "handicap": [
     7.5,
-    0.4893
+    0.4891
    ],
    "total": [
     169.5,
@@ -7105,8 +7130,8 @@
    ],
    "total_80": [
     [
-     149.1755,
-     189.0402
+     149.1701,
+     189.041
     ],
     0.8
    ]
@@ -7122,7 +7147,7 @@
   "hora": "19:30",
   "casa": "Kortrijk",
   "fora": "Mechelen",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.2381,
@@ -7155,25 +7180,25 @@
   "hora": "19:45",
   "casa": "Real Madrid",
   "fora": "Panathinaikos AKTOR Athens",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6815,
+   "vencedor": 0.721,
    "pontos": [
-    87.9692,
-    82.7202
+    88.4412,
+    81.9063
    ],
    "handicap": [
-    5.5,
-    0.491
+    6.5,
+    0.5012
    ],
    "total": [
     170.5,
-    0.5043
+    0.4965
    ],
    "total_80": [
     [
-     148.1467,
-     193.2322
+     147.9765,
+     192.7184
     ],
     0.8
    ]
@@ -7223,26 +7248,26 @@
   "hora": "23:00",
   "casa": "Bragantino",
   "fora": "Santos",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.426,
-    0.2814,
-    0.2926
+    0.4282,
+    0.2811,
+    0.2907
    ],
    "golos": [
-    1.4585,
-    1.1713
+    1.4638,
+    1.1678
    ],
    "ambas": 0.5408,
-   "mais_1.5": 0.7495,
-   "mais_2.5": 0.489,
-   "mais_3.5": 0.2705,
-   "dnb_casa": 0.5928,
+   "mais_1.5": 0.7499,
+   "mais_2.5": 0.4895,
+   "mais_3.5": 0.2709,
+   "dnb_casa": 0.5956,
    "intervalo": [
-    0.3309,
-    0.4254,
-    0.2436
+    0.3323,
+    0.4252,
+    0.2425
    ],
    "mercado_1x2": [
     0.477,
@@ -7295,25 +7320,25 @@
   "hora": "00:00",
   "casa": "Detroit Pistons",
   "fora": "Philadelphia 76ers",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.7035,
+   "vencedor": 0.7014,
    "pontos": [
-    115.2131,
-    106.5943
+    114.5706,
+    106.0686
    ],
    "handicap": [
     8.5,
-    0.5029
+    0.5001
    ],
    "total": [
-    221.5,
-    0.506
+    220.5,
+    0.5027
    ],
    "total_80": [
     [
-     195.7406,
-     247.8742
+     194.4583,
+     246.82
     ],
     0.8
    ]
@@ -7329,25 +7354,25 @@
   "hora": "00:00",
   "casa": "Washington Wizards",
   "fora": "Atlanta Hawks",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.28,
+   "vencedor": 0.2937,
    "pontos": [
-    115.0244,
-    124.4188
+    114.3999,
+    123.1292
    ],
    "handicap": [
-    -9.5,
-    0.5026
+    -8.5,
+    0.4943
    ],
    "total": [
-    239.5,
-    0.4989
+    237.5,
+    0.5006
    ],
    "total_80": [
     [
-     213.3764,
-     265.51
+     211.3483,
+     263.7099
     ],
     0.8
    ]
@@ -7363,25 +7388,25 @@
   "hora": "00:30",
   "casa": "Boston Celtics",
   "fora": "Milwaukee Bucks",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.8636,
+   "vencedor": 0.8632,
    "pontos": [
-    120.5593,
-    102.8836
+    120.8345,
+    103.2144
    ],
    "handicap": [
     17.5,
-    0.5043
+    0.503
    ],
    "total": [
-    223.5,
-    0.4989
+    224.5,
+    0.4912
    ],
    "total_80": [
     [
-     197.376,
-     249.5096
+     197.8681,
+     250.2298
     ],
     0.8
    ]
@@ -7397,25 +7422,25 @@
   "hora": "00:30",
   "casa": "Brooklyn Nets",
   "fora": "Charlotte Hornets",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.3733,
+   "vencedor": 0.3846,
    "pontos": [
-    106.3352,
-    111.5446
+    105.6088,
+    110.3307
    ],
    "handicap": [
-    -5.5,
-    0.5072
+    -4.5,
+    0.4945
    ],
    "total": [
-    217.5,
-    0.5074
+    215.5,
+    0.5086
    ],
    "total_80": [
     [
-     191.813,
-     243.9465
+     189.7587,
+     242.1204
     ],
     0.8
    ]
@@ -7431,25 +7456,25 @@
   "hora": "00:30",
   "casa": "New York Knicks",
   "fora": "Chicago Bulls",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.7566,
+   "vencedor": 0.7514,
    "pontos": [
-    121.7964,
-    110.584
+    121.4361,
+    110.5107
    ],
    "handicap": [
-    11.5,
-    0.4929
+    10.5,
+    0.5105
    ],
    "total": [
-    232.5,
-    0.4977
+    231.5,
+    0.5087
    ],
    "total_80": [
     [
-     206.3136,
-     258.4471
+     205.7659,
+     258.1276
     ],
     0.8
    ]
@@ -7465,28 +7490,28 @@
   "hora": "00:30",
   "casa": "Buffalo Sabres",
   "fora": "Ottawa Senators",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5284,
+   "vencedor": 0.5305,
    "60min": [
-    0.4041,
-    0.2387,
-    0.3571
+    0.4074,
+    0.2365,
+    0.3561
    ],
    "golos": [
-    3.1909,
-    3.0276
+    3.2482,
+    3.0697
    ],
-   "prolongamento": 0.2387,
+   "prolongamento": 0.2365,
    "total": [
     6.5,
-    0.4578
+    0.4744
    ],
    "puck_casa": [
     -1.5,
-    0.308
+    0.3117
    ],
-   "ambas": 0.8954
+   "ambas": 0.9002
   },
   "estado": "pendente",
   "resultado": null
@@ -7499,26 +7524,26 @@
   "hora": "00:30",
   "casa": "Florida Panthers",
   "fora": "Chicago Blackhawks",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6471,
+   "vencedor": 0.6553,
    "60min": [
-    0.5304,
-    0.2241,
-    0.2454
+    0.5399,
+    0.2217,
+    0.2384
    ],
    "golos": [
-    3.5645,
-    2.6144
+    3.6072,
+    2.5983
    ],
-   "prolongamento": 0.2241,
+   "prolongamento": 0.2217,
    "total": [
     6.5,
-    0.4499
+    0.4543
    ],
    "puck_casa": [
     -1.5,
-    0.4242
+    0.4335
    ],
    "ambas": 0.8824
   },
@@ -7533,25 +7558,25 @@
   "hora": "01:00",
   "casa": "Memphis Grizzlies",
   "fora": "Indiana Pacers",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.577,
+   "vencedor": 0.5996,
    "pontos": [
-    119.6149,
-    116.4819
+    120.0731,
+    116.0127
    ],
    "handicap": [
-    3.5,
-    0.4909
+    4.5,
+    0.4891
    ],
    "total": [
     236.5,
-    0.4921
+    0.4919
    ],
    "total_80": [
     [
-     210.03,
-     262.1636
+     209.905,
+     262.2666
     ],
     0.8
    ]
@@ -7567,25 +7592,25 @@
   "hora": "01:00",
   "casa": "New Orleans Pelicans",
   "fora": "Utah Jazz",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6076,
+   "vencedor": 0.609,
    "pontos": [
-    122.4307,
-    118.0298
+    122.8373,
+    118.3837
    ],
    "handicap": [
     4.5,
-    0.4975
+    0.4988
    ],
    "total": [
-    240.5,
-    0.4992
+    241.5,
+    0.4946
    ],
    "total_80": [
     [
-     214.3938,
-     266.5273
+     215.0401,
+     267.4018
     ],
     0.8
    ]
@@ -7601,25 +7626,25 @@
   "hora": "01:00",
   "casa": "Oklahoma City Thunder",
   "fora": "Cleveland Cavaliers",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6457,
+   "vencedor": 0.6432,
    "pontos": [
-    116.6762,
-    110.6499
+    116.4893,
+    110.5822
    ],
    "handicap": [
-    6.5,
-    0.4883
+    5.5,
+    0.5101
    ],
    "total": [
     227.5,
-    0.4966
+    0.4916
    ],
    "total_80": [
     [
-     201.2594,
-     253.3929
+     200.8907,
+     253.2524
     ],
     0.8
    ]
@@ -7635,25 +7660,25 @@
   "hora": "01:30",
   "casa": "Houston Rockets",
   "fora": "Minnesota Timberwolves",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6118,
+   "vencedor": 0.6115,
    "pontos": [
-    115.0514,
-    110.4715
+    115.0596,
+    110.5039
    ],
    "handicap": [
     4.5,
-    0.502
+    0.5014
    ],
    "total": [
     225.5,
-    0.5004
+    0.5012
    ],
    "total_80": [
     [
-     199.4561,
-     251.5897
+     199.3827,
+     251.7443
     ],
     0.8
    ]
@@ -7669,25 +7694,25 @@
   "hora": "02:00",
   "casa": "Denver Nuggets",
   "fora": "Toronto Raptors",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4816,
+   "vencedor": 0.4914,
    "pontos": [
-    114.8174,
-    115.5613
+    115.204,
+    115.5511
    ],
    "handicap": [
     -0.5,
-    0.494
+    0.5038
    ],
    "total": [
     230.5,
-    0.4976
+    0.505
    ],
    "total_80": [
     [
-     204.3119,
-     256.4455
+     204.5743,
+     256.936
     ],
     0.8
    ]
@@ -7703,25 +7728,25 @@
   "hora": "02:00",
   "casa": "Phoenix Suns",
   "fora": "Portland Trail Blazers",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4523,
+   "vencedor": 0.4745,
    "pontos": [
-    111.352,
-    113.285
+    111.7196,
+    112.75
    ],
    "handicap": [
     -1.5,
-    0.4893
+    0.5116
    ],
    "total": [
     224.5,
-    0.5027
+    0.4994
    ],
    "total_80": [
     [
-     198.5702,
-     250.7037
+     198.2887,
+     250.6504
     ],
     0.8
    ]
@@ -7737,25 +7762,25 @@
   "hora": "02:30",
   "casa": "San Antonio Spurs",
   "fora": "Dallas Mavericks",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.7798,
+   "vencedor": 0.7784,
    "pontos": [
-    121.2539,
-    108.8182
+    121.2212,
+    108.8805
    ],
    "handicap": [
     12.5,
-    0.4984
+    0.4961
    ],
    "total": [
     230.5,
-    0.4916
+    0.4922
    ],
    "total_80": [
     [
-     204.0053,
-     256.1389
+     203.9209,
+     256.2826
     ],
     0.8
    ]
@@ -7771,25 +7796,25 @@
   "hora": "03:00",
   "casa": "Sacramento Kings",
   "fora": "Los Angeles Lakers",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.2791,
+   "vencedor": 0.2755,
    "pontos": [
-    109.4453,
-    118.8833
+    109.7112,
+    119.3054
    ],
    "handicap": [
     -9.5,
-    0.5015
+    0.4977
    ],
    "total": [
-    228.5,
-    0.4966
+    229.5,
+    0.4906
    ],
    "total_80": [
     [
-     202.2617,
-     254.3953
+     202.8357,
+     255.1974
     ],
     0.8
    ]
@@ -7805,28 +7830,28 @@
   "hora": "03:00",
   "casa": "Los Angeles Kings",
   "fora": "San Jose Sharks",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5498,
+   "vencedor": 0.5541,
    "60min": [
-    0.4248,
-    0.2402,
-    0.335
+    0.4297,
+    0.2389,
+    0.3314
    ],
    "golos": [
-    3.2001,
-    2.9003
+    3.2362,
+    2.9078
    ],
-   "prolongamento": 0.2402,
+   "prolongamento": 0.2389,
    "total": [
     6.5,
-    0.4377
+    0.4451
    ],
    "puck_casa": [
     -1.5,
-    0.3255
+    0.3303
    ],
-   "ambas": 0.8885
+   "ambas": 0.8906
   },
   "estado": "pendente",
   "resultado": null
@@ -7839,28 +7864,28 @@
   "hora": "03:00",
   "casa": "Seattle Kraken",
   "fora": "Calgary Flames",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "vencedor": 0.5992,
    "60min": [
-    0.4785,
-    0.2318,
-    0.2897
+    0.4787,
+    0.2315,
+    0.2898
    ],
    "golos": [
-    3.4328,
-    2.804
+    3.4409,
+    2.811
    ],
-   "prolongamento": 0.2318,
+   "prolongamento": 0.2315,
    "total": [
     6.5,
-    0.4604
+    0.4629
    ],
    "puck_casa": [
     -1.5,
-    0.3757
+    0.376
    ],
-   "ambas": 0.8919
+   "ambas": 0.8926
   },
   "estado": "pendente",
   "resultado": null
@@ -7873,25 +7898,25 @@
   "hora": "03:30",
   "casa": "LA Clippers",
   "fora": "Miami Heat",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5654,
+   "vencedor": 0.5641,
    "pontos": [
-    118.955,
-    116.2992
+    118.9751,
+    116.3785
    ],
    "handicap": [
     2.5,
-    0.5039
+    0.5024
    ],
    "total": [
     235.5,
-    0.4952
+    0.4971
    ],
    "total_80": [
     [
-     209.1874,
-     261.3209
+     209.1728,
+     261.5344
     ],
     0.8
    ]
@@ -7907,25 +7932,25 @@
   "hora": "08:30",
   "casa": "Cairns Taipans",
   "fora": "Illawarra Hawks",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5459,
+   "vencedor": 0.5437,
    "pontos": [
-    98.74,
-    97.0224
+    98.6744,
+    97.0563
    ],
    "handicap": [
     1.5,
-    0.5058
+    0.5032
    ],
    "total": [
     195.5,
-    0.5057
+    0.5048
    ],
    "total_80": [
     [
-     172.1592,
-     219.3657
+     171.0239,
+     220.4374
     ],
     0.8
    ]
@@ -7941,25 +7966,25 @@
   "hora": "10:00",
   "casa": "Ulsan Hyundai Mobis Phoebus",
   "fora": "Seoul Samsung Thunders",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4373,
+   "vencedor": 0.4197,
    "pontos": [
-    80.1403,
-    82.1365
+    80.2557,
+    82.8188
    ],
    "handicap": [
-    -1.5,
-    0.4844
+    -2.5,
+    0.498
    ],
    "total": [
-    162.5,
-    0.4952
+    163.5,
+    0.4909
    ],
    "total_80": [
     [
-     138.3571,
-     186.1965
+     139.1483,
+     187.0006
     ],
     0.8
    ]
@@ -7975,26 +8000,26 @@
   "hora": "13:25",
   "casa": "Al Kholood",
   "fora": "Al Khaleej",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.3455,
-    0.2581,
-    0.3963
+    0.349,
+    0.2595,
+    0.3914
    ],
    "golos": [
-    1.626,
-    1.748
+    1.6196,
+    1.7208
    ],
-   "ambas": 0.679,
-   "mais_1.5": 0.8658,
-   "mais_2.5": 0.6552,
-   "mais_3.5": 0.436,
-   "dnb_casa": 0.4657,
+   "ambas": 0.6741,
+   "mais_1.5": 0.8618,
+   "mais_2.5": 0.6486,
+   "mais_3.5": 0.4286,
+   "dnb_casa": 0.4714,
    "intervalo": [
-    0.3034,
-    0.3684,
-    0.3282
+    0.3049,
+    0.3707,
+    0.3244
    ]
   },
   "estado": "pendente",
@@ -8008,26 +8033,26 @@
   "hora": "15:10",
   "casa": "Abha",
   "fora": "Al Shabab",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.1461,
-    0.2894,
-    0.5645
+    0.1447,
+    0.2775,
+    0.5779
    ],
    "golos": [
-    0.6922,
-    1.5617
+    0.7264,
+    1.6503
    ],
-   "ambas": 0.4129,
-   "mais_1.5": 0.6765,
-   "mais_2.5": 0.3917,
-   "mais_3.5": 0.1913,
-   "dnb_casa": 0.2056,
+   "ambas": 0.4348,
+   "mais_1.5": 0.704,
+   "mais_2.5": 0.4242,
+   "mais_3.5": 0.2164,
+   "dnb_casa": 0.2002,
    "intervalo": [
-    0.1477,
-    0.4525,
-    0.3997
+    0.1496,
+    0.4377,
+    0.4127
    ]
   },
   "estado": "pendente",
@@ -8041,25 +8066,25 @@
   "hora": "17:00",
   "casa": "Spartak Office Shoes",
   "fora": "Zadar",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6748,
+   "vencedor": 0.6634,
    "pontos": [
-    81.6951,
-    76.8829
+    81.6601,
+    77.094
    ],
    "handicap": [
     4.5,
-    0.5117
+    0.5024
    ],
    "total": [
     158.5,
-    0.5019
+    0.5063
    ],
    "total_80": [
     [
-     137.8723,
-     179.2837
+     138.0883,
+     179.42
     ],
     0.8
    ]
@@ -8075,25 +8100,25 @@
   "hora": "17:15",
   "casa": "Anadolu Efes Istanbul",
   "fora": "Paris Basketball",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5859,
+   "vencedor": 0.6296,
    "pontos": [
-    89.3293,
-    86.9168
+    89.5044,
+    85.8159
    ],
    "handicap": [
-    2.5,
-    0.4969
+    3.5,
+    0.5067
    ],
    "total": [
-    176.5,
-    0.4942
+    175.5,
+    0.4959
    ],
    "total_80": [
     [
-     153.7033,
-     198.7889
+     152.9493,
+     197.6912
     ],
     0.8
    ]
@@ -8109,26 +8134,26 @@
   "hora": "17:30",
   "casa": "Al Qadsiah",
   "fora": "Al Fayha",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.7885,
-    0.1479,
-    0.0637
+    0.7911,
+    0.1467,
+    0.0622
    ],
    "golos": [
-    2.8114,
-    0.7567
+    2.81,
+    0.7432
    ],
-   "ambas": 0.5085,
-   "mais_1.5": 0.8809,
-   "mais_2.5": 0.6918,
-   "mais_3.5": 0.4782,
-   "dnb_casa": 0.9253,
+   "ambas": 0.5023,
+   "mais_1.5": 0.8792,
+   "mais_2.5": 0.6891,
+   "mais_3.5": 0.475,
+   "dnb_casa": 0.9272,
    "intervalo": [
-    0.6032,
+    0.6049,
     0.2992,
-    0.0976
+    0.0959
    ]
   },
   "estado": "pendente",
@@ -8142,25 +8167,25 @@
   "hora": "18:00",
   "casa": "Fenerbahce Tarfin Istanbul",
   "fora": "Kosner Baskonia Vitoria-Gasteiz",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.8735,
+   "vencedor": 0.8866,
    "pontos": [
-    89.2153,
-    76.5048
+    89.2733,
+    75.7963
    ],
    "handicap": [
-    12.5,
-    0.5075
+    13.5,
+    0.4992
    ],
    "total": [
     165.5,
-    0.505
+    0.4902
    ],
    "total_80": [
     [
-     143.1773,
-     188.2629
+     142.6987,
+     187.4406
     ],
     0.8
    ]
@@ -8176,25 +8201,25 @@
   "hora": "18:45",
   "casa": "Hapoel IBI Tel Aviv",
   "fora": "FC Barcelona",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.7138,
+   "vencedor": 0.6859,
    "pontos": [
-    90.0912,
-    83.8138
+    89.9856,
+    84.5844
    ],
    "handicap": [
-    6.5,
-    0.492
+    5.5,
+    0.4965
    ],
    "total": [
-    173.5,
-    0.5092
+    174.5,
+    0.5016
    ],
    "total_80": [
     [
-     151.3622,
-     196.4478
+     152.1991,
+     196.941
     ],
     0.8
    ]
@@ -8210,25 +8235,25 @@
   "hora": "19:00",
   "casa": "LDLC ASVEL Villeurbanne",
   "fora": "FC Bayern Munich",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5921,
+   "vencedor": 0.6153,
    "pontos": [
-    88.6078,
-    86.018
+    88.6229,
+    85.3539
    ],
    "handicap": [
-    2.5,
-    0.5032
+    3.5,
+    0.4917
    ],
    "total": [
-    174.5,
-    0.5029
+    173.5,
+    0.5109
    ],
    "total_80": [
     [
-     152.083,
-     197.1686
+     151.6058,
+     196.3477
     ],
     0.8
    ]
@@ -8244,25 +8269,25 @@
   "hora": "19:30",
   "casa": "Armani Olimpia Milan",
   "fora": "Valencia Basket",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.2159,
+   "vencedor": 0.2659,
    "pontos": [
-    85.9783,
-    94.7195
+    86.5632,
+    93.536
    ],
    "handicap": [
-    -8.5,
-    0.4913
+    -6.5,
+    0.4831
    ],
    "total": [
     180.5,
-    0.5045
+    0.4908
    ],
    "total_80": [
     [
-     158.1551,
-     203.2406
+     157.7283,
+     202.4702
     ],
     0.8
    ]
@@ -8278,25 +8303,25 @@
   "hora": "20:00",
   "casa": "La Laguna Tenerife",
   "fora": "U-BT Cluj-Napoca",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.7916,
+   "vencedor": 0.7912,
    "pontos": [
-    95.3286,
-    85.0806
+    95.3133,
+    85.0792
    ],
    "handicap": [
     10.5,
-    0.492
+    0.4916
    ],
    "total": [
     180.5,
-    0.4977
+    0.4972
    ],
    "total_80": [
     [
-     160.4769,
-     200.3415
+     160.457,
+     200.3279
     ],
     0.8
    ]
@@ -8414,28 +8439,28 @@
   "hora": "00:00",
   "casa": "Columbus Blue Jackets",
   "fora": "Dallas Stars",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4352,
+   "vencedor": 0.4485,
    "60min": [
-    0.31,
-    0.2405,
-    0.4495
+    0.323,
+    0.2411,
+    0.4359
    ],
    "golos": [
-    2.7779,
-    3.2132
+    2.8351,
+    3.1854
    ],
-   "prolongamento": 0.2405,
+   "prolongamento": 0.2411,
    "total": [
-    5.5,
-    0.5202
+    6.5,
+    0.4241
    ],
    "puck_casa": [
     -1.5,
-    0.2254
+    0.2365
    ],
-   "ambas": 0.881
+   "ambas": 0.8836
   },
   "estado": "pendente",
   "resultado": null
@@ -8448,28 +8473,28 @@
   "hora": "00:00",
   "casa": "Detroit Red Wings",
   "fora": "Vegas Golden Knights",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4389,
+   "vencedor": 0.4494,
    "60min": [
-    0.3152,
-    0.2377,
-    0.4471
+    0.3254,
+    0.2382,
+    0.4363
    ],
    "golos": [
-    2.8585,
-    3.2734
+    2.9023,
+    3.2495
    ],
-   "prolongamento": 0.2377,
+   "prolongamento": 0.2382,
    "total": [
     6.5,
-    0.4429
+    0.4464
    ],
    "puck_casa": [
     -1.5,
-    0.2307
+    0.2394
    ],
-   "ambas": 0.8889
+   "ambas": 0.8907
   },
   "estado": "pendente",
   "resultado": null
@@ -8482,28 +8507,28 @@
   "hora": "00:00",
   "casa": "Montreal Canadiens",
   "fora": "Utah Mammoth",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5414,
+   "vencedor": 0.5521,
    "60min": [
-    0.418,
-    0.2369,
-    0.3451
+    0.4295,
+    0.2356,
+    0.3349
    ],
    "golos": [
-    3.2617,
-    3.013
+    3.3105,
+    2.9906
    ],
-   "prolongamento": 0.2369,
+   "prolongamento": 0.2356,
    "total": [
     6.5,
-    0.4672
+    0.4715
    ],
    "puck_casa": [
     -1.5,
-    0.3208
+    0.3313
    ],
-   "ambas": 0.8978
+   "ambas": 0.8986
   },
   "estado": "pendente",
   "resultado": null
@@ -8516,28 +8541,28 @@
   "hora": "00:00",
   "casa": "New Jersey Devils",
   "fora": "St. Louis Blues",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5112,
+   "vencedor": 0.5117,
    "60min": [
-    0.3862,
-    0.2402,
-    0.3736
+    0.3868,
+    0.2398,
+    0.3733
    ],
    "golos": [
-    3.1094,
-    3.058
+    3.1196,
+    3.0651
    ],
-   "prolongamento": 0.2402,
+   "prolongamento": 0.2398,
    "total": [
     6.5,
-    0.4492
+    0.4521
    ],
    "puck_casa": [
     -1.5,
-    0.2917
+    0.2925
    ],
-   "ambas": 0.8931
+   "ambas": 0.894
   },
   "estado": "pendente",
   "resultado": null
@@ -8550,28 +8575,28 @@
   "hora": "00:00",
   "casa": "New York Islanders",
   "fora": "Carolina Hurricanes",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.409,
+   "vencedor": 0.4113,
    "60min": [
-    0.287,
-    0.2344,
-    0.4786
+    0.2894,
+    0.2343,
+    0.4763
    ],
    "golos": [
-    2.7516,
-    3.3615
+    2.7688,
+    3.3644
    ],
-   "prolongamento": 0.2344,
+   "prolongamento": 0.2343,
    "total": [
     6.5,
-    0.4394
+    0.4429
    ],
    "puck_casa": [
     -1.5,
-    0.2072
+    0.2092
    ],
-   "ambas": 0.8853
+   "ambas": 0.8866
   },
   "estado": "pendente",
   "resultado": null
@@ -8584,28 +8609,28 @@
   "hora": "00:00",
   "casa": "New York Rangers",
   "fora": "Philadelphia Flyers",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5642,
+   "vencedor": 0.5643,
    "60min": [
-    0.4392,
-    0.2402,
+    0.4394,
+    0.24,
     0.3206
    ],
    "golos": [
-    3.2186,
-    2.8271
+    3.2245,
+    2.8321
    ],
-   "prolongamento": 0.2402,
+   "prolongamento": 0.24,
    "total": [
     6.5,
-    0.4284
+    0.4302
    ],
    "puck_casa": [
     -1.5,
-    0.338
+    0.3383
    ],
-   "ambas": 0.8847
+   "ambas": 0.8853
   },
   "estado": "pendente",
   "resultado": null
@@ -8618,28 +8643,28 @@
   "hora": "00:00",
   "casa": "Pittsburgh Penguins",
   "fora": "Boston Bruins",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4496,
+   "vencedor": 0.4621,
    "60min": [
-    0.3274,
-    0.2347,
-    0.4379
+    0.3395,
+    0.2355,
+    0.425
    ],
    "golos": [
-    2.984,
-    3.3338
+    3.0287,
+    3.2967
    ],
-   "prolongamento": 0.2347,
+   "prolongamento": 0.2355,
    "total": [
     6.5,
-    0.4743
+    0.4756
    ],
    "puck_casa": [
     -1.5,
-    0.2422
+    0.2525
    ],
-   "ambas": 0.899
+   "ambas": 0.9
   },
   "estado": "pendente",
   "resultado": null
@@ -8652,28 +8677,28 @@
   "hora": "00:00",
   "casa": "Tampa Bay Lightning",
   "fora": "Chicago Blackhawks",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.7115,
+   "vencedor": 0.7116,
    "60min": [
-    0.6053,
-    0.204,
+    0.6055,
+    0.2037,
     0.1907
    ],
    "golos": [
-    3.8505,
-    2.4283
+    3.8591,
+    2.4346
    ],
-   "prolongamento": 0.204,
+   "prolongamento": 0.2037,
    "total": [
     6.5,
-    0.4655
+    0.4681
    ],
    "puck_casa": [
     -1.5,
-    0.4988
+    0.4992
    ],
-   "ambas": 0.8739
+   "ambas": 0.8747
   },
   "estado": "pendente",
   "resultado": null
@@ -8686,28 +8711,28 @@
   "hora": "01:00",
   "casa": "Edmonton Oilers",
   "fora": "Anaheim Ducks",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5965,
+   "vencedor": 0.5964,
    "60min": [
-    0.4785,
-    0.2268,
-    0.2948
+    0.4789,
+    0.2256,
+    0.2954
    ],
    "golos": [
-    3.5632,
-    2.9396
+    3.5937,
+    2.9681
    ],
-   "prolongamento": 0.2268,
+   "prolongamento": 0.2256,
    "total": [
     6.5,
-    0.5047
+    0.5143
    ],
    "puck_casa": [
     -1.5,
-    0.3779
+    0.3788
    ],
-   "ambas": 0.9048
+   "ambas": 0.9074
   },
   "estado": "pendente",
   "resultado": null
@@ -8720,28 +8745,28 @@
   "hora": "01:00",
   "casa": "Winnipeg Jets",
   "fora": "Vancouver Canucks",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6213,
+   "vencedor": 0.6133,
    "60min": [
-    0.503,
-    0.2272,
-    0.2698
+    0.4944,
+    0.2284,
+    0.2772
    ],
    "golos": [
-    3.5339,
-    2.7534
+    3.5115,
+    2.7845
    ],
-   "prolongamento": 0.2272,
+   "prolongamento": 0.2284,
    "total": [
     6.5,
-    0.4686
+    0.4702
    ],
    "puck_casa": [
     -1.5,
-    0.3991
+    0.3911
    ],
-   "ambas": 0.8919
+   "ambas": 0.8933
   },
   "estado": "pendente",
   "resultado": null
@@ -8754,25 +8779,25 @@
   "hora": "02:00",
   "casa": "Phoenix Suns",
   "fora": "Orlando Magic",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5059,
+   "vencedor": 0.4933,
    "pontos": [
-    111.9318,
-    111.6921
+    111.9137,
+    112.1828
    ],
    "handicap": [
-    0.5,
-    0.4936
+    -0.5,
+    0.5057
    ],
    "total": [
-    223.5,
-    0.5024
+    224.5,
+    0.4921
    ],
    "total_80": [
     [
-     197.557,
-     249.6906
+     197.9157,
+     250.2774
     ],
     0.8
    ]
@@ -8788,28 +8813,28 @@
   "hora": "02:30",
   "casa": "Colorado Avalanche",
   "fora": "Nashville Predators",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6231,
+   "vencedor": 0.6253,
    "60min": [
-    0.5055,
-    0.226,
-    0.2685
+    0.5081,
+    0.2251,
+    0.2668
    ],
    "golos": [
-    3.5607,
-    2.7652
+    3.5804,
+    2.7687
    ],
-   "prolongamento": 0.226,
+   "prolongamento": 0.2251,
    "total": [
     6.5,
-    0.4751
+    0.4789
    ],
    "puck_casa": [
     -1.5,
-    0.4018
+    0.4044
    ],
-   "ambas": 0.8936
+   "ambas": 0.8944
   },
   "estado": "pendente",
   "resultado": null
@@ -8822,25 +8847,25 @@
   "hora": "03:00",
   "casa": "Golden State Warriors",
   "fora": "Miami Heat",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5432,
+   "vencedor": 0.5414,
    "pontos": [
-    121.15,
-    119.4008
+    121.197,
+    119.5228
    ],
    "handicap": [
     1.5,
-    0.5062
+    0.5043
    ],
    "total": [
     240.5,
-    0.501
+    0.5043
    ],
    "total_80": [
     [
-     214.484,
-     266.6175
+     214.5389,
+     266.9006
     ],
     0.8
    ]
@@ -8856,25 +8881,25 @@
   "hora": "08:30",
   "casa": "Tasmania JackJumpers",
   "fora": "New Zealand Breakers",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4941,
+   "vencedor": 0.5092,
    "pontos": [
-    90.6739,
-    90.8945
+    90.4253,
+    90.0863
    ],
    "handicap": [
-    -0.5,
-    0.5075
+    0.5,
+    0.4956
    ],
    "total": [
-    181.5,
-    0.5015
+    180.5,
+    0.5002
    ],
    "total_80": [
     [
-     157.9651,
-     205.1716
+     155.8048,
+     205.2183
     ],
     0.8
    ]
@@ -8890,25 +8915,25 @@
   "hora": "10:00",
   "casa": "Anyang Jung Kwan Jang Red Boosters",
   "fora": "Seoul SK Knights",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5777,
+   "vencedor": 0.575,
    "pontos": [
-    76.008,
-    73.5279
+    75.8786,
+    73.4867
    ],
    "handicap": [
     2.5,
-    0.4994
+    0.4966
    ],
    "total": [
     149.5,
-    0.5008
+    0.4971
    ],
    "total_80": [
     [
-     125.6161,
-     173.4555
+     125.4391,
+     173.2914
     ],
     0.8
    ]
@@ -8924,25 +8949,25 @@
   "hora": "10:05",
   "casa": "Chiba Jets",
   "fora": "Altiri Chiba",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6984,
+   "vencedor": 0.6999,
    "pontos": [
-    89.9861,
-    82.3764
+    90.2573,
+    82.5695
    ],
    "handicap": [
     7.5,
-    0.503
+    0.5051
    ],
    "total": [
     172.5,
-    0.497
+    0.5072
    ],
    "total_80": [
     [
-     149.0154,
-     195.7098
+     149.5312,
+     196.1223
     ],
     0.8
    ]
@@ -8958,16 +8983,16 @@
   "hora": "10:05",
   "casa": "Hiroshima Dragonflies",
   "fora": "Nagasaki Velca",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.498,
+   "vencedor": 0.5028,
    "pontos": [
-    84.3294,
-    84.4032
+    84.4171,
+    84.3136
    ],
    "handicap": [
-    -0.5,
-    0.5116
+    0.5,
+    0.4892
    ],
    "total": [
     168.5,
@@ -8975,8 +9000,8 @@
    ],
    "total_80": [
     [
-     145.3854,
-     192.0798
+     145.4352,
+     192.0263
     ],
     0.8
    ]
@@ -8992,25 +9017,25 @@
   "hora": "10:05",
   "casa": "Levanga Hokkaido",
   "fora": "Akita Northern Happinets",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.7813,
+   "vencedor": 0.7842,
    "pontos": [
-    94.7381,
-    83.3699
+    95.099,
+    83.5663
    ],
    "handicap": [
     11.5,
-    0.4964
+    0.5009
    ],
    "total": [
     178.5,
-    0.4914
+    0.5036
    ],
    "total_80": [
     [
-     154.7608,
-     201.4552
+     155.3698,
+     201.9609
     ],
     0.8
    ]
@@ -9026,16 +9051,16 @@
   "hora": "10:05",
   "casa": "SeaHorses Mikawa",
   "fora": "Gunma Crane Thunders",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5049,
+   "vencedor": 0.5107,
    "pontos": [
-    76.7334,
-    76.553
+    76.8398,
+    76.4479
    ],
    "handicap": [
     0.5,
-    0.4913
+    0.4971
    ],
    "total": [
     153.5,
@@ -9043,8 +9068,8 @@
    ],
    "total_80": [
     [
-     129.9392,
-     176.6336
+     129.9922,
+     176.5833
     ],
     0.8
    ]
@@ -9060,25 +9085,25 @@
   "hora": "10:05",
   "casa": "Sendai 89ers",
   "fora": "Alvark Tokyo",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4518,
+   "vencedor": 0.4571,
    "pontos": [
-    83.3864,
-    85.1586
+    83.4084,
+    84.9901
    ],
    "handicap": [
     -1.5,
-    0.4926
+    0.4978
    ],
    "total": [
     168.5,
-    0.501
+    0.4978
    ],
    "total_80": [
     [
-     145.1978,
-     191.8921
+     145.103,
+     191.6941
     ],
     0.8
    ]
@@ -9094,25 +9119,25 @@
   "hora": "10:05",
   "casa": "Shiga Lakes",
   "fora": "Kawasaki Brave Thunders",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6339,
+   "vencedor": 0.6093,
    "pontos": [
-    87.3617,
-    82.3537
+    87.0018,
+    82.932
    ],
    "handicap": [
-    5.5,
-    0.4866
+    4.5,
+    0.4883
    ],
    "total": [
     169.5,
-    0.5047
+    0.5095
    ],
    "total_80": [
     [
-     146.3682,
-     193.0626
+     146.6382,
+     193.2293
     ],
     0.8
    ]
@@ -9128,26 +9153,26 @@
   "hora": "14:30",
   "casa": "Al Fateh",
   "fora": "Al Riyadh",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.4316,
-    0.2906,
-    0.2778
+    0.4354,
+    0.2921,
+    0.2725
    ],
    "golos": [
-    1.5339,
-    1.1968
+    1.5225,
+    1.1678
    ],
-   "ambas": 0.5665,
-   "mais_1.5": 0.776,
-   "mais_2.5": 0.5139,
-   "mais_3.5": 0.2927,
-   "dnb_casa": 0.6084,
+   "ambas": 0.5577,
+   "mais_1.5": 0.7686,
+   "mais_2.5": 0.504,
+   "mais_3.5": 0.2838,
+   "dnb_casa": 0.615,
    "intervalo": [
-    0.3424,
-    0.4156,
-    0.242
+    0.3434,
+    0.419,
+    0.2376
    ]
   },
   "estado": "pendente",
@@ -9161,26 +9186,26 @@
   "hora": "14:55",
   "casa": "Al Hazem",
   "fora": "Al Nassr",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.0803,
-    0.1609,
-    0.7589
+    0.0829,
+    0.1647,
+    0.7524
    ],
    "golos": [
-    0.8566,
-    2.7467
+    0.8551,
+    2.7005
    ],
-   "ambas": 0.5488,
-   "mais_1.5": 0.885,
-   "mais_2.5": 0.698,
-   "mais_3.5": 0.4857,
-   "dnb_casa": 0.0957,
+   "ambas": 0.5466,
+   "mais_1.5": 0.8804,
+   "mais_2.5": 0.6895,
+   "mais_3.5": 0.4755,
+   "dnb_casa": 0.0992,
    "intervalo": [
-    0.1171,
-    0.3098,
-    0.573
+    0.1189,
+    0.3142,
+    0.5669
    ]
   },
   "estado": "pendente",
@@ -9194,25 +9219,25 @@
   "hora": "16:30",
   "casa": "Helsinki Seagulls",
   "fora": "Kouvot",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.7226,
+   "vencedor": 0.6997,
    "pontos": [
-    87.7918,
-    79.5803
+    88.8083,
+    81.4557
    ],
    "handicap": [
-    8.5,
-    0.4917
+    7.5,
+    0.4958
    ],
    "total": [
-    167.5,
-    0.4971
+    170.5,
+    0.495
    ],
    "total_80": [
     [
-     144.4922,
-     190.2521
+     146.0898,
+     194.4381
     ],
     0.8
    ]
@@ -9228,25 +9253,25 @@
   "hora": "17:00",
   "casa": "Besiktas Istanbul",
   "fora": "Zalgiris Kaunas",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.449,
+   "vencedor": 0.4669,
    "pontos": [
-    86.3452,
-    87.7696
+    88.1908,
+    89.1183
    ],
    "handicap": [
-    -1.5,
-    0.5027
+    -0.5,
+    0.4847
    ],
    "total": [
-    174.5,
-    0.4913
+    177.5,
+    0.4956
    ],
    "total_80": [
     [
-     151.572,
-     196.6576
+     154.9382,
+     199.6801
     ],
     0.8
    ]
@@ -9262,7 +9287,7 @@
   "hora": "17:00",
   "casa": "Gaziantep",
   "fora": "Kasimpasa",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.3859,
@@ -9295,26 +9320,26 @@
   "hora": "17:30",
   "casa": "Al Ittihad",
   "fora": "Neom SC",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.4481,
-    0.309,
-    0.2429
+    0.4369,
+    0.3074,
+    0.2557
    ],
    "golos": [
-    1.4154,
-    0.9886
+    1.4124,
+    1.0333
    ],
-   "ambas": 0.4957,
-   "mais_1.5": 0.7127,
-   "mais_2.5": 0.4313,
-   "mais_3.5": 0.2221,
-   "dnb_casa": 0.6485,
+   "ambas": 0.5072,
+   "mais_1.5": 0.7213,
+   "mais_2.5": 0.4422,
+   "mais_3.5": 0.2309,
+   "dnb_casa": 0.6309,
    "intervalo": [
-    0.3421,
-    0.4457,
-    0.2122
+    0.3367,
+    0.4422,
+    0.2211
    ]
   },
   "estado": "pendente",
@@ -9328,25 +9353,25 @@
   "hora": "18:04",
   "casa": "BC Luleå",
   "fora": "Uppsala Basket",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.8437,
+   "vencedor": 0.8546,
    "pontos": [
-    90.4146,
-    76.4155
+    90.6141,
+    76.0258
    ],
    "handicap": [
-    13.5,
-    0.5144
+    14.5,
+    0.5026
    ],
    "total": [
     166.5,
-    0.5082
+    0.5035
    ],
    "total_80": [
     [
-     146.2931,
-     187.3671
+     146.2088,
+     187.0711
     ],
     0.8
    ]
@@ -9362,25 +9387,25 @@
   "hora": "18:04",
   "casa": "Borås Basket",
   "fora": "Södertälje BBK",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.5184,
+   "vencedor": 0.5128,
    "pontos": [
-    82.4865,
-    81.8466
+    82.5388,
+    82.096
    ],
    "handicap": [
     0.5,
-    0.504
+    0.4983
    ],
    "total": [
     164.5,
-    0.4958
+    0.5034
    ],
    "total_80": [
     [
-     143.7961,
-     184.8701
+     144.2037,
+     185.066
     ],
     0.8
    ]
@@ -9396,25 +9421,25 @@
   "hora": "18:04",
   "casa": "Högsbo Lions",
   "fora": "Norrköping Dolphins",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.1898,
+   "vencedor": 0.2024,
    "pontos": [
-    82.7557,
-    94.9368
+    83.0429,
+    94.5482
    ],
    "handicap": [
-    -12.5,
-    0.5092
+    -11.5,
+    0.4998
    ],
    "total": [
     177.5,
-    0.5048
+    0.5023
    ],
    "total_80": [
     [
-     157.1556,
-     198.2295
+     157.16,
+     198.0223
     ],
     0.8
    ]
@@ -9430,25 +9455,25 @@
   "hora": "18:04",
   "casa": "Nässjö Basket",
   "fora": "Köping Stars",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.579,
+   "vencedor": 0.5661,
    "pontos": [
-    90.9043,
-    88.1406
+    90.2536,
+    87.9543
    ],
    "handicap": [
     2.5,
-    0.5076
+    0.4942
    ],
    "total": [
-    179.5,
-    0.4887
+    178.5,
+    0.4927
    ],
    "total_80": [
     [
-     158.5079,
-     199.5818
+     157.7767,
+     198.639
     ],
     0.8
    ]
@@ -9464,25 +9489,25 @@
   "hora": "18:04",
   "casa": "Umeå Basket",
   "fora": "Sloga Uppsala",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.7492,
+   "vencedor": 0.7476,
    "pontos": [
-    88.5639,
-    79.2503
+    88.6882,
+    79.4788
    ],
    "handicap": [
     9.5,
-    0.4946
+    0.4916
    ],
    "total": [
-    167.5,
-    0.5078
+    168.5,
+    0.4917
    ],
    "total_80": [
     [
-     147.2772,
-     188.3511
+     147.7358,
+     188.5981
     ],
     0.8
    ]
@@ -9498,26 +9523,26 @@
   "hora": "18:45",
   "casa": "AFS",
   "fora": "Vizela",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.5262,
+    0.5263,
     0.2451,
-    0.2287
+    0.2286
    ],
    "golos": [
-    1.4415,
-    0.8321
+    1.4416,
+    0.8316
    ],
-   "ambas": 0.4194,
+   "ambas": 0.4193,
    "mais_1.5": 0.6511,
    "mais_2.5": 0.3969,
-   "mais_3.5": 0.1953,
-   "dnb_casa": 0.697,
+   "mais_3.5": 0.1952,
+   "dnb_casa": 0.6972,
    "intervalo": [
     0.365,
-    0.4557,
-    0.1793
+    0.4558,
+    0.1792
    ]
   },
   "estado": "pendente",
@@ -9531,25 +9556,25 @@
   "hora": "19:00",
   "casa": "Boulazac",
   "fora": "Gravelines-Dunkerque",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.7093,
+   "vencedor": 0.7019,
    "pontos": [
-    85.7302,
-    78.5511
+    85.543,
+    78.559
    ],
    "handicap": [
-    7.5,
-    0.4902
+    6.5,
+    0.5146
    ],
    "total": [
     164.5,
-    0.4948
+    0.4906
    ],
    "total_80": [
     [
-     142.9022,
-     185.6604
+     142.4609,
+     185.7431
     ],
     0.8
    ]
@@ -9565,26 +9590,26 @@
   "hora": "19:00",
   "casa": "Willem II",
   "fora": "Zwolle",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.2167,
-    0.2501,
+    0.2502,
     0.5332
    ],
    "golos": [
-    1.1857,
-    1.9336
+    1.1854,
+    1.9331
    ],
-   "ambas": 0.6087,
-   "mais_1.5": 0.8327,
-   "mais_2.5": 0.603,
-   "mais_3.5": 0.3795,
+   "ambas": 0.6086,
+   "mais_1.5": 0.8326,
+   "mais_2.5": 0.6028,
+   "mais_3.5": 0.3793,
    "dnb_casa": 0.289,
    "intervalo": [
-    0.2199,
-    0.3782,
-    0.4019
+    0.2203,
+    0.3788,
+    0.4009
    ]
   },
   "estado": "pendente",
@@ -9598,25 +9623,25 @@
   "hora": "19:15",
   "casa": "Olympiacos Piraeus",
   "fora": "Crvena Zvezda Meridianbet Belgrade",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.7531,
+   "vencedor": 0.7426,
    "pontos": [
-    88.3903,
-    80.7819
+    87.8231,
+    80.5592
    ],
    "handicap": [
     7.5,
-    0.5039
+    0.4916
    ],
    "total": [
-    169.5,
-    0.4926
+    168.5,
+    0.4973
    ],
    "total_80": [
     [
-     146.6294,
-     191.715
+     146.0113,
+     190.7533
     ],
     0.8
    ]
@@ -9632,25 +9657,25 @@
   "hora": "19:30",
   "casa": "Virtus Bologna",
   "fora": "Dubai Basketball",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.4732,
+   "vencedor": 0.4451,
    "pontos": [
-    85.5416,
-    86.2897
+    86.1853,
+    87.7263
    ],
    "handicap": [
-    -0.5,
-    0.4911
+    -1.5,
+    0.4985
    ],
    "total": [
-    171.5,
-    0.5075
+    173.5,
+    0.5094
    ],
    "total_80": [
     [
-     149.2886,
-     194.3742
+     151.5406,
+     196.2825
     ],
     0.8
    ]
@@ -9666,7 +9691,7 @@
   "hora": "19:30",
   "casa": "Hamburg",
   "fora": "M'gladbach",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.4741,
@@ -9699,25 +9724,25 @@
   "hora": "19:45",
   "casa": "Partizan Mozzart Bet Belgrade",
   "fora": "Maccabi Rapyd Tel Aviv",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
-   "vencedor": 0.6898,
+   "vencedor": 0.6982,
    "pontos": [
-    88.8871,
-    83.3805
+    89.1363,
+    83.3462
    ],
    "handicap": [
     5.5,
-    0.5002
+    0.5104
    ],
    "total": [
     172.5,
-    0.4947
+    0.4996
    ],
    "total_80": [
     [
-     149.7248,
-     194.8104
+     150.1116,
+     194.8535
     ],
     0.8
    ]
@@ -9733,7 +9758,7 @@
   "hora": "19:45",
   "casa": "Standard",
   "fora": "Beveren",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.5412,
@@ -9766,7 +9791,7 @@
   "hora": "19:45",
   "casa": "Toulouse",
   "fora": "Strasbourg",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
     0.4701,
@@ -9799,26 +9824,975 @@
   "hora": "19:45",
   "casa": "Venezia",
   "fora": "Udinese",
-  "feita_em": "2026-10-30T20:34Z",
+  "feita_em": "2026-10-31T12:02Z",
   "p": {
    "1x2": [
-    0.3189,
-    0.2579,
-    0.4232
+    0.316,
+    0.2588,
+    0.4252
    ],
    "golos": [
-    1.172,
-    1.3939
+    1.1578,
+    1.3894
    ],
-   "ambas": 0.516,
-   "mais_1.5": 0.7229,
-   "mais_2.5": 0.473,
-   "mais_3.5": 0.2566,
-   "dnb_casa": 0.4297,
+   "ambas": 0.5118,
+   "mais_1.5": 0.7192,
+   "mais_2.5": 0.4682,
+   "mais_3.5": 0.2525,
+   "dnb_casa": 0.4263,
    "intervalo": [
-    0.244,
-    0.4405,
-    0.3155
+    0.2425,
+    0.4424,
+    0.3151
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "futebol|POR|2026-11-06|Famalicao|Arouca",
+  "desporto": "futebol",
+  "liga": "POR",
+  "data": "2026-11-06",
+  "hora": "20:45",
+  "casa": "Famalicao",
+  "fora": "Arouca",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "1x2": [
+    0.4662,
+    0.2481,
+    0.2856
+   ],
+   "golos": [
+    1.3949,
+    1.0193
+   ],
+   "ambas": 0.47,
+   "mais_1.5": 0.6839,
+   "mais_2.5": 0.434,
+   "mais_3.5": 0.2243,
+   "dnb_casa": 0.6201,
+   "intervalo": [
+    0.34,
+    0.4429,
+    0.2171
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|LPB|2026-11-07|SL Benfica|Esgueira Aveiro OLI",
+  "desporto": "basquetebol",
+  "liga": "LPB",
+  "data": "2026-11-07",
+  "hora": null,
+  "casa": "SL Benfica",
+  "fora": "Esgueira Aveiro OLI",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.9775,
+   "pontos": [
+    98.5509,
+    72.5872
+   ],
+   "handicap": [
+    25.5,
+    0.5143
+   ],
+   "total": [
+    171.5,
+    0.4908
+   ],
+   "total_80": [
+    [
+     150.9311,
+     191.3451
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|LPB|2026-11-07|Sporting CP|Vitória SC",
+  "desporto": "basquetebol",
+  "liga": "LPB",
+  "data": "2026-11-07",
+  "hora": null,
+  "casa": "Sporting CP",
+  "fora": "Vitória SC",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.8771,
+   "pontos": [
+    87.4071,
+    72.3824
+   ],
+   "handicap": [
+    15.5,
+    0.4854
+   ],
+   "total": [
+    159.5,
+    0.5073
+   ],
+   "total_80": [
+    [
+     139.5825,
+     179.9965
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|LPB|2026-11-07|UD Oliveirense|Ovarense GAVEX",
+  "desporto": "basquetebol",
+  "liga": "LPB",
+  "data": "2026-11-07",
+  "hora": null,
+  "casa": "UD Oliveirense",
+  "fora": "Ovarense GAVEX",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.5317,
+   "pontos": [
+    80.8269,
+    79.7984
+   ],
+   "handicap": [
+    1.5,
+    0.4855
+   ],
+   "total": [
+    160.5,
+    0.5032
+   ],
+   "total_80": [
+    [
+     140.4183,
+     180.8323
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|NBA|2026-11-07|Atlanta Hawks|Washington Wizards",
+  "desporto": "basquetebol",
+  "liga": "NBA",
+  "data": "2026-11-07",
+  "hora": "00:00",
+  "casa": "Atlanta Hawks",
+  "fora": "Washington Wizards",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.771,
+   "pontos": [
+    124.735,
+    112.7941
+   ],
+   "handicap": [
+    11.5,
+    0.5109
+   ],
+   "total": [
+    237.5,
+    0.5006
+   ],
+   "total_80": [
+    [
+     211.3483,
+     263.7099
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|NBA|2026-11-07|Charlotte Hornets|Boston Celtics",
+  "desporto": "basquetebol",
+  "liga": "NBA",
+  "data": "2026-11-07",
+  "hora": "00:00",
+  "casa": "Charlotte Hornets",
+  "fora": "Boston Celtics",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.3232,
+   "pontos": [
+    103.3036,
+    110.6839
+   ],
+   "handicap": [
+    -7.5,
+    0.503
+   ],
+   "total": [
+    213.5,
+    0.5095
+   ],
+   "total_80": [
+    [
+     187.8067,
+     240.1684
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "hoquei|NHL|2026-11-07|Buffalo Sabres|Columbus Blue Jackets",
+  "desporto": "hoquei",
+  "liga": "NHL",
+  "data": "2026-11-07",
+  "hora": "00:00",
+  "casa": "Buffalo Sabres",
+  "fora": "Columbus Blue Jackets",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.5969,
+   "60min": [
+    0.4761,
+    0.2321,
+    0.2918
+   ],
+   "golos": [
+    3.4259,
+    2.8123
+   ],
+   "prolongamento": 0.2321,
+   "total": [
+    6.5,
+    0.4606
+   ],
+   "puck_casa": [
+    -1.5,
+    0.3734
+   ],
+   "ambas": 0.8922
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|NBA|2026-11-07|Cleveland Cavaliers|Philadelphia 76ers",
+  "desporto": "basquetebol",
+  "liga": "NBA",
+  "data": "2026-11-07",
+  "hora": "00:30",
+  "casa": "Cleveland Cavaliers",
+  "fora": "Philadelphia 76ers",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.5928,
+   "pontos": [
+    117.1363,
+    113.3605
+   ],
+   "handicap": [
+    3.5,
+    0.5068
+   ],
+   "total": [
+    230.5,
+    0.4999
+   ],
+   "total_80": [
+    [
+     204.316,
+     256.6777
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|NBA|2026-11-07|Dallas Mavericks|Utah Jazz",
+  "desporto": "basquetebol",
+  "liga": "NBA",
+  "data": "2026-11-07",
+  "hora": "01:00",
+  "casa": "Dallas Mavericks",
+  "fora": "Utah Jazz",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.6101,
+   "pontos": [
+    122.7235,
+    118.2264
+   ],
+   "handicap": [
+    4.5,
+    0.4999
+   ],
+   "total": [
+    240.5,
+    0.5088
+   ],
+   "total_80": [
+    [
+     214.7691,
+     267.1307
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|NBA|2026-11-07|Memphis Grizzlies|Oklahoma City Thunder",
+  "desporto": "basquetebol",
+  "liga": "NBA",
+  "data": "2026-11-07",
+  "hora": "01:00",
+  "casa": "Memphis Grizzlies",
+  "fora": "Oklahoma City Thunder",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.3334,
+   "pontos": [
+    109.9824,
+    116.9116
+   ],
+   "handicap": [
+    -6.5,
+    0.4894
+   ],
+   "total": [
+    226.5,
+    0.5077
+   ],
+   "total_80": [
+    [
+     200.7131,
+     253.0748
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|NBA|2026-11-07|Milwaukee Bucks|Toronto Raptors",
+  "desporto": "basquetebol",
+  "liga": "NBA",
+  "data": "2026-11-07",
+  "hora": "01:00",
+  "casa": "Milwaukee Bucks",
+  "fora": "Toronto Raptors",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.2521,
+   "pontos": [
+    108.0032,
+    118.75
+   ],
+   "handicap": [
+    -10.5,
+    0.4939
+   ],
+   "total": [
+    226.5,
+    0.5049
+   ],
+   "total_80": [
+    [
+     200.5724,
+     252.9341
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|NBA|2026-11-07|New Orleans Pelicans|Minnesota Timberwolves",
+  "desporto": "basquetebol",
+  "liga": "NBA",
+  "data": "2026-11-07",
+  "hora": "01:00",
+  "casa": "New Orleans Pelicans",
+  "fora": "Minnesota Timberwolves",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.3876,
+   "pontos": [
+    114.3466,
+    118.9432
+   ],
+   "handicap": [
+    -4.5,
+    0.4976
+   ],
+   "total": [
+    233.5,
+    0.4959
+   ],
+   "total_80": [
+    [
+     207.1089,
+     259.4706
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "hoquei|NHL|2026-11-07|Calgary Flames|Anaheim Ducks",
+  "desporto": "hoquei",
+  "liga": "NHL",
+  "data": "2026-11-07",
+  "hora": "01:00",
+  "casa": "Calgary Flames",
+  "fora": "Anaheim Ducks",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.4715,
+   "60min": [
+    0.3484,
+    0.2365,
+    0.4151
+   ],
+   "golos": [
+    3.0486,
+    3.2547
+   ],
+   "prolongamento": 0.2365,
+   "total": [
+    6.5,
+    0.472
+   ],
+   "puck_casa": [
+    -1.5,
+    0.26
+   ],
+   "ambas": 0.8993
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "hoquei|NHL|2026-11-07|Minnesota Wild|San Jose Sharks",
+  "desporto": "hoquei",
+  "liga": "NHL",
+  "data": "2026-11-07",
+  "hora": "01:00",
+  "casa": "Minnesota Wild",
+  "fora": "San Jose Sharks",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.6701,
+   "60min": [
+    0.5572,
+    0.2169,
+    0.2259
+   ],
+   "golos": [
+    3.6867,
+    2.5693
+   ],
+   "prolongamento": 0.2169,
+   "total": [
+    6.5,
+    0.4625
+   ],
+   "puck_casa": [
+    -1.5,
+    0.4508
+   ],
+   "ambas": 0.8823
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|NBA|2026-11-07|Los Angeles Lakers|Portland Trail Blazers",
+  "desporto": "basquetebol",
+  "liga": "NBA",
+  "data": "2026-11-07",
+  "hora": "03:00",
+  "casa": "Los Angeles Lakers",
+  "fora": "Portland Trail Blazers",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.5251,
+   "pontos": [
+    113.9839,
+    112.9709
+   ],
+   "handicap": [
+    1.5,
+    0.4879
+   ],
+   "total": [
+    226.5,
+    0.5089
+   ],
+   "total_80": [
+    [
+     200.7739,
+     253.1356
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|NBA|2026-11-07|Sacramento Kings|San Antonio Spurs",
+  "desporto": "basquetebol",
+  "liga": "NBA",
+  "data": "2026-11-07",
+  "hora": "03:00",
+  "casa": "Sacramento Kings",
+  "fora": "San Antonio Spurs",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.156,
+   "pontos": [
+    106.1798,
+    122.4476
+   ],
+   "handicap": [
+    -16.5,
+    0.5058
+   ],
+   "total": [
+    228.5,
+    0.5025
+   ],
+   "total_80": [
+    [
+     202.4465,
+     254.8082
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|KBL|2026-11-07|Changwon LG Sakers|Goyang Sono Skygunners",
+  "desporto": "basquetebol",
+  "liga": "KBL",
+  "data": "2026-11-07",
+  "hora": "05:00",
+  "casa": "Changwon LG Sakers",
+  "fora": "Goyang Sono Skygunners",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.5576,
+   "pontos": [
+    81.6858,
+    79.8536
+   ],
+   "handicap": [
+    1.5,
+    0.5105
+   ],
+   "total": [
+    161.5,
+    0.5008
+   ],
+   "total_80": [
+    [
+     137.6133,
+     185.4655
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|KBL|2026-11-07|Wonju DB Promy|Seoul Samsung Thunders",
+  "desporto": "basquetebol",
+  "liga": "KBL",
+  "data": "2026-11-07",
+  "hora": "05:00",
+  "casa": "Wonju DB Promy",
+  "fora": "Seoul Samsung Thunders",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.5359,
+   "pontos": [
+    86.9265,
+    85.786
+   ],
+   "handicap": [
+    1.5,
+    0.4887
+   ],
+   "total": [
+    172.5,
+    0.5045
+   ],
+   "total_80": [
+    [
+     148.7863,
+     196.6386
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|BLG|2026-11-07|Toyama Grouses|Nagoya Diamond Dolphins",
+  "desporto": "basquetebol",
+  "liga": "BLG",
+  "data": "2026-11-07",
+  "hora": "06:05",
+  "casa": "Toyama Grouses",
+  "fora": "Nagoya Diamond Dolphins",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.196,
+   "pontos": [
+    76.5854,
+    89.1412
+   ],
+   "handicap": [
+    -12.5,
+    0.4985
+   ],
+   "total": [
+    165.5,
+    0.505
+   ],
+   "total_80": [
+    [
+     142.4311,
+     189.0222
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|BLG|2026-11-07|Yokohama B-Corsairs|Kobe Storks",
+  "desporto": "basquetebol",
+  "liga": "BLG",
+  "data": "2026-11-07",
+  "hora": "06:05",
+  "casa": "Yokohama B-Corsairs",
+  "fora": "Kobe Storks",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.5874,
+   "pontos": [
+    81.9452,
+    78.7058
+   ],
+   "handicap": [
+    3.5,
+    0.4929
+   ],
+   "total": [
+    160.5,
+    0.5033
+   ],
+   "total_80": [
+    [
+     137.3555,
+     183.9466
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|NBL|2026-11-07|Adelaide 36ers|Illawarra Hawks",
+  "desporto": "basquetebol",
+  "liga": "NBL",
+  "data": "2026-11-07",
+  "hora": "06:30",
+  "casa": "Adelaide 36ers",
+  "fora": "Illawarra Hawks",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.6952,
+   "pontos": [
+    101.415,
+    93.8869
+   ],
+   "handicap": [
+    7.5,
+    0.5008
+   ],
+   "total": [
+    195.5,
+    0.4959
+   ],
+   "total_80": [
+    [
+     170.5952,
+     220.0087
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|BLG|2026-11-07|Utsunomiya Brex|Ryukyu Golden Kings",
+  "desporto": "basquetebol",
+  "liga": "BLG",
+  "data": "2026-11-07",
+  "hora": "07:00",
+  "casa": "Utsunomiya Brex",
+  "fora": "Ryukyu Golden Kings",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.3918,
+   "pontos": [
+    78.0024,
+    82.0298
+   ],
+   "handicap": [
+    -4.5,
+    0.5129
+   ],
+   "total": [
+    160.5,
+    0.4897
+   ],
+   "total_80": [
+    [
+     136.7367,
+     183.3278
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|BLG|2026-11-07|Osaka Evessa|Ibaraki Robots",
+  "desporto": "basquetebol",
+  "liga": "BLG",
+  "data": "2026-11-07",
+  "hora": "07:05",
+  "casa": "Osaka Evessa",
+  "fora": "Ibaraki Robots",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.2808,
+   "pontos": [
+    75.0215,
+    83.5362
+   ],
+   "handicap": [
+    -8.5,
+    0.4996
+   ],
+   "total": [
+    158.5,
+    0.5013
+   ],
+   "total_80": [
+    [
+     135.2622,
+     181.8533
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|KBL|2026-11-07|Suwon KT Sonicboom|Daegu KOGAS Pegasus",
+  "desporto": "basquetebol",
+  "liga": "KBL",
+  "data": "2026-11-07",
+  "hora": "07:30",
+  "casa": "Suwon KT Sonicboom",
+  "fora": "Daegu KOGAS Pegasus",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.5637,
+   "pontos": [
+    80.9489,
+    78.9206
+   ],
+   "handicap": [
+    2.5,
+    0.4851
+   ],
+   "total": [
+    159.5,
+    0.5079
+   ],
+   "total_80": [
+    [
+     135.9434,
+     183.7957
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|BLG|2026-11-07|Sunrockers Shibuya|Kyoto Hannaryz",
+  "desporto": "basquetebol",
+  "liga": "BLG",
+  "data": "2026-11-07",
+  "hora": "08:05",
+  "casa": "Sunrockers Shibuya",
+  "fora": "Kyoto Hannaryz",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.5808,
+   "pontos": [
+    80.3068,
+    77.3166
+   ],
+   "handicap": [
+    2.5,
+    0.5133
+   ],
+   "total": [
+    157.5,
+    0.5027
+   ],
+   "total_80": [
+    [
+     134.3279,
+     180.919
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|NBL|2026-11-07|Melbourne United|Brisbane Bullets",
+  "desporto": "basquetebol",
+  "liga": "NBL",
+  "data": "2026-11-07",
+  "hora": "08:30",
+  "casa": "Melbourne United",
+  "fora": "Brisbane Bullets",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "vencedor": 0.7887,
+   "pontos": [
+    98.6203,
+    86.7997
+   ],
+   "handicap": [
+    11.5,
+    0.5087
+   ],
+   "total": [
+    185.5,
+    0.4983
+   ],
+   "total_80": [
+    [
+     160.7133,
+     210.1268
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "futebol|TUR|2026-11-07|Eyupspor|Kocaelispor",
+  "desporto": "futebol",
+  "liga": "TUR",
+  "data": "2026-11-07",
+  "hora": "10:30",
+  "casa": "Eyupspor",
+  "fora": "Kocaelispor",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "1x2": [
+    0.2773,
+    0.333,
+    0.3897
+   ],
+   "golos": [
+    0.832,
+    1.0414
+   ],
+   "ambas": 0.3728,
+   "mais_1.5": 0.566,
+   "mais_2.5": 0.2891,
+   "mais_3.5": 0.1208,
+   "dnb_casa": 0.4157,
+   "intervalo": [
+    0.2182,
+    0.5165,
+    0.2653
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "futebol|PO2|2026-11-07|Felgueiras|Leixoes",
+  "desporto": "futebol",
+  "liga": "PO2",
+  "data": "2026-11-07",
+  "hora": "11:00",
+  "casa": "Felgueiras",
+  "fora": "Leixoes",
+  "feita_em": "2026-10-31T12:02Z",
+  "p": {
+   "1x2": [
+    0.4371,
+    0.2505,
+    0.3124
+   ],
+   "golos": [
+    1.3165,
+    1.0598
+   ],
+   "ambas": 0.4659,
+   "mais_1.5": 0.6739,
+   "mais_2.5": 0.4241,
+   "mais_3.5": 0.2163,
+   "dnb_casa": 0.5832,
+   "intervalo": [
+    0.3148,
+    0.4512,
+    0.234
    ]
   },
   "estado": "pendente",
