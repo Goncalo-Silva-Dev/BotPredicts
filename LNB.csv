@@ -521,11 +521,11 @@ LNB,2026-10-25,15:30,Round 5,Lyon-Villeurbanne,Nancy,78.0,74.0
 LNB,2026-10-25,18:00,Round 5,Pau-Lacq-Orthez,Limoges,85.0,81.0
 LNB,2026-10-27,19:00,Round 13,Saint-Quentin,Strasbourg,94.0,98.0
 LNB,2026-10-30,19:00,Round 6,Dijon,Nancy,94.0,108.0
-LNB,2026-10-31,19:30,Round 6,Bourg-en-Bresse,Nanterre,,
-LNB,2026-10-31,17:30,Round 6,Strasbourg,Cholet,,
-LNB,2026-10-31,17:00,Round 6,Gravelines-Dunkerque,Roanne,,
-LNB,2026-10-31,17:00,Round 6,Le Mans,Pau-Lacq-Orthez,,
-LNB,2026-10-31,17:30,Round 6,Limoges,Boulazac,,
+LNB,2026-10-31,19:30,Round 6,Bourg-en-Bresse,Nanterre,98.0,101.0
+LNB,2026-10-31,17:30,Round 6,Strasbourg,Cholet,88.0,82.0
+LNB,2026-10-31,17:00,Round 6,Gravelines-Dunkerque,Roanne,69.0,89.0
+LNB,2026-10-31,17:00,Round 6,Le Mans,Pau-Lacq-Orthez,106.0,97.0
+LNB,2026-10-31,17:30,Round 6,Limoges,Boulazac,89.0,99.0
 LNB,2026-11-01,15:30,Round 6,Saint-Quentin,Lyon-Villeurbanne,,
 LNB,2026-11-01,18:00,Round 6,Paris,Chalon/Saône,,
 LNB,2026-11-03,18:30,Round 13,Cholet,Paris,,
