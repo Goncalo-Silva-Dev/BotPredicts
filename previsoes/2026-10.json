@@ -6688,8 +6688,11 @@
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 93,
+   "fora": 104
+  }
  },
  {
   "id": "basquetebol|LPB|2026-10-31|Ovarense GAVEX|FC Porto",
@@ -8843,8 +8846,11 @@
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 69,
+   "fora": 89
+  }
  },
  {
   "id": "basquetebol|LNB|2026-10-31|Le Mans|Pau-Lacq-Orthez",
@@ -8877,8 +8883,11 @@
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 106,
+   "fora": 97
+  }
  },
  {
   "id": "futebol|ITA|2026-10-31|Udinese|Roma",
@@ -8987,8 +8996,13 @@
    ],
    "ambas": 0.867
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 5,
+   "fora": 4,
+   "casa_60": 4,
+   "fora_60": 4
+  }
  },
  {
   "id": "hoquei|NHL|2026-10-31|Detroit Red Wings|St. Louis Blues",
@@ -9098,8 +9112,11 @@
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 89,
+   "fora": 99
+  }
  },
  {
   "id": "basquetebol|LNB|2026-10-31|Strasbourg|Cholet",
@@ -9132,8 +9149,11 @@
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 88,
+   "fora": 82
+  }
  },
  {
   "id": "futebol|ENG|2026-10-31|Tottenham|Crystal Palace",
@@ -9318,8 +9338,11 @@
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 105,
+   "fora": 72
+  }
  },
  {
   "id": "futebol|PO2|2026-10-31|Benfica B|Chaves",
@@ -9351,8 +9374,11 @@
     0.2124
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 3,
+   "fora": 1
+  }
  },
  {
   "id": "futebol|PO2|2026-10-31|Leiria|AFS",
@@ -9384,8 +9410,11 @@
     0.3259
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 2,
+   "fora": 1
+  }
  },
  {
   "id": "futebol|SAU|2026-10-31|Al Hilal|Al Fateh",
@@ -9417,8 +9446,11 @@
     0.0694
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 2,
+   "fora": 0
+  }
  },
  {
   "id": "futebol|USA|2026-10-31|Columbus Crew|DC United",
@@ -9565,8 +9597,13 @@
    ],
    "ambas": 0.8977
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 5,
+   "fora": 4,
+   "casa_60": 4,
+   "fora_60": 4
+  }
  },
  {
   "id": "hoquei|NHL|2026-10-31|New York Islanders|Edmonton Oilers",
@@ -9599,8 +9636,13 @@
    ],
    "ambas": 0.8974
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 0,
+   "fora": 4,
+   "casa_60": 0,
+   "fora_60": 4
+  }
  },
  {
   "id": "basquetebol|ACB|2026-10-31|UCAM Murcia|iLERNA Lleida",
@@ -9633,8 +9675,11 @@
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 125,
+   "fora": 98
+  }
  },
  {
   "id": "basquetebol|LBA|2026-10-31|BC Roma|Longobardi Scafati Basket",
@@ -9667,8 +9712,11 @@
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 103,
+   "fora": 90
+  }
  },
  {
   "id": "basquetebol|LBA|2026-10-31|Tezenis Verona|Openjobmetis Varese",
@@ -9701,8 +9749,11 @@
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 88,
+   "fora": 99
+  }
  },
  {
   "id": "basquetebol|NBA|2026-10-31|Utah Jazz|Portland Trail Blazers",
@@ -9735,8 +9786,11 @@
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 90,
+   "fora": 112
+  }
  },
  {
   "id": "futebol|BRA|2026-10-31|Coritiba|Vitoria",
@@ -9883,8 +9937,11 @@
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 81,
+   "fora": 68
+  }
  },
  {
   "id": "basquetebol|LNB|2026-10-31|Bourg-en-Bresse|Nanterre",
@@ -9917,8 +9974,11 @@
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 98,
+   "fora": 101
+  }
  },
  {
   "id": "futebol|BEL|2026-10-31|Anderlecht|Westerlo",
@@ -10141,8 +10201,11 @@
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 93,
+   "fora": 89
+  }
  },
  {
   "id": "futebol|ENG|2026-10-31|Aston Villa|Fulham",
@@ -10289,8 +10352,13 @@
    ],
    "ambas": 0.8928
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 2,
+   "fora": 3,
+   "casa_60": 2,
+   "fora_60": 3
+  }
  },
  {
   "id": "hoquei|NHL|2026-10-31|San Jose Sharks|Ottawa Senators",
@@ -10323,8 +10391,13 @@
    ],
    "ambas": 0.8958
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 1,
+   "fora": 5,
+   "casa_60": 1,
+   "fora_60": 5
+  }
  },
  {
   "id": "futebol|POR|2026-10-31|Porto|Estoril",
@@ -10471,8 +10544,11 @@
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 104,
+   "fora": 109
+  }
  },
  {
   "id": "basquetebol|NBA|2026-10-31|New Orleans Pelicans|Atlanta Hawks",
@@ -10505,8 +10581,11 @@
     0.8
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 121,
+   "fora": 99
+  }
  },
  {
   "id": "hoquei|NHL|2026-10-31|Montreal Canadiens|Pittsburgh Penguins",
@@ -10539,8 +10618,13 @@
    ],
    "ambas": 0.9006
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 5,
+   "fora": 4,
+   "casa_60": 5,
+   "fora_60": 4
+  }
  },
  {
   "id": "hoquei|NHL|2026-10-31|Vancouver Canucks|Toronto Maple Leafs",
@@ -10573,7 +10657,12 @@
    ],
    "ambas": 0.9054
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 2,
+   "fora": 4,
+   "casa_60": 2,
+   "fora_60": 4
+  }
  }
 ]
