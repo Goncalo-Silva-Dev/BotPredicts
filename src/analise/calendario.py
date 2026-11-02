@@ -45,7 +45,8 @@ def upcoming(engine, leagues: list[League], today: date | None = None) -> pd.Dat
             log.warning("%s: sem calendário do %s (%s)", league.key, source, e)
             continue
         season = season[~season["played"] & (season["date"] >= today)]
-        season = season[["league", "round", "date", "time", "home", "away", "played"]]
+        season = season[["league", "round", "date", "time", "home", "away", "played"]
+                        + [c for c in ODDS if c in season]]
         names = openfootball.match_teams(
             sorted(set(season["home"]) | set(season["away"])), _recent_teams(engine, league, today))
         season = season.assign(home=season["home"].map(lambda n: names.get(n, n)),
@@ -58,9 +59,15 @@ def upcoming(engine, leagues: list[League], today: date | None = None) -> pd.Dat
         columns=["league", "round", "date", "time", "home", "away"])
     # Odds (e hora mais certa) do football-data para os jogos que já as têm
     key = ["league", "home", "away"]
-    full = full.merge(fd[key + ["time"] + ODDS].rename(columns={"time": "fd_time"}), on=key, how="left")
-    full["time"] = full["fd_time"].fillna(full["time"])
-    full = full.drop(columns="fd_time")
+    for col in ODDS:
+        if col not in full:
+            full[col] = None
+    fd_cols = {"time": "fd_time", **{c: f"fd_{c}" for c in ODDS}}
+    full = full.merge(fd[key + ["time"] + ODDS].rename(columns=fd_cols), on=key, how="left")
+    # odds do football-data quando existem; senão as do betexplorer (taças, Liga 2...)
+    for col, fd_col in fd_cols.items():
+        full[col] = full[fd_col].astype(object).where(full[fd_col].notna(), full[col])
+    full = full.drop(columns=list(fd_cols.values()))
     extra = fd.merge(full[key], on=key, how="left", indicator=True)
     extra = extra[extra["_merge"] == "left_only"].drop(columns="_merge").assign(round=None)
     out = pd.concat([full, extra[full.columns]], ignore_index=True)

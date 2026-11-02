@@ -13,6 +13,7 @@ def predict(
     half_life_days: float = 180.0,
     window_days: int = 730,
     min_team_matches: int = 5,
+    model_options: dict | None = None,
 ) -> pd.DataFrame:
     """Uma linha por jogo de fixtures (uma só liga), treinando com history até as_of.
 
@@ -24,7 +25,7 @@ def predict(
     train["date"] = pd.to_datetime(train["date"])
     train = train[(train["date"] < as_of) & (train["date"] >= as_of - timedelta(days=window_days))]
     counts = pd.concat([train["home"], train["away"]]).value_counts()
-    model = DixonColes(half_life_days=half_life_days).fit(train, as_of=as_of)
+    model = DixonColes(half_life_days=half_life_days, **(model_options or {})).fit(train, as_of=as_of)
     shares = half_time_shares(train)
 
     rows = []

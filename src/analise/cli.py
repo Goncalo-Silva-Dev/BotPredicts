@@ -5,11 +5,11 @@ from datetime import date, datetime, timedelta, timezone
 import pandas as pd
 from sqlalchemy import select
 
-from analise import backtest, basquete, calendario, hoquei, pagina, previsoes, registo
+from analise import backtest, basquete, calendario, europa, hoquei, pagina, previsoes, registo
 from analise.ingest import basket, hockey
 from analise.db import get_engine, matches
 from analise.ingest import football_data_uk
-from analise.leagues import LEAGUES
+from analise.leagues import LEAGUES, TRAINING_LEAGUES
 
 
 def main(argv=None):
@@ -17,7 +17,8 @@ def main(argv=None):
     sub = parser.add_subparsers(dest="cmd", required=True)
     hist = sub.add_parser("historico", help="Descarrega o histórico do football-data.co.uk")
     hist.add_argument("--epocas", type=int, default=6)
-    hist.add_argument("--ligas", nargs="*", default=list(LEAGUES), choices=list(LEAGUES))
+    hist.add_argument("--ligas", nargs="*", default=list(LEAGUES) + list(TRAINING_LEAGUES),
+                      choices=list(LEAGUES) + list(TRAINING_LEAGUES))
     bt = sub.add_parser("backtest", help="Compara o Dixon-Coles com as odds de fecho sem margem")
     bt.add_argument("--ligas", nargs="*", default=list(LEAGUES), choices=list(LEAGUES))
     bt.add_argument("--meia-vida", type=float, default=180.0, help="dias")
@@ -59,7 +60,7 @@ def main(argv=None):
     engine = get_engine()
     if args.cmd == "historico":
         for key in args.ligas:
-            n = football_data_uk.load_history(engine, LEAGUES[key], args.epocas)
+            n = football_data_uk.load_history(engine, {**LEAGUES, **TRAINING_LEAGUES}[key], args.epocas)
             print(f"{key}: {n} jogos")
     elif args.cmd == "backtest":
         run_backtest(engine, args)
@@ -138,7 +139,23 @@ def run_previsoes(engine, args):
 
 def predict_fixtures(engine, fixtures, half_life_days, window_days, today):
     out = []
+    cup_history = None
     for key, games in fixtures.groupby("league"):
+        if key in europa.CUPS:
+            # um só modelo para as três taças, com os campeonatos nacionais (ver europa.py)
+            if cup_history is None:
+                since = today - timedelta(days=window_days + 1)
+                with engine.connect() as conn:
+                    cup_history = europa.training_history(
+                        pd.read_sql(select(matches).where(matches.c.date >= since), conn))
+            if not cup_history["league"].isin(europa.CUPS).any():
+                print(f"{key}: sem histórico das taças (corre primeiro 'historico')")
+                continue
+            out.append(previsoes.predict(
+                cup_history, games, as_of=today, half_life_days=europa.HALF_LIFE,
+                window_days=window_days, min_team_matches=europa.MIN_MATCHES,
+                model_options=europa.MODEL_OPTIONS))
+            continue
         with engine.connect() as conn:
             hist = pd.read_sql(select(matches).where(matches.c.league == key), conn)
         if hist.empty:
