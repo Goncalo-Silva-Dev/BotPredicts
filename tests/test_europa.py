@@ -71,3 +71,47 @@ def test_training_history_links_cups_and_leagues():
     assert eng["home"] == "Manchester City" and eng["away"] == "ENG:Arsenal"
     assert h[h["league"] == "NED"].iloc[0]["home"] == "NED:Sparta Rotterdam"
     assert h[h["league"] == "UCL"].iloc[0]["weight"] == europa.CUP_WEIGHT
+
+
+def _synthetic(n_games=600, seed=0):
+    import numpy as np
+    rng = np.random.default_rng(seed)
+    strength = {f"T{i}": s for i, s in enumerate(np.linspace(-1, 1, 10))}
+    rows = []
+    for i in range(n_games):
+        h, a = rng.choice(list(strength), 2, replace=False)
+        y = strength[h] - strength[a] + 0.3
+        draw = 0.27 - 0.05 * abs(y)
+        ph = (1 - draw) / (1 + np.exp(-y))
+        pa = 1 - draw - ph
+        rows.append({"league": "UCL", "date": pd.Timestamp("2025-01-01") + pd.Timedelta(days=i // 5),
+                     "home": h, "away": a, "home_goals": int(rng.poisson(1.2 + strength[h])) if strength[h] > -1 else 0,
+                     "away_goals": int(rng.poisson(1.0)), "cup": True,
+                     "odds_home_avg": 1 / ph, "odds_draw_avg": 1 / draw, "odds_away_avg": 1 / pa})
+    return pd.DataFrame(rows), strength
+
+
+def test_odds_ratings_recover_the_market():
+    games, strength = _synthetic()
+    r = europa.OddsRatings(ridge=0.01).fit(games, pd.Timestamp("2025-06-01"))
+    ph, pdraw, pa = r.predict("T9", "T0")
+    assert abs(ph + pdraw + pa - 1) < 1e-9
+    y = strength["T9"] - strength["T0"] + 0.3
+    draw = 0.27 - 0.05 * y
+    assert abs(ph - (1 - draw) / (1 + pd.Series([-y]).map(__import__("math").exp)[0])) < 0.02
+    assert r.predict("T0", "Nova") is None
+
+
+def test_align_with_odds_moves_the_goals_model():
+    from analise.models.dixon_coles import DixonColes
+    games, _ = _synthetic()
+    model = DixonColes(goals_weight=1, joint_rho=False).fit(games, as_of=pd.Timestamp("2025-06-01"))
+    fx = pd.DataFrame([{"home": "T0", "away": "T9"}])
+    before = model.predict("T0", "T9")
+    europa.align_with_odds(model, games, fx, pd.Timestamp("2025-06-01"))
+    after = model.predict("T0", "T9")
+    target = europa.OddsRatings().fit(games, pd.Timestamp("2025-06-01")).predict("T0", "T9")
+    want = europa.ODDS_WEIGHT * (target[0] - target[2]) + (1 - europa.ODDS_WEIGHT) * (before["home"] - before["away"])
+    assert abs(after["home"] - after["away"] - want) < 1e-3
+    # o total de golos esperado não muda
+    assert abs(sum(model.expected_goals("T0", "T9")) - (before["goals_home"] + before["goals_away"])) < 0.3

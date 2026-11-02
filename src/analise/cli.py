@@ -43,6 +43,9 @@ def main(argv=None):
     hb.add_argument("--ligas", nargs="*", default=list(hockey.HOCKEY_LEAGUES),
                     choices=list(hockey.HOCKEY_LEAGUES))
     hb.add_argument("--epocas", type=int, default=3)
+    tb = sub.add_parser("tacas-backtest", help="Testa o modelo das taças europeias em jogos passados")
+    tb.add_argument("--desde", default="2022-07-01", help="primeiro jogo avaliado (AAAA-MM-DD)")
+    tb.add_argument("--saida", default="data/backtest/TACAS.csv")
     pag = sub.add_parser("pagina", help="Gera a página web com as previsões")
     pag.add_argument("--dias", type=int, help="só jogos nos próximos N dias (por omissão, todos)")
     pag.add_argument("--saida", default="site", help="pasta da página")
@@ -70,6 +73,8 @@ def main(argv=None):
         run_basquete_backtest(args)
     elif args.cmd == "hoquei-backtest":
         run_hoquei_backtest(args)
+    elif args.cmd == "tacas-backtest":
+        run_tacas_backtest(engine, args)
     elif args.cmd == "pagina":
         run_pagina(engine, args)
     elif args.cmd == "basquete-dados":
@@ -154,7 +159,7 @@ def predict_fixtures(engine, fixtures, half_life_days, window_days, today):
             out.append(previsoes.predict(
                 cup_history, games, as_of=today, half_life_days=europa.HALF_LIFE,
                 window_days=window_days, min_team_matches=europa.MIN_MATCHES,
-                model_options=europa.MODEL_OPTIONS))
+                model_options=europa.MODEL_OPTIONS, prepare=europa.align_with_odds))
             continue
         with engine.connect() as conn:
             hist = pd.read_sql(select(matches).where(matches.c.league == key), conn)
@@ -170,6 +175,19 @@ def predict_fixtures(engine, fixtures, half_life_days, window_days, today):
         if col not in res:
             res[col] = None
     return res
+
+
+def run_tacas_backtest(engine, args):
+    """Precisa do histórico com épocas suficientes antes de --desde (p. ex. historico --epocas 7)."""
+    with engine.connect() as conn:
+        everything = pd.read_sql(select(matches), conn)
+    res = europa.walk_forward(everything, args.desde)
+    os.makedirs(os.path.dirname(args.saida) or ".", exist_ok=True)
+    res.to_csv(args.saida, index=False)
+    rows = [{"liga": k, **europa.summary(g)} for k, g in res.groupby("league")]
+    rows.append({"liga": "TOTAL", **europa.summary(res)})
+    pd.set_option("display.width", 200)
+    print(pd.DataFrame(rows).set_index("liga").round(3).to_string())
 
 
 def run_pagina(engine, args):

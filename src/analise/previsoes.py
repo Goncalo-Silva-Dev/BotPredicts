@@ -14,6 +14,7 @@ def predict(
     window_days: int = 730,
     min_team_matches: int = 5,
     model_options: dict | None = None,
+    prepare=None,
 ) -> pd.DataFrame:
     """Uma linha por jogo de fixtures (uma só liga), treinando com history até as_of.
 
@@ -27,6 +28,8 @@ def predict(
     counts = pd.concat([train["home"], train["away"]]).value_counts()
     model = DixonColes(half_life_days=half_life_days, **(model_options or {})).fit(train, as_of=as_of)
     shares = half_time_shares(train)
+    if prepare is not None:  # p. ex. alinhar o 1X2 com as forças tiradas das odds (taças)
+        prepare(model, train, fixtures, as_of)
 
     rows = []
     for g in fixtures.itertuples(index=False):

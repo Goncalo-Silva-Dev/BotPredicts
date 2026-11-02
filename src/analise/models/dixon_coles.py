@@ -153,11 +153,22 @@ class DixonColes:
             self.defence_ = self.defence_ + float(res.x[2 * n + 1])
         return self
 
+    def set_shift(self, home: str, away: str, shift: float) -> None:
+        """Desloca a diferença de golos esperada de um jogo (log λ + shift/2, log μ − shift/2),
+        mantendo o total; serve para alinhar o modelo com outra estimativa do 1X2."""
+        if not hasattr(self, "shifts_") or self.shifts_ is None:
+            self.shifts_ = {}
+        self.shifts_[(home, away)] = shift
+
+    def expected_goals(self, home: str, away: str) -> tuple[float, float]:
+        h, a = self.teams_.index(home), self.teams_.index(away)
+        d = (getattr(self, "shifts_", None) or {}).get((home, away), 0.0) / 2
+        return (float(np.exp(self.attack_[h] + self.defence_[a] + self.home_ + d)),
+                float(np.exp(self.attack_[a] + self.defence_[h] - d)))
+
     def score_matrix(self, home: str, away: str) -> np.ndarray:
         """Probabilidade de cada resultado exato; [i, j] = casa marca i, fora marca j."""
-        h, a = self.teams_.index(home), self.teams_.index(away)
-        lam = np.exp(self.attack_[h] + self.defence_[a] + self.home_)
-        mu = np.exp(self.attack_[a] + self.defence_[h])
+        lam, mu = self.expected_goals(home, away)
         g = np.arange(MAX_GOALS + 1)
         m = np.outer(poisson.pmf(g, lam), poisson.pmf(g, mu))
         xx, yy = np.meshgrid(g, g, indexing="ij")
@@ -228,11 +239,6 @@ class DixonColes:
             for j, y in enumerate(diffs):
                 out[f"{sign(x)}/{sign(x + y)}"] += float(d1[i] * d2[j])
         return out
-
-    def expected_goals(self, home: str, away: str) -> tuple[float, float]:
-        h, a = self.teams_.index(home), self.teams_.index(away)
-        return (float(np.exp(self.attack_[h] + self.defence_[a] + self.home_)),
-                float(np.exp(self.attack_[a] + self.defence_[h])))
 
     def halves(self, home: str, away: str, share_home: float = HT_SHARE[0],
                share_away: float = HT_SHARE[1]) -> dict:
