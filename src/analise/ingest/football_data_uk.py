@@ -132,7 +132,9 @@ def _betexplorer_season(league: League, start: int, current: int, today: date) -
     for path in paths:
         try:
             df = betexplorer.fetch_football_results(path, league.key, today)
-        except requests.HTTPError:
+        except requests.HTTPError as e:
+            if e.response is None or e.response.status_code != 404:  # 404: época que o site não tem
+                print(f"{league.key} {start}: falhou a recolha ({e})")
             continue
         if not df.empty:  # um nome antigo pode redirecionar para a página inicial
             return df
