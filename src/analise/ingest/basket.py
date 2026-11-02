@@ -20,6 +20,7 @@ from datetime import date, timedelta
 import pandas as pd
 import requests
 
+from analise.ingest import betexplorer
 from analise.ingest.betexplorer import fetch_betexplorer
 
 ESPN_URL = "https://site.api.espn.com/apis/site/v2/sports/basketball/{slug}/scoreboard"
@@ -749,10 +750,8 @@ def fetch_pba(league: BasketLeague, years: range, today: date | None = None) -> 
     """PBA (Filipinas): três torneios por época (Philippine, Commissioner's e Governors' Cup).
     O site oficial tem proteção anti-robôs, por isso vem tudo do betexplorer."""
     today = today or date.today()
-    resp = requests.get("https://www.betexplorer.com/basketball/philippines/", headers=HEADERS,
-                        timeout=60)
-    resp.raise_for_status()
-    slugs = dict.fromkeys(re.findall(r'href="/basketball/philippines/(pba-[a-z0-9-]+)/"', resp.text))
+    page = betexplorer.get("https://www.betexplorer.com/basketball/philippines/")
+    slugs = dict.fromkeys(re.findall(r'href="/basketball/philippines/(pba-[a-z0-9-]+)/"', page))
     df = pd.concat([fetch_betexplorer(f"basketball/philippines/{s}", league.key, today, fixtures=True)
                     for s in slugs], ignore_index=True)
     return df[pd.to_datetime(df["date"]) >= pd.Timestamp(years.start, 7, 1)]
