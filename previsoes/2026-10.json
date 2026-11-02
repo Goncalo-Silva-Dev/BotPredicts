@@ -5646,8 +5646,13 @@
     0.5905
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 0,
+   "fora": 4,
+   "casa_int": 0,
+   "fora_int": 2
+  }
  },
  {
   "id": "basquetebol|EUR|2026-10-30|Anadolu Efes Istanbul|Panathinaikos AKTOR Athens",
@@ -5758,8 +5763,13 @@
     0.7236
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 1,
+   "fora": 5,
+   "casa_int": 1,
+   "fora_int": 2
+  }
  },
  {
   "id": "futebol|SAU|2026-10-30|Al Shabab|Al Ahli SC",
@@ -6128,8 +6138,13 @@
     0.4502
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 4,
+   "fora": 1,
+   "casa_int": 3,
+   "fora_int": 0
+  }
  },
  {
   "id": "futebol|BEL|2026-10-30|Waregem|Club Brugge",
@@ -6166,8 +6181,13 @@
     0.6716
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 2,
+   "fora": 4,
+   "casa_int": 1,
+   "fora_int": 4
+  }
  },
  {
   "id": "futebol|FRA|2026-10-30|Lille|Lens",
@@ -6204,8 +6224,13 @@
     0.3742
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 1,
+   "fora": 0,
+   "casa_int": 0,
+   "fora_int": 0
+  }
  },
  {
   "id": "futebol|POR|2026-10-30|Casa Pia|Sp Lisbon",
@@ -6242,8 +6267,13 @@
     0.724
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 0,
+   "fora": 2,
+   "casa_int": 0,
+   "fora_int": 1
+  }
  },
  {
   "id": "hoquei|NHL|2026-10-30|Vegas Golden Knights|New Jersey Devils",
@@ -7582,8 +7612,13 @@
     0.358
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 1,
+   "fora": 3,
+   "casa_int": 0,
+   "fora_int": 1
+  }
  },
  {
   "id": "futebol|PO2|2026-10-31|Amarante|FC Porto B",
@@ -7804,8 +7839,13 @@
     0.239
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 2,
+   "fora": 0,
+   "casa_int": 0,
+   "fora_int": 0
+  }
  },
  {
   "id": "futebol|TUR|2026-10-31|Kocaelispor|Rizespor",
@@ -7842,8 +7882,13 @@
     0.3597
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 0,
+   "fora": 0,
+   "casa_int": 0,
+   "fora_int": 0
+  }
  },
  {
   "id": "futebol|SAU|2026-10-31|Al Taawon|Al Ettifaq",
@@ -7953,8 +7998,13 @@
     0.199
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 2,
+   "fora": 1,
+   "casa_int": 1,
+   "fora_int": 1
+  }
  },
  {
   "id": "futebol|PO2|2026-10-31|Portimonense|Torreense",
@@ -8027,8 +8077,13 @@
     0.4355
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 1,
+   "fora": 2,
+   "casa_int": 1,
+   "fora_int": 0
+  }
  },
  {
   "id": "futebol|GER|2026-10-31|Leverkusen|Stuttgart",
@@ -8065,8 +8120,13 @@
     0.253
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 2,
+   "fora": 4,
+   "casa_int": 1,
+   "fora_int": 2
+  }
  },
  {
   "id": "futebol|GER|2026-10-31|M'gladbach|Paderborn",
@@ -8103,8 +8163,13 @@
     0.2819
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 0,
+   "fora": 0,
+   "casa_int": 0,
+   "fora_int": 0
+  }
  },
  {
   "id": "futebol|GER|2026-10-31|Schalke 04|RB Leipzig",
@@ -8141,8 +8206,13 @@
     0.5093
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 0,
+   "fora": 2,
+   "casa_int": 0,
+   "fora_int": 1
+  }
  },
  {
   "id": "futebol|GER|2026-10-31|Werder Bremen|Hoffenheim",
@@ -8179,8 +8249,13 @@
     0.4188
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 2,
+   "fora": 0,
+   "casa_int": 0,
+   "fora_int": 0
+  }
  },
  {
   "id": "futebol|SAU|2026-10-31|Al Fayha|Al Faisaly",
@@ -8253,8 +8328,13 @@
     0.4871
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 1,
+   "fora": 0,
+   "casa_int": 1,
+   "fora_int": 0
+  }
  },
  {
   "id": "futebol|ENG|2026-10-31|Bournemouth|Leeds",
@@ -8291,8 +8371,13 @@
     0.2788
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 2,
+   "fora": 0,
+   "casa_int": 1,
+   "fora_int": 0
+  }
  },
  {
   "id": "futebol|ENG|2026-10-31|Brentford|Nott'm Forest",
@@ -8329,8 +8414,13 @@
     0.2801
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 2,
+   "fora": 0,
+   "casa_int": 1,
+   "fora_int": 0
+  }
  },
  {
   "id": "futebol|ENG|2026-10-31|Coventry|Sunderland",
@@ -8367,8 +8457,13 @@
     0.4108
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 3,
+   "fora": 1,
+   "casa_int": 2,
+   "fora_int": 0
+  }
  },
  {
   "id": "futebol|ENG|2026-10-31|Hull|Ipswich",
@@ -8405,8 +8500,13 @@
     0.3586
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 2,
+   "fora": 2,
+   "casa_int": 0,
+   "fora_int": 1
+  }
  },
  {
   "id": "futebol|ENG|2026-10-31|Man City|Brighton",
@@ -8443,8 +8543,13 @@
     0.2051
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 0,
+   "fora": 1,
+   "casa_int": 0,
+   "fora_int": 1
+  }
  },
  {
   "id": "basquetebol|SBL|2026-10-31|Köping Stars|Umeå Basket",
@@ -8518,8 +8623,13 @@
     0.0708
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 1,
+   "fora": 1,
+   "casa_int": 0,
+   "fora_int": 0
+  }
  },
  {
   "id": "futebol|PO2|2026-10-31|Leixoes|Sporting CP B",
@@ -8592,8 +8702,13 @@
     0.382
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 2,
+   "fora": 1,
+   "casa_int": 0,
+   "fora_int": 0
+  }
  },
  {
   "id": "basquetebol|ABA|2026-10-31|Cedevita Olimpija|FMP",
@@ -8704,8 +8819,13 @@
     0.1205
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 1,
+   "fora": 2,
+   "casa_int": 1,
+   "fora_int": 0
+  }
  },
  {
   "id": "futebol|FRA|2026-10-31|Lyon|Angers",
@@ -8742,8 +8862,13 @@
     0.1328
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 2,
+   "fora": 0,
+   "casa_int": 1,
+   "fora_int": 0
+  }
  },
  {
   "id": "futebol|FRA|2026-10-31|Nice|Rennes",
@@ -8775,8 +8900,13 @@
     0.3607
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 5,
+   "fora": 2,
+   "casa_int": 3,
+   "fora_int": 1
+  }
  },
  {
   "id": "basquetebol|ACB|2026-10-31|Casademont Zaragoza|FIATC Girona",
@@ -8924,8 +9054,13 @@
     0.6148
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 2,
+   "fora": 5,
+   "casa_int": 0,
+   "fora_int": 4
+  }
  },
  {
   "id": "futebol|USA|2026-10-31|Charlotte|Orlando City",
@@ -9078,8 +9213,13 @@
     0.2108
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 1,
+   "fora": 1,
+   "casa_int": 0,
+   "fora_int": 1
+  }
  },
  {
   "id": "basquetebol|LNB|2026-10-31|Limoges|Boulazac",
@@ -9190,8 +9330,13 @@
     0.1707
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 2,
+   "fora": 0,
+   "casa_int": 1,
+   "fora_int": 0
+  }
  },
  {
   "id": "futebol|GER|2026-10-31|Bayern Munich|Dortmund",
@@ -9228,8 +9373,13 @@
     0.1285
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 2,
+   "fora": 2,
+   "casa_int": 1,
+   "fora_int": 0
+  }
  },
  {
   "id": "futebol|NED|2026-10-31|Heerenveen|Nijmegen",
@@ -9266,8 +9416,13 @@
     0.3117
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 1,
+   "fora": 0,
+   "casa_int": 0,
+   "fora_int": 0
+  }
  },
  {
   "id": "futebol|NED|2026-10-31|PSV Eindhoven|Willem II",
@@ -9304,8 +9459,13 @@
     0.048
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 7,
+   "fora": 0,
+   "casa_int": 2,
+   "fora_int": 0
+  }
  },
  {
   "id": "basquetebol|ABA|2026-10-31|Budućnost VOLI|Borac Mozzart",
@@ -10015,8 +10175,13 @@
     0.1925
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 4,
+   "fora": 1,
+   "casa_int": 3,
+   "fora_int": 0
+  }
  },
  {
   "id": "futebol|BEL|2026-10-31|Beveren|St. Gilloise",
@@ -10053,8 +10218,13 @@
     0.6284
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 1,
+   "fora": 2,
+   "casa_int": 0,
+   "fora_int": 1
+  }
  },
  {
   "id": "futebol|FRA|2026-10-31|Lorient|Brest",
@@ -10129,8 +10299,13 @@
     0.3243
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 2,
+   "fora": 0,
+   "casa_int": 1,
+   "fora_int": 0
+  }
  },
  {
   "id": "futebol|ITA|2026-10-31|Milan|Inter",
@@ -10167,8 +10342,13 @@
     0.4752
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 3,
+   "fora": 1,
+   "casa_int": 3,
+   "fora_int": 1
+  }
  },
  {
   "id": "basquetebol|ACB|2026-10-31|Leyma Coruña|La Laguna Tenerife",
@@ -10242,8 +10422,13 @@
     0.26
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 1,
+   "fora": 1,
+   "casa_int": 1,
+   "fora_int": 0
+  }
  },
  {
   "id": "futebol|NED|2026-10-31|Ajax|AZ Alkmaar",
@@ -10280,8 +10465,13 @@
     0.2209
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 1,
+   "fora": 0,
+   "casa_int": 1,
+   "fora_int": 0
+  }
  },
  {
   "id": "futebol|NED|2026-10-31|Cambuur|Go Ahead Eagles",
@@ -10318,8 +10508,13 @@
     0.4245
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 4,
+   "fora": 0,
+   "casa_int": 3,
+   "fora_int": 0
+  }
  },
  {
   "id": "hoquei|NHL|2026-10-31|Los Angeles Kings|Buffalo Sabres",
@@ -10434,8 +10629,13 @@
     0.0675
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 4,
+   "fora": 0,
+   "casa_int": 1,
+   "fora_int": 0
+  }
  },
  {
   "id": "futebol|USA|2026-10-31|Los Angeles Galaxy|Austin FC",
