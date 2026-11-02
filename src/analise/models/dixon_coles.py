@@ -31,7 +31,8 @@ def _tau(x, y, lam, mu, rho):
     return t
 
 
-def _shot_targets(df: pd.DataFrame, x: np.ndarray, y: np.ndarray, goals_weight: float):
+def _shot_targets(df: pd.DataFrame, x: np.ndarray, y: np.ndarray, goals_weight: float,
+                  min_share: float = 0.5):
     """Golos misturados com remates à baliza × (golos por remate à baliza na amostra).
     Jogos sem remates ficam só com os golos."""
     if goals_weight >= 1 or "home_shots_target" not in df:
@@ -39,7 +40,7 @@ def _shot_targets(df: pd.DataFrame, x: np.ndarray, y: np.ndarray, goals_weight: 
     hs = pd.to_numeric(df["home_shots_target"], errors="coerce").to_numpy(dtype=float)
     as_ = pd.to_numeric(df["away_shots_target"], errors="coerce").to_numpy(dtype=float)
     ok = ~np.isnan(hs) & ~np.isnan(as_)
-    if ok.mean() < 0.5 or hs[ok].sum() + as_[ok].sum() == 0:
+    if not ok.any() or ok.mean() < min_share or hs[ok].sum() + as_[ok].sum() == 0:
         return None
     k = (x[ok].sum() + y[ok].sum()) / (hs[ok].sum() + as_[ok].sum())
     a = goals_weight
@@ -52,6 +53,13 @@ class DixonColes:
     half_life_days: float = 180.0
     # peso dos golos reais face aos remates à baliza (1 = só golos)
     goals_weight: float = 0.5
+    # penalização L2 das forças (puxa para a média as equipas com poucos jogos); 0 = sem
+    ridge: float = 0.0
+    # fração mínima de jogos com remates à baliza para os usar
+    min_shots_share: float = 0.5
+    # False: forças primeiro (Poisson, sempre converge) e rho depois; mais robusto com
+    # muitas equipas e poucos jogos por equipa (modelo das taças europeias)
+    joint_rho: bool = True
     teams_: list | None = None
     attack_: np.ndarray | None = None
     defence_: np.ndarray | None = None
@@ -65,6 +73,8 @@ class DixonColes:
         as_of = pd.Timestamp(as_of or df["date"].max())
         age = (as_of - pd.to_datetime(df["date"])).dt.days.to_numpy()
         w = np.exp(-np.log(2) * np.clip(age, 0, None) / self.half_life_days)
+        if "weight" in df:  # peso extra por jogo (p. ex. jogos europeus no modelo das taças)
+            w = w * df["weight"].fillna(1.0).to_numpy(dtype=float)
 
         self.teams_ = sorted(set(df["home"]) | set(df["away"]))
         idx = {t: i for i, t in enumerate(self.teams_)}
@@ -73,10 +83,16 @@ class DixonColes:
         x = df["home_goals"].to_numpy(dtype=int)
         y = df["away_goals"].to_numpy(dtype=int)
         n = len(self.teams_)
-        shots = _shot_targets(df, x, y, self.goals_weight)
+        shots = _shot_targets(df, x, y, self.goals_weight, self.min_shots_share)
         # com remates, as forças vêm dos alvos misturados (sem rho) e o rho dos golos a seguir
-        joint = shots is None
-        tx, ty = (x, y) if joint else shots
+        # jogos de outro contexto (taças europeias no meio dos campeonatos): vantagem de casa
+        # e nível de golos próprios; as previsões ficam nesse contexto
+        cup = df["cup"].fillna(False).to_numpy(dtype=bool) if "cup" in df else None
+        if cup is not None and not cup.any():
+            cup = None
+        joint = shots is None and self.joint_rho and cup is None
+        tx, ty = shots if shots is not None else (x, y)
+        n_extra = 2 if cup is not None else 0
 
         def unpack(p):
             att = np.append(p[: n - 1], -p[: n - 1].sum())  # soma zero para identificar o modelo
@@ -87,6 +103,9 @@ class DixonColes:
             # log-verosimilhança de Poisson (sem constantes) com gradiente analítico
             att, dfc, home, rho = unpack(p)
             log_lam, log_mu = att[hi] + dfc[ai] + home, att[ai] + dfc[hi]
+            if n_extra:
+                log_lam = log_lam + cup * (p[2 * n] + p[2 * n + 1])
+                log_mu = log_mu + cup * p[2 * n + 1]
             lam, mu = np.exp(log_lam), np.exp(log_mu)
             val = (w * (tx * log_lam - lam + ty * log_mu - mu)).sum()
             g_lam, g_mu = w * (tx - lam), w * (ty - mu)
@@ -104,25 +123,52 @@ class DixonColes:
             g_att = np.bincount(hi, g_lam, n) + np.bincount(ai, g_mu, n)
             g_def = np.bincount(ai, g_lam, n) + np.bincount(hi, g_mu, n)
             grad = np.concatenate([g_att[:-1] - g_att[-1], g_def, [g_lam.sum()], g_rho])
+            if n_extra:
+                grad = np.append(grad, [(cup * g_lam).sum(), (cup * (g_lam + g_mu)).sum()])
+            if self.ridge:
+                # a defesa puxa para a média das defesas (o nível de golos da amostra)
+                dev = dfc - dfc.mean()
+                val -= self.ridge * ((att ** 2).sum() + (dev ** 2).sum())
+                g_a = -2 * self.ridge * att
+                grad[: n - 1] += g_a[:-1] - g_a[-1]
+                grad[n - 1 : 2 * n - 1] += -2 * self.ridge * dev
             return -val, -grad
 
-        p0 = np.concatenate([np.zeros(n - 1), np.zeros(n), [0.25], [-0.05] if joint else []])
-        bounds = [(None, None)] * (2 * n) + ([(-0.3, 0.3)] if joint else [])
+        p0 = np.concatenate([np.zeros(n - 1), np.zeros(n), [0.25], [-0.05] if joint else [],
+                             np.zeros(n_extra)])
+        bounds = [(None, None)] * (2 * n) + ([(-0.3, 0.3)] if joint else []) + [(None, None)] * n_extra
         res = minimize(nll, p0, jac=True, method="L-BFGS-B", bounds=bounds)
         self.attack_, self.defence_, self.home_, self.rho_ = unpack(res.x)
         if not joint:
-            lam = np.exp(self.attack_[hi] + self.defence_[ai] + self.home_)
-            mu = np.exp(self.attack_[ai] + self.defence_[hi])
+            extra_lam = cup * (res.x[2 * n] + res.x[2 * n + 1]) if n_extra else 0.0
+            extra_mu = cup * res.x[2 * n + 1] if n_extra else 0.0
+            lam = np.exp(self.attack_[hi] + self.defence_[ai] + self.home_ + extra_lam)
+            mu = np.exp(self.attack_[ai] + self.defence_[hi] + extra_mu)
             self.rho_ = float(minimize_scalar(
                 lambda r: -(w * np.log(np.clip(_tau(x, y, lam, mu, r), 1e-10, None))).sum(),
                 bounds=(-0.3, 0.3), method="bounded").x)
+        if n_extra:
+            # as previsões passam a ser de jogos das taças
+            self.home_ += float(res.x[2 * n])
+            self.defence_ = self.defence_ + float(res.x[2 * n + 1])
         return self
+
+    def set_shift(self, home: str, away: str, shift: float) -> None:
+        """Desloca a diferença de golos esperada de um jogo (log λ + shift/2, log μ − shift/2),
+        mantendo o total; serve para alinhar o modelo com outra estimativa do 1X2."""
+        if not hasattr(self, "shifts_") or self.shifts_ is None:
+            self.shifts_ = {}
+        self.shifts_[(home, away)] = shift
+
+    def expected_goals(self, home: str, away: str) -> tuple[float, float]:
+        h, a = self.teams_.index(home), self.teams_.index(away)
+        d = (getattr(self, "shifts_", None) or {}).get((home, away), 0.0) / 2
+        return (float(np.exp(self.attack_[h] + self.defence_[a] + self.home_ + d)),
+                float(np.exp(self.attack_[a] + self.defence_[h] - d)))
 
     def score_matrix(self, home: str, away: str) -> np.ndarray:
         """Probabilidade de cada resultado exato; [i, j] = casa marca i, fora marca j."""
-        h, a = self.teams_.index(home), self.teams_.index(away)
-        lam = np.exp(self.attack_[h] + self.defence_[a] + self.home_)
-        mu = np.exp(self.attack_[a] + self.defence_[h])
+        lam, mu = self.expected_goals(home, away)
         g = np.arange(MAX_GOALS + 1)
         m = np.outer(poisson.pmf(g, lam), poisson.pmf(g, mu))
         xx, yy = np.meshgrid(g, g, indexing="ij")
@@ -193,11 +239,6 @@ class DixonColes:
             for j, y in enumerate(diffs):
                 out[f"{sign(x)}/{sign(x + y)}"] += float(d1[i] * d2[j])
         return out
-
-    def expected_goals(self, home: str, away: str) -> tuple[float, float]:
-        h, a = self.teams_.index(home), self.teams_.index(away)
-        return (float(np.exp(self.attack_[h] + self.defence_[a] + self.home_)),
-                float(np.exp(self.attack_[a] + self.defence_[h])))
 
     def halves(self, home: str, away: str, share_home: float = HT_SHARE[0],
                share_away: float = HT_SHARE[1]) -> dict:

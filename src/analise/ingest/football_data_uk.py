@@ -106,15 +106,37 @@ def save(engine, df: pd.DataFrame) -> int:
 
 
 def from_betexplorer(df: pd.DataFrame, league: League, season: str) -> pd.DataFrame:
-    """Resultados do betexplorer no esquema da tabela matches (sem intervalo, remates nem odds)."""
-    df = df.dropna(subset=["home_points", "away_points"])
+    """Resultados do betexplorer no esquema da tabela matches (sem intervalo nem remates).
+
+    Jogos decididos no prolongamento ou nos penáltis ficam de fora: o resultado mostrado
+    não é o dos 90 minutos, que é o que o modelo e as apostas usam.
+    """
+    df = df.dropna(subset=["home_goals", "away_goals"])
+    if "extra" in df:
+        df = df[df["extra"].isna()]
+    odds = {f"odds_{o}_avg": df.get(f"odds_{o}") for o in ("home", "draw", "away")}
     out = pd.DataFrame({
         "league": league.key, "season": season, "date": df["date"],
         "home": df["home"], "away": df["away"],
-        "home_goals": df["home_points"].astype("Int64"), "away_goals": df["away_points"].astype("Int64"),
+        "home_goals": df["home_goals"].astype("Int64"), "away_goals": df["away_goals"].astype("Int64"),
+        **{k: v for k, v in odds.items() if v is not None},
         "source": "betexplorer.com",
     })
     return out.drop_duplicates(subset=["league", "date", "home", "away"])
+
+
+def _betexplorer_season(league: League, start: int, current: int, today: date) -> pd.DataFrame | None:
+    """Uma época do betexplorer; None se o site não a tiver com nenhum dos nomes."""
+    paths = [league.be_path] if start == current else [
+        t.format(y=start, y1=start + 1) for t in league.be_history.split("|")]
+    for path in paths:
+        try:
+            df = betexplorer.fetch_football_results(path, league.key, today)
+        except requests.HTTPError:
+            continue
+        if not df.empty:  # um nome antigo pode redirecionar para a página inicial
+            return df
+    return None
 
 
 def load_history(engine, league: League, n_seasons: int, today: date | None = None) -> int:
@@ -123,13 +145,9 @@ def load_history(engine, league: League, n_seasons: int, today: date | None = No
         current = today.year if today.month >= 7 else today.year - 1
         total = 0
         for start in range(current - n_seasons + 1, current + 1):
-            path = league.be_path if start == current else league.be_history.format(
-                y=start, y1=start + 1)
-            try:
-                df = betexplorer.fetch_betexplorer(path, league.key, today)
-            except requests.HTTPError:  # época que o site não tem
-                continue
-            total += save(engine, from_betexplorer(df, league, season_label(start, calendar_year=False)))
+            df = _betexplorer_season(league, start, current, today)
+            if df is not None:
+                total += save(engine, from_betexplorer(df, league, season_label(start, calendar_year=False)))
         return total
     if league.fd_extra:
         df = normalize(fetch_csv(csv_url(league)), league)

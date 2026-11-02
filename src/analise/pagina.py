@@ -19,7 +19,7 @@ from analise.leagues import LEAGUES
 
 LISBON = ZoneInfo("Europe/Lisbon")
 
-FLAGS = {"POR": "🇵🇹", "PO2": "🇵🇹", "U23": "🇵🇹", "TUR": "🇹🇷", "NED": "🇳🇱", "BEL": "🇧🇪", "ESP": "🇪🇸", "ENG": "🏴", "FRA": "🇫🇷", "ITA": "🇮🇹", "GER": "🇩🇪", "USA": "🇺🇸", "BRA": "🇧🇷", "SAU": "🇸🇦",
+FLAGS = {"POR": "🇵🇹", "PO2": "🇵🇹", "U23": "🇵🇹", "TUR": "🇹🇷", "NED": "🇳🇱", "BEL": "🇧🇪", "ESP": "🇪🇸", "ENG": "🏴", "FRA": "🇫🇷", "ITA": "🇮🇹", "GER": "🇩🇪", "USA": "🇺🇸", "BRA": "🇧🇷", "SAU": "🇸🇦", "UCL": "🇪🇺", "UEL": "🇪🇺", "UECL": "🇪🇺",
          "NBA": "🇺🇸", "NHL": "🇺🇸", "NBL": "🇦🇺", "BLG": "🇯🇵", "ABA": "🇷🇸", "KBL": "🇰🇷", "SBL": "🇸🇪", "KOR": "🇫🇮", "CBA": "🇨🇳", "PBA": "🇵🇭", "EUR": "🇪🇺", "EUC": "🇪🇺", "NBB": "🇧🇷", "ACB": "🇪🇸", "LBA": "🇮🇹", "LPB": "🇵🇹", "LNB": "🇫🇷"}
 WEEKDAYS = ["seg", "ter", "qua", "qui", "sex", "sáb", "dom"]
 
@@ -398,6 +398,16 @@ bateram certo com o que aconteceu (por exemplo, handicaps a 66%: ganharam 67%)."
 # Notas por liga de futebol (teste com jogos passados de cada liga, prevendo só com o passado)
 NO_HT = (" Esta fonte não tem o resultado ao intervalo, por isso \"Por parte\" usa a parte dos golos "
          "que as outras ligas marcam na 1.ª parte (cerca de 44%).")
+CUP_NOTE = (" Nas taças europeias jogam equipas de ligas diferentes. O 1X2 junta dois modelos: "
+            "80% vem da força de cada equipa tirada das odds de fecho dos jogos que ela já fez "
+            "(taças e 20 campeonatos nacionais; nunca as odds do próprio jogo) e 20% do modelo de "
+            "golos; os golos, \"Por parte\" e \"Mais apostas\" vêm do modelo de golos acertado a "
+            "esse 1X2. No teste com {n} jogos de 2022 a 2026, cada um previsto só com os jogos "
+            "anteriores, o favorito do modelo ganhou {fav}% das vezes (o das casas de apostas no "
+            "fecho {casas}%); quando o favorito tinha 65% ou mais, ganhou {seguro}%. Equipas com "
+            "menos de 3 jogos ficam sem previsão. A final é em campo neutro, mas aqui conta como "
+            "jogo em casa da equipa listada primeiro. Jogos decididos no prolongamento não entram "
+            "nas contas.")
 FOOTBALL_LEAGUE_NOTES = {
     "GER": " Nesta liga, no teste com 1238 jogos, o favorito do modelo ganhou 52% das vezes.",
     "TUR": " Nesta liga, no teste com 384 jogos, o favorito do modelo ganhou 49% das vezes.",
@@ -405,6 +415,9 @@ FOOTBALL_LEAGUE_NOTES = {
     "BEL": " Nesta liga, no teste com 375 jogos, o favorito do modelo ganhou 48% das vezes.",
     "SAU": " Nesta liga, no teste com 1144 jogos, o favorito do modelo ganhou 55% das vezes." + NO_HT,
     "U23": " Nesta liga, no teste com 250 jogos, o favorito do modelo ganhou 50% das vezes." + NO_HT,
+    "UCL": CUP_NOTE.format(n=1041, fav=60, casas=61, seguro=85),
+    "UEL": CUP_NOTE.format(n=935, fav=58, casas=61, seguro=81),
+    "UECL": CUP_NOTE.format(n=1434, fav=58, casas=60, seguro=80),
     "PO2": (" Atenção: na Liga Portugal 2 o modelo não funcionou bem no teste com 341 jogos (o "
             "favorito ganhou só 41% das vezes e as percentagens foram piores do que usar as médias "
             "da liga). Aqui as percentagens valem pouco: usa-as com muita cautela." + NO_HT),
@@ -452,7 +465,7 @@ def _page(title: str, body: str, root: str, current: str, updated: datetime) -> 
 <main>
 {body}
 <p class="note">Atualizado {updated.astimezone(LISBON):%d/%m/%Y %H:%M} (hora de Portugal) · Dados: football-data.co.uk,
-openfootball, ESPN (NBA e NHL), Euroleague Basketball e sites oficiais das ligas.</p>
+openfootball, betexplorer, ESPN (NBA e NHL), Euroleague Basketball e sites oficiais das ligas.</p>
 </main>
 <script>
 // Fecha os outros menus quando se abre um

@@ -1,7 +1,8 @@
 # Análise de jogos
 
 Recolha de dados, modelo de previsões, relatórios por jogo e app web para futebol
-(Portugal, Espanha, Inglaterra, França, Itália, Alemanha, MLS, Brasil, Arábia Saudita) e basquetebol (NBA, EuroLeague, EuroCup, Espanha, Itália,
+(Portugal, Espanha, Inglaterra, França, Itália, Alemanha, MLS, Brasil, Arábia Saudita,
+Liga dos Campeões, Liga Europa e Liga Conferência) e basquetebol (NBA, EuroLeague, EuroCup, Espanha, Itália,
 Portugal, França e Brasil), e hóquei no gelo (NHL).
 
 ## Começar
@@ -27,6 +28,7 @@ pytest
 | football-data.co.uk | Histórico de resultados, estatísticas e odds de fecho |
 | football-data.org | Calendário e resultados atuais (sem MLS) |
 | API-Football | MLS, alinhamentos, lesões (100 pedidos/dia) |
+| betexplorer.com | Taças europeias (resultados, odds e calendário), Liga 2, Sub-23, Arábia Saudita |
 | openfootball (football.json) | Calendário completo da época (todas menos a MLS) |
 | ESPN (API pública) | NBA: calendário e resultados |
 | Euroleague Basketball (api-live.euroleague.net) | EuroLeague e EuroCup |

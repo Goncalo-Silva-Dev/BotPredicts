@@ -20,7 +20,8 @@ class League:
     # Torneio da época atual no betexplorer: calendário das ligas sem openfootball e, nas
     # ligas sem football-data, também os resultados
     be_path: str | None = None
-    # Torneios das épocas passadas no betexplorer ({y} e {y1}: anos de início e fim)
+    # Torneios das épocas passadas no betexplorer ({y} e {y1}: anos de início e fim); quando o
+    # nome mudou ao longo dos anos, várias alternativas separadas por "|"
     be_history: str | None = None
 
 
@@ -45,5 +46,31 @@ LEAGUES = {
                be_history="football/portugal/liga-revelacao-u23-{y}-{y1}"),
         League("SAU", "Saudi Pro League", None, be_path="football/saudi-arabia/saudi-professional-league",
                be_history="football/saudi-arabia/saudi-professional-league-{y}-{y1}"),
+        League("UCL", "Liga dos Campeões", None, be_path="football/europe/champions-league",
+               be_history="football/europe/champions-league-{y}-{y1}"),
+        League("UEL", "Liga Europa", None, be_path="football/europe/europa-league",
+               be_history="football/europe/europa-league-{y}-{y1}"),
+        League("UECL", "Liga Conferência", None, be_path="football/europe/conference-league",
+               be_history="football/europe/conference-league-{y}-{y1}"
+                          "|football/europe/europa-conference-league-{y}-{y1}"),
+    ]
+}
+
+# Campeonatos que não aparecem no site mas servem para treinar o modelo das taças europeias
+# (dão a força das equipas destes países, que jogam muitas vezes nas taças)
+TRAINING_LEAGUES = {
+    l.key: l
+    for l in [
+        League("SCO", "Escócia", "SC0"),
+        League("GRE", "Grécia", "G1"),
+        League("AUT", "Áustria", "AUT", fd_extra=True),
+        League("SUI", "Suíça", "SWZ", fd_extra=True),
+        League("DEN", "Dinamarca", "DNK", fd_extra=True),
+        League("NOR", "Noruega", "NOR", fd_extra=True),
+        League("SWE", "Suécia", "SWE", fd_extra=True),
+        League("POL", "Polónia", "POL", fd_extra=True),
+        League("ROU", "Roménia", "ROU", fd_extra=True),
+        League("IRL", "Irlanda", "IRL", fd_extra=True),
+        League("FIN", "Finlândia", "FIN", fd_extra=True),
     ]
 }
