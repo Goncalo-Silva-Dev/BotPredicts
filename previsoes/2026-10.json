@@ -6497,8 +6497,11 @@
     0.2248
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 2,
+   "fora": 0
+  }
  },
  {
   "id": "hoquei|NHL|2026-10-30|Florida Panthers|Winnipeg Jets",
@@ -9097,8 +9100,11 @@
     0.2783
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 4,
+   "fora": 0
+  }
  },
  {
   "id": "hoquei|NHL|2026-10-31|Boston Bruins|Chicago Blackhawks",
@@ -9647,8 +9653,11 @@
     0.1305
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 3,
+   "fora": 0
+  }
  },
  {
   "id": "futebol|USA|2026-10-31|FC Cincinnati|Philadelphia Union",
@@ -9685,8 +9694,11 @@
     0.3812
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 1,
+   "fora": 0
+  }
  },
  {
   "id": "futebol|USA|2026-10-31|New York City|CF Montreal",
@@ -9723,8 +9735,11 @@
     0.1396
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 1,
+   "fora": 1
+  }
  },
  {
   "id": "hoquei|NHL|2026-10-31|Nashville Predators|Tampa Bay Lightning",
@@ -9987,8 +10002,11 @@
     0.314
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 2,
+   "fora": 0
+  }
  },
  {
   "id": "futebol|USA|2026-10-31|Sporting Kansas City|FC Dallas",
@@ -10025,8 +10043,11 @@
     0.5151
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 1,
+   "fora": 1
+  }
  },
  {
   "id": "futebol|USA|2026-10-31|St. Louis City|San Diego FC",
@@ -10063,8 +10084,11 @@
     0.2697
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 0,
+   "fora": 1
+  }
  },
  {
   "id": "basquetebol|LBA|2026-10-31|Nutribullet Treviso Basket|UNA Hotels Reggio Emilia",
@@ -10672,8 +10696,11 @@
     0.1731
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 4,
+   "fora": 1
+  }
  },
  {
   "id": "futebol|USA|2026-10-31|San Jose Earthquakes|Real Salt Lake",
@@ -10710,8 +10737,11 @@
     0.3461
    ]
   },
-  "estado": "pendente",
-  "resultado": null
+  "estado": "terminado",
+  "resultado": {
+   "casa": 2,
+   "fora": 1
+  }
  },
  {
   "id": "basquetebol|NBA|2026-10-31|Charlotte Hornets|Philadelphia 76ers",
