@@ -15,12 +15,15 @@ import pandas as pd
 from analise import registo
 from analise.ingest.basket import BASKET_LEAGUES
 from analise.ingest.hockey import HOCKEY_LEAGUES
+from analise.ingest.tennis import TENNIS_LEAGUES
+from analise.tenis import MIN_GAMES as MIN_TENNIS_GAMES
 from analise.leagues import LEAGUES
 
 LISBON = ZoneInfo("Europe/Lisbon")
 
 FLAGS = {"POR": "🇵🇹", "PO2": "🇵🇹", "U23": "🇵🇹", "TUR": "🇹🇷", "NED": "🇳🇱", "BEL": "🇧🇪", "ESP": "🇪🇸", "ENG": "🏴", "FRA": "🇫🇷", "ITA": "🇮🇹", "GER": "🇩🇪", "USA": "🇺🇸", "BRA": "🇧🇷", "SAU": "🇸🇦", "UCL": "🇪🇺", "UEL": "🇪🇺", "UECL": "🇪🇺",
-         "NBA": "🇺🇸", "NHL": "🇺🇸", "NBL": "🇦🇺", "BLG": "🇯🇵", "ABA": "🇷🇸", "KBL": "🇰🇷", "SBL": "🇸🇪", "KOR": "🇫🇮", "CBA": "🇨🇳", "PBA": "🇵🇭", "EUR": "🇪🇺", "EUC": "🇪🇺", "NBB": "🇧🇷", "ACB": "🇪🇸", "LBA": "🇮🇹", "LPB": "🇵🇹", "LNB": "🇫🇷"}
+         "NBA": "🇺🇸", "NHL": "🇺🇸", "NBL": "🇦🇺", "BLG": "🇯🇵", "ABA": "🇷🇸", "KBL": "🇰🇷", "SBL": "🇸🇪", "KOR": "🇫🇮", "CBA": "🇨🇳", "PBA": "🇵🇭", "EUR": "🇪🇺", "EUC": "🇪🇺", "NBB": "🇧🇷", "ACB": "🇪🇸", "LBA": "🇮🇹", "LPB": "🇵🇹", "LNB": "🇫🇷",
+         "ATP": "🎾", "WTA": "🎾"}
 WEEKDAYS = ["seg", "ter", "qua", "qui", "sex", "sáb", "dom"]
 
 CSS = """
@@ -346,6 +349,69 @@ def _hockey_markets(g) -> str:
            f'{"".join(html_blocks)}</div></details>'
 
 
+SURFACES = {"rapido": "piso rápido", "terra": "terra batida", "relva": "relva"}
+
+
+def _set_label(score: str, home: str, away: str) -> str:
+    """'2-1' do ponto de vista do 1.º jogador passa a 'Fulano 2-1' com o nome de quem ganha."""
+    a, b = (int(x) for x in score.split("-"))
+    return f"{home} {a}-{b}" if a > b else f"{away} {b}-{a}"
+
+
+def _tennis_game(g) -> str:
+    home, away = html.escape(g["home"]), html.escape(g["away"])
+    head = f'<div class="top"><span class="teams">{home} – {away}</span>' \
+           f'<span class="when">{_when(g["date"], g.get("time"))}</span></div>'
+    bar = "".join(
+        f'<span class="{c}" style="flex:{g[k]:.4f}" title="Vitória de {name}">{_pct(g[k])}</span>'
+        for c, k, name in [("h", "casa", home), ("a", "fora", away)])
+    mk = g["mercados"]
+    top_sets = sorted(mk["sets"], key=lambda kv: -kv[1])[:2]
+    facts = [
+        f"<b>{html.escape(str(g.get('fase') or ''))}</b> · {SURFACES.get(g['surface'], '')} · "
+        f"melhor de {g['best_of']} sets",
+        "Sets mais prováveis <b>" + ", ".join(f"{_set_label(s, home, away)} ({_pct(p)})" for s, p in top_sets)
+        + "</b>",
+        f"Jogos esperados <b>{_n(mk['jogos_esperados'][0])} – {_n(mk['jogos_esperados'][1])}</b>",
+        f"1.º set <b>{_pct(mk['primeiro_set'])} / {_pct(1 - mk['primeiro_set'])}</b>",
+        f"Há tie-break <b>{_pct(mk['tiebreak'])}</b>",
+    ]
+    spans = "".join(f"<span>{f}</span>" for f in facts)
+    few = [(n, c) for n, c in ((g["home"], g["jogos_casa"]), (g["away"], g["jogos_fora"]))
+           if c < MIN_TENNIS_GAMES]
+    warn = ""
+    if few:
+        who = " e ".join(f"{html.escape(n)} ({c} {'jogo' if c == 1 else 'jogos'})" for n, c in few)
+        warn = (f'<p class="note">Atenção: poucos jogos no histórico para {who}. A força ainda é '
+                "pouco conhecida, por isso esta previsão vale menos.</p>")
+    return f'<div class="game">{head}<div class="bar">{bar}</div><div class="facts">{spans}</div>' \
+           f'{warn}{_tennis_markets(g)}</div>'
+
+
+def _tennis_markets(g) -> str:
+    mk = g["mercados"]
+    home, away = html.escape(g["home"]), html.escape(g["away"])
+    need = g["best_of"] // 2 + 1
+    blocks = [
+        ("Resultado em sets", [(_set_label(s, home, away), p) for s, p in mk["sets"]]),
+        ("Total de jogos", [(f"Mais de {_line(line)}", p) for line, p in mk["total"]]),
+        (f"Handicap de jogos ({home})", [(f"{home} {_signed(line)}", p) for line, p in mk["handicap"]]),
+        (f"Jogos de {home}", [(f"Mais de {_line(line)}", p) for line, p in mk["jogos_casa"]]),
+        (f"Jogos de {away}", [(f"Mais de {_line(line)}", p) for line, p in mk["jogos_fora"]]),
+        ("Vencedor do 1.º set", [(home, mk["primeiro_set"]), (away, 1 - mk["primeiro_set"])]),
+        ("Outras", [("Há pelo menos um tie-break", mk["tiebreak"]),
+                    (f"Vai a {2 * need - 1} sets", mk["todos_os_sets"]),
+                    (f"{home} ganha pelo menos um set", mk["casa_ganha_set"]),
+                    (f"{away} ganha pelo menos um set", mk["fora_ganha_set"])]),
+    ]
+    html_blocks = []
+    for title, rows in blocks:
+        cells = "".join(f"<div><span>{label}</span><b>{_pct(v)}</b></div>" for label, v in rows)
+        html_blocks.append(f"<div><h4>{title}</h4>{cells}</div>")
+    return f'<details class="per"><summary>Mais apostas</summary><div class="mk">' \
+           f'{"".join(html_blocks)}</div></details>'
+
+
 def _round_label(r, dates: pd.Series) -> str:
     if isinstance(r, str) and r:
         label = re.sub(r"^(Matchday|Round)\s*", "Jornada ", r)
@@ -435,6 +501,26 @@ fica com mais 1 golo), e é assim que estão aqui. O "Resultado aos 60 minutos" 
 exato são só do tempo regulamentar. Em "Por período" as percentagens ficam perto das médias da
 liga: um período tem poucos golos e é muito difícil de prever."""
 
+TENNIS_NOTE = """Barras: vitória de cada jogador. Força de cada jogador com um Elo geral e outro por
+piso (terra batida, relva, piso rápido), atualizado depois de cada jogo e que conta também a parte dos
+jogos ganhos (ganhar 6-1 6-1 vale mais do que 7-6 7-6). Dados da ESPN: torneios ATP e WTA com a
+qualificação, desde 2022 (sem Challengers nem ITF). No teste com 18 759 jogos de 2025 e 2026, cada um
+previsto só com os jogos anteriores, o favorito ganhou 64,6% das vezes e as percentagens bateram certo
+(quando o modelo deu 70% a 80%, em média 74%, o favorito ganhou 76%; com 80% a 90%, ganhou 85%). Nos
+Grand Slams masculinos (melhor de 5) acertou 71%. Os sets, os jogos e os tie-breaks saem de um modelo
+de pontos no serviço com a forma do dia, afinado para bater com a realidade: total de jogos previsto
+23,5, real 23,2; tie-break previsto em 30% dos jogos, aconteceu em 29%; vencedor do 1.º set certo em 62%.
+Atenção: nas linhas mais equilibradas de total de jogos e de handicap de jogos o modelo acertou só 52%
+e 53%, quase como atirar uma moeda; usa esses mercados com muita cautela. O modelo não sabe de lesões,
+cansaço nem desistências."""
+TENNIS_LEAGUE_NOTES = {
+    "ATP": " Na ATP o favorito ganhou 64,1% das vezes (7642 jogos).",
+    "WTA": " Na WTA o favorito ganhou 65,0% das vezes (11 117 jogos).",
+}
+TENNIS_EMPTY = ("Sem jogos marcados por agora. No ténis os jogos só aparecem quando os quadros e a "
+                "ordem de jogo saem (normalmente na véspera), e entre torneios ou no fim da época "
+                "pode não haver nenhum.")
+
 # Percentagem de vencedores certos no teste com jogos passados (basquete-backtest)
 BASKET_ACCURACY = {"NBA": 66, "EUR": 64, "EUC": 65, "ACB": 69, "LBA": 71, "LPB": 75, "NBB": 73, "LNB": 71, "NBL": 59, "BLG": 67, "ABA": 80, "KBL": 58, "SBL": 73, "KOR": 57, "CBA": 71, "PBA": 66}
 
@@ -459,13 +545,14 @@ def _page(title: str, body: str, root: str, current: str, updated: datetime) -> 
 <details><summary>⚽ Futebol</summary><div class="menu">{menu("futebol", LEAGUES)}</div></details>
 <details><summary>🏀 Basquetebol</summary><div class="menu">{menu("basquetebol", BASKET_LEAGUES)}</div></details>
 <details><summary>🏒 Hóquei</summary><div class="menu">{menu("hoquei", HOCKEY_LEAGUES)}</div></details>
+<details><summary>🎾 Ténis</summary><div class="menu">{menu("tenis", TENNIS_LEAGUES)}</div></details>
 <a href="{root}seguros.html">✅ Mais seguros</a>
 <a href="{root}historico.html">📊 Histórico</a>
 </nav></header>
 <main>
 {body}
 <p class="note">Atualizado {updated.astimezone(LISBON):%d/%m/%Y %H:%M} (hora de Portugal) · Dados: football-data.co.uk,
-openfootball, betexplorer, ESPN (NBA e NHL), Euroleague Basketball e sites oficiais das ligas.</p>
+openfootball, betexplorer, ESPN (NBA, NHL e ténis), Euroleague Basketball e sites oficiais das ligas.</p>
 </main>
 <script>
 // Fecha os outros menus quando se abre um
@@ -478,9 +565,9 @@ document.querySelectorAll("header details").forEach(d => d.addEventListener("tog
 """
 
 
-def _league_page(key, league, games, card, note, root, updated) -> str:
+def _league_page(key, league, games, card, note, root, updated, empty=None) -> str:
     if games.empty:
-        content = '<div class="empty">Sem jogos marcados nesta liga por agora.</div>'
+        content = f'<div class="empty">{empty or "Sem jogos marcados nesta liga por agora."}</div>'
     else:
         content = _league_rounds(games, card)
     body = (f"<h1>{FLAGS.get(key, '')} {html.escape(league.name)}</h1>"
@@ -488,7 +575,8 @@ def _league_page(key, league, games, card, note, root, updated) -> str:
     return _page(league.name, body, root, key, updated)
 
 
-def _index(preds, basket, hockey, updated) -> str:
+def _index(preds, basket, hockey, updated, tennis=None) -> str:
+    tennis = tennis if tennis is not None else pd.DataFrame()
     def cards(folder, leagues, df):
         out = []
         for k, l in leagues.items():
@@ -496,7 +584,7 @@ def _index(preds, basket, hockey, updated) -> str:
             out.append(f'<a href="{folder}/{k.lower()}.html">{FLAGS.get(k, "")} '
                        f"{html.escape(l.name)}<span>{n} {"jogo" if n == 1 else "jogos"} com previsão</span></a>")
         return "".join(out)
-    body = f"""<h1>Previsões de futebol, basquetebol e hóquei no gelo</h1>
+    body = f"""<h1>Previsões de futebol, basquetebol, hóquei no gelo e ténis</h1>
 <div class="warn">
 <strong>Antes de usares estas previsões</strong>
 <ul>
@@ -515,7 +603,8 @@ procura ajuda: em Portugal, o SICAD apoia casos de jogo excessivo.</li>
 <h2>⚽ Futebol</h2><div class="grid">{cards("futebol", LEAGUES, preds)}</div>
 <h2>🏀 Basquetebol</h2><div class="grid">{cards("basquetebol", BASKET_LEAGUES, basket)}</div>
 <h2>🏒 Hóquei no gelo</h2><div class="grid">{cards("hoquei", HOCKEY_LEAGUES, hockey)}</div>
-<h2>✅ Jogos mais seguros</h2><div class="grid"><a href="seguros.html">Os jogos de futebol mais claros
+<h2>🎾 Ténis</h2><div class="grid">{cards("tenis", TENNIS_LEAGUES, tennis)}</div>
+<h2>✅ Jogos mais seguros</h2><div class="grid"><a href="seguros.html">Os jogos de futebol e ténis mais claros
 <span>só os favoritos fortes; no teste com jogos passados acertaram cerca de 8 em cada 10</span></a></div>
 <h2>📊 Histórico</h2><div class="grid"><a href="historico.html">Acertos das previsões publicadas
 <span>todas guardadas antes de cada jogo e comparadas com o resultado final</span></a></div>"""
@@ -534,7 +623,41 @@ aparece no <a href="historico.html#seguros">histórico</a>."""
 SAFE_BACKTEST = {"vitoria": 0.77, "dupla": 0.85}
 
 
-def _safe_page(preds: pd.DataFrame, updated: datetime) -> str:
+TENNIS_SAFE = 0.75  # favorito de ténis com 75% ou mais (acerto no teste em TENNIS_SAFE_BACKTEST)
+TENNIS_SAFE_BACKTEST = {"jogos": 2394, "acerto": 0.82}
+
+
+def _tennis_safe(tennis: pd.DataFrame, today) -> str:
+    out = [f"<h2>🎾 Ténis: favorito com {_pct(TENNIS_SAFE)} ou mais</h2>",
+           f'<p class="note">No teste com {TENNIS_SAFE_BACKTEST["jogos"]} jogos destes (ATP e WTA, '
+           f"cada um previsto só com os jogos anteriores) o favorito ganhou "
+           f"{_pct(TENNIS_SAFE_BACKTEST['acerto'])} das vezes. Só entram jogadores com pelo menos "
+           f"{MIN_TENNIS_GAMES} jogos no histórico.</p>"]
+    rows = []
+    if not tennis.empty:
+        dates = pd.to_datetime(tennis["date"]).dt.date
+        games = tennis[(dates >= today) & (dates <= today + pd.Timedelta(days=registo.DAYS_AHEAD))]
+        for g in games.to_dict("records"):
+            if min(g["jogos_casa"], g["jogos_fora"]) < MIN_TENNIS_GAMES:
+                continue
+            p = max(g["casa"], g["fora"])
+            if p < TENNIS_SAFE:
+                continue
+            fav = g["home"] if g["casa"] >= g["fora"] else g["away"]
+            league = f'<a href="tenis/{g["league"].lower()}.html">{html.escape(g["league"])}</a>'
+            rows.append((p, [_when(g["date"], g.get("time")),
+                             f"{league} {html.escape(g['home'])} – {html.escape(g['away'])}",
+                             f"<b>{html.escape(fav)}</b>", _pct(p)]))
+    if rows:
+        out.append(_tbl(["Data", "Jogo", "Escolha", "%"], [r for _, r in sorted(rows, key=lambda x: -x[0])],
+                        "games"))
+    else:
+        out.append('<div class="empty">Sem jogos destes marcados por agora (no ténis a ordem de jogo '
+                   "só sai na véspera).</div>")
+    return "".join(out)
+
+
+def _safe_page(preds: pd.DataFrame, updated: datetime, tennis: pd.DataFrame | None = None) -> str:
     today = updated.astimezone(LISBON).date()
     rows = {"vitoria": [], "dupla": []}
     if not preds.empty and "casa" in preds:
@@ -562,11 +685,13 @@ def _safe_page(preds: pd.DataFrame, updated: datetime) -> str:
             body.append(_tbl(head, [r for _, r in sorted(rows[kind], key=lambda x: -x[0])], "games"))
         else:
             body.append('<div class="empty">Sem jogos destes nos próximos 7 dias.</div>')
+    if tennis is not None:
+        body.append(_tennis_safe(tennis, today))
     return _page("Jogos mais seguros", "".join(body), "", "seguros", updated)
 
 
 SPORTS = {"futebol": ("⚽ Futebol", LEAGUES), "basquetebol": ("🏀 Basquetebol", BASKET_LEAGUES),
-          "hoquei": ("🏒 Hóquei no gelo", HOCKEY_LEAGUES)}
+          "hoquei": ("🏒 Hóquei no gelo", HOCKEY_LEAGUES), "tenis": ("🎾 Ténis", TENNIS_LEAGUES)}
 STORE_URL = "https://github.com/Goncalo-Silva-Dev/BotPredicts/commits/historico"
 
 TRACK_NOTE = f"""Duas vezes por dia, quando o site atualiza, fica guardada a previsão de cada jogo
@@ -691,14 +816,15 @@ def _track_page(store: dict, updated: datetime) -> str:
 
 def render_site(preds: pd.DataFrame, basket: pd.DataFrame | None = None,
                 updated: datetime | None = None, hockey: pd.DataFrame | None = None,
-                track: dict | None = None) -> dict[str, str]:
+                track: dict | None = None, tennis: pd.DataFrame | None = None) -> dict[str, str]:
     """Todas as páginas do site: {caminho relativo: html}; track é o registo das previsões."""
     updated = updated or datetime.now(timezone.utc)
     basket = basket if basket is not None else pd.DataFrame()
     hockey = hockey if hockey is not None else pd.DataFrame()
-    pages = {"index.html": _index(preds, basket, hockey, updated),
+    tennis = tennis if tennis is not None else pd.DataFrame()
+    pages = {"index.html": _index(preds, basket, hockey, updated, tennis),
              "historico.html": _track_page(track or {}, updated),
-             "seguros.html": _safe_page(preds, updated)}
+             "seguros.html": _safe_page(preds, updated, tennis)}
     for key, league in LEAGUES.items():
         games = preds[preds["league"] == key] if not preds.empty else preds
         pages[f"futebol/{key.lower()}.html"] = _league_page(
@@ -715,6 +841,11 @@ def render_site(preds: pd.DataFrame, basket: pd.DataFrame | None = None,
         games = hockey[hockey["league"] == key] if not hockey.empty else hockey
         pages[f"hoquei/{key.lower()}.html"] = _league_page(
             key, league, games, _hockey_game, HOCKEY_NOTE, "../", updated)
+    for key, league in TENNIS_LEAGUES.items():
+        games = tennis[tennis["league"] == key] if not tennis.empty else tennis
+        pages[f"tenis/{key.lower()}.html"] = _league_page(
+            key, league, games, _tennis_game, TENNIS_NOTE + TENNIS_LEAGUE_NOTES.get(key, ""), "../",
+            updated, empty=TENNIS_EMPTY)
     return pages
 
 

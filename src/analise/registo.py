@@ -67,7 +67,20 @@ def hockey_probs(g) -> dict:
             "puck_casa": [-1.5, _r(puck)], "ambas": _r(mk["ambas_marcam"])}
 
 
-PROBS = {"futebol": football_probs, "basquetebol": basket_probs, "hoquei": hockey_probs}
+def tennis_probs(g) -> dict:
+    mk = g["mercados"]
+    tot = min(mk["total"], key=lambda lp: abs(lp[1] - 0.5))  # linha de jogos mais equilibrada
+    hcp = min(mk["handicap"], key=lambda lp: abs(lp[1] - 0.5))
+    sets_needed = int(g["best_of"]) // 2 + 1
+    return {"vencedor": _r(g["casa"]), "primeiro_set": _r(mk["primeiro_set"]),
+            "todos_os_sets": _r(mk["todos_os_sets"]), "tiebreak": _r(mk["tiebreak"]),
+            # total de jogos: [linha, probabilidade de ficar acima]; handicap de jogos do 1.º jogador
+            "total": [float(tot[0]), _r(tot[1])], "handicap": [float(hcp[0]), _r(hcp[1])],
+            "sets_para_ganhar": sets_needed}
+
+
+PROBS = {"futebol": football_probs, "basquetebol": basket_probs, "hoquei": hockey_probs,
+         "tenis": tennis_probs}
 
 
 def load(folder: str) -> dict:
@@ -154,6 +167,19 @@ def _result(g, sport) -> dict | None:
         cols = {"casa": "home_points", "fora": "away_points"}
     elif sport == "hoquei":
         cols = {"casa": "home_goals", "fora": "away_goals", "casa_60": "home_reg", "fora_60": "away_reg"}
+    elif sport == "tenis":
+        # só jogos acabados (desistências e faltas de comparência ficam sem resultado);
+        # casa e fora são os sets; jogos_casa e jogos_fora os jogos; set1 quem ganhou o 1.º set
+        if g.get("status") != "final":
+            return None
+        sets = [(g.get(f"home_s{k}"), g.get(f"away_s{k}")) for k in range(1, 6)]
+        sets = [(a, b) for a, b in sets if a is not None and b is not None and pd.notna(a) and pd.notna(b)]
+        if not sets:
+            return None
+        return {"casa": _num(g["home_sets"]), "fora": _num(g["away_sets"]),
+                "jogos_casa": int(sum(a for a, _ in sets)), "jogos_fora": int(sum(b for _, b in sets)),
+                "set1": 0 if sets[0][0] > sets[0][1] else 1,
+                "tiebreaks": int(sum(1 for a, b in sets if max(a, b) == 7 and min(a, b) == 6))}
     else:
         cols = {"casa": "home_goals", "fora": "away_goals", "casa_int": "home_goals_ht",
                 "fora_int": "away_goals_ht"}
@@ -200,8 +226,19 @@ MARKETS = {
         ("Ambas marcam (60 minutos)", "ambas", "sim",
          lambda r, _: r["casa_60"] > 0 and r["fora_60"] > 0 if "casa_60" in r else None),
     ],
+    "tenis": [
+        ("Vencedor", "vencedor", "sim", lambda r, _: r["casa"] > r["fora"]),
+        ("Vencedor do 1.º set", "primeiro_set", "sim", lambda r, _: r["set1"] == 0 if "set1" in r else None),
+        ("Vai a todos os sets", "todos_os_sets", "sim", lambda r, _: min(r["casa"], r["fora"]) > 0
+         and abs(r["casa"] - r["fora"]) == 1),
+        ("Há tie-break", "tiebreak", "sim", lambda r, _: r["tiebreaks"] > 0 if "tiebreaks" in r else None),
+        ("Total de jogos (linha do modelo)", "total", "sim",
+         lambda r, line: r["jogos_casa"] + r["jogos_fora"] > line if "jogos_casa" in r else None),
+        ("Handicap de jogos do 1.º jogador", "handicap", "sim",
+         lambda r, line: r["jogos_casa"] - r["jogos_fora"] + line > 0 if "jogos_casa" in r else None),
+    ],
 }
-MAIN = {"futebol": "1x2", "basquetebol": "vencedor", "hoquei": "vencedor"}
+MAIN = {"futebol": "1x2", "basquetebol": "vencedor", "hoquei": "vencedor", "tenis": "vencedor"}
 EPS = 1e-6
 
 
