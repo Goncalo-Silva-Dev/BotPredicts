@@ -3,7 +3,7 @@
 Recolha de dados, modelo de previsões, relatórios por jogo e app web para futebol
 (Portugal, Espanha, Inglaterra, França, Itália, Alemanha, MLS, Brasil, Arábia Saudita,
 Liga dos Campeões, Liga Europa e Liga Conferência) e basquetebol (53 ligas: NBA, EuroLeague, EuroCup, Champions League, FIBA Europe Cup, ENBL,
-todas as primeiras divisões europeias e outras ligas do resto do mundo), e hóquei no gelo (NHL).
+todas as primeiras divisões europeias e outras ligas do resto do mundo), hóquei no gelo (NHL) e ténis (ATP e WTA).
 
 ## Começar
 
@@ -17,6 +17,7 @@ python -m analise.cli previsoes              # probabilidades dos jogos dos pró
 python -m analise.cli previsoes --ligas POR --jogo Benfica Porto   # um jogo à escolha
 python -m analise.cli basquete-backtest      # ligas de basquetebol em jogos passados
 python -m analise.cli hoquei-backtest         # NHL em jogos passados
+python -m analise.cli tenis-backtest          # ATP e WTA em jogos passados (Elo + modelo de pontos)
 python -m analise.cli pagina                 # gera site/index.html com todos os jogos que faltam
 pytest
 ```
@@ -31,6 +32,7 @@ pytest
 | betexplorer.com | Taças europeias (resultados, odds e calendário), Liga 2, Sub-23, Arábia Saudita; basquetebol: 37 ligas e taças europeias, CBA e PBA |
 | openfootball (football.json) | Calendário completo da época (todas menos a MLS) |
 | ESPN (API pública) | NBA: calendário e resultados |
+| ESPN (API pública) | Ténis ATP e WTA: todos os jogos de cada ano com o resultado de cada set (sem Challengers nem ITF) |
 | Euroleague Basketball (api-live.euroleague.net) | EuroLeague e EuroCup |
 | Understat | xG (Inglaterra, Espanha, Itália, França) |
 | The Odds API | Odds atuais (500 créditos/mês) |
