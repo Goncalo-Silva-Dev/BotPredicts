@@ -307,7 +307,8 @@ def basket_predictions(today, reserve_dir=None, collect=None):
     out = []
     for league in basket.BASKET_LEAGUES.values():
         try:  # uma liga que falhe não estraga a página
-            games = basket.fetch_games(league, today)
+            # betexplorer: 2 épocas chegam para a janela do modelo e poupam pedidos ao site
+            games = basket.fetch_games(league, today, seasons=2 if league.source == "betexplorer" else 3)
         except Exception as e:
             print(f"{league.key}: falhou a recolha ({e})")
             games = _reserve_games(reserve_dir, league.key)

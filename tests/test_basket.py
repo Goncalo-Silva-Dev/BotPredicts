@@ -249,3 +249,23 @@ def test_betexplorer_waits_and_retries_when_rate_limited(monkeypatch):
     monkeypatch.setattr(betexplorer.time, "sleep", waits.append)
     assert betexplorer.get("https://www.betexplorer.com/x/") == "ok"
     assert not answers and waits.count(7) == 2
+
+
+def test_be_season_path_usa_nome_antigo_e_epoca_atual():
+    from analise.ingest.basket import BASKET_LEAGUES, be_season_path
+    page = ('<a href="/basketball/slovenia/liga-otp-banka-2025-2026/">'
+            '<a href="/basketball/slovenia/liga-nova-kbm-2023-2024/">'
+            '<a href="/basketball/serbia/first-league-2025-2026/">')
+    slo = BASKET_LEAGUES["SLO"]
+    assert be_season_path(slo, 2026, 2026, page) == "basketball/slovenia/liga-otp-banka"
+    assert be_season_path(slo, 2025, 2026, page) == "basketball/slovenia/liga-otp-banka-2025-2026"
+    assert be_season_path(slo, 2023, 2026, page) == "basketball/slovenia/liga-nova-kbm-2023-2024"
+    assert be_season_path(slo, 2024, 2026, page) is None
+
+
+def test_todas_as_ligas_de_basquetebol_tem_secao_e_bandeira():
+    from analise.ingest.basket import BASKET_GROUPS, BASKET_LEAGUES
+    from analise.pagina import FLAGS
+    for key, league in BASKET_LEAGUES.items():
+        assert league.group in BASKET_GROUPS
+        assert key in FLAGS
