@@ -5,8 +5,8 @@ from datetime import date, datetime, timedelta, timezone
 import pandas as pd
 from sqlalchemy import select
 
-from analise import backtest, basquete, calendario, europa, hoquei, pagina, previsoes, registo
-from analise.ingest import basket, hockey
+from analise import backtest, basquete, calendario, europa, hoquei, pagina, previsoes, registo, tenis
+from analise.ingest import basket, hockey, tennis
 from analise.db import get_engine, matches
 from analise.ingest import football_data_uk
 from analise.leagues import LEAGUES, TRAINING_LEAGUES
@@ -43,6 +43,10 @@ def main(argv=None):
     hb.add_argument("--ligas", nargs="*", default=list(hockey.HOCKEY_LEAGUES),
                     choices=list(hockey.HOCKEY_LEAGUES))
     hb.add_argument("--epocas", type=int, default=3)
+    tn = sub.add_parser("tenis-backtest", help="Testa o modelo de ténis em jogos passados")
+    tn.add_argument("--anos", type=int, default=8, help="anos de jogos (o Elo aquece nos primeiros)")
+    tn.add_argument("--desde", default="2025-01-01", help="primeiro jogo avaliado (AAAA-MM-DD)")
+    tn.add_argument("--saida", default="data/backtest/TENIS.csv")
     tb = sub.add_parser("tacas-backtest", help="Testa o modelo das taças europeias em jogos passados")
     tb.add_argument("--desde", default="2022-07-01", help="primeiro jogo avaliado (AAAA-MM-DD)")
     tb.add_argument("--saida", default="data/backtest/TACAS.csv")
@@ -73,6 +77,8 @@ def main(argv=None):
         run_basquete_backtest(args)
     elif args.cmd == "hoquei-backtest":
         run_hoquei_backtest(args)
+    elif args.cmd == "tenis-backtest":
+        run_tenis_backtest(args)
     elif args.cmd == "tacas-backtest":
         run_tacas_backtest(engine, args)
     elif args.cmd == "pagina":
@@ -203,11 +209,16 @@ def run_pagina(engine, args):
     ice = hockey_predictions(today, hockey_games)
     if args.dias and not ice.empty:
         ice = ice[ice["date"] <= today + timedelta(days=args.dias)]
+    tennis_games = []
+    courts = tennis_predictions(today, tennis_games)
+    if args.dias and not courts.empty:
+        courts = courts[courts["date"] <= today + timedelta(days=args.dias)]
     track = None
     if args.historico:
-        track = update_track(engine, args.historico, {"futebol": res, "basquetebol": hoops, "hoquei": ice},
-                             {"basquetebol": basket_games, "hoquei": hockey_games})
-    for path, page in pagina.render_site(res, hoops, hockey=ice, track=track).items():
+        track = update_track(engine, args.historico,
+                             {"futebol": res, "basquetebol": hoops, "hoquei": ice, "tenis": courts},
+                             {"basquetebol": basket_games, "hoquei": hockey_games, "tenis": tennis_games})
+    for path, page in pagina.render_site(res, hoops, hockey=ice, track=track, tennis=courts).items():
         full = os.path.join(args.saida, path)
         os.makedirs(os.path.dirname(full), exist_ok=True)
         with open(full, "w", encoding="utf-8") as f:
@@ -218,8 +229,10 @@ def run_pagina(engine, args):
         f.write(pagina.to_json(hoops))
     with open(os.path.join(args.saida, "hoquei.json"), "w", encoding="utf-8") as f:
         f.write(pagina.to_json(ice))
-    print(f"{len(res)} jogos de futebol, {len(hoops)} de basquetebol e {len(ice)} de hóquei "
-          f"em {args.saida}/")
+    with open(os.path.join(args.saida, "tenis.json"), "w", encoding="utf-8") as f:
+        f.write(pagina.to_json(courts))
+    print(f"{len(res)} jogos de futebol, {len(hoops)} de basquetebol, {len(ice)} de hóquei e "
+          f"{len(courts)} de ténis em {args.saida}/")
 
 
 def update_track(engine, folder, preds, games):
@@ -243,6 +256,34 @@ def update_track(engine, folder, preds, games):
             print(f"histórico: {n} resultados de {sport} juntados")
     registo.save(store, folder)
     return store
+
+
+def tennis_predictions(today, collect=None):
+    try:  # se a ESPN falhar, a página sai sem ténis em vez de não sair
+        matches = tennis.fetch_matches(today, years=tenis.YEARS)
+    except Exception as e:
+        print(f"ténis: falhou a recolha ({e})")
+        return pd.DataFrame()
+    if collect is not None:
+        collect.append(matches)
+    preds = tenis.predict_upcoming(matches, today)
+    if preds.empty:
+        return preds
+    return preds.sort_values(["date", "time"], na_position="last")
+
+
+def run_tenis_backtest(args):
+    matches = tennis.fetch_matches(years=args.anos)
+    res = tenis.walk_forward(matches, start=args.desde)
+    os.makedirs(os.path.dirname(args.saida) or ".", exist_ok=True)
+    res.drop(columns=["mk"], errors="ignore").to_csv(args.saida, index=False)
+    rows = [{"grupo": f"{k[0]} {k[1]}", **tenis.summary(g)} for k, g in res.groupby(["league", "surface"])]
+    rows += [{"grupo": k, **tenis.summary(g)} for k, g in res.groupby("league")]
+    rows.append({"grupo": "TOTAL", **tenis.summary(res)})
+    pd.set_option("display.width", 200)
+    print(pd.DataFrame(rows).set_index("grupo").round(3).T.to_string())
+    print("\nCalibração (vencedor)")
+    print(tenis.calibration(res).round(3).to_string(index=False))
 
 
 def hockey_predictions(today, collect=None):
