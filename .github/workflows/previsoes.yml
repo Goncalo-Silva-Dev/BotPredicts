@@ -44,7 +44,15 @@ jobs:
         with:
           ref: historico
           path: historico
+      # Épocas passadas das ligas de basquetebol do betexplorer (não mudam; poupa pedidos ao site)
+      - uses: actions/cache@v4
+        with:
+          path: cache-basquete
+          key: basquete-${{ github.run_id }}
+          restore-keys: basquete-
       - run: python -m analise.cli pagina --saida site --dados-basquete dados-basquete --historico historico
+        env:
+          BASKET_CACHE_DIR: cache-basquete
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site

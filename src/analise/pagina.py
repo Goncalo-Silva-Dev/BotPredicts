@@ -13,14 +13,15 @@ from datetime import datetime, timezone
 import pandas as pd
 
 from analise import registo
-from analise.ingest.basket import BASKET_LEAGUES
+from analise.ingest.basket import BASKET_GROUPS, BASKET_LEAGUES
 from analise.ingest.hockey import HOCKEY_LEAGUES
 from analise.leagues import LEAGUES
 
 LISBON = ZoneInfo("Europe/Lisbon")
 
 FLAGS = {"POR": "🇵🇹", "PO2": "🇵🇹", "U23": "🇵🇹", "TUR": "🇹🇷", "NED": "🇳🇱", "BEL": "🇧🇪", "ESP": "🇪🇸", "ENG": "🏴", "FRA": "🇫🇷", "ITA": "🇮🇹", "GER": "🇩🇪", "USA": "🇺🇸", "BRA": "🇧🇷", "SAU": "🇸🇦", "UCL": "🇪🇺", "UEL": "🇪🇺", "UECL": "🇪🇺",
-         "NBA": "🇺🇸", "NHL": "🇺🇸", "NBL": "🇦🇺", "BLG": "🇯🇵", "ABA": "🇷🇸", "KBL": "🇰🇷", "SBL": "🇸🇪", "KOR": "🇫🇮", "CBA": "🇨🇳", "PBA": "🇵🇭", "EUR": "🇪🇺", "EUC": "🇪🇺", "NBB": "🇧🇷", "ACB": "🇪🇸", "LBA": "🇮🇹", "LPB": "🇵🇹", "LNB": "🇫🇷"}
+         "NBA": "🇺🇸", "NHL": "🇺🇸", "NBL": "🇦🇺", "BLG": "🇯🇵", "ABA": "🇷🇸", "KBL": "🇰🇷", "SBL": "🇸🇪", "KOR": "🇫🇮", "CBA": "🇨🇳", "PBA": "🇵🇭", "EUR": "🇪🇺", "EUC": "🇪🇺", "NBB": "🇧🇷", "ACB": "🇪🇸", "LBA": "🇮🇹", "LPB": "🇵🇹", "LNB": "🇫🇷",
+         "BCL": "🇪🇺", "FEC": "🇪🇺", "ENB": "🇪🇺", "BBL": "🇩🇪", "GBL": "🇬🇷", "BSL": "🇹🇷", "ISR": "🇮🇱", "LKL": "🇱🇹", "VTB": "🇷🇺", "PLK": "🇵🇱", "BNX": "🇧🇪", "LEL": "🇱🇻", "CZE": "🇨🇿", "SVK": "🇸🇰", "SLO": "🇸🇮", "CRO": "🇭🇷", "SRB": "🇷🇸", "MNE": "🇲🇪", "BIH": "🇧🇦", "MKD": "🇲🇰", "BUL": "🇧🇬", "ROU": "🇷🇴", "HUN": "🇭🇺", "AUT": "🇦🇹", "SUI": "🇨🇭", "DEN": "🇩🇰", "NOR": "🇳🇴", "ISL": "🇮🇸", "GBR": "🇬🇧", "IRL": "🇮🇪", "UKR": "🇺🇦", "BLR": "🇧🇾", "GEO": "🇬🇪", "CYP": "🇨🇾", "ALB": "🇦🇱", "KOS": "🇽🇰", "LUX": "🇱🇺"}
 WEEKDAYS = ["seg", "ter", "qua", "qui", "sex", "sáb", "dom"]
 
 CSS = """
@@ -75,7 +76,10 @@ header summary { list-style:none; }
 header summary::-webkit-details-marker { display:none; }
 header summary::after { content:" ▾"; color:var(--muted); }
 header .menu { position:absolute; right:0; top:100%; background:var(--card); min-width:240px;
-  border:1px solid var(--line); border-radius:10px; padding:6px; box-shadow:0 8px 24px #0002; }
+  border:1px solid var(--line); border-radius:10px; padding:6px; box-shadow:0 8px 24px #0002;
+  max-height:75vh; overflow-y:auto; }
+header .menu b { display:block; padding:10px 10px 4px; font-size:12px; color:var(--muted);
+  text-transform:uppercase; letter-spacing:.04em; }
 header .menu a { font-weight:500; padding:8px 10px; border-radius:6px; }
 header .menu a:hover, header .menu a.on { background:var(--bg); }
 .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px;
@@ -436,7 +440,22 @@ exato são só do tempo regulamentar. Em "Por período" as percentagens ficam pe
 liga: um período tem poucos golos e é muito difícil de prever."""
 
 # Percentagem de vencedores certos no teste com jogos passados (basquete-backtest)
-BASKET_ACCURACY = {"NBA": 66, "EUR": 64, "EUC": 65, "ACB": 69, "LBA": 71, "LPB": 75, "NBB": 73, "LNB": 71, "NBL": 59, "BLG": 67, "ABA": 80, "KBL": 58, "SBL": 73, "KOR": 57, "CBA": 71, "PBA": 66}
+BASKET_ACCURACY = {"NBA": 66, "EUR": 64, "EUC": 65, "ACB": 69, "LBA": 71, "LPB": 75, "NBB": 73, "LNB": 71, "NBL": 59, "BLG": 67, "ABA": 80, "KBL": 58, "SBL": 73, "KOR": 57, "CBA": 71, "PBA": 66,
+                   "BCL": 69, "FEC": 72, "ENB": 67, "BBL": 67, "GBL": 80, "BSL": 72, "ISR": 70, "LKL": 72, "VTB": 80, "PLK": 62, "BNX": 72, "LEL": 77, "CZE": 75, "SVK": 72, "SLO": 75, "CRO": 72, "SRB": 68, "MNE": 66, "BIH": 68, "MKD": 71, "BUL": 81, "ROU": 73, "HUN": 72, "AUT": 73, "SUI": 77, "DEN": 77, "NOR": 79, "ISL": 66, "GBR": 62, "IRL": 60, "UKR": 67, "BLR": 75, "GEO": 63, "CYP": 81, "ALB": 83, "KOS": 66, "LUX": 72}
+# Ligas novas (betexplorer, nov. 2026): jogos no teste, para mostrar ao lado da percentagem
+BASKET_TESTED = {"BCL": 167, "FEC": 163, "ENB": 51, "BBL": 544, "GBL": 215, "BSL": 413, "ISR": 292, "LKL": 250, "VTB": 439, "PLK": 440, "BNX": 534, "LEL": 337, "CZE": 413, "SVK": 301, "SLO": 177, "CRO": 316, "SRB": 358, "MNE": 216, "BIH": 231, "MKD": 201, "BUL": 188, "ROU": 474, "HUN": 397, "AUT": 258, "SUI": 149, "DEN": 274, "NOR": 222, "ISL": 183, "GBR": 196, "IRL": 163, "UKR": 161, "BLR": 272, "GEO": 145, "CYP": 85, "ALB": 98, "KOS": 376, "LUX": 459}
+BE_NOTE = (" Os jogos desta liga vêm do betexplorer, que só dá o resultado final (com prolongamento), "
+           "por isso os períodos usam a divisão média das ligas com pontos por quarto.")
+CUP_BASKET_NOTE = (" Só entram as equipas com pelo menos 5 jogos nesta taça no último ano e meio: "
+                   "juntar os campeonatos nacionais foi pior no teste (o modelo não consegue comparar "
+                   "equipas de ligas diferentes que nunca se defrontaram).")
+WEAK_BASKET = (" Atenção: nesta liga o modelo foi fraco no teste (o favorito ganhou só {acc}% das vezes). "
+               "Usa estas percentagens com cautela.")
+FEW_BASKET = (" Atenção: o teste teve poucos jogos ({n}), por isso esta percentagem é pouco segura.")
+
+
+def _basket_group(group: str) -> dict:
+    return {k: l for k, l in BASKET_LEAGUES.items() if l.group == group}
 
 
 def _page(title: str, body: str, root: str, current: str, updated: datetime) -> str:
@@ -445,6 +464,10 @@ def _page(title: str, body: str, root: str, current: str, updated: datetime) -> 
         return "".join(
             f'<a href="{root}{folder}/{k.lower()}.html"{" class=on" if current == k else ""}>'
             f"{FLAGS.get(k, '')} {html.escape(l.name)}</a>" for k, l in leagues.items())
+
+    def basket_menu():
+        return "".join(f"<b>{title}</b>" + menu("basquetebol", _basket_group(group))
+                       for group, title in BASKET_GROUPS.items())
     return f"""<!doctype html>
 <html lang="pt-PT">
 <head>
@@ -457,7 +480,7 @@ def _page(title: str, body: str, root: str, current: str, updated: datetime) -> 
 <header><nav>
 <a class="brand" href="{root}index.html">BotPredicts</a>
 <details><summary>⚽ Futebol</summary><div class="menu">{menu("futebol", LEAGUES)}</div></details>
-<details><summary>🏀 Basquetebol</summary><div class="menu">{menu("basquetebol", BASKET_LEAGUES)}</div></details>
+<details><summary>🏀 Basquetebol</summary><div class="menu">{basket_menu()}</div></details>
 <details><summary>🏒 Hóquei</summary><div class="menu">{menu("hoquei", HOCKEY_LEAGUES)}</div></details>
 <a href="{root}seguros.html">✅ Mais seguros</a>
 <a href="{root}historico.html">📊 Histórico</a>
@@ -496,6 +519,9 @@ def _index(preds, basket, hockey, updated) -> str:
             out.append(f'<a href="{folder}/{k.lower()}.html">{FLAGS.get(k, "")} '
                        f"{html.escape(l.name)}<span>{n} {"jogo" if n == 1 else "jogos"} com previsão</span></a>")
         return "".join(out)
+    basket_cards = "".join(f'<h3>{title}</h3><div class="grid">'
+                           f'{cards("basquetebol", _basket_group(group), basket)}</div>'
+                           for group, title in BASKET_GROUPS.items())
     body = f"""<h1>Previsões de futebol, basquetebol e hóquei no gelo</h1>
 <div class="warn">
 <strong>Antes de usares estas previsões</strong>
@@ -513,7 +539,7 @@ procura ajuda: em Portugal, o SICAD apoia casos de jogo excessivo.</li>
 </ul>
 </div>
 <h2>⚽ Futebol</h2><div class="grid">{cards("futebol", LEAGUES, preds)}</div>
-<h2>🏀 Basquetebol</h2><div class="grid">{cards("basquetebol", BASKET_LEAGUES, basket)}</div>
+<h2>🏀 Basquetebol</h2>{basket_cards}
 <h2>🏒 Hóquei no gelo</h2><div class="grid">{cards("hoquei", HOCKEY_LEAGUES, hockey)}</div>
 <h2>✅ Jogos mais seguros</h2><div class="grid"><a href="seguros.html">Os jogos de futebol mais claros
 <span>só os favoritos fortes; no teste com jogos passados acertaram cerca de 8 em cada 10</span></a></div>
@@ -707,8 +733,17 @@ def render_site(preds: pd.DataFrame, basket: pd.DataFrame | None = None,
     for key, league in BASKET_LEAGUES.items():
         games = basket[basket["league"] == key] if not basket.empty else basket
         note = BASKET_NOTE
-        if key in BASKET_ACCURACY:
+        if key in BASKET_TESTED:
+            note += (f" No teste com {BASKET_TESTED[key]} jogos passados, cada um previsto só com os "
+                     f"jogos anteriores, acertou o vencedor em {BASKET_ACCURACY[key]}% dos jogos.")
+        elif key in BASKET_ACCURACY:
             note += f" No teste com jogos passados acertou o vencedor em {BASKET_ACCURACY[key]}% dos jogos."
+        if league.source == "betexplorer":
+            note += BE_NOTE + (CUP_BASKET_NOTE if league.group == "taças" else "")
+        if BASKET_ACCURACY.get(key, 100) <= 63:
+            note += WEAK_BASKET.format(acc=BASKET_ACCURACY[key])
+        elif BASKET_TESTED.get(key, 1000) < 100:
+            note += FEW_BASKET.format(n=BASKET_TESTED[key])
         pages[f"basquetebol/{key.lower()}.html"] = _league_page(
             key, league, games, _basket_game, note, "../", updated)
     for key, league in HOCKEY_LEAGUES.items():

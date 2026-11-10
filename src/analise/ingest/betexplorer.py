@@ -129,6 +129,7 @@ def get(url: str, **params) -> str:
         _last_request = time.monotonic()
         if resp.status_code not in (429, 503) or wait is None:
             break
+        print(f"betexplorer: {resp.status_code} em {url}, a esperar", flush=True)
         retry_after = resp.headers.get("Retry-After", "")
         time.sleep(min(int(retry_after), 300) if retry_after.isdigit() else wait)
     resp.raise_for_status()

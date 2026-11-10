@@ -10,12 +10,15 @@
 - Liga ABA (Sérvia e Balcãs): calendário do site oficial, uma página por época.
 - B.League B1 (Japão): calendário do site oficial, um pedido por dia de jogos.
 - Betclic ÉLITE (França): API do site da LNB, com o token público que o site dá a quem o visita.
+- Restantes ligas europeias e taças FIBA (Champions League, Europe Cup, ENBL): betexplorer.
 """
 import html as html_lib
+import os
 import re
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from datetime import date, timedelta
+from functools import lru_cache
 
 import pandas as pd
 import requests
@@ -40,29 +43,75 @@ class BasketLeague:
     code: str  # slug da ESPN ou código da competição na Euroleague
     # Meses sem jogos (a ESPN pede um pedido por dia, por isso saltamos o defeso)
     off_months: tuple = ()
+    # Secção do menu: "taças" (competições europeias), "europa" (ligas europeias) ou "mundo"
+    group: str = "mundo"
+    # Nomes antigos da liga no betexplorer (as ligas mudam de patrocinador)
+    old_slugs: tuple = ()
+
+
+def _be(key, name, path, group="europa", old=()):
+    return BasketLeague(key, name, "betexplorer", path, group=group, old_slugs=old)
 
 
 BASKET_LEAGUES = {
     l.key: l
     for l in [
+        BasketLeague("EUR", "EuroLeague", "euroleague", "E", group="taças"),
+        BasketLeague("EUC", "EuroCup", "euroleague", "U", group="taças"),
+        _be("BCL", "Basketball Champions League", "europe/champions-league", "taças"),
+        _be("FEC", "FIBA Europe Cup", "europe/fiba-europe-cup", "taças"),
+        _be("ENB", "ENBL (Europa do Norte)", "europe/enbl", "taças"),
+        BasketLeague("ACB", "Liga Endesa (Espanha)", "acb", "", group="europa"),
+        BasketLeague("LBA", "Lega Basket Serie A (Itália)", "lba", "", group="europa"),
+        BasketLeague("LPB", "Liga Betclic (Portugal)", "fpb", "", group="europa"),
+        BasketLeague("LNB", "Betclic ÉLITE (França)", "lnb", "PROA", group="europa"),
+        _be("BBL", "BBL (Alemanha)", "germany/bbl"),
+        _be("GBL", "Basket League (Grécia)", "greece/basket-league"),
+        _be("BSL", "Super Lig (Turquia)", "turkey/super-lig"),
+        _be("ISR", "Winner League (Israel)", "israel/super-league"),
+        _be("LKL", "LKL (Lituânia)", "lithuania/lkl"),
+        _be("VTB", "Liga VTB (Rússia)", "russia/vtb-united-league"),
+        BasketLeague("ABA", "Liga ABA (Sérvia e Balcãs)", "aba", "", group="europa"),
+        _be("PLK", "Basket Liga (Polónia)", "poland/basket-liga"),
+        _be("BNX", "BNXT League (Bélgica e Países Baixos)", "europe/bnxt-league"),
+        _be("LEL", "Liga Letónia-Estónia", "europe/latvian-estonian-league"),
+        _be("CZE", "NBL (Chéquia)", "czech-republic/nbl"),
+        _be("SVK", "Extraliga (Eslováquia)", "slovakia/extraliga"),
+        _be("SLO", "Liga OTP banka (Eslovénia)", "slovenia/liga-otp-banka", old=("liga-nova-kbm",)),
+        _be("CRO", "Premijer liga (Croácia)", "croatia/premijer-liga"),
+        _be("SRB", "KLS (Sérvia)", "serbia/first-league"),
+        _be("MNE", "Prva A liga (Montenegro)", "montenegro/prva-a-liga"),
+        _be("BIH", "Prvenstvo BiH (Bósnia)", "bosnia-and-herzegovina/prvenstvo-bih"),
+        _be("MKD", "Superliga (Macedónia do Norte)", "north-macedonia/super-league", old=("prva-liga",)),
+        _be("BUL", "NBL (Bulgária)", "bulgaria/nbl"),
+        _be("ROU", "Liga Națională (Roménia)", "romania/divizia-a"),
+        _be("HUN", "NB I/A (Hungria)", "hungary/nb-i-a"),
+        _be("AUT", "Superliga (Áustria)", "austria/superliga"),
+        _be("SUI", "SB League (Suíça)", "switzerland/sb-league"),
+        BasketLeague("SBL", "Basketligan (Suécia)", "sbl", "", group="europa"),
+        BasketLeague("KOR", "Korisliiga (Finlândia)", "kori", "", group="europa"),
+        _be("DEN", "Basketligaen (Dinamarca)", "denmark/basketligaen"),
+        _be("NOR", "BLNO (Noruega)", "norway/blno"),
+        _be("ISL", "Úrvalsdeild (Islândia)", "iceland/premier-league"),
+        _be("GBR", "Super League Basketball (Reino Unido)", "united-kingdom/slb", old=("bbl",)),
+        _be("IRL", "Super League (Irlanda)", "ireland/superleague"),
+        _be("UKR", "Superliga (Ucrânia)", "ukraine/fbu-superleague"),
+        _be("BLR", "Premier League (Bielorrússia)", "belarus/premier-league"),
+        _be("GEO", "Superliga (Geórgia)", "georgia/superleague"),
+        _be("CYP", "Division A (Chipre)", "cyprus/division-a"),
+        _be("ALB", "Superliga (Albânia)", "albania/superliga"),
+        _be("KOS", "Superliga (Kosovo)", "kosovo/superliga"),
+        _be("LUX", "LBBL (Luxemburgo)", "luxembourg/lbbl"),
         BasketLeague("NBA", "NBA", "espn", "nba", off_months=(7, 8, 9)),
-        BasketLeague("NBL", "NBL (Austrália)", "espn", "nbl", off_months=(5, 6, 7, 8)),
-        BasketLeague("EUR", "EuroLeague", "euroleague", "E"),
-        BasketLeague("EUC", "EuroCup", "euroleague", "U"),
-        BasketLeague("ACB", "Liga Endesa (Espanha)", "acb", ""),
-        BasketLeague("LBA", "Lega Basket Serie A (Itália)", "lba", ""),
-        BasketLeague("LPB", "Liga Betclic (Portugal)", "fpb", ""),
         BasketLeague("NBB", "NBB (Brasil)", "nbb", ""),
-        BasketLeague("LNB", "Betclic ÉLITE (França)", "lnb", "PROA"),
+        BasketLeague("NBL", "NBL (Austrália)", "espn", "nbl", off_months=(5, 6, 7, 8)),
         BasketLeague("BLG", "B.League (Japão)", "bleague", "2"),
-        BasketLeague("ABA", "Liga ABA (Sérvia e Balcãs)", "aba", ""),
         BasketLeague("KBL", "KBL (Coreia do Sul)", "kbl", ""),
-        BasketLeague("SBL", "Basketligan (Suécia)", "sbl", ""),
-        BasketLeague("KOR", "Korisliiga (Finlândia)", "kori", ""),
         BasketLeague("CBA", "CBA (China)", "cba", ""),
         BasketLeague("PBA", "PBA (Filipinas)", "pba", ""),
     ]
 }
+BASKET_GROUPS = {"taças": "Competições europeias", "europa": "Ligas europeias", "mundo": "Resto do mundo"}
 
 
 def season_start(today: date) -> int:
@@ -157,6 +206,8 @@ def fetch_games(league: BasketLeague, today: date | None = None, seasons: int = 
         df = fetch_bleague(league, range(first, season_start(today) + 1))
     elif league.source == "lnb":
         df = fetch_lnb(league, range(first, season_start(today) + 1))
+    elif league.source == "betexplorer":
+        df = fetch_be_league(league, range(first, season_start(today) + 1), today)
     else:
         df = pd.concat([fetch_euroleague(league, y) for y in range(first, season_start(today) + 1)],
                        ignore_index=True)
@@ -755,3 +806,51 @@ def fetch_pba(league: BasketLeague, years: range, today: date | None = None) -> 
     df = pd.concat([fetch_betexplorer(f"basketball/philippines/{s}", league.key, today, fixtures=True)
                     for s in slugs], ignore_index=True)
     return df[pd.to_datetime(df["date"]) >= pd.Timestamp(years.start, 7, 1)]
+
+
+@lru_cache(maxsize=None)
+def _be_country_page(country: str) -> str:
+    return betexplorer.get(f"https://www.betexplorer.com/basketball/{country}/")
+
+
+def be_season_path(league: BasketLeague, year: int, current: int, country_page: str) -> str | None:
+    """Caminho da época no betexplorer: a atual não tem ano no nome; as passadas têm
+    "-2024-2025" (ou "-2025" nas ligas de primavera), às vezes com o nome antigo da liga."""
+    country, slug = league.code.split("/")
+    if year == current:
+        return f"basketball/{league.code}"
+    for name in (slug, *league.old_slugs):
+        for suffix in (f"{year}-{year + 1}", f"{year + 1}"):
+            if f'href="/basketball/{country}/{name}-{suffix}/"' in country_page:
+                return f"basketball/{country}/{name}-{suffix}"
+    return None
+
+
+def fetch_be_league(league: BasketLeague, years: range, today: date | None = None) -> pd.DataFrame:
+    """Uma liga do betexplorer: épocas passadas (resultados) e a atual (resultados e calendário)."""
+    today = today or date.today()
+    current = season_start(today)
+    page = _be_country_page(league.code.split("/")[0])
+    frames = []
+    for year in years:
+        path = be_season_path(league, year, current, page)
+        if not path:
+            continue
+        if year == current:
+            frames.append(fetch_betexplorer(path, league.key, today, fixtures=True))
+            continue
+        # Épocas acabadas não mudam: ficam guardadas (cache do GitHub Actions) para não
+        # voltar a pedi-las ao site, que responde 429 a muitos pedidos seguidos
+        cache = os.environ.get("BASKET_CACHE_DIR")
+        file = os.path.join(cache, path.replace("/", "_") + ".csv") if cache else None
+        if file and os.path.exists(file):
+            old = pd.read_csv(file, dtype={"time": str, "round": str})
+            old["date"] = pd.to_datetime(old["date"]).dt.date
+            frames.append(old.assign(league=league.key))
+            continue
+        df = fetch_betexplorer(path, league.key, today)
+        if file and not df.empty:
+            os.makedirs(cache, exist_ok=True)
+            df.to_csv(file, index=False)
+        frames.append(df)
+    return pd.concat(frames, ignore_index=True) if frames else pd.DataFrame(columns=COLUMNS)
