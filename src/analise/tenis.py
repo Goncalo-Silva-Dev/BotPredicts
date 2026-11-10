@@ -59,6 +59,9 @@ def predict_upcoming(matches: pd.DataFrame, today: date | None = None) -> pd.Dat
         p = predict_match(elo, g.home_id, g.away_id, g.league, g.surface, g.best_of)
         mk = markets(p["dist"], int(g.best_of))
         rows.append({
+            # para o resultado e as percentagens ao vivo (id do jogo na ESPN e Elo à melhor de 3)
+            "espn_id": str(g.id), "home_id": str(g.home_id),
+            "p_bo3": elo.predict(g.home_id, g.away_id, g.surface),
             "league": g.league, "round": g.tournament, "fase": g.round, "date": g.date, "time": g.time,
             "home": g.home, "away": g.away, "surface": g.surface, "best_of": int(g.best_of),
             "casa": p["casa"], "fora": p["fora"],

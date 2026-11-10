@@ -34,6 +34,7 @@ def predict_upcoming(games: pd.DataFrame, today: date | None = None, half_life_d
                 "casa": p["home"], "fora": p["away"], "reg_casa": p["reg_home"],
                 "reg_empate": p["reg_draw"], "reg_fora": p["reg_away"],
                 "golos_casa": p["goals_home"], "golos_fora": p["goals_away"],
+                "lam_casa": p["lam_home"], "lam_fora": p["lam_away"],
                 "periodos": periods, "periodo_mais_golos": most,
                 "mercados": model.markets(g.home, g.away),
             })

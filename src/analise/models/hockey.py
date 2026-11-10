@@ -110,6 +110,9 @@ class HockeyModel:
             # golos esperados no resultado final (quem ganha no prolongamento/penáltis soma 1)
             "goals_home": goals_home + tie * self.ot_home,
             "goals_away": goals_away + tie * (1 - self.ot_home),
+            # golos "normais" esperados (antes do fim de jogo), para as percentagens ao vivo
+            "lam_home": float(self.expected_goals(home, away)[0]),
+            "lam_away": float(self.expected_goals(home, away)[1]),
         }
 
     def markets(self, home: str, away: str) -> dict:

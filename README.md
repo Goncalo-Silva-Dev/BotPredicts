@@ -31,7 +31,7 @@ pytest
 | API-Football | MLS, alinhamentos, lesões (100 pedidos/dia) |
 | betexplorer.com | Taças europeias (resultados, odds e calendário), Liga 2, Sub-23, Arábia Saudita |
 | openfootball (football.json) | Calendário completo da época (todas menos a MLS) |
-| ESPN (API pública) | NBA: calendário e resultados |
+| ESPN (API pública) | NBA, NBL e NHL: calendário e resultados; resultados e percentagens ao vivo no site (futebol, taças europeias, NBA, NBL, NHL e ténis) |
 | ESPN (API pública) | Ténis ATP e WTA: todos os jogos de cada ano com o resultado de cada set (sem Challengers nem ITF) |
 | Euroleague Basketball (api-live.euroleague.net) | EuroLeague e EuroCup |
 | Understat | xG (Inglaterra, Espanha, Itália, França) |
