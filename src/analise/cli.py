@@ -5,7 +5,8 @@ from datetime import date, datetime, timedelta, timezone
 import pandas as pd
 from sqlalchemy import select
 
-from analise import backtest, basquete, calendario, europa, hoquei, pagina, previsoes, registo, tenis
+from analise import (backtest, basquete, calendario, europa, hoquei, pagina, previsoes, registo,
+                     selecoes, tenis)
 from analise.ingest import basket, hockey, tennis
 from analise.db import get_engine, matches
 from analise.ingest import football_data_uk
@@ -50,6 +51,11 @@ def main(argv=None):
     tb = sub.add_parser("tacas-backtest", help="Testa o modelo das taças europeias em jogos passados")
     tb.add_argument("--desde", default="2022-07-01", help="primeiro jogo avaliado (AAAA-MM-DD)")
     tb.add_argument("--saida", default="data/backtest/TACAS.csv")
+    sb = sub.add_parser("selecoes-backtest", help="Testa o modelo da Liga das Nações em jogos passados")
+    sb.add_argument("--desde", default="2022-09-01", help="primeiro jogo avaliado (AAAA-MM-DD)")
+    sb.add_argument("--todas", action="store_true",
+                    help="avalia também os outros jogos internacionais (qualificações, amigáveis...)")
+    sb.add_argument("--saida", default="data/backtest/SELECOES.csv")
     pag = sub.add_parser("pagina", help="Gera a página web com as previsões")
     pag.add_argument("--dias", type=int, help="só jogos nos próximos N dias (por omissão, todos)")
     pag.add_argument("--saida", default="site", help="pasta da página")
@@ -67,7 +73,11 @@ def main(argv=None):
     engine = get_engine()
     if args.cmd == "historico":
         for key in args.ligas:
-            n = football_data_uk.load_history(engine, {**LEAGUES, **TRAINING_LEAGUES}[key], args.epocas)
+            if key == selecoes.NATIONS:
+                # seleções: todos os jogos internacionais dos últimos anos (ver selecoes.py)
+                n = selecoes.load_history(engine, first_year=date.today().year - max(args.epocas, 6))
+            else:
+                n = football_data_uk.load_history(engine, {**LEAGUES, **TRAINING_LEAGUES}[key], args.epocas)
             print(f"{key}: {n} jogos")
     elif args.cmd == "backtest":
         run_backtest(engine, args)
@@ -81,6 +91,8 @@ def main(argv=None):
         run_tenis_backtest(args)
     elif args.cmd == "tacas-backtest":
         run_tacas_backtest(engine, args)
+    elif args.cmd == "selecoes-backtest":
+        run_selecoes_backtest(engine, args)
     elif args.cmd == "pagina":
         run_pagina(engine, args)
     elif args.cmd == "basquete-dados":
@@ -152,6 +164,17 @@ def predict_fixtures(engine, fixtures, half_life_days, window_days, today):
     out = []
     cup_history = None
     for key, games in fixtures.groupby("league"):
+        if key == selecoes.NATIONS:
+            # seleções: força com todos os jogos internacionais recentes (ver selecoes.py)
+            since = today - timedelta(days=selecoes.WINDOW_DAYS + 1)
+            with engine.connect() as conn:
+                hist = selecoes.training_history(
+                    pd.read_sql(select(matches).where(matches.c.date >= since), conn))
+            if hist.empty:
+                print(f"{key}: sem histórico das seleções (corre primeiro 'historico')")
+                continue
+            out.append(selecoes.predict(hist, games, today))
+            continue
         if key in europa.CUPS:
             # um só modelo para as três taças, com os campeonatos nacionais (ver europa.py)
             if cup_history is None:
@@ -194,6 +217,20 @@ def run_tacas_backtest(engine, args):
     rows.append({"liga": "TOTAL", **europa.summary(res)})
     pd.set_option("display.width", 200)
     print(pd.DataFrame(rows).set_index("liga").round(3).to_string())
+
+
+def run_selecoes_backtest(engine, args):
+    with engine.connect() as conn:
+        everything = pd.read_sql(select(matches).where(matches.c.league.in_(
+            [selecoes.NATIONS, selecoes.OTHER])), conn)
+    leagues = (selecoes.NATIONS, selecoes.OTHER) if args.todas else (selecoes.NATIONS,)
+    res = selecoes.walk_forward(everything, args.desde, leagues=leagues)
+    os.makedirs(os.path.dirname(args.saida) or ".", exist_ok=True)
+    res.to_csv(args.saida, index=False)
+    rows = [{"época": k, **europa.summary(g)} for k, g in res.groupby("season")]
+    rows.append({"época": "TOTAL", **europa.summary(res)})
+    pd.set_option("display.width", 200)
+    print(pd.DataFrame(rows).set_index("época").round(3).to_string())
 
 
 def run_pagina(engine, args):

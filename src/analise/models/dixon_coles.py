@@ -88,6 +88,9 @@ class DixonColes:
         # jogos de outro contexto (taças europeias no meio dos campeonatos): vantagem de casa
         # e nível de golos próprios; as previsões ficam nesse contexto
         cup = df["cup"].fillna(False).to_numpy(dtype=bool) if "cup" in df else None
+        # campo neutro (fases finais de seleções): sem vantagem de casa nesse jogo
+        hf = 1.0 - (pd.to_numeric(df["neutral"], errors="coerce").fillna(0).to_numpy(dtype=float)
+                    if "neutral" in df else np.zeros(len(df)))
         if cup is not None and not cup.any():
             cup = None
         joint = shots is None and self.joint_rho and cup is None
@@ -102,7 +105,7 @@ class DixonColes:
         def nll(p):
             # log-verosimilhança de Poisson (sem constantes) com gradiente analítico
             att, dfc, home, rho = unpack(p)
-            log_lam, log_mu = att[hi] + dfc[ai] + home, att[ai] + dfc[hi]
+            log_lam, log_mu = att[hi] + dfc[ai] + home * hf, att[ai] + dfc[hi]
             if n_extra:
                 log_lam = log_lam + cup * (p[2 * n] + p[2 * n + 1])
                 log_mu = log_mu + cup * p[2 * n + 1]
@@ -122,7 +125,7 @@ class DixonColes:
                           + np.where(m10, wt * mu, 0) - np.where(m11, wt, 0)).sum()]
             g_att = np.bincount(hi, g_lam, n) + np.bincount(ai, g_mu, n)
             g_def = np.bincount(ai, g_lam, n) + np.bincount(hi, g_mu, n)
-            grad = np.concatenate([g_att[:-1] - g_att[-1], g_def, [g_lam.sum()], g_rho])
+            grad = np.concatenate([g_att[:-1] - g_att[-1], g_def, [(g_lam * hf).sum()], g_rho])
             if n_extra:
                 grad = np.append(grad, [(cup * g_lam).sum(), (cup * (g_lam + g_mu)).sum()])
             if self.ridge:
@@ -142,7 +145,7 @@ class DixonColes:
         if not joint:
             extra_lam = cup * (res.x[2 * n] + res.x[2 * n + 1]) if n_extra else 0.0
             extra_mu = cup * res.x[2 * n + 1] if n_extra else 0.0
-            lam = np.exp(self.attack_[hi] + self.defence_[ai] + self.home_ + extra_lam)
+            lam = np.exp(self.attack_[hi] + self.defence_[ai] + self.home_ * hf + extra_lam)
             mu = np.exp(self.attack_[ai] + self.defence_[hi] + extra_mu)
             self.rho_ = float(minimize_scalar(
                 lambda r: -(w * np.log(np.clip(_tau(x, y, lam, mu, r), 1e-10, None))).sum(),

@@ -31,6 +31,8 @@ matches = Table(
     Column("odds_home_pin", Float),
     Column("odds_draw_pin", Float),
     Column("odds_away_pin", Float),
+    # 1 = campo neutro (fases finais de seleções); vazio = jogo em casa da equipa da casa
+    Column("neutral", Integer),
     Column("source", String, nullable=False),
     UniqueConstraint("league", "date", "home", "away"),
 )
