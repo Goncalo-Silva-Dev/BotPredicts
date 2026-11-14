@@ -35,7 +35,7 @@ jobs:
           path: cache-selecoes
           key: selecoes-${{ github.run_id }}
           restore-keys: selecoes-
-      - name: Histórico (3 épocas chegam para a janela de 2 anos; seleções: 6 anos)
+      - name: "Histórico (3 épocas chegam para a janela de 2 anos; seleções, 6 anos)"
         run: python -m analise.cli historico --epocas 3
         env:
           SELECOES_CACHE_DIR: cache-selecoes
