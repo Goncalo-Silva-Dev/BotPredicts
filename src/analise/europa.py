@@ -94,7 +94,7 @@ def team_map(cup_names, domestic: dict[str, set[str]]) -> dict[str, tuple[str, s
 
 # Campeonatos de fora da Europa ou que não são a 1.ª divisão (não ajudam a medir as equipas
 # das taças e podiam repetir nomes)
-NOT_DOMESTIC = {"USA", "BRA", "SAU", "PO2", "U23"}
+NOT_DOMESTIC = {"USA", "BRA", "SAU", "PO2", "U23", "UNL", "SEL"}  # UNL/SEL: seleções
 # Os jogos europeus pesam mais do que os do campeonato: são os únicos que comparam ligas
 CUP_WEIGHT = 2.0
 # Parâmetros escolhidos no teste walk-forward de 2022-23 a 2026-27 (3410 jogos): a meia-vida,
@@ -139,8 +139,10 @@ class OddsRatings:
     O empate vem de uma curva ajustada às odds das taças: P(empate) em função de |y|.
     """
 
-    def __init__(self, half_life_days=365.0, ridge=0.1, cup_weight=4.0):
+    def __init__(self, half_life_days=365.0, ridge=0.1, cup_weight=4.0, use_weight=False):
         self.half_life_days, self.ridge, self.cup_weight = half_life_days, ridge, cup_weight
+        # use_weight: multiplica também pela coluna "weight" (p. ex. amigáveis das seleções)
+        self.use_weight = use_weight
 
     def fit(self, train: pd.DataFrame, as_of) -> "OddsRatings":
         import numpy as np
@@ -165,6 +167,11 @@ class OddsRatings:
         age = (pd.Timestamp(as_of) - pd.to_datetime(df["date"])).dt.days.to_numpy()
         w = np.exp(-np.log(2) * np.clip(age, 0, None) / self.half_life_days)
         w = w * np.where(cup, self.cup_weight, 1.0)
+        if self.use_weight and "weight" in df:
+            w = w * df["weight"].fillna(1.0).to_numpy(dtype=float)
+        # campo neutro: o jogo não conta para a vantagem de casa
+        hf = 1.0 - (pd.to_numeric(df["neutral"], errors="coerce").fillna(0).to_numpy(dtype=float)
+                    if "neutral" in df else np.zeros(len(df)))
 
         self.teams_ = sorted(set(df["home"]) | set(df["away"]))
         idx = {t: i for i, t in enumerate(self.teams_)}
@@ -172,7 +179,7 @@ class OddsRatings:
         hi, ai = df["home"].map(idx).to_numpy(), df["away"].map(idx).to_numpy()
         rows = np.arange(m)
         a = csr_matrix((np.r_[np.ones(m), -np.ones(m)], (np.r_[rows, rows], np.r_[hi, ai])), shape=(m, n))
-        a = hstack([a, csr_matrix(np.ones((m, 1))), csr_matrix(cup[:, None].astype(float))]).tocsr()
+        a = hstack([a, csr_matrix(hf[:, None]), csr_matrix(cup[:, None].astype(float))]).tocsr()
         wa = a.multiply(w[:, None]).T
         mat = (wa @ a).toarray()
         mat[np.arange(n), np.arange(n)] += self.ridge
@@ -202,13 +209,14 @@ class OddsRatings:
 ODDS_WEIGHT = 0.8
 
 
-def align_with_odds(model, train, fixtures, as_of) -> None:
+def align_with_odds(model, train, fixtures, as_of, ratings=None, odds_weight=None) -> None:
     """Desloca a diferença de golos esperada de cada jogo para que vitória casa − vitória fora
     do Dixon-Coles fique igual à mistura com as forças das odds; assim todos os mercados
     (dupla hipótese, handicaps, por parte...) continuam coerentes com o 1X2."""
     from scipy.optimize import brentq
 
-    ratings = OddsRatings().fit(train, as_of)
+    ratings = (ratings or OddsRatings()).fit(train, as_of)
+    odds_weight = ODDS_WEIGHT if odds_weight is None else odds_weight
     for g in fixtures.itertuples(index=False):
         if g.home not in model.teams_ or g.away not in model.teams_:
             continue
@@ -216,7 +224,7 @@ def align_with_odds(model, train, fixtures, as_of) -> None:
         if r is None:
             continue
         p = model.predict(g.home, g.away)
-        target = ODDS_WEIGHT * (r[0] - r[2]) + (1 - ODDS_WEIGHT) * (p["home"] - p["away"])
+        target = odds_weight * (r[0] - r[2]) + (1 - odds_weight) * (p["home"] - p["away"])
 
         def gap(shift):
             model.set_shift(g.home, g.away, shift)

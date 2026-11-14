@@ -36,7 +36,7 @@ def upcoming(engine, leagues: list[League], today: date | None = None) -> pd.Dat
             source, fetch = "openfootball", lambda: openfootball.fetch_season(league, today)
         elif league.be_path:
             source, fetch = "betexplorer", lambda: betexplorer.fetch_fixtures(
-                league.be_path, league.key, today).assign(played=False)
+                league.be_path, league.key, today, all_stages=league.be_stages).assign(played=False)
         else:
             continue
         try:

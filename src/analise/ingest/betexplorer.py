@@ -154,6 +154,17 @@ def fetch_betexplorer(path: str, league_key: str, today: date | None = None,
     return df.drop_duplicates(subset=["date", "home", "away"])
 
 
-def fetch_fixtures(path: str, league_key: str, today: date | None = None) -> pd.DataFrame:
-    """Só os jogos marcados (hora de Portugal)."""
-    return parse_betexplorer_fixtures(_be_get(path, "fixtures"), today or date.today(), league_key)
+def fetch_fixtures(path: str, league_key: str, today: date | None = None,
+                   all_stages: bool = False) -> pd.DataFrame:
+    """Só os jogos marcados (hora de Portugal).
+
+    all_stages: a página mostra só uma fase (p. ex. a Liga A da Liga das Nações); junta as outras.
+    """
+    today = today or date.today()
+    first = _be_get(path, "fixtures")
+    pages = [first]
+    if all_stages:
+        pages += [_be_get(path, "fixtures", stage=stage)
+                  for stage in dict.fromkeys(re.findall(r'href="\?stage=([A-Za-z0-9]+)"', first))]
+    df = pd.concat([parse_betexplorer_fixtures(p, today, league_key) for p in pages], ignore_index=True)
+    return df.drop_duplicates(subset=["date", "home", "away"]).reset_index(drop=True)

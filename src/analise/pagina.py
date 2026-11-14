@@ -21,7 +21,7 @@ from analise.leagues import LEAGUES
 
 LISBON = ZoneInfo("Europe/Lisbon")
 
-FLAGS = {"POR": "🇵🇹", "PO2": "🇵🇹", "U23": "🇵🇹", "TUR": "🇹🇷", "NED": "🇳🇱", "BEL": "🇧🇪", "ESP": "🇪🇸", "ENG": "🏴", "FRA": "🇫🇷", "ITA": "🇮🇹", "GER": "🇩🇪", "USA": "🇺🇸", "BRA": "🇧🇷", "SAU": "🇸🇦", "UCL": "🇪🇺", "UEL": "🇪🇺", "UECL": "🇪🇺",
+FLAGS = {"POR": "🇵🇹", "PO2": "🇵🇹", "U23": "🇵🇹", "TUR": "🇹🇷", "NED": "🇳🇱", "BEL": "🇧🇪", "ESP": "🇪🇸", "ENG": "🏴", "FRA": "🇫🇷", "ITA": "🇮🇹", "GER": "🇩🇪", "USA": "🇺🇸", "BRA": "🇧🇷", "SAU": "🇸🇦", "UCL": "🇪🇺", "UEL": "🇪🇺", "UECL": "🇪🇺", "UNL": "🇪🇺",
          "NBA": "🇺🇸", "NHL": "🇺🇸", "NBL": "🇦🇺", "BLG": "🇯🇵", "ABA": "🇷🇸", "KBL": "🇰🇷", "SBL": "🇸🇪", "KOR": "🇫🇮", "CBA": "🇨🇳", "PBA": "🇵🇭", "EUR": "🇪🇺", "EUC": "🇪🇺", "NBB": "🇧🇷", "ACB": "🇪🇸", "LBA": "🇮🇹", "LPB": "🇵🇹", "LNB": "🇫🇷",
          "BCL": "🇪🇺", "FEC": "🇪🇺", "ENB": "🇪🇺", "BBL": "🇩🇪", "GBL": "🇬🇷", "BSL": "🇹🇷", "ISR": "🇮🇱", "LKL": "🇱🇹", "VTB": "🇷🇺", "PLK": "🇵🇱", "BNX": "🇧🇪", "LEL": "🇱🇻", "CZE": "🇨🇿", "SVK": "🇸🇰", "SLO": "🇸🇮", "CRO": "🇭🇷", "SRB": "🇷🇸", "MNE": "🇲🇪", "BIH": "🇧🇦", "MKD": "🇲🇰", "BUL": "🇧🇬", "ROU": "🇷🇴", "HUN": "🇭🇺", "AUT": "🇦🇹", "SUI": "🇨🇭", "DEN": "🇩🇰", "NOR": "🇳🇴", "ISL": "🇮🇸", "GBR": "🇬🇧", "IRL": "🇮🇪", "UKR": "🇺🇦", "BLR": "🇧🇾", "GEO": "🇬🇪", "CYP": "🇨🇾", "ALB": "🇦🇱", "KOS": "🇽🇰", "LUX": "🇱🇺",
          "ATP": "🎾", "WTA": "🎾"}
@@ -142,7 +142,29 @@ TEAM_NAMES = {
 }
 
 
+# Seleções da Liga das Nações (o betexplorer usa os nomes em inglês)
+NATIONAL_TEAMS = {
+    "Albania": "Albânia", "Andorra": "Andorra", "Armenia": "Arménia", "Austria": "Áustria",
+    "Azerbaijan": "Azerbaijão", "Belarus": "Bielorrússia", "Belgium": "Bélgica",
+    "Bosnia & Herzegovina": "Bósnia e Herzegovina", "Bulgaria": "Bulgária", "Croatia": "Croácia",
+    "Cyprus": "Chipre", "Czech Republic": "Chéquia", "Denmark": "Dinamarca", "England": "Inglaterra",
+    "Estonia": "Estónia", "Faroe Islands": "Ilhas Faroé", "Finland": "Finlândia", "France": "França",
+    "Georgia": "Geórgia", "Germany": "Alemanha", "Gibraltar": "Gibraltar", "Greece": "Grécia",
+    "Hungary": "Hungria", "Iceland": "Islândia", "Ireland": "República da Irlanda", "Israel": "Israel",
+    "Italy": "Itália", "Kazakhstan": "Cazaquistão", "Kosovo": "Kosovo", "Latvia": "Letónia",
+    "Liechtenstein": "Liechtenstein", "Lithuania": "Lituânia", "Luxembourg": "Luxemburgo",
+    "Malta": "Malta", "Moldova": "Moldávia", "Montenegro": "Montenegro", "Netherlands": "Países Baixos",
+    "North Macedonia": "Macedónia do Norte", "Northern Ireland": "Irlanda do Norte", "Norway": "Noruega",
+    "Poland": "Polónia", "Portugal": "Portugal", "Romania": "Roménia", "Russia": "Rússia",
+    "San Marino": "São Marino", "Scotland": "Escócia", "Serbia": "Sérvia", "Slovakia": "Eslováquia",
+    "Slovenia": "Eslovénia", "Spain": "Espanha", "Sweden": "Suécia", "Switzerland": "Suíça",
+    "Turkey": "Turquia", "Ukraine": "Ucrânia", "Wales": "País de Gales",
+}
+
+
 def _team(name: str) -> str:
+    if name in NATIONAL_TEAMS:  # nenhum clube das outras ligas tem o nome de um país
+        return html.escape(NATIONAL_TEAMS[name])
     if name.endswith(" U23"):  # equipas da Liga Revelação
         base = name.removesuffix(" U23")
         return html.escape(f"{TEAM_NAMES.get(base, base)} Sub-23")
@@ -488,6 +510,20 @@ FOOTBALL_LEAGUE_NOTES = {
     "UCL": CUP_NOTE.format(n=1041, fav=60, casas=61, seguro=85),
     "UEL": CUP_NOTE.format(n=935, fav=58, casas=61, seguro=81),
     "UECL": CUP_NOTE.format(n=1434, fav=58, casas=60, seguro=80),
+    "UNL": (" Na Liga das Nações jogam seleções, que fazem poucos jogos por ano. A força de cada "
+            "seleção vem de todos os jogos internacionais dos últimos 4 anos: Liga das Nações, "
+            "qualificações e fases finais do Europeu e do Mundial e amigáveis (estes valem metade, "
+            "porque as seleções fazem muitas trocas). O 1X2 junta dois modelos: 60% vem da força "
+            "tirada das odds de fecho dos jogos que cada seleção já fez (nunca as do próprio jogo) e "
+            "40% do modelo de golos; os golos, \"Por parte\" e \"Mais apostas\" vêm do modelo de "
+            "golos acertado a esse 1X2. Nas fases finais do Europeu e do Mundial os jogos contam "
+            "como campo neutro. No teste com 458 jogos da Liga das Nações de 2022 a 2026, cada um "
+            "previsto só com os jogos anteriores, o favorito do modelo ganhou 59% das vezes (o das "
+            "casas de apostas no fecho 57%); quando o favorito tinha 65% ou mais, ganhou 81%. Mais "
+            "de 2,5 golos acertou só 57%. Seleções com menos de 4 jogos ficam sem previsão. A "
+            "fase final (meias-finais e final) é em campo neutro, mas aqui conta como jogo em casa "
+            "da seleção listada primeiro. Jogos decididos no prolongamento não entram nas contas."
+            + NO_HT),
     "PO2": (" Atenção: na Liga Portugal 2 o modelo não funcionou bem no teste com 341 jogos (o "
             "favorito ganhou só 41% das vezes e as percentagens foram piores do que usar as médias "
             "da liga). Aqui as percentagens valem pouco: usa-as com muita cautela." + NO_HT),

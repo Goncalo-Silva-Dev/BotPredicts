@@ -23,6 +23,8 @@ class League:
     # Torneios das épocas passadas no betexplorer ({y} e {y1}: anos de início e fim); quando o
     # nome mudou ao longo dos anos, várias alternativas separadas por "|"
     be_history: str | None = None
+    # o calendário do betexplorer está dividido em fases (Liga A, B, C, D): pede todas
+    be_stages: bool = False
 
 
 LEAGUES = {
@@ -53,6 +55,10 @@ LEAGUES = {
         League("UECL", "Liga Conferência", None, be_path="football/europe/conference-league",
                be_history="football/europe/conference-league-{y}-{y1}"
                           "|football/europe/europa-conference-league-{y}-{y1}"),
+        # seleções: o histórico vem de selecoes.py (Liga das Nações, qualificações, fases finais e
+        # amigáveis); aqui só o calendário da edição atual
+        League("UNL", "Liga das Nações", None, be_path="football/europe/uefa-nations-league",
+               be_stages=True),
     ]
 }
 

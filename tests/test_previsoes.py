@@ -150,7 +150,7 @@ def test_upcoming_uses_betexplorer_calendar_with_history_names(monkeypatch):
         {"league": "BEL", "date": date(2026, 11, 1), "time": "15:00", "round": None,
          "home": "Royale Union SG", "away": "St. Liege", "home_points": None, "away_points": None},
     ])
-    monkeypatch.setattr(calendario.betexplorer, "fetch_fixtures", lambda path, key, today: fixtures)
+    monkeypatch.setattr(calendario.betexplorer, "fetch_fixtures", lambda path, key, today, all_stages=False: fixtures)
     monkeypatch.setattr(calendario.football_data_uk, "fetch_fixtures", lambda leagues: pd.DataFrame(
         columns=["league", "date", "time", "home", "away", "odds_home", "odds_draw", "odds_away"]))
     res = calendario.upcoming(engine, [LEAGUES["BEL"]], today=date(2026, 10, 22))

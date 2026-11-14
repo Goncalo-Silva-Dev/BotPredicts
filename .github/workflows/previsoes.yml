@@ -29,8 +29,16 @@ jobs:
           cache: pip
       - run: pip install -e ".[dev]"
       - run: python -m pytest -q
-      - name: Histórico (3 épocas chegam para a janela de 2 anos)
+      # Competições de seleções já acabadas (Euro, Mundial, edições passadas da Liga das Nações)
+      - uses: actions/cache@v4
+        with:
+          path: cache-selecoes
+          key: selecoes-${{ github.run_id }}
+          restore-keys: selecoes-
+      - name: Histórico (3 épocas chegam para a janela de 2 anos; seleções: 6 anos)
         run: python -m analise.cli historico --epocas 3
+        env:
+          SELECOES_CACHE_DIR: cache-selecoes
       # Cópia dos jogos das ligas cujo site recusa os servidores do GitHub (NBB, LNB),
       # guardada todos os dias no ramo "dados"; se o ramo não existir, segue sem ela
       - uses: actions/checkout@v4
