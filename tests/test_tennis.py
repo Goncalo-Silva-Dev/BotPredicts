@@ -156,3 +156,25 @@ def test_walk_forward_predict_page_and_track():
     ev = registo.evaluate(store)
     assert set(ev["mercado"]) >= {"Vencedor", "Vencedor do 1.º set", "Há tie-break", "Vai a todos os sets"}
     assert "🎾 Ténis" in pagina.render_site(pd.DataFrame(), track=store)["historico.html"]
+
+
+def test_get_pede_todos_os_torneios(monkeypatch):
+    # sem "limit" a ESPN corta em 100 torneios e a WTA (com os WTA 125) tem mais do que isso
+    from analise.ingest import tennis as t
+    seen = {}
+
+    class Resp:
+        def raise_for_status(self):
+            pass
+
+        def json(self):
+            return {"events": [{"id": "1"}]}
+
+    def fake_get(url, params, timeout):
+        seen.update(params)
+        return Resp()
+
+    monkeypatch.setattr(t.requests, "get", fake_get)
+    assert t._get("wta", 2026) == [{"id": "1"}]
+    assert seen["limit"] >= 1000 and seen["dates"] == "2026"
+    assert t.surface("LP Open by IND", "Colina, Chile", 11) == "terra"

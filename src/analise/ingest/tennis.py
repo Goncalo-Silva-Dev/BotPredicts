@@ -14,6 +14,9 @@ import pandas as pd
 import requests
 
 ESPN_URL = "https://site.api.espn.com/apis/site/v2/sports/tennis/{slug}/scoreboard"
+# A ESPN devolve no máximo 100 torneios por pedido se não se pedir mais. O circuito WTA (com os
+# WTA 125) tem mais de 100 por ano, e sem este limite os torneios a partir de outubro ficavam de fora.
+ESPN_LIMIT = 1000
 SLAMS = ("australian open", "roland garros", "wimbledon", "us open")
 MAX_SETS = 5
 COLUMNS = (["id", "league", "date", "time", "tournament", "round", "surface", "best_of",
@@ -39,7 +42,7 @@ ROUNDS = {
     "Round of 128": "1.ª ronda", "Round of 64": "2.ª ronda", "Round of 32": "Ronda de 32",
     "Round of 16": "Oitavos de final", "Quarterfinal": "Quartos de final",
     "Quarterfinals": "Quartos de final", "Semifinal": "Meias-finais", "Semifinals": "Meias-finais",
-    "Final": "Final", "Round Robin": "Fase de grupos",
+    "Final": "Final", "Round Robin": "Fase de grupos", "Group Stage": "Fase de grupos",
     "Qualifying 1st Round": "Qualificação, 1.ª ronda", "Qualifying 2nd Round": "Qualificação, 2.ª ronda",
     "Qualifying 3rd Round": "Qualificação, 3.ª ronda", "Qualifying Final": "Qualificação, ronda final",
 }
@@ -67,7 +70,7 @@ CLAY = {
     "ljubljana": None, "cali,": None, "barranquilla": None, "samsun": None, "stuttgart": (4,),
     "linz": (4,), "florianopolis": None, "bucuresti": None, "lyon": (5, 6), "cordoba": None,
     "san sebastian": None, "budapest": None, "belgrade": (4, 5), "caldas da rainha": None,
-    "lausanne": None,
+    "lausanne": None, "colina": None, "curitiba": None, "sopo,": None, "quito": None,
 }
 GRASS = {
     "'s-hertogenbosch": None, "halle": None, "london": (6, 7), "eastbourne": None,
@@ -157,9 +160,13 @@ def parse_year(events: list[dict]) -> list[dict]:
 def _get(slug: str, year: int, tries: int = 4) -> list[dict]:
     for attempt in range(tries):
         try:
-            resp = requests.get(ESPN_URL.format(slug=slug), params={"dates": str(year)}, timeout=120)
+            resp = requests.get(ESPN_URL.format(slug=slug), params={"dates": str(year), "limit": ESPN_LIMIT},
+                                timeout=120)
             resp.raise_for_status()
-            return resp.json().get("events", [])
+            events = resp.json().get("events", [])
+            if len(events) >= ESPN_LIMIT:
+                raise RuntimeError(f"ESPN {slug} {year}: {len(events)} torneios, pode haver mais")
+            return events
         except requests.RequestException:
             if attempt == tries - 1:
                 raise

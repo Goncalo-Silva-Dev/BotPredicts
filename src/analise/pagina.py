@@ -544,18 +544,18 @@ liga: um período tem poucos golos e é muito difícil de prever."""
 TENNIS_NOTE = """Barras: vitória de cada jogador. Força de cada jogador com um Elo geral e outro por
 piso (terra batida, relva, piso rápido), atualizado depois de cada jogo e que conta também a parte dos
 jogos ganhos (ganhar 6-1 6-1 vale mais do que 7-6 7-6). Dados da ESPN: torneios ATP e WTA com a
-qualificação, desde 2022 (sem Challengers nem ITF). No teste com 18 759 jogos de 2025 e 2026, cada um
-previsto só com os jogos anteriores, o favorito ganhou 64,6% das vezes e as percentagens bateram certo
+qualificação, desde 2022 (sem Challengers nem ITF). No teste com 19 726 jogos de 2025 e 2026, cada um
+previsto só com os jogos anteriores, o favorito ganhou 64,7% das vezes e as percentagens bateram certo
 (quando o modelo deu 70% a 80%, em média 74%, o favorito ganhou 76%; com 80% a 90%, ganhou 85%). Nos
 Grand Slams masculinos (melhor de 5) acertou 71%. Os sets, os jogos e os tie-breaks saem de um modelo
 de pontos no serviço com a forma do dia, afinado para bater com a realidade: total de jogos previsto
-23,5, real 23,2; tie-break previsto em 30% dos jogos, aconteceu em 29%; vencedor do 1.º set certo em 62%.
+23,4, real 23,1; tie-break previsto em 30% dos jogos, aconteceu em 29%; vencedor do 1.º set certo em 62%.
 Atenção: nas linhas mais equilibradas de total de jogos e de handicap de jogos o modelo acertou só 52%
 e 53%, quase como atirar uma moeda; usa esses mercados com muita cautela. O modelo não sabe de lesões,
 cansaço nem desistências."""
 TENNIS_LEAGUE_NOTES = {
-    "ATP": " Na ATP o favorito ganhou 64,1% das vezes (7642 jogos).",
-    "WTA": " Na WTA o favorito ganhou 65,0% das vezes (11 117 jogos).",
+    "ATP": " Na ATP o favorito ganhou 64,1% das vezes (7662 jogos).",
+    "WTA": " Na WTA o favorito ganhou 65,0% das vezes (12 064 jogos).",
 }
 TENNIS_EMPTY = ("Sem jogos marcados por agora. No ténis os jogos só aparecem quando os quadros e a "
                 "ordem de jogo saem (normalmente na véspera), e entre torneios ou no fim da época "
@@ -686,7 +686,7 @@ SAFE_BACKTEST = {"vitoria": 0.77, "dupla": 0.85}
 
 
 TENNIS_SAFE = 0.75  # favorito de ténis com 75% ou mais (acerto no teste em TENNIS_SAFE_BACKTEST)
-TENNIS_SAFE_BACKTEST = {"jogos": 2394, "acerto": 0.82}
+TENNIS_SAFE_BACKTEST = {"jogos": 2934, "acerto": 0.82}
 
 
 def _tennis_safe(tennis: pd.DataFrame, today) -> str:
