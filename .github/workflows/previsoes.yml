@@ -58,9 +58,16 @@ jobs:
           path: cache-basquete
           key: basquete-${{ github.run_id }}
           restore-keys: basquete-
+      # Dias passados do ténis feminino ITF (betexplorer): não mudam, poupa ~730 pedidos ao site
+      - uses: actions/cache@v4
+        with:
+          path: cache-tenis
+          key: tenis-${{ github.run_id }}
+          restore-keys: tenis-
       - run: python -m analise.cli pagina --saida site --dados-basquete dados-basquete --historico historico
         env:
           BASKET_CACHE_DIR: cache-basquete
+          TENNIS_CACHE_DIR: cache-tenis
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site

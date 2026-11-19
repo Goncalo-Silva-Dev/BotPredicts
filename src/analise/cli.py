@@ -7,7 +7,7 @@ from sqlalchemy import select
 
 from analise import (backtest, basquete, calendario, europa, hoquei, pagina, previsoes, registo,
                      selecoes, tenis)
-from analise.ingest import basket, hockey, tennis
+from analise.ingest import basket, hockey, tennis, tennis_itf
 from analise.db import get_engine, matches
 from analise.ingest import football_data_uk
 from analise.leagues import LEAGUES, TRAINING_LEAGUES
@@ -48,6 +48,8 @@ def main(argv=None):
     tn.add_argument("--anos", type=int, default=8, help="anos de jogos (o Elo aquece nos primeiros)")
     tn.add_argument("--desde", default="2025-01-01", help="primeiro jogo avaliado (AAAA-MM-DD)")
     tn.add_argument("--saida", default="data/backtest/TENIS.csv")
+    tn.add_argument("--itf", action="store_true",
+                    help="testa os torneios femininos ITF (betexplorer) em vez da ATP e WTA (ESPN)")
     tb = sub.add_parser("tacas-backtest", help="Testa o modelo das taças europeias em jogos passados")
     tb.add_argument("--desde", default="2022-07-01", help="primeiro jogo avaliado (AAAA-MM-DD)")
     tb.add_argument("--saida", default="data/backtest/TACAS.csv")
@@ -303,15 +305,28 @@ def tennis_predictions(today, collect=None):
         return pd.DataFrame()
     if collect is not None:
         collect.append(matches)
-    preds = tenis.predict_upcoming(matches, today)
-    if preds.empty:
-        return preds
-    return preds.sort_values(["date", "time"], na_position="last")
+    preds = [tenis.predict_upcoming(matches, today)]
+    try:  # torneios femininos ITF (betexplorer); se falharem, fica o resto do ténis
+        itf = tennis_itf.fetch_matches(today)
+        if collect is not None:
+            collect.append(itf[itf["league"] == "ITF"])
+        preds.append(tenis.predict_upcoming(itf, today, leagues=["ITF"]))
+    except Exception as e:
+        print(f"ténis ITF: falhou a recolha ({e})")
+    preds = [p for p in preds if not p.empty]
+    if not preds:
+        return pd.DataFrame()
+    return pd.concat(preds, ignore_index=True).sort_values(["date", "time"], na_position="last")
 
 
 def run_tenis_backtest(args):
-    matches = tennis.fetch_matches(years=args.anos)
-    res = tenis.walk_forward(matches, start=args.desde)
+    if args.itf:
+        matches = tennis_itf.fetch_matches(years=min(args.anos, tennis_itf.YEARS))
+        res = tenis.walk_forward(matches, start=args.desde)
+        res = res[res["league"] == "ITF"]
+    else:
+        matches = tennis.fetch_matches(years=args.anos)
+        res = tenis.walk_forward(matches, start=args.desde)
     os.makedirs(os.path.dirname(args.saida) or ".", exist_ok=True)
     res.drop(columns=["mk"], errors="ignore").to_csv(args.saida, index=False)
     rows = [{"grupo": f"{k[0]} {k[1]}", **tenis.summary(g)} for k, g in res.groupby(["league", "surface"])]

@@ -18,6 +18,12 @@ POINT_MODEL = {
     ("ATP", "rapido"): (0.64, 0.07), ("ATP", "terra"): (0.63, 0.07), ("ATP", "relva"): (0.65, 0.07),
     ("WTA", "rapido"): (0.58, 0.10), ("WTA", "terra"): (0.56, 0.11), ("WTA", "relva"): (0.60, 0.10),
 }
+# torneios femininos do betexplorer: WTA 125 e WTA com o modelo de pontos da WTA; nos ITF os jogos
+# são mais desequilibrados (afinado em 2500 jogos de jul. 2025 a nov. 2026: total de jogos 20,5 e
+# tie-break em 16% dos jogos, como na realidade)
+for _sf in ("rapido", "terra", "relva"):
+    POINT_MODEL[("W125", _sf)] = POINT_MODEL[("WTAB", _sf)] = POINT_MODEL[("WTA", _sf)]
+    POINT_MODEL[("ITF", _sf)] = (0.55, 0.145)
 MAX_GAMES = 7 * 5 + 1
 
 

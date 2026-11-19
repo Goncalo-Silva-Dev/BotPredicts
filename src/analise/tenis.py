@@ -21,10 +21,22 @@ def _order(df: pd.DataFrame) -> pd.DataFrame:
     return df.assign(_t=df["time"].fillna("23:59")).sort_values(["date", "_t", "id"]).drop(columns="_t")
 
 
+# Nos torneios ITF o favorito ganha mais do que o Elo diz (as diferenças entre jogadoras são maiores):
+# estica-se a probabilidade, logit(p) x 1,12, valor afinado nos jogos de jul.-dez. de 2025 e
+# confirmado nos de 2026 (ver walk_forward). O Elo continua a ser atualizado com a probabilidade crua.
+STRETCH = {"ITF": 1.12}
+
+
+def _stretch(p: float, a: float) -> float:
+    p = min(max(p, 1e-6), 1 - 1e-6)
+    return float(1 / (1 + np.exp(-a * np.log(p / (1 - p)))))
+
+
 def predict_match(elo: TennisElo, home_id, away_id, league, surface, best_of) -> dict:
-    p3 = elo.predict(home_id, away_id, surface)
+    raw = elo.predict(home_id, away_id, surface)
+    p3 = _stretch(raw, STRETCH[league]) if league in STRETCH else raw
     dist = predict_distribution(p3, league, surface, int(best_of))
-    return {"casa": float(dist["win"]), "fora": 1 - float(dist["win"]), "dist": dist}
+    return {"casa": float(dist["win"]), "fora": 1 - float(dist["win"]), "dist": dist, "elo": raw}
 
 
 def fit(matches: pd.DataFrame, until=None, **options) -> TennisElo:
@@ -47,10 +59,13 @@ def _update(elo, g, expected=None):
     elo.update(g.home_id, g.away_id, g.surface, g.winner == 0, expected, share)
 
 
-def predict_upcoming(matches: pd.DataFrame, today: date | None = None) -> pd.DataFrame:
-    """Uma linha por jogo ainda por jogar (com os dois jogadores já conhecidos)."""
+def predict_upcoming(matches: pd.DataFrame, today: date | None = None, leagues=None) -> pd.DataFrame:
+    """Uma linha por jogo ainda por jogar (com os dois jogadores já conhecidos); `leagues` limita
+    os jogos mostrados (o Elo usa sempre todos)."""
     today = pd.Timestamp(today or date.today())
     future = matches[(matches["status"] == "por jogar") & (pd.to_datetime(matches["date"]) >= today)]
+    if leagues is not None:
+        future = future[future["league"].isin(leagues)]
     if future.empty:
         return pd.DataFrame()
     elo = fit(matches, until=None)
@@ -65,6 +80,7 @@ def predict_upcoming(matches: pd.DataFrame, today: date | None = None) -> pd.Dat
             "jogos_casa": elo.games(g.home_id), "jogos_fora": elo.games(g.away_id),
             "elo_casa": elo.strength(g.home_id, g.surface), "elo_fora": elo.strength(g.away_id, g.surface),
             "mercados": mk,
+            "odds_casa": getattr(g, "odds_home", None), "odds_fora": getattr(g, "odds_away", None),
         })
     return pd.DataFrame(rows)
 
@@ -81,7 +97,7 @@ def walk_forward(matches: pd.DataFrame, start="2025-01-01", with_markets=True, *
             _update(elo, g, p3)  # à melhor de 3 o Elo já dá a probabilidade: poupa o resto
             continue
         if int(g.best_of) == 3 and not with_markets:
-            p = {"casa": p3}
+            p = {"casa": _stretch(p3, STRETCH[g.league]) if g.league in STRETCH else p3, "elo": p3}
         else:
             p = predict_match(elo, g.home_id, g.away_id, g.league, g.surface, g.best_of)
         if evaluate:
@@ -98,7 +114,7 @@ def walk_forward(matches: pd.DataFrame, start="2025-01-01", with_markets=True, *
                             "real_first": sets[0][0] > sets[0][1] if sets else None,
                             "real_tb": any(max(a, b) == 7 and min(a, b) == 6 for a, b in sets)})
             rows.append(row)
-        _update(elo, g, p["casa"])
+        _update(elo, g, p["elo"] if g.league in STRETCH else p["casa"])
     return pd.DataFrame(rows)
 
 
