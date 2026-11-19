@@ -64,6 +64,13 @@ jobs:
           path: cache-tenis
           key: tenis-${{ github.run_id }}
           restore-keys: tenis-
+      # Semente dos dias passados do ténis (ramo "dados", pasta tenis): se a cache estiver vazia,
+      # evita descarregar 2 anos de páginas do betexplorer (que a partir do GitHub é muito lento)
+      - name: Semente da cache do ténis
+        run: |
+          mkdir -p cache-tenis
+          if [ -d dados-basquete/tenis ]; then cp -n dados-basquete/tenis/*.csv cache-tenis/ || true; fi
+          ls cache-tenis | wc -l
       - run: python -m analise.cli pagina --saida site --dados-basquete dados-basquete --historico historico
         env:
           BASKET_CACHE_DIR: cache-basquete
