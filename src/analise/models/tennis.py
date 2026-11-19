@@ -18,6 +18,19 @@ POINT_MODEL = {
     ("ATP", "rapido"): (0.64, 0.07), ("ATP", "terra"): (0.63, 0.07), ("ATP", "relva"): (0.65, 0.07),
     ("WTA", "rapido"): (0.58, 0.10), ("WTA", "terra"): (0.56, 0.11), ("WTA", "relva"): (0.60, 0.10),
 }
+# torneios femininos do betexplorer: WTA 125 e WTA com o modelo de pontos da WTA; nos ITF os jogos
+# são mais desequilibrados (afinado em 2500 jogos de jul. 2025 a nov. 2026: total de jogos 20,5 e
+# tie-break em 16% dos jogos, como na realidade)
+for _sf in ("rapido", "terra", "relva"):
+    POINT_MODEL[("W125", _sf)] = POINT_MODEL[("WTAB", _sf)] = POINT_MODEL[("WTA", _sf)]
+    POINT_MODEL[("ITF", _sf)] = (0.55, 0.145)
+    # masculinos do betexplorer: ATP e ITF com o modelo da ATP (só entram no Elo)
+    POINT_MODEL[("ITFM", _sf)] = POINT_MODEL[("ATPB", _sf)] = POINT_MODEL[("ATP", _sf)]
+# Challengers: com o modelo da ATP previa 24,0 jogos e tie-break em 38% dos jogos, e na realidade
+# foram 22,4 e 29% (mais quebras de serviço e jogos mais desequilibrados). Afinado em 2000 jogos de
+# 2025 e confirmado em 2000 de 2026: rápido 22,8 previsto / 22,7 real, terra 22,2 / 22,4.
+POINT_MODEL.update({("CH", "rapido"): (0.62, 0.11), ("CH", "terra"): (0.60, 0.11),
+                    ("CH", "relva"): (0.63, 0.11)})
 MAX_GAMES = 7 * 5 + 1
 
 
