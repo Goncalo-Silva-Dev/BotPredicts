@@ -43,7 +43,10 @@ def test_parse_resultados_e_proximos():
             + HEAD.format(cat="itf-women-singles", title="ITF Women - Singles: W75 Sydney, hard")
             + NEXT + "</tbody>")
     df = parse_page(page)
-    assert list(df["status"]) == ["final", "desistencia", "por jogar"]  # sem masculino nem W.O.
+    assert list(df["status"]) == ["final", "desistencia", "final", "por jogar"]  # sem o W.O.
+    men = df[df["league"] == "ITFM"].iloc[0]
+    assert men["home_id"].startswith("m:") and men["away_id"].startswith("m:")
+    df = df[df["league"] != "ITFM"].reset_index(drop=True)
     first = df.iloc[0]
     assert first["league"] == "ITF" and first["surface"] == "terra" and first["winner"] == 0
     assert (first["home_s2"], first["away_s2"]) == (6.0, 7.0) and first["home_sets"] == 2.0
@@ -52,3 +55,12 @@ def test_parse_resultados_e_proximos():
     nxt = df.iloc[2]
     assert nxt["surface"] == "rapido" and (nxt["odds_home"], nxt["odds_away"]) == (1.09, 6.5)
     assert nxt["home_id"] == "garland-joanna"
+
+
+def test_challenger_masculino():
+    page = (HEAD.format(cat="challenger-men-singles", title="Challenger Men - Singles: Metz, hard")
+            + NEXT.replace("itf-women-singles/w75-sydney", "challenger-men-singles/metz") + "</tbody>")
+    df = parse_page(page)
+    g = df.iloc[0]
+    assert g["league"] == "CH" and g["tournament"] == "Metz" and g["surface"] == "rapido"
+    assert g["home_id"] == "m:garland-joanna" and g["odds_home"] == 1.09

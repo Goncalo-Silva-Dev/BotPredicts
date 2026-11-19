@@ -549,7 +549,7 @@ liga: um período tem poucos golos e é muito difícil de prever."""
 TENNIS_NOTE = """Barras: vitória de cada jogador. Força de cada jogador com um Elo geral e outro por
 piso (terra batida, relva, piso rápido), atualizado depois de cada jogo e que conta também a parte dos
 jogos ganhos (ganhar 6-1 6-1 vale mais do que 7-6 7-6). Dados da ESPN: torneios ATP e WTA com a
-qualificação, desde 2022 (sem Challengers); os torneios femininos ITF vêm do betexplorer. Na ATP e WTA, no teste com 19 726 jogos de 2025 e 2026, cada um
+qualificação, desde 2022; os torneios femininos ITF e os Challengers masculinos vêm do betexplorer. Na ATP e WTA, no teste com 19 726 jogos de 2025 e 2026, cada um
 previsto só com os jogos anteriores, o favorito ganhou 64,7% das vezes e as percentagens bateram certo
 (quando o modelo deu 70% a 80%, em média 74%, o favorito ganhou 76%; com 80% a 90%, ganhou 85%). Nos
 Grand Slams masculinos (melhor de 5) acertou 71%. Os sets, os jogos e os tie-breaks saem de um modelo
@@ -570,6 +570,18 @@ TENNIS_LEAGUE_NOTES = {
             "ITF de 2026, as casas acertaram mais (73,5% contra 70,6%), e apostar sempre que o modelo dava "
             "mais 5 pontos do que as casas perdia 15% do dinheiro apostado. Usa as percentagens como "
             "segunda opinião, não como sinal de aposta de valor."),
+    "CH": (" <b>ATP Challenger</b> (o escalão abaixo da ATP, p. ex. Metz, Helsínquia, Kobe): dados do "
+           "betexplorer.com, com as odds médias das casas em cada jogo. O Elo de cada jogador usa todos os "
+           "seus jogos masculinos de singulares desde nov. 2024 (Challenger, ITF e ATP, 70 mil jogos), "
+           "porque os jogadores passam de uns torneios para os outros. No teste com 16 856 jogos Challenger "
+           "de jul. 2025 a nov. 2026, cada um previsto só com os jogos anteriores, o favorito ganhou 62,5% "
+           "das vezes (terra 63,2%, rápido 62,2%) e as percentagens bateram certo (com 70% a 80% previsto, "
+           "ganhou 76%; com 80% a 90%, 87%). Com 75% ou mais e os dois jogadores com 10 jogos ou mais, "
+           "ganhou 83% (1642 jogos). Total de jogos previsto 22,8 no rápido e 22,2 na terra, real 22,7 e "
+           "22,4. <b>Atenção:</b> comparado com as casas em 5484 jogos Challenger com odds, as casas "
+           "acertaram mais (69,9% contra 64,3%), e apostar sempre que o modelo dava mais 5 pontos do que "
+           "as casas perdia 18% do dinheiro apostado. Usa as percentagens como segunda opinião, não como "
+           "sinal de aposta de valor."),
 }
 TENNIS_EMPTY = ("Sem jogos marcados por agora. No ténis os jogos só aparecem quando os quadros e a "
                 "ordem de jogo saem (normalmente na véspera), e entre torneios ou no fim da época "
@@ -702,6 +714,7 @@ SAFE_BACKTEST = {"vitoria": 0.77, "dupla": 0.85}
 TENNIS_SAFE = 0.75  # favorito de ténis com 75% ou mais (acerto no teste em TENNIS_SAFE_BACKTEST)
 TENNIS_SAFE_BACKTEST = {"jogos": 2934, "acerto": 0.82}
 TENNIS_SAFE_ITF = {"jogos": 4332, "acerto": 0.84}
+TENNIS_SAFE_CH = {"jogos": 1642, "acerto": 0.83}
 
 
 def _tennis_safe(tennis: pd.DataFrame, today) -> str:
@@ -709,7 +722,8 @@ def _tennis_safe(tennis: pd.DataFrame, today) -> str:
            f'<p class="note">No teste com {TENNIS_SAFE_BACKTEST["jogos"]} jogos destes (ATP e WTA, '
            f"cada um previsto só com os jogos anteriores) o favorito ganhou "
            f"{_pct(TENNIS_SAFE_BACKTEST['acerto'])} das vezes; nos ITF femininos, "
-           f"{_pct(TENNIS_SAFE_ITF['acerto'])} em {TENNIS_SAFE_ITF['jogos']} jogos. Só entram jogadores com pelo menos "
+           f"{_pct(TENNIS_SAFE_ITF['acerto'])} em {TENNIS_SAFE_ITF['jogos']} jogos; nos Challengers, "
+           f"{_pct(TENNIS_SAFE_CH['acerto'])} em {TENNIS_SAFE_CH['jogos']} jogos. Só entram jogadores com pelo menos "
            f"{MIN_TENNIS_GAMES} jogos no histórico.</p>"]
     rows = []
     if not tennis.empty:

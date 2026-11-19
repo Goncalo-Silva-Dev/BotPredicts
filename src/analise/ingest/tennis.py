@@ -34,8 +34,10 @@ class TennisLeague:
 TENNIS_LEAGUES = {l.key: l for l in [
     TennisLeague("ATP", "ATP (masculino)", "mens-singles"),
     TennisLeague("WTA", "WTA (feminino)", "womens-singles"),
-    # torneios femininos ITF (W15 a W100): vêm do betexplorer (ingest/tennis_itf.py), não da ESPN
+    # torneios femininos ITF (W15 a W100) e Challengers: vêm do betexplorer (ingest/tennis_itf.py), não da ESPN
     TennisLeague("ITF", "ITF feminino (W15 a W100)", ""),
+    # Challengers masculinos (o escalão abaixo da ATP): também do betexplorer
+    TennisLeague("CH", "ATP Challenger (masculino)", ""),
 ]}
 GROUPING_TO_LEAGUE = {l.grouping: l.key for l in TENNIS_LEAGUES.values() if l.grouping}
 

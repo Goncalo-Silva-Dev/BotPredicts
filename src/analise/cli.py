@@ -49,7 +49,7 @@ def main(argv=None):
     tn.add_argument("--desde", default="2025-01-01", help="primeiro jogo avaliado (AAAA-MM-DD)")
     tn.add_argument("--saida", default="data/backtest/TENIS.csv")
     tn.add_argument("--itf", action="store_true",
-                    help="testa os torneios femininos ITF (betexplorer) em vez da ATP e WTA (ESPN)")
+                    help="testa os ITF femininos e os Challengers (betexplorer) em vez da ATP e WTA (ESPN)")
     tb = sub.add_parser("tacas-backtest", help="Testa o modelo das taças europeias em jogos passados")
     tb.add_argument("--desde", default="2022-07-01", help="primeiro jogo avaliado (AAAA-MM-DD)")
     tb.add_argument("--saida", default="data/backtest/TACAS.csv")
@@ -306,13 +306,13 @@ def tennis_predictions(today, collect=None):
     if collect is not None:
         collect.append(matches)
     preds = [tenis.predict_upcoming(matches, today)]
-    try:  # torneios femininos ITF (betexplorer); se falharem, fica o resto do ténis
+    try:  # ITF femininos e Challengers (betexplorer); se falharem, fica o resto do ténis
         itf = tennis_itf.fetch_matches(today)
         if collect is not None:
-            collect.append(itf[itf["league"] == "ITF"])
-        preds.append(tenis.predict_upcoming(itf, today, leagues=["ITF"]))
+            collect.append(itf[itf["league"].isin(tennis_itf.SHOWN)])
+        preds.append(tenis.predict_upcoming(itf, today, leagues=tennis_itf.SHOWN))
     except Exception as e:
-        print(f"ténis ITF: falhou a recolha ({e})")
+        print(f"ténis ITF/Challenger: falhou a recolha ({e})")
     preds = [p for p in preds if not p.empty]
     if not preds:
         return pd.DataFrame()
@@ -323,7 +323,7 @@ def run_tenis_backtest(args):
     if args.itf:
         matches = tennis_itf.fetch_matches(years=min(args.anos, tennis_itf.YEARS))
         res = tenis.walk_forward(matches, start=args.desde)
-        res = res[res["league"] == "ITF"]
+        res = res[res["league"].isin(tennis_itf.SHOWN)]
     else:
         matches = tennis.fetch_matches(years=args.anos)
         res = tenis.walk_forward(matches, start=args.desde)

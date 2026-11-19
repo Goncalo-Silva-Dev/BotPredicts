@@ -1,10 +1,11 @@
-"""Ténis feminino ITF (W15 a W100) do betexplorer.com: os torneios abaixo da WTA, que a ESPN não tem
-e que as casas de apostas oferecem todos os dias.
+"""Ténis abaixo da ATP e da WTA, do betexplorer.com: torneios femininos ITF (W15 a W100) e
+Challengers masculinos, que a ESPN não tem e que as casas de apostas oferecem todos os dias.
 
 O betexplorer tem uma página por dia com todos os resultados de ténis (com os sets e o piso) e uma
 página com os próximos jogos, já com as odds médias das casas. Para o Elo contam todos os jogos
-femininos de singulares que lá estão (WTA, WTA 125 e ITF), porque as jogadoras passam de uns
-torneios para os outros; no site só aparecem os jogos ITF (os outros já vêm da ESPN).
+de singulares que lá estão (femininos: WTA, WTA 125 e ITF; masculinos: ATP, Challenger e ITF),
+porque os jogadores passam de uns torneios para os outros; no site só aparecem os ITF femininos e
+os Challengers (os outros já vêm da ESPN).
 
 Os dias passados não mudam: cada dia fica guardado em `cache` (pasta) para não voltar a pedi-lo.
 """
@@ -24,9 +25,14 @@ from analise.ingest.tennis import COLUMNS, MAX_SETS
 RESULTS_URL = "https://www.betexplorer.com/tennis/results/"
 NEXT_URL = "https://www.betexplorer.com/tennis/next/"
 YEARS = 2  # anos de jogos para o Elo
-# categorias femininas de singulares no betexplorer e a liga com que ficam
+# categorias de singulares no betexplorer e a liga com que ficam. No site só aparecem os ITF
+# femininos e os Challengers masculinos (ATP e WTA já vêm da ESPN); as outras servem para o Elo.
 CATEGORIES = {"ITF Women - Singles": "ITF", "Challenger Women - Singles": "W125",
-              "WTA - Singles": "WTAB"}
+              "WTA - Singles": "WTAB",
+              "Challenger Men - Singles": "CH", "ITF Men - Singles": "ITFM", "ATP - Singles": "ATPB"}
+SHOWN = ["ITF", "CH"]  # ligas que aparecem no site
+MEN = {"CH", "ITFM", "ATPB"}  # os homens têm o identificador com "m:" (nunca se cruzam com elas)
+CACHE_VERSION = "v2"  # v1 só tinha os jogos femininos
 SURFACES = {"clay": "terra", "grass": "relva"}  # o resto (hard, indoor) é piso rápido
 
 _TBODY = re.compile(r"<tbody[^>]*>(.*?)</tbody>", re.S)
@@ -82,7 +88,7 @@ def _sets(partial: str) -> list[tuple[float, float]]:
 
 
 def parse_page(page: str) -> pd.DataFrame:
-    """Jogos femininos de singulares de uma página do betexplorer (resultados ou próximos jogos)."""
+    """Jogos de singulares de uma página do betexplorer (resultados ou próximos jogos)."""
     rows = []
     for body in _TBODY.findall(page):
         m = _TOURNAMENT.search(body)
@@ -107,6 +113,8 @@ def parse_page(page: str) -> pd.DataFrame:
             # o betexplorer mostra as horas em UTC+1 (também no inverno)
             when = pd.Timestamp(y, mo, d, h, mi, tz=betexplorer.BETEXPLORER_TZ).tz_convert("Europe/Lisbon")
             home_id, away_id = player_ids(link.group(1), home, away)
+            if league in MEN:
+                home_id, away_id = "m:" + home_id, "m:" + away_id
             res = _RESULT.search(row)
             result = re.sub("<[^>]+>", "", res.group(1)).strip() if res else ""
             out = {"id": "be-" + link.group(2), "league": league, "date": when.date(),
@@ -142,7 +150,7 @@ def parse_page(page: str) -> pd.DataFrame:
 
 
 def _day(day: date, cache: str | None) -> pd.DataFrame:
-    path = os.path.join(cache, f"{day.isoformat()}.csv") if cache else None
+    path = os.path.join(cache, f"{CACHE_VERSION}-{day.isoformat()}.csv") if cache else None
     if path and os.path.exists(path):
         return pd.read_csv(path, dtype={"id": str, "home_id": str, "away_id": str},
                            parse_dates=["date"]).assign(date=lambda d: d["date"].dt.date)
