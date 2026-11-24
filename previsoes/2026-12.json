@@ -7,7 +7,7 @@
   "hora": "00:00",
   "casa": "Charlotte Hornets",
   "fora": "Washington Wizards",
-  "feita_em": "2026-11-24T03:11Z",
+  "feita_em": "2026-11-24T17:10Z",
   "p": {
    "vencedor": 0.6406,
    "pontos": [
@@ -41,7 +41,7 @@
   "hora": "00:00",
   "casa": "Detroit Pistons",
   "fora": "Denver Nuggets",
-  "feita_em": "2026-11-24T03:11Z",
+  "feita_em": "2026-11-24T17:10Z",
   "p": {
    "vencedor": 0.6024,
    "pontos": [
@@ -75,7 +75,7 @@
   "hora": "00:00",
   "casa": "New York Rangers",
   "fora": "Carolina Hurricanes",
-  "feita_em": "2026-11-24T03:11Z",
+  "feita_em": "2026-11-24T17:10Z",
   "p": {
    "vencedor": 0.3839,
    "60min": [
@@ -109,7 +109,7 @@
   "hora": "00:00",
   "casa": "Pittsburgh Penguins",
   "fora": "Columbus Blue Jackets",
-  "feita_em": "2026-11-24T03:11Z",
+  "feita_em": "2026-11-24T17:10Z",
   "p": {
    "vencedor": 0.5362,
    "60min": [
@@ -143,7 +143,7 @@
   "hora": "00:30",
   "casa": "Brooklyn Nets",
   "fora": "Oklahoma City Thunder",
-  "feita_em": "2026-11-24T03:11Z",
+  "feita_em": "2026-11-24T17:10Z",
   "p": {
    "vencedor": 0.2377,
    "pontos": [
@@ -177,7 +177,7 @@
   "hora": "00:30",
   "casa": "Houston Rockets",
   "fora": "Los Angeles Lakers",
-  "feita_em": "2026-11-24T03:11Z",
+  "feita_em": "2026-11-24T17:10Z",
   "p": {
    "vencedor": 0.6515,
    "pontos": [
@@ -211,7 +211,7 @@
   "hora": "00:30",
   "casa": "Toronto Maple Leafs",
   "fora": "Philadelphia Flyers",
-  "feita_em": "2026-11-24T03:11Z",
+  "feita_em": "2026-11-24T17:10Z",
   "p": {
    "vencedor": 0.4768,
    "60min": [
@@ -245,7 +245,7 @@
   "hora": "00:30",
   "casa": "Winnipeg Jets",
   "fora": "Chicago Blackhawks",
-  "feita_em": "2026-11-24T03:11Z",
+  "feita_em": "2026-11-24T17:10Z",
   "p": {
    "vencedor": 0.6112,
    "60min": [
@@ -279,7 +279,7 @@
   "hora": "01:00",
   "casa": "Dallas Mavericks",
   "fora": "Boston Celtics",
-  "feita_em": "2026-11-24T03:11Z",
+  "feita_em": "2026-11-24T17:10Z",
   "p": {
    "vencedor": 0.2906,
    "pontos": [
@@ -313,7 +313,7 @@
   "hora": "01:00",
   "casa": "Milwaukee Bucks",
   "fora": "San Antonio Spurs",
-  "feita_em": "2026-11-24T03:11Z",
+  "feita_em": "2026-11-24T17:10Z",
   "p": {
    "vencedor": 0.159,
    "pontos": [
@@ -347,7 +347,7 @@
   "hora": "02:30",
   "casa": "Utah Mammoth",
   "fora": "Montreal Canadiens",
-  "feita_em": "2026-11-24T03:11Z",
+  "feita_em": "2026-11-24T17:10Z",
   "p": {
    "vencedor": 0.4773,
    "60min": [
@@ -381,7 +381,7 @@
   "hora": "03:00",
   "casa": "Sacramento Kings",
   "fora": "New Orleans Pelicans",
-  "feita_em": "2026-11-24T03:11Z",
+  "feita_em": "2026-11-24T17:10Z",
   "p": {
    "vencedor": 0.4355,
    "pontos": [
@@ -402,6 +402,204 @@
      259.1617
     ],
     0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "futebol|U23|2026-12-01|Academico Viseu U23|Santa Clara U23",
+  "desporto": "futebol",
+  "liga": "U23",
+  "data": "2026-12-01",
+  "hora": "11:00",
+  "casa": "Academico Viseu U23",
+  "fora": "Santa Clara U23",
+  "feita_em": "2026-11-24T17:10Z",
+  "p": {
+   "1x2": [
+    0.6224,
+    0.2087,
+    0.1689
+   ],
+   "golos": [
+    1.9632,
+    0.9063
+   ],
+   "ambas": 0.5104,
+   "mais_1.5": 0.7786,
+   "mais_2.5": 0.547,
+   "mais_3.5": 0.3236,
+   "dnb_casa": 0.7866,
+   "intervalo": [
+    0.4535,
+    0.3862,
+    0.1603
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "futebol|U23|2026-12-01|Gil Vicente U23|Torreense U23",
+  "desporto": "futebol",
+  "liga": "U23",
+  "data": "2026-12-01",
+  "hora": "11:00",
+  "casa": "Gil Vicente U23",
+  "fora": "Torreense U23",
+  "feita_em": "2026-11-24T17:10Z",
+  "p": {
+   "1x2": [
+    0.3516,
+    0.2328,
+    0.4156
+   ],
+   "golos": [
+    1.4878,
+    1.636
+   ],
+   "ambas": 0.6214,
+   "mais_1.5": 0.8166,
+   "mais_2.5": 0.604,
+   "mais_3.5": 0.3805,
+   "dnb_casa": 0.4583,
+   "intervalo": [
+    0.2906,
+    0.3859,
+    0.3236
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "futebol|U23|2026-12-01|Maritimo U23|SC Farense U23",
+  "desporto": "futebol",
+  "liga": "U23",
+  "data": "2026-12-01",
+  "hora": "11:00",
+  "casa": "Maritimo U23",
+  "fora": "SC Farense U23",
+  "feita_em": "2026-11-24T17:10Z",
+  "p": {
+   "1x2": [
+    0.2677,
+    0.256,
+    0.4763
+   ],
+   "golos": [
+    1.0406,
+    1.4839
+   ],
+   "ambas": 0.4978,
+   "mais_1.5": 0.7154,
+   "mais_2.5": 0.4625,
+   "mais_3.5": 0.2477,
+   "dnb_casa": 0.3598,
+   "intervalo": [
+    0.2219,
+    0.4346,
+    0.3435
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "futebol|U23|2026-12-01|Leixoes U23|Moreirense U23",
+  "desporto": "futebol",
+  "liga": "U23",
+  "data": "2026-12-01",
+  "hora": "15:00",
+  "casa": "Leixoes U23",
+  "fora": "Moreirense U23",
+  "feita_em": "2026-11-24T17:10Z",
+  "p": {
+   "1x2": [
+    0.2414,
+    0.226,
+    0.5326
+   ],
+   "golos": [
+    1.1471,
+    1.8172
+   ],
+   "ambas": 0.5696,
+   "mais_1.5": 0.7935,
+   "mais_2.5": 0.5688,
+   "mais_3.5": 0.3448,
+   "dnb_casa": 0.3119,
+   "intervalo": [
+    0.2163,
+    0.3919,
+    0.3918
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "futebol|U23|2026-12-01|Vizela U23|Braga U23",
+  "desporto": "futebol",
+  "liga": "U23",
+  "data": "2026-12-01",
+  "hora": "15:00",
+  "casa": "Vizela U23",
+  "fora": "Braga U23",
+  "feita_em": "2026-11-24T17:10Z",
+  "p": {
+   "1x2": [
+    0.3232,
+    0.2375,
+    0.4393
+   ],
+   "golos": [
+    1.3575,
+    1.6213
+   ],
+   "ambas": 0.5938,
+   "mais_1.5": 0.7956,
+   "mais_2.5": 0.5721,
+   "mais_3.5": 0.348,
+   "dnb_casa": 0.4239,
+   "intervalo": [
+    0.2692,
+    0.3964,
+    0.3345
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "futebol|U23|2026-12-01|Penafiel U23|Estoril U23",
+  "desporto": "futebol",
+  "liga": "U23",
+  "data": "2026-12-01",
+  "hora": "17:00",
+  "casa": "Penafiel U23",
+  "fora": "Estoril U23",
+  "feita_em": "2026-11-24T17:10Z",
+  "p": {
+   "1x2": [
+    0.4352,
+    0.2389,
+    0.3258
+   ],
+   "golos": [
+    1.6004,
+    1.3528
+   ],
+   "ambas": 0.5897,
+   "mais_1.5": 0.7917,
+   "mais_2.5": 0.5662,
+   "mais_3.5": 0.3423,
+   "dnb_casa": 0.5719,
+   "intervalo": [
+    0.338,
+    0.3978,
+    0.2642
    ]
   },
   "estado": "pendente",
