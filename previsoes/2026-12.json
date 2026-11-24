@@ -1,0 +1,410 @@
+[
+ {
+  "id": "basquetebol|NBA|2026-12-01|Charlotte Hornets|Washington Wizards",
+  "desporto": "basquetebol",
+  "liga": "NBA",
+  "data": "2026-12-01",
+  "hora": "00:00",
+  "casa": "Charlotte Hornets",
+  "fora": "Washington Wizards",
+  "feita_em": "2026-11-24T03:11Z",
+  "p": {
+   "vencedor": 0.6406,
+   "pontos": [
+    113.2395,
+    107.5575
+   ],
+   "handicap": [
+    5.5,
+    0.5046
+   ],
+   "total": [
+    220.5,
+    0.5058
+   ],
+   "total_80": [
+    [
+     194.7699,
+     246.8243
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|NBA|2026-12-01|Detroit Pistons|Denver Nuggets",
+  "desporto": "basquetebol",
+  "liga": "NBA",
+  "data": "2026-12-01",
+  "hora": "00:00",
+  "casa": "Detroit Pistons",
+  "fora": "Denver Nuggets",
+  "feita_em": "2026-11-24T03:11Z",
+  "p": {
+   "vencedor": 0.6024,
+   "pontos": [
+    116.3535,
+    112.258
+   ],
+   "handicap": [
+    4.5,
+    0.4898
+   ],
+   "total": [
+    228.5,
+    0.5022
+   ],
+   "total_80": [
+    [
+     202.5843,
+     254.6388
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "hoquei|NHL|2026-12-01|New York Rangers|Carolina Hurricanes",
+  "desporto": "hoquei",
+  "liga": "NHL",
+  "data": "2026-12-01",
+  "hora": "00:00",
+  "casa": "New York Rangers",
+  "fora": "Carolina Hurricanes",
+  "feita_em": "2026-11-24T03:11Z",
+  "p": {
+   "vencedor": 0.3839,
+   "60min": [
+    0.2657,
+    0.2272,
+    0.5071
+   ],
+   "golos": [
+    2.7349,
+    3.5183
+   ],
+   "prolongamento": 0.2272,
+   "total": [
+    6.5,
+    0.4628
+   ],
+   "puck_casa": [
+    -1.5,
+    0.1905
+   ],
+   "ambas": 0.8897
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "hoquei|NHL|2026-12-01|Pittsburgh Penguins|Columbus Blue Jackets",
+  "desporto": "hoquei",
+  "liga": "NHL",
+  "data": "2026-12-01",
+  "hora": "00:00",
+  "casa": "Pittsburgh Penguins",
+  "fora": "Columbus Blue Jackets",
+  "feita_em": "2026-11-24T03:11Z",
+  "p": {
+   "vencedor": 0.5362,
+   "60min": [
+    0.4127,
+    0.2372,
+    0.3501
+   ],
+   "golos": [
+    3.2447,
+    3.0297
+   ],
+   "prolongamento": 0.2372,
+   "total": [
+    6.5,
+    0.4671
+   ],
+   "puck_casa": [
+    -1.5,
+    0.3161
+   ],
+   "ambas": 0.8979
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|NBA|2026-12-01|Brooklyn Nets|Oklahoma City Thunder",
+  "desporto": "basquetebol",
+  "liga": "NBA",
+  "data": "2026-12-01",
+  "hora": "00:30",
+  "casa": "Brooklyn Nets",
+  "fora": "Oklahoma City Thunder",
+  "feita_em": "2026-11-24T03:11Z",
+  "p": {
+   "vencedor": 0.2377,
+   "pontos": [
+    105.5912,
+    116.8571
+   ],
+   "handicap": [
+    -11.5,
+    0.5059
+   ],
+   "total": [
+    222.5,
+    0.499
+   ],
+   "total_80": [
+    [
+     196.4212,
+     248.4756
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|NBA|2026-12-01|Houston Rockets|Los Angeles Lakers",
+  "desporto": "basquetebol",
+  "liga": "NBA",
+  "data": "2026-12-01",
+  "hora": "00:30",
+  "casa": "Houston Rockets",
+  "fora": "Los Angeles Lakers",
+  "feita_em": "2026-11-24T03:11Z",
+  "p": {
+   "vencedor": 0.6515,
+   "pontos": [
+    116.187,
+    110.0422
+   ],
+   "handicap": [
+    6.5,
+    0.491
+   ],
+   "total": [
+    226.5,
+    0.4947
+   ],
+   "total_80": [
+    [
+     200.2019,
+     252.2564
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "hoquei|NHL|2026-12-01|Toronto Maple Leafs|Philadelphia Flyers",
+  "desporto": "hoquei",
+  "liga": "NHL",
+  "data": "2026-12-01",
+  "hora": "00:30",
+  "casa": "Toronto Maple Leafs",
+  "fora": "Philadelphia Flyers",
+  "feita_em": "2026-11-24T03:11Z",
+  "p": {
+   "vencedor": 0.4768,
+   "60min": [
+    0.3533,
+    0.2373,
+    0.4095
+   ],
+   "golos": [
+    3.0523,
+    3.224
+   ],
+   "prolongamento": 0.2373,
+   "total": [
+    6.5,
+    0.4675
+   ],
+   "puck_casa": [
+    -1.5,
+    0.2639
+   ],
+   "ambas": 0.8981
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "hoquei|NHL|2026-12-01|Winnipeg Jets|Chicago Blackhawks",
+  "desporto": "hoquei",
+  "liga": "NHL",
+  "data": "2026-12-01",
+  "hora": "00:30",
+  "casa": "Winnipeg Jets",
+  "fora": "Chicago Blackhawks",
+  "feita_em": "2026-11-24T03:11Z",
+  "p": {
+   "vencedor": 0.6112,
+   "60min": [
+    0.4925,
+    0.228,
+    0.2794
+   ],
+   "golos": [
+    3.5215,
+    2.8069
+   ],
+   "prolongamento": 0.228,
+   "total": [
+    6.5,
+    0.4756
+   ],
+   "puck_casa": [
+    -1.5,
+    0.3896
+   ],
+   "ambas": 0.8951
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|NBA|2026-12-01|Dallas Mavericks|Boston Celtics",
+  "desporto": "basquetebol",
+  "liga": "NBA",
+  "data": "2026-12-01",
+  "hora": "01:00",
+  "casa": "Dallas Mavericks",
+  "fora": "Boston Celtics",
+  "feita_em": "2026-11-24T03:11Z",
+  "p": {
+   "vencedor": 0.2906,
+   "pontos": [
+    105.6964,
+    114.4005
+   ],
+   "handicap": [
+    -8.5,
+    0.4948
+   ],
+   "total": [
+    220.5,
+    0.4921
+   ],
+   "total_80": [
+    [
+     194.0697,
+     246.1241
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|NBA|2026-12-01|Milwaukee Bucks|San Antonio Spurs",
+  "desporto": "basquetebol",
+  "liga": "NBA",
+  "data": "2026-12-01",
+  "hora": "01:00",
+  "casa": "Milwaukee Bucks",
+  "fora": "San Antonio Spurs",
+  "feita_em": "2026-11-24T03:11Z",
+  "p": {
+   "vencedor": 0.159,
+   "pontos": [
+    105.1373,
+    120.8953
+   ],
+   "handicap": [
+    -15.5,
+    0.4935
+   ],
+   "total": [
+    226.5,
+    0.4908
+   ],
+   "total_80": [
+    [
+     200.0054,
+     252.0599
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "hoquei|NHL|2026-12-01|Utah Mammoth|Montreal Canadiens",
+  "desporto": "hoquei",
+  "liga": "NHL",
+  "data": "2026-12-01",
+  "hora": "02:30",
+  "casa": "Utah Mammoth",
+  "fora": "Montreal Canadiens",
+  "feita_em": "2026-11-24T03:11Z",
+  "p": {
+   "vencedor": 0.4773,
+   "60min": [
+    0.3539,
+    0.2369,
+    0.4091
+   ],
+   "golos": [
+    3.063,
+    3.2317
+   ],
+   "prolongamento": 0.2369,
+   "total": [
+    6.5,
+    0.4705
+   ],
+   "puck_casa": [
+    -1.5,
+    0.2647
+   ],
+   "ambas": 0.899
+  },
+  "estado": "pendente",
+  "resultado": null
+ },
+ {
+  "id": "basquetebol|NBA|2026-12-01|Sacramento Kings|New Orleans Pelicans",
+  "desporto": "basquetebol",
+  "liga": "NBA",
+  "data": "2026-12-01",
+  "hora": "03:00",
+  "casa": "Sacramento Kings",
+  "fora": "New Orleans Pelicans",
+  "feita_em": "2026-11-24T03:11Z",
+  "p": {
+   "vencedor": 0.4355,
+   "pontos": [
+    115.2859,
+    117.8486
+   ],
+   "handicap": [
+    -2.5,
+    0.4984
+   ],
+   "total": [
+    233.5,
+    0.4928
+   ],
+   "total_80": [
+    [
+     207.1072,
+     259.1617
+    ],
+    0.8
+   ]
+  },
+  "estado": "pendente",
+  "resultado": null
+ }
+]
